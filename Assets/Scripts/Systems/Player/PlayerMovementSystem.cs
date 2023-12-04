@@ -12,6 +12,7 @@ public partial struct PlayerMovementSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        state.RequireForUpdate<PlayerInputData>();
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
