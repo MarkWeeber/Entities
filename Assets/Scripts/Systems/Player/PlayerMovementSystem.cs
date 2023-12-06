@@ -1,7 +1,9 @@
+using System.ComponentModel;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics.Aspects;
 using Unity.Transforms;
 using UnityEngine.EventSystems;
 
@@ -24,10 +26,14 @@ public partial struct PlayerMovementSystem : ISystem
         float deltaTime = SystemAPI.Time.DeltaTime;
         PlayerInputData playerInputData = SystemAPI.GetSingleton<PlayerInputData>();
         float3 moveDirection = new float3 (playerInputData.MovementVector.x, 0f, playerInputData.MovementVector.y);
-        PlayerMoveJob playerMoveJob = new PlayerMoveJob { DeltaTime = deltaTime, MoveDirection = moveDirection };
+
+        PlayerMoveJob playerMoveJob = new PlayerMoveJob
+        {
+            DeltaTime = deltaTime,
+            MoveDirection = moveDirection
+        };
         JobHandle jobHandle = playerMoveJob.ScheduleParallel(state.Dependency);
         jobHandle.Complete();
-       
     }
     [BurstCompile]
     private partial struct PlayerMoveJob : IJobEntity
@@ -37,7 +43,7 @@ public partial struct PlayerMovementSystem : ISystem
         [BurstCompile]
         private void Execute(PlayerMovementAspect movementAspect)
         {
-            movementAspect.Move(DeltaTime, MoveDirection);
+            movementAspect.MoveBySettingVelocity(DeltaTime, MoveDirection);
         }
     }
 }

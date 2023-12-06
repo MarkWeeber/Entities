@@ -1,7 +1,11 @@
 using System.Threading;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Physics.Aspects;
 using Unity.Transforms;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public readonly partial struct PlayerMovementAspect : IAspect
 {
@@ -9,10 +13,25 @@ public readonly partial struct PlayerMovementAspect : IAspect
     private readonly RefRW<LocalTransform> localTransform;
     private readonly RefRO<MovementData> movementData;
     private readonly RefRW<MovementStatisticData> movementStatisticData;
-    public void Move(float deltaTime, float3 moveDirection)
+    private readonly RigidBodyAspect _rigidBodyAspect;
+    public void MoveBySettingVelocity(float deltaTime, float3 moveDirection)
     {
-        float3 velocity = moveDirection * deltaTime * movementData.ValueRO.MoveSpeed;
-        localTransform.ValueRW.Position += velocity;
+        float3 velocity = moveDirection * movementData.ValueRO.MoveSpeed;
+        SetVelocity(deltaTime, velocity);
+        SlerpRotate(moveDirection, deltaTime);
+        ResetRotation();
+        ResetAngularVelocity();
+        SaveStatistics(velocity);
+    }
+
+    private void SetVelocity(float deltaTime, float3 velocity)
+    {
+        velocity.y = _rigidBodyAspect.LinearVelocity.y;
+        _rigidBodyAspect.LinearVelocity = velocity;
+    }
+
+    private void SlerpRotate(float3 moveDirection, float deltaTime)
+    {
         if (math.lengthsq(moveDirection) > float.Epsilon)
         {
             quaternion targetRotation = quaternion.LookRotation(moveDirection, math.up());
@@ -20,7 +39,26 @@ public readonly partial struct PlayerMovementAspect : IAspect
             quaternion newRotation = math.slerp(currentRotation, targetRotation, movementData.ValueRO.TurnSpeed * deltaTime);
             localTransform.ValueRW.Rotation = newRotation;
         }
-        movementStatisticData.ValueRW.Velocity = velocity;
-        movementStatisticData.ValueRW.Speed = math.length(velocity);
+    }
+
+    private void ResetRotation()
+    {
+        quaternion newCurrentRotation = localTransform.ValueRO.Rotation;
+        newCurrentRotation.value.x = 0f;
+        newCurrentRotation.value.z = 0f;
+        localTransform.ValueRW.Rotation = newCurrentRotation;
+    }
+
+    private void ResetAngularVelocity()
+    {
+        _rigidBodyAspect.AngularVelocityLocalSpace = float3.zero;
+        _rigidBodyAspect.AngularVelocityWorldSpace = float3.zero;
+    }
+
+    private void SaveStatistics(float3 velocity)
+    {
+        float3 velocityWithInput = velocity * movementData.ValueRO.MoveSpeed * velocity;
+        movementStatisticData.ValueRW.Velocity = velocityWithInput;
+        movementStatisticData.ValueRW.Speed = math.length(velocityWithInput);
     }
 }
