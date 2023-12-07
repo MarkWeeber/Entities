@@ -16,8 +16,8 @@ public class SprintAbilityDataAuthoring : MonoBehaviour
 			{
 				SpeedMultiplier = authoring.SpeedMultiplier,
 				SprintTime = authoring.SprintTime,
-				SprintTimer = 0f,
-				SprintDirection = float3.zero
+				Active = false,
+				Released = false
 			});
 		}
 	}

@@ -16,15 +16,23 @@ public readonly partial struct PlayerMovementAspect : IAspect
     private readonly RigidBodyAspect _rigidBodyAspect;
     public void MoveBySettingVelocity(float deltaTime, float3 moveDirection)
     {
-        float3 velocity = moveDirection * movementData.ValueRO.MoveSpeed;
-        SetVelocity(deltaTime, velocity);
-        SlerpRotate(moveDirection, deltaTime);
+        float3 velocity = float3.zero;
+        if (movementData.ValueRO.LockTimer > 0f)
+        {
+            velocity = movementData.ValueRO.LocketMovement;
+        }
+        else
+        {
+            velocity = moveDirection * movementData.ValueRO.MoveSpeed;
+        }
+        SetVelocity(velocity);
+        SlerpRotate(velocity, deltaTime);
         ResetRotation();
         ResetAngularVelocity();
         SaveStatistics(velocity);
     }
 
-    private void SetVelocity(float deltaTime, float3 velocity)
+    private void SetVelocity(float3 velocity)
     {
         velocity.y = _rigidBodyAspect.LinearVelocity.y;
         _rigidBodyAspect.LinearVelocity = velocity;
@@ -57,8 +65,7 @@ public readonly partial struct PlayerMovementAspect : IAspect
 
     private void SaveStatistics(float3 velocity)
     {
-        float3 velocityWithInput = velocity * movementData.ValueRO.MoveSpeed * velocity;
-        movementStatisticData.ValueRW.Velocity = velocityWithInput;
-        movementStatisticData.ValueRW.Speed = math.length(velocityWithInput);
+        movementStatisticData.ValueRW.Velocity = velocity;
+        movementStatisticData.ValueRW.Speed = math.length(velocity);
     }
 }

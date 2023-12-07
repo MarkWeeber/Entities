@@ -10,7 +10,9 @@ public partial class PlayerInputSystem : SystemBase
 {
     private Controls controls;
     private bool firing;
-    private bool dashing;
+    private bool sprinting;
+    private bool fireRelease;
+    private bool sprintRelease;
 
     protected override void OnCreate()
     {
@@ -41,26 +43,42 @@ public partial class PlayerInputSystem : SystemBase
         RefRW<PlayerInputData> playerInputData = SystemAPI.GetSingletonRW<PlayerInputData>();
         playerInputData.ValueRW.MovementVector = controls.Player.Move.ReadValue<Vector2>();
         playerInputData.ValueRW.Firing = firing;
-        playerInputData.ValueRW.Dashing = dashing;
+        playerInputData.ValueRW.Sprinting = sprinting;
     }
 
     private void FirePerformed(InputAction.CallbackContext context)
     {
-        firing = true;
+        if (fireRelease)
+        {
+            firing = true;
+        }
+        else
+        {
+            firing = false;
+        }
     }
 
     private void FireCancelled(InputAction.CallbackContext context)
     {
         firing = false;
+        fireRelease = true;
     }
 
     private void DashPerformed(InputAction.CallbackContext context)
     {
-        dashing = true;
+        if (sprintRelease)
+        {
+            sprinting = true;
+        }
+        else
+        {
+            sprinting = false;
+        }
     }
 
     private void DashCancelled(InputAction.CallbackContext context)
     {
-        dashing = false;
+        sprinting = false;
+        sprintRelease = true;
     }
 }

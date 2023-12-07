@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MovementDataAuthoring : MonoBehaviour
@@ -13,7 +14,9 @@ public class MovementDataAuthoring : MonoBehaviour
 			AddComponent(entity, new MovementData
 			{
 				MoveSpeed = authoring.MoveSpeed,
-				TurnSpeed = authoring.TurnSpeed
+				TurnSpeed = authoring.TurnSpeed,
+				LocketMovement = float3.zero,
+				LockTimer = 0f
 			});
         }
 	}
