@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-[UpdateInGroup(typeof(PresentationSystemGroup))]
+[UpdateInGroup(typeof(LateSimulationSystemGroup))]
 public partial struct PlayerManagedComponentsSetSystem : ISystem
 {
     ComponentLookup<SprintAbilityData> sprintLookup;
@@ -36,8 +36,8 @@ public partial struct PlayerManagedComponentsSetSystem : ISystem
                 AnimatorManagedComponent,
                 TransformManagedComponent>().WithEntityAccess())
         {
-            transform.Value.position = localTransform.ValueRO.Position;
-            transform.Value.rotation = localTransform.ValueRO.Rotation;
+            //transform.Value.position = localTransform.ValueRO.Position;
+            //transform.Value.rotation = localTransform.ValueRO.Rotation;
             animator.Value.SetFloat("MoveSpeed", movementStatictics.ValueRO.Speed);
             animator.Value.SetFloat("MoveSpeedMultiplier",
                 (movementStatictics.ValueRO.Speed + movementData.ValueRO.MoveSpeed)

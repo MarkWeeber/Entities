@@ -14,6 +14,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
+        state.RequireForUpdate<PlayerInputData>();
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

@@ -12,10 +12,13 @@ public class PlayerBodyPositioning : MonoBehaviour
     private void LateUpdate()
     {
         targetEntity = GetTargetEntity();
-        Vector3 postion = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<LocalToWorld>(targetEntity).Position;
-        Quaternion rotation = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<LocalToWorld>(targetEntity).Rotation;
-        transform.position = postion;
-        transform.rotation = rotation;
+        if (targetEntity != Entity.Null)
+        {
+            Vector3 postion = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<LocalToWorld>(targetEntity).Position;
+            Quaternion rotation = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<LocalToWorld>(targetEntity).Rotation;
+            transform.position = postion;
+            transform.rotation = rotation;
+        }        
     }
 
     private Entity GetTargetEntity()
