@@ -1052,6 +1052,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8505323461966862196}
   - component: {fileID: 8595694689286280608}
+  - component: {fileID: 7763598395245602381}
   m_Layer: 8
   m_Name: Character_m
   m_TagString: Player
@@ -1069,7 +1070,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8509104355830964094}
@@ -1097,6 +1098,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7763598395245602381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511622614309426702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc1bc4ec05b5784cb50bc10d38f3614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8595694689286280608}
 --- !u!1 &8511628809338682036
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,8 @@
-using System.ComponentModel;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
-using Unity.Physics.Aspects;
 using Unity.Transforms;
-using UnityEngine.EventSystems;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -32,7 +29,7 @@ public partial struct PlayerMovementSystem : ISystem
             DeltaTime = deltaTime,
             MoveDirection = moveDirection
         };
-        JobHandle jobHandle = playerMoveJob.ScheduleParallel(state.Dependency);
+        JobHandle jobHandle = playerMoveJob.Schedule(state.Dependency);
         jobHandle.Complete();
     }
     [BurstCompile]
@@ -41,7 +38,7 @@ public partial struct PlayerMovementSystem : ISystem
         public float DeltaTime;
         public float3 MoveDirection;
         [BurstCompile]
-        private void Execute(PlayerMovementAspect movementAspect)
+        private void Execute(PlayerMovementAspect movementAspect, PlayerTag playerTag)
         {
             movementAspect.MoveBySettingVelocity(DeltaTime, MoveDirection);
         }

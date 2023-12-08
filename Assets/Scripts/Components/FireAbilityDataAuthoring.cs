@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 public class FireAbilityDataAuthoring : MonoBehaviour
@@ -16,7 +17,8 @@ public class FireAbilityDataAuthoring : MonoBehaviour
 				FirePortForwarDirection = authoring.FirePort.forward,
 				FireTime = authoring.FireTime,
 				Active = false,
-				Released = false
+				Released = false,
+				FirePortEntity = GetEntity(authoring.FirePort.gameObject, TransformUsageFlags.Dynamic)
 			});
 		}
 	}

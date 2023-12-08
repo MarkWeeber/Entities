@@ -1,7 +1,4 @@
-using System;
-using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +8,6 @@ public partial class PlayerInputSystem : SystemBase
     private Controls controls;
     private bool firing;
     private bool sprinting;
-    private bool fireRelease;
-    private bool sprintRelease;
 
     protected override void OnCreate()
     {
@@ -22,19 +17,19 @@ public partial class PlayerInputSystem : SystemBase
 
     protected override void OnStartRunning()
     {
+        controls.Enable();
         controls.Player.Fire.performed += FirePerformed;
         controls.Player.Fire.canceled += FireCancelled;
-        controls.Player.Dash.performed += DashPerformed;
-        controls.Player.Dash.canceled += DashCancelled;
-        controls.Enable();
+        controls.Player.Sprint.performed += SprintPerformed;
+        controls.Player.Sprint.canceled += SprintCancelled;
     }
 
     protected override void OnDestroy()
     {
         controls.Player.Fire.performed -= FirePerformed;
         controls.Player.Fire.canceled -= FireCancelled;
-        controls.Player.Dash.performed -= DashPerformed;
-        controls.Player.Dash.canceled -= DashCancelled;
+        controls.Player.Sprint.performed -= SprintPerformed;
+        controls.Player.Sprint.canceled -= SprintCancelled;
         controls.Disable();
     }
     
@@ -48,37 +43,21 @@ public partial class PlayerInputSystem : SystemBase
 
     private void FirePerformed(InputAction.CallbackContext context)
     {
-        if (fireRelease)
-        {
-            firing = true;
-        }
-        else
-        {
-            firing = false;
-        }
+        firing = true;
     }
 
     private void FireCancelled(InputAction.CallbackContext context)
     {
         firing = false;
-        fireRelease = true;
     }
 
-    private void DashPerformed(InputAction.CallbackContext context)
+    private void SprintPerformed(InputAction.CallbackContext context)
     {
-        if (sprintRelease)
-        {
-            sprinting = true;
-        }
-        else
-        {
-            sprinting = false;
-        }
+        sprinting = true;
     }
 
-    private void DashCancelled(InputAction.CallbackContext context)
+    private void SprintCancelled(InputAction.CallbackContext context)
     {
         sprinting = false;
-        sprintRelease = true;
     }
 }

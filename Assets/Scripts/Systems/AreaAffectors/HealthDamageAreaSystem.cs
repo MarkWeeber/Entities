@@ -3,7 +3,6 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
-using UnityEngine;
 
 [BurstCompile]
 [UpdateInGroup(typeof(PhysicsSystemGroup))]

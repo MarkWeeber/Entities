@@ -9,9 +9,11 @@ using Unity.Collections;
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct PlayerAbilitiesSystem : ISystem
 {
+    private ComponentLookup<LocalToWorld> localToWorldLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -35,11 +37,13 @@ public partial struct PlayerAbilitiesSystem : ISystem
         {
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
             EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
+            localToWorldLookup.Update(ref state);
             FireJob fireJob = new FireJob
             {
                 ParallelWriter = parallelWriter,
                 Firing = playerInputData.Firing,
-                projectilePrefabEnity = projectileSpawnerData.Projectile
+                projectilePrefabEnity = projectileSpawnerData.Projectile,
+                LocalToWorldLookup = localToWorldLookup
             };
             JobHandle fireJobHandle = fireJob.ScheduleParallel(state.Dependency);
             fireJobHandle.Complete();
@@ -86,6 +90,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
         internal EntityCommandBuffer.ParallelWriter ParallelWriter;
         public bool Firing;
         public Entity projectilePrefabEnity;
+        [ReadOnly] public ComponentLookup<LocalToWorld> LocalToWorldLookup;
         private void Execute
             (
                 [ChunkIndexInQuery] int sortKey,
@@ -103,9 +108,10 @@ public partial struct PlayerAbilitiesSystem : ISystem
                     movementData.ValueRW.LockedMovement = float3.zero;
                     fireAbilityData.ValueRW.Active = true;
                     fireAbilityData.ValueRW.Released = false;
-                    float3 spawnLocation = localTransform.ValueRO.Position;
-                    float3 forwardDireciton = localTransform.ValueRO.Forward() * fireAbilityData.ValueRO.FirePortForwarDirection;
-                    SpawnProjectile(sortKey, spawnLocation, forwardDireciton);
+                    RefRO<LocalToWorld> firePortLocalToWorld = LocalToWorldLookup.GetRefRO(fireAbilityData.ValueRO.FirePortEntity);
+                    float3 spawnLocation = firePortLocalToWorld.ValueRO.Position;
+                    quaternion spawnRotation = firePortLocalToWorld.ValueRO.Rotation;
+                    SpawnProjectile(sortKey, spawnLocation, spawnRotation);
                 }
                 else if (!fireAbilityData.ValueRO.Released) // resetting ability
                 {
@@ -119,14 +125,14 @@ public partial struct PlayerAbilitiesSystem : ISystem
             }
         }
 
-        private void SpawnProjectile(int sortkey, float3 spawnLocation, float3 forwardDirection)
+        private void SpawnProjectile(int sortkey, float3 spawnLocation, quaternion rotation)
         {
             Entity spawnedEntity = ParallelWriter.Instantiate(sortkey, projectilePrefabEnity);
             ParallelWriter.SetComponent(sortkey, spawnedEntity,
                 new LocalTransform
                 {
                     Position = spawnLocation,
-                    Rotation = quaternion.LookRotation(forwardDirection, math.up()),
+                    Rotation = rotation,
                     Scale = 1f
                 });
         }
