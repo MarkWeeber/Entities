@@ -5,6 +5,6 @@ public struct MovementData : IComponentData
 {
     public float MoveSpeed;
     public float TurnSpeed;
-    public float3 LocketMovement;
+    public float3 LockedMovement;
     public float LockTimer;
 }

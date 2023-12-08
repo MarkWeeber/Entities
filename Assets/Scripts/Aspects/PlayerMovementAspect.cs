@@ -19,7 +19,7 @@ public readonly partial struct PlayerMovementAspect : IAspect
         float3 velocity = float3.zero;
         if (movementData.ValueRO.LockTimer > 0f)
         {
-            velocity = movementData.ValueRO.LocketMovement;
+            velocity = movementData.ValueRO.LockedMovement;
         }
         else
         {

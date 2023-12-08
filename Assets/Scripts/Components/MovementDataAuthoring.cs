@@ -15,7 +15,7 @@ public class MovementDataAuthoring : MonoBehaviour
 			{
 				MoveSpeed = authoring.MoveSpeed,
 				TurnSpeed = authoring.TurnSpeed,
-				LocketMovement = float3.zero,
+				LockedMovement = float3.zero,
 				LockTimer = 0f
 			});
         }
