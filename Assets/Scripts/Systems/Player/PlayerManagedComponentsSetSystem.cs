@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-[UpdateInGroup(typeof(LateSimulationSystemGroup))]
+[UpdateInGroup(typeof(PresentationSystemGroup))]
 public partial struct PlayerManagedComponentsSetSystem : ISystem
 {
     ComponentLookup<SprintAbilityData> sprintLookup;
