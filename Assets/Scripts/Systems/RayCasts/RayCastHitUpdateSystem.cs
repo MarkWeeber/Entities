@@ -34,9 +34,9 @@ public partial struct RayCastHitUpdateSystem : ISystem
     private partial struct RayCastJob : IJobEntity
     {
         public CollisionWorld CollisionWorld;
-        private void Execute(RayCastAspect rayCastAspect)
+        private void Execute(RayCastAspect rayCastAspect, Entity entity)
         {
-            rayCastAspect.RayCast(CollisionWorld);
+            rayCastAspect.RayCast(CollisionWorld, ref entity);
         }
     }
 }

@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af2630bfdd8af446998bbc4dc53fd0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 6503509047687574116, guid: 3e13824daadfa7f4caefd01b776f4b06,
+  ProjectilePrefab: {fileID: 7256339574630478394, guid: db85256099deaa749baf38175b9cea37,
     type: 3}
-  SpecialProjectilePrefab: {fileID: 6503509047687574116, guid: 3e13824daadfa7f4caefd01b776f4b06,
+  SpecialProjectilePrefab: {fileID: 7256339574630478394, guid: a79fb497d7f002740b1692433eee1414,
     type: 3}
 --- !u!1 &339394308
 GameObject:
@@ -553,9 +553,9 @@ GameObject:
   - component: {fileID: 663177775}
   - component: {fileID: 663177778}
   - component: {fileID: 663177780}
-  - component: {fileID: 663177776}
-  - component: {fileID: 663177779}
   - component: {fileID: 663177781}
+  - component: {fileID: 663177776}
+  - component: {fileID: 663177782}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -572,7 +572,7 @@ Transform:
   m_GameObject: {fileID: 663177768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.02, z: 0}
+  m_LocalPosition: {x: -21.5, y: -1.02, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -787,7 +787,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentHealth: 100
   MaxHealth: 100
---- !u!114 &663177779
+--- !u!114 &663177780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663177768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80a230f301e7a347a55a3044c8cf49a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedMultiplier: 1.7
+  SprintTime: 1
+--- !u!114 &663177781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663177768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639e02a56e763ae4baee84a81f80c5e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FirePort: {fileID: 1173117014}
+  FireTime: 0.5
+--- !u!114 &663177782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -838,34 +866,6 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &663177780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663177768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e80a230f301e7a347a55a3044c8cf49a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpeedMultiplier: 1.7
-  SprintTime: 1
---- !u!114 &663177781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 663177768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639e02a56e763ae4baee84a81f80c5e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FirePort: {fileID: 1173117014}
-  FireTime: 0.5
 --- !u!1 &757405218
 GameObject:
   m_ObjectHideFlags: 0

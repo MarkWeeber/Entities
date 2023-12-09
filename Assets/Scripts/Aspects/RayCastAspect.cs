@@ -8,7 +8,7 @@ public readonly partial struct RayCastAspect : IAspect
     private readonly RefRO<LocalTransform> localToWorld;
     private readonly RefRO<RayCasterTag> rayCasterTag;
 
-    public void RayCast(CollisionWorld collisionWorld)
+    public void RayCast(CollisionWorld collisionWorld, ref Entity entity)
     {
         RaycastInput raycastInput = new RaycastInput()
         {
@@ -17,7 +17,13 @@ public readonly partial struct RayCastAspect : IAspect
             Filter = rayCastData.ValueRO.CollisionFilter
         };
         RaycastHit raycastHit = new RaycastHit();
-        collisionWorld.CastRay(raycastInput, out raycastHit);
-        rayCastData.ValueRW.RaycastHit = raycastHit;
+        if(collisionWorld.CastRay(raycastInput, out raycastHit))
+        {
+            rayCastData.ValueRW.RaycastHit = raycastHit;
+        }
+        else
+        {
+            rayCastData.ValueRW.RaycastHit = new RaycastHit();
+        }
     }
 }

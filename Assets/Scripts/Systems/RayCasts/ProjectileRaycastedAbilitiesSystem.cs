@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
 using UnityEngine;
@@ -12,12 +13,11 @@ using UnityEngine;
 [UpdateAfter(typeof(PhysicsSimulationGroup))]
 [UpdateBefore(typeof(ExportPhysicsWorld))]
 [UpdateAfter(typeof(RayCastHitUpdateSystem))]
-public partial struct ProjectileAbilitiesSystem : ISystem
+public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<RayCastData>();
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -26,7 +26,7 @@ public partial struct ProjectileAbilitiesSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        // self-descruct ray casters
+        // raycasted self-descruct projectiles
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
         DestructOnRayCastHitJob destructOnRayCastHitJob = new DestructOnRayCastHitJob
@@ -37,8 +37,7 @@ public partial struct ProjectileAbilitiesSystem : ISystem
         destructingRayCastsHandle.Complete();
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
-
-        // bouncy raycasters
+        // raycasted bouncy projectiles
         BounceOnRayCastHitJob bounceOnRayCastHitJob = new BounceOnRayCastHitJob { };
         JobHandle bounceRayCastsHandle = bounceOnRayCastHitJob.ScheduleParallel(state.Dependency);
         bounceRayCastsHandle.Complete();
@@ -53,7 +52,7 @@ public partial struct ProjectileAbilitiesSystem : ISystem
                 [ChunkIndexInQuery] int sortKey,
                 Entity entity,
                 RefRO<RayCastData> rayCastData,
-                DestructOnRayCastHitTag destructOnRayCastHitTag
+                DestructibleProjectileTag destructOnRayCastHitTag
             )
         {
             if (rayCastData.ValueRO.RaycastHit.Entity != Entity.Null)
@@ -70,7 +69,7 @@ public partial struct ProjectileAbilitiesSystem : ISystem
             (
                 RefRO<RayCastData> rayCastData,
                 RefRW<LocalTransform> localTransform,
-                BounceOnRayCastHitTag bounceOnRayCastHitTag
+                BouncyProjectileTag bounceOnRayCastHitTag
             )
         {
             if (rayCastData.ValueRO.RaycastHit.Entity != Entity.Null)
