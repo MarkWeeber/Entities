@@ -9,10 +9,8 @@ using Unity.Transforms;
 using UnityEngine;
 
 [BurstCompile]
-[UpdateInGroup(typeof(PhysicsSystemGroup))]
-[UpdateAfter(typeof(PhysicsSimulationGroup))]
-[UpdateBefore(typeof(ExportPhysicsWorld))]
-[UpdateAfter(typeof(RayCastHitUpdateSystem))]
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+[UpdateAfter(typeof(PhysicsSystemGroup))]
 public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
 {
     [BurstCompile]

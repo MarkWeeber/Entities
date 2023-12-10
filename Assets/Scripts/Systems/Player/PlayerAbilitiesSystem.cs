@@ -37,13 +37,16 @@ public partial struct PlayerAbilitiesSystem : ISystem
         if (SystemAPI.TryGetSingleton<ProjectileSpawnerData>(out ProjectileSpawnerData projectileSpawnerData))
         {
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
+            Entity projectilePrefab = projectileSpawnerData.Projectile;
+            Entity specialProjectilePrefab = projectileSpawnerData.SpecialProjectile;
             EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
             localToWorldLookup.Update(ref state);
             FireJob fireJob = new FireJob
             {
                 ParallelWriter = parallelWriter,
                 Firing = playerInputData.Firing,
-                projectilePrefabEnity = projectileSpawnerData.Projectile,
+                ProjectilePrefabEnity = projectilePrefab,
+                SpecialProjectilePrefabEnity = specialProjectilePrefab,
                 LocalToWorldLookup = localToWorldLookup
             };
             JobHandle fireJobHandle = fireJob.ScheduleParallel(state.Dependency);
@@ -90,7 +93,8 @@ public partial struct PlayerAbilitiesSystem : ISystem
     {
         internal EntityCommandBuffer.ParallelWriter ParallelWriter;
         public bool Firing;
-        public Entity projectilePrefabEnity;
+        public Entity ProjectilePrefabEnity;
+        public Entity SpecialProjectilePrefabEnity;
         [ReadOnly] public ComponentLookup<LocalToWorld> LocalToWorldLookup;
         private void Execute
             (
@@ -112,7 +116,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
                     RefRO<LocalToWorld> firePortLocalToWorld = LocalToWorldLookup.GetRefRO(fireAbilityData.ValueRO.FirePortEntity);
                     float3 spawnLocation = firePortLocalToWorld.ValueRO.Position;
                     quaternion spawnRotation = firePortLocalToWorld.ValueRO.Rotation;
-                    SpawnProjectile(sortKey, spawnLocation, spawnRotation);
+                    SpawnProjectile(sortKey, spawnLocation, spawnRotation, fireAbilityData.ValueRO.SpecialFireSwitch);
                 }
                 else if (!fireAbilityData.ValueRO.Released) // resetting ability
                 {
@@ -126,9 +130,11 @@ public partial struct PlayerAbilitiesSystem : ISystem
             }
         }
 
-        private void SpawnProjectile(int sortkey, float3 spawnLocation, quaternion rotation)
+        private void SpawnProjectile(int sortkey, float3 spawnLocation, quaternion rotation, bool specialFire)
         {
-            Entity spawnedEntity = ParallelWriter.Instantiate(sortkey, projectilePrefabEnity);
+            Entity spawnedEntity = ParallelWriter.Instantiate(sortkey,
+                (specialFire) ? SpecialProjectilePrefabEnity : ProjectilePrefabEnity
+                );
             ParallelWriter.SetComponent(sortkey, spawnedEntity,
                 new LocalTransform
                 {

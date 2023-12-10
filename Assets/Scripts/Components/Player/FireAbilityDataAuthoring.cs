@@ -18,7 +18,8 @@ public class FireAbilityDataAuthoring : MonoBehaviour
 				FireTime = authoring.FireTime,
 				Active = false,
 				Released = false,
-				FirePortEntity = GetEntity(authoring.FirePort.gameObject, TransformUsageFlags.Dynamic)
+				FirePortEntity = GetEntity(authoring.FirePort.gameObject, TransformUsageFlags.Dynamic),
+				SpecialFireSwitch = false
 			});
 		}
 	}

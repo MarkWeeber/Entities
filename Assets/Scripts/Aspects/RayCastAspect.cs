@@ -1,14 +1,16 @@
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Transforms;
 
 public readonly partial struct RayCastAspect : IAspect
 {
+    private readonly Entity entity1;
     private readonly RefRW<RayCastData> rayCastData;
     private readonly RefRO<LocalTransform> localToWorld;
     private readonly RefRO<RayCasterTag> rayCasterTag;
 
-    public void RayCast(CollisionWorld collisionWorld, ref Entity entity)
+    public void RayCast(CollisionWorld collisionWorld, Entity entity)
     {
         RaycastInput raycastInput = new RaycastInput()
         {
@@ -16,14 +18,20 @@ public readonly partial struct RayCastAspect : IAspect
             End = localToWorld.ValueRO.Position + (localToWorld.ValueRO.Forward() * rayCastData.ValueRO.RayDistance),
             Filter = rayCastData.ValueRO.CollisionFilter
         };
-        RaycastHit raycastHit = new RaycastHit();
-        if(collisionWorld.CastRay(raycastInput, out raycastHit))
+        RaycastHit rayCastHit = new RaycastHit();
+        NativeList<RaycastHit> raycastHits = new NativeList<RaycastHit>(2, Allocator.Temp);
+        if(collisionWorld.CastRay(raycastInput, ref raycastHits))
         {
-            rayCastData.ValueRW.RaycastHit = raycastHit;
+            for(int i = 0; i < raycastHits.Length; i++)
+            {
+                if (raycastHits[i].Entity != entity1)
+                {
+                    rayCastHit = raycastHits[i];
+                    break;
+                }
+            }
         }
-        else
-        {
-            rayCastData.ValueRW.RaycastHit = new RaycastHit();
-        }
+        rayCastData.ValueRW.RaycastHit = rayCastHit;
+        raycastHits.Dispose();
     }
 }

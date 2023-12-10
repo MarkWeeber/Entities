@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af2630bfdd8af446998bbc4dc53fd0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 7256339574630478394, guid: db85256099deaa749baf38175b9cea37,
+  ProjectilePrefab: {fileID: 2386077449088110599, guid: 48bcaba086de64d4a9aca88d23c6ddab,
     type: 3}
-  SpecialProjectilePrefab: {fileID: 7256339574630478394, guid: a79fb497d7f002740b1692433eee1414,
+  SpecialProjectilePrefab: {fileID: 7256339574630478394, guid: db85256099deaa749baf38175b9cea37,
     type: 3}
 --- !u!1 &339394308
 GameObject:
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dccfabdfe2872304faad7f96a84e4a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentHealth: 100
+  CurrentHealth: 50
   MaxHealth: 100
 --- !u!114 &663177780
 MonoBehaviour:

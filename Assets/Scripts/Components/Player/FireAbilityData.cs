@@ -10,4 +10,5 @@ public struct FireAbilityData : IComponentData
     public float FireTime;
     public bool Released;
     public Entity FirePortEntity;
+    public bool SpecialFireSwitch;
 }
