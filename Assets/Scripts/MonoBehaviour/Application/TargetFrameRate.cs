@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TargetFrameRate : MonoBehaviour
 {
+    public int _TargetFrameRate = -1;
     private void Start()
     {
-        Application.targetFrameRate = -1;
+        Application.targetFrameRate = _TargetFrameRate;
     }
 }
