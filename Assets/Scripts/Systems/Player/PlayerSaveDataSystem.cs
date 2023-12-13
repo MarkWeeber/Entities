@@ -1,4 +1,3 @@
-using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
 
@@ -6,44 +5,58 @@ using UnityEngine;
 public partial class PlayerSaveDataSystem : SystemBase
 {
     private bool loadSuccess;
-    private LocalSaveManager saveManager;
+    //private LocalSaveManager localSaveManager;
+    private HealthData _healthData;
+    private CollectibleData _collectibleData;
+
     protected override void OnStartRunning()
     {
         loadSuccess = false;
-        saveManager = LocalSaveManager.Instance;
+        //localSaveManager = LocalSaveManager.Instance;
+        _healthData = new HealthData();
+        _collectibleData = new CollectibleData();
+
     }
     protected override void OnStopRunning()
     {
-        if (saveManager != null)
-        {
-            foreach ((RefRO<CollectibleData> collectibleData, RefRO<HealthData> healthData)
-            in SystemAPI.Query<RefRO<CollectibleData>, RefRO<HealthData>>().WithAll<PlayerTag>())
-            {
-                saveManager.SaveData.CurrentHealth = healthData.ValueRO.CurrentHealth;
-                saveManager.SaveData.CoinsCollected = collectibleData.ValueRO.CoinsCollected;
-                Debug.Log("System On Destroy");
-            }
-        }
     }
 
     protected override void OnUpdate()
     {
         if (!loadSuccess)
         {
-            if (saveManager != null)
+            if (LocalSaveManager.Instance != null)
             {
                 foreach ((RefRW<CollectibleData> collectibleData, RefRW<HealthData> healthData)
                 in SystemAPI.Query<RefRW<CollectibleData>, RefRW<HealthData>>().WithAll<PlayerTag>())
                 {
-                    collectibleData.ValueRW.CoinsCollected = saveManager.SaveData.CoinsCollected;
-                    healthData.ValueRW.CurrentHealth = saveManager.SaveData.CurrentHealth;
+                    collectibleData.ValueRW.CoinsCollected = LocalSaveManager.Instance.SaveData.CoinsCollected;
+                    healthData.ValueRW.CurrentHealth = LocalSaveManager.Instance.SaveData.CurrentHealth;
                     loadSuccess = true;
                 }
-            }
-            else
-            {
-                saveManager = LocalSaveManager.Instance;
+                if (loadSuccess)
+                {
+                    LocalSaveManager.Instance.OnDestroyEvent += OnLocalSaveManagerDestroyEvent;
+                }
             }
         }
+        else
+        {
+            foreach ((RefRO<CollectibleData> collectibleData, RefRO<HealthData> healthData)
+            in SystemAPI.Query<RefRO<CollectibleData>, RefRO<HealthData>>().WithAll<PlayerTag>())
+            {
+                _healthData.CurrentHealth = healthData.ValueRO.CurrentHealth;
+                _collectibleData.CoinsCollected = collectibleData.ValueRO.CoinsCollected;
+            }
+        }
+    }
+
+    private void OnLocalSaveManagerDestroyEvent()
+    {
+        LocalSaveManager.Instance.SaveData = new SaveData
+        {
+            CurrentHealth = _healthData.CurrentHealth,
+            CoinsCollected = _collectibleData.CoinsCollected
+        };
     }
 }

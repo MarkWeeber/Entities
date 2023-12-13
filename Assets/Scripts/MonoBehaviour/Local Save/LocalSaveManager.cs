@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
@@ -23,7 +22,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         DontDestroyOnLoad(gameObject);
         pathEncrypted = Application.persistentDataPath + "/" + saveFileNameEncrypted;
         pathSimple = Application.persistentDataPath + "/" + saveFileNameSimple;
-        RetreiveSaveDataLocalAsync();
+        RetreiveSaveDataLocal();
     }
 
     private void OnDestroy()
@@ -36,11 +35,10 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
                 OnDestroyEvent -= _delegate;
             }
         }
-        SaveDataLocalAsync();
-        Debug.Log("Saved");
+        SaveDataLocal();
     }
 
-    public void RetreiveSaveDataLocalAsync()
+    public void RetreiveSaveDataLocal()
     {
         string ecryptedText = string.Empty;
         if (File.Exists(pathEncrypted))
@@ -62,11 +60,11 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         else
         {
             CreateNewSaveData();
-            SaveDataLocalAsync();
+            SaveDataLocal();
         }
     }
 
-    public void SaveDataLocalAsync()
+    public void SaveDataLocal()
     {
         // simple
         string jsonText = JsonUtility.ToJson(saveData);

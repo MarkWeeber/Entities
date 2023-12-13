@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class SaveData
+public struct SaveData
 {
     public int CoinsCollected;
     public float CurrentHealth;
