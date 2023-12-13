@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
 
     [SerializeField] private SaveData saveData;
     public SaveData SaveData { get => saveData; set => saveData = value; }
+
+    public event Action OnDestroyEvent;
 
     private string pathEncrypted;
     private string pathSimple;
@@ -25,6 +28,14 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
 
     private void OnDestroy()
     {
+        if (OnDestroyEvent != null)
+        {
+            OnDestroyEvent.Invoke();
+            foreach (Action _delegate in OnDestroyEvent.GetInvocationList())
+            {
+                OnDestroyEvent -= _delegate;
+            }
+        }
         SaveDataLocalAsync();
         Debug.Log("Saved");
     }

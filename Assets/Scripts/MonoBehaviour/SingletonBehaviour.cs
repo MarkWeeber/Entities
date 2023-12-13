@@ -2,18 +2,18 @@
 
 public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<T>
 {
-    public static T instance { get; protected set; }
+    public static T Instance { get; protected set; }
 
     protected virtual void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
             return;
         }
         else
         {
-            instance = (T)this;
+            Instance = (T)this;
         }
     }
 }

@@ -1,23 +1,28 @@
 using Unity.Burst;
 using Unity.Entities;
+using UnityEngine;
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial class PlayerSaveDataSystem : SystemBase
 {
     private bool loadSuccess;
-    protected override void OnCreate()
+    private LocalSaveManager saveManager;
+    protected override void OnStartRunning()
     {
         loadSuccess = false;
+        saveManager = LocalSaveManager.Instance;
     }
     protected override void OnStopRunning()
     {
-        SaveData saveData = LocalSaveManager.instance.SaveData;
-        foreach ((RefRO<CollectibleData> collectibleData, RefRO<HealthData> healthData)
-            in SystemAPI.Query<RefRO<CollectibleData>, RefRO<HealthData>>().WithAll<PlayerTag>())
+        if (saveManager != null)
         {
-            saveData.CurrentHealth = healthData.ValueRO.CurrentHealth;
-            saveData.CoinsCollected = collectibleData.ValueRO.CoinsCollected;
-            return;
+            foreach ((RefRO<CollectibleData> collectibleData, RefRO<HealthData> healthData)
+            in SystemAPI.Query<RefRO<CollectibleData>, RefRO<HealthData>>().WithAll<PlayerTag>())
+            {
+                saveManager.SaveData.CurrentHealth = healthData.ValueRO.CurrentHealth;
+                saveManager.SaveData.CoinsCollected = collectibleData.ValueRO.CoinsCollected;
+                Debug.Log("System On Destroy");
+            }
         }
     }
 
@@ -25,16 +30,19 @@ public partial class PlayerSaveDataSystem : SystemBase
     {
         if (!loadSuccess)
         {
-            SaveData saveData = LocalSaveManager.instance.SaveData;
-            if (saveData != null)
+            if (saveManager != null)
             {
                 foreach ((RefRW<CollectibleData> collectibleData, RefRW<HealthData> healthData)
                 in SystemAPI.Query<RefRW<CollectibleData>, RefRW<HealthData>>().WithAll<PlayerTag>())
                 {
-                    collectibleData.ValueRW.CoinsCollected = saveData.CoinsCollected;
-                    healthData.ValueRW.CurrentHealth = saveData.CurrentHealth;
+                    collectibleData.ValueRW.CoinsCollected = saveManager.SaveData.CoinsCollected;
+                    healthData.ValueRW.CurrentHealth = saveManager.SaveData.CurrentHealth;
+                    loadSuccess = true;
                 }
-                loadSuccess = true;
+            }
+            else
+            {
+                saveManager = LocalSaveManager.Instance;
             }
         }
     }
