@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class SceneLoadChecker : MonoBehaviour
 {
-    [SerializeField] private List<string> scenePaths;
+    [SerializeField] private List<SubScene> subScenes;
 
     public UnityEvent onScenesLoaded = new UnityEvent();
     public UnityEvent onStart = new UnityEvent();
@@ -22,10 +22,9 @@ public class SceneLoadChecker : MonoBehaviour
     {
         WorldUnmanaged unmanagedWorld = World.DefaultGameObjectInjectionWorld.Unmanaged;
         bool check = true;
-        foreach (string scenePath in scenePaths)
+        foreach (SubScene subScene in subScenes)
         {
-            var guid = SceneSystem.GetSceneGUID(ref unmanagedWorld.GetExistingSystemState<SceneSystem>(), scenePath);
-            Entity sceneEntity = SceneSystem.GetSceneEntity(unmanagedWorld, guid);
+            Entity sceneEntity = SceneSystem.GetSceneEntity(unmanagedWorld, subScene.SceneGUID);
             if (!SceneSystem.IsSceneLoaded(unmanagedWorld, sceneEntity))
             {
                 check = false;
@@ -41,7 +40,7 @@ public class SceneLoadChecker : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (scenePaths != null && !allSceneLoaded)
+        if (subScenes != null && !allSceneLoaded)
         {
             CheckIfSceneLoaded();
         }
