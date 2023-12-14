@@ -9,8 +9,9 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
     private const string passPhrase = "f92ksa0-1";
 
     [SerializeField] private SaveData saveData;
+    [SerializeField] private float saveTime = 4.0f;
+    private float saveTimer;
     public SaveData SaveData { get => saveData; set => saveData = value; }
-
     public event Action OnDestroyEvent;
 
     private string pathEncrypted;
@@ -22,17 +23,50 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         DontDestroyOnLoad(gameObject);
         pathEncrypted = Application.persistentDataPath + "/" + saveFileNameEncrypted;
         pathSimple = Application.persistentDataPath + "/" + saveFileNameSimple;
+    }
+
+    private void Start()
+    {
         RetreiveSaveDataLocal();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 
     private void OnDestroy()
     {
+        Save();
+    }
+
+    private void Update()
+    {
+        if (saveTime > 0f)
+        {
+            if (saveTimer <= 0f)
+            {
+                Save(false);
+                saveTimer = saveTime;
+            }
+            else
+            {
+                saveTimer -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void Save(bool clearDelegates = true)
+    {
         if (OnDestroyEvent != null)
         {
             OnDestroyEvent.Invoke();
-            foreach (Action _delegate in OnDestroyEvent.GetInvocationList())
+            if (clearDelegates)
             {
-                OnDestroyEvent -= _delegate;
+                foreach (Action _delegate in OnDestroyEvent.GetInvocationList())
+                {
+                    OnDestroyEvent -= _delegate;
+                }
             }
         }
         SaveDataLocal();
@@ -50,15 +84,19 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
             {
                 string jsonText = StringCipher.Decrypt(ecryptedText, passPhrase);
                 saveData = JsonUtility.FromJson<SaveData>(jsonText);
+                InfoUI.Instance.SendInformation("SUCCESS", MessageType.SUCCESS);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
                 CreateNewSaveData();
+                InfoUI.Instance.SendInformation("COULD NOT PARSE", MessageType.WARNING);
+                InfoUI.Instance.SendInformation(e.Message, MessageType.WARNING);
                 Debug.LogWarning("Could not parse save data!");
             }
         }
         else
         {
+            InfoUI.Instance.SendInformation("FILE NOT FOUND", MessageType.WARNING);
             CreateNewSaveData();
             SaveDataLocal();
         }
@@ -66,16 +104,24 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
 
     public void SaveDataLocal()
     {
-        // simple
-        string jsonText = JsonUtility.ToJson(saveData);
-        StreamWriter streamWriterSimple = File.CreateText(pathSimple);
-        streamWriterSimple.Write(jsonText);
-        streamWriterSimple.Close();
-        // encrypted
-        string ecryptedText = StringCipher.Encrypt(jsonText, passPhrase);
-        StreamWriter streamWriterEncrypted = File.CreateText(pathEncrypted);
-        streamWriterEncrypted.Write(ecryptedText);
-        streamWriterEncrypted.Close();
+        try
+        {
+            // simple
+            string jsonText = JsonUtility.ToJson(saveData);
+            StreamWriter streamWriterSimple = File.CreateText(pathSimple);
+            streamWriterSimple.Write(jsonText);
+            streamWriterSimple.Close();
+            // encrypted
+            string ecryptedText = StringCipher.Encrypt(jsonText, passPhrase);
+            StreamWriter streamWriterEncrypted = File.CreateText(pathEncrypted);
+            streamWriterEncrypted.Write(ecryptedText);
+            streamWriterEncrypted.Close();
+        }
+        catch (Exception e)
+        {
+            InfoUI.Instance.SendInformation("COULD NOT SAVE", MessageType.ERROR);
+            InfoUI.Instance.SendInformation(e.Message, MessageType.ERROR);
+        }
     }
 
     private void CreateNewSaveData()

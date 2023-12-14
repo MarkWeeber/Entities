@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BillboardEffect : MonoBehaviour
 {
+    [SerializeField] private Transform targetTransform;
+    public bool applyOnlyAtStart = false;
     private Camera mainCam;
-    public bool applyOnlyAtStart = true;
     private RectTransform rectTransform;
     private void Start()
     {
@@ -14,6 +15,7 @@ public class BillboardEffect : MonoBehaviour
         if (applyOnlyAtStart)
         {
             ApplyBillBoardEffect();
+            FollowTarget();
         }
     }
     private void LateUpdate()
@@ -21,6 +23,7 @@ public class BillboardEffect : MonoBehaviour
         if (!applyOnlyAtStart)
         {
             ApplyBillBoardEffect();
+            FollowTarget();
         }
     }
 
@@ -35,6 +38,13 @@ public class BillboardEffect : MonoBehaviour
         {
             transform.rotation = mainCam.transform.rotation;
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        }
+    }
+    private void FollowTarget()
+    {
+        if (targetTransform != null)
+        {
+            rectTransform.position = targetTransform.position;
         }
     }
 }

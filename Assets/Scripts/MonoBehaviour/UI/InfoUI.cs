@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class InfoUI : MonoBehaviour
+public class InfoUI : SingletonBehaviour<InfoUI>
 {
     [Header("References")]
     [SerializeField] private Transform informationContainer;
@@ -16,15 +16,14 @@ public class InfoUI : MonoBehaviour
     [SerializeField] private Color errorColor;
     [SerializeField] private Color successColor;
 
-    private static InfoUI instance;
     private List<TMP_Text> textList;
     private int index = -1;
     private int count = 0;
-    public static InfoUI Instance => instance;
+    
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
         textList = informationContainer.GetComponentsInChildren<TMP_Text>().ToList();
         count = textList.Count;
         if (showConsoleMessages)
