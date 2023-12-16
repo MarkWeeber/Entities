@@ -8,37 +8,16 @@ public class ApplicationController : SingletonBehaviour<ApplicationController>
 {
     public const string MainSceneName = "MainScene";
 
+
     protected override void Awake()
     {
+        dontDestroyOnload = true;
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
 
-    private async void Start()
+    private void Start()
     {
-        
-        await InitialyzeUnityServicesAsync();
-        if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
-        {
-            //
-        }
-        else
-        {
-            //
-        }
         LoadMainScene();
-    }
-
-    private async Task InitialyzeUnityServicesAsync()
-    {
-        if (UnityServices.State != ServicesInitializationState.Initialized)
-        {
-            await UnityServices.InitializeAsync();
-        }
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        }
     }
 
     private void LoadMainScene()

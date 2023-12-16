@@ -19,7 +19,7 @@ public class SampleObject
 
 public class CloudSave : MonoBehaviour
 {
-    private async void Awake()
+    private async void CustomAwake()
     {
         // Cloud Save needs to be initialized along with the other Unity Services that
         // it depends on (namely, Authentication), and then the user must sign in.

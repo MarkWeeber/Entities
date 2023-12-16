@@ -19,8 +19,8 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
 
     protected override void Awake()
     {
+        dontDestroyOnload = true;
         base.Awake();
-        DontDestroyOnLoad(gameObject);
         pathEncrypted = Application.persistentDataPath + "/" + saveFileNameEncrypted;
         pathSimple = Application.persistentDataPath + "/" + saveFileNameSimple;
     }

@@ -23,6 +23,7 @@ public class InfoUI : SingletonBehaviour<InfoUI>
 
     protected override void Awake()
     {
+        dontDestroyOnload = false;
         base.Awake();
         textList = informationContainer.GetComponentsInChildren<TMP_Text>().ToList();
         count = textList.Count;

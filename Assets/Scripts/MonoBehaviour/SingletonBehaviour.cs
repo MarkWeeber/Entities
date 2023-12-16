@@ -3,6 +3,7 @@
 public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<T>
 {
     public static T Instance { get; protected set; }
+    protected bool dontDestroyOnload;
 
     protected virtual void Awake()
     {
@@ -14,6 +15,10 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<
         else
         {
             Instance = (T)this;
+            if (dontDestroyOnload)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }
