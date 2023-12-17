@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UIFPSCounter : MonoBehaviour
 {
-    [SerializeField] private TMP_Text text;
+    [SerializeField] private TMP_Text fpsCounterText;
     [SerializeField] private float updateRateInSeconds = 0.2f;
 
     private float updateTimer = 0;
@@ -15,7 +15,7 @@ public class UIFPSCounter : MonoBehaviour
         if (updateTimer <= 0f)
         {
             int fps = (int)Mathf.RoundToInt(1f / Time.deltaTime);
-            text.text = fps.ToString();
+            fpsCounterText.text = fps.ToString();
             updateTimer = updateRateInSeconds;
         }
         else

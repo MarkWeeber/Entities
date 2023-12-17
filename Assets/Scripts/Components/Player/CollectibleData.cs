@@ -2,5 +2,5 @@ using Unity.Entities;
 
 public struct CollectibleData : IComponentData
 {
-    public int CoinsCollected;
+    public uint CoinsCollected;
 }

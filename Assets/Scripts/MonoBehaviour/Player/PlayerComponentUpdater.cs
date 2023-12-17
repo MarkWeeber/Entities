@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerComponentUpdater : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
+    [SerializeField] private TMP_Text coinsCollectedText;
     private Entity targetEntity;
 
 
@@ -17,6 +19,7 @@ public class PlayerComponentUpdater : MonoBehaviour
         {
             UpdatePositioning();
             UpdateHealthBar();
+            UpdateCoinsCollected();
         }
     }
 
@@ -42,12 +45,21 @@ public class PlayerComponentUpdater : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        float currentHealth = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<HealthData>(targetEntity).CurrentHealth;
-        float maxHealth = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<HealthData>(targetEntity).MaxHealth;
-        float healtBarRatio = Mathf.Clamp(0, currentHealth / maxHealth, 1f);
         if (healthBar != null)
         {
+            float currentHealth = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<HealthData>(targetEntity).CurrentHealth;
+            float maxHealth = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<HealthData>(targetEntity).MaxHealth;
+            float healtBarRatio = Mathf.Clamp(0, currentHealth / maxHealth, 1f);
             healthBar.fillAmount = healtBarRatio;
+        }
+    }
+
+    private void UpdateCoinsCollected()
+    {
+        if (coinsCollectedText != null)
+        {
+            uint currentCoinsCollected = World.DefaultGameObjectInjectionWorld.EntityManager.GetComponentData<CollectibleData>(targetEntity).CoinsCollected;
+            coinsCollectedText.text = currentCoinsCollected.ToString();
         }
     }
 }

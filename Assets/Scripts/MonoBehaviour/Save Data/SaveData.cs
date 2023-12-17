@@ -1,6 +1,6 @@
 ﻿[System.Serializable]
 public struct SaveData
 {
-    public int CoinsCollected;
+    public uint CoinsCollected;
     public float CurrentHealth;
 }

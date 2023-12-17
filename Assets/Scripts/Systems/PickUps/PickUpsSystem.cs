@@ -16,6 +16,8 @@ public partial struct PickUpsSystem : ISystem
     private ComponentLookup<AbilityPickUpData> abilityDataLookup;
     private ComponentLookup<PlayerTag> playerTagLookup;
     private ComponentLookup<FireAbilityData> fireAbilityDataLookup;
+    private ComponentLookup<CoinPickUpData> coinPickUpDataLookup;
+    private ComponentLookup<CollectibleData> collectibleDataLookup;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -25,6 +27,8 @@ public partial struct PickUpsSystem : ISystem
         abilityDataLookup = state.GetComponentLookup<AbilityPickUpData>(true);
         playerTagLookup = state.GetComponentLookup<PlayerTag>(true);
         fireAbilityDataLookup = state.GetComponentLookup<FireAbilityData>(false);
+        coinPickUpDataLookup = state.GetComponentLookup<CoinPickUpData>(true);
+        collectibleDataLookup = state.GetComponentLookup<CollectibleData>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -38,6 +42,8 @@ public partial struct PickUpsSystem : ISystem
         playerTagLookup.Update(ref state);
         abilityDataLookup.Update(ref state);
         fireAbilityDataLookup.Update(ref state);
+        coinPickUpDataLookup.Update(ref state);
+        collectibleDataLookup.Update(ref state);
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.TempJob);
         PickUpJob pickUpJob = new PickUpJob
@@ -47,6 +53,8 @@ public partial struct PickUpsSystem : ISystem
             AbilityDataLookup = abilityDataLookup,
             PlayerTagLookup = playerTagLookup,
             FireAbilityDataLookup = fireAbilityDataLookup,
+            CoinPickupDataLookup = coinPickUpDataLookup,
+            CollectibleDataLookup = collectibleDataLookup,
             EntityCommandBuffer = entityCommandBuffer
         };
         JobHandle jobHandle = pickUpJob.Schedule(simulation, state.Dependency);
@@ -62,12 +70,16 @@ public partial struct PickUpsSystem : ISystem
         [ReadOnly] public ComponentLookup<AbilityPickUpData> AbilityDataLookup;
         [ReadOnly] public ComponentLookup<PlayerTag> PlayerTagLookup;
         public ComponentLookup<FireAbilityData> FireAbilityDataLookup;
+        [ReadOnly] public ComponentLookup<CoinPickUpData> CoinPickupDataLookup;
+        public ComponentLookup<CollectibleData> CollectibleDataLookup;
         public EntityCommandBuffer EntityCommandBuffer;
+        
         public void Execute(TriggerEvent triggerEvent)
         {
             Entity playerEntity = Entity.Null;
             Entity healthPickUpEntity = Entity.Null;
             Entity abilityPickUpEntity = Entity.Null;
+            Entity coinPickUpEntity = Entity.Null;
             // getting necessary entities
             if (PlayerTagLookup.HasComponent(triggerEvent.EntityA))
             {
@@ -92,6 +104,14 @@ public partial struct PickUpsSystem : ISystem
             if (AbilityDataLookup.HasComponent(triggerEvent.EntityB))
             {
                 abilityPickUpEntity = triggerEvent.EntityB;
+            }
+            if (CoinPickupDataLookup.HasComponent(triggerEvent.EntityA))
+            {
+                coinPickUpEntity = triggerEvent.EntityA;
+            }
+            if (CoinPickupDataLookup.HasComponent(triggerEvent.EntityB))
+            {
+                coinPickUpEntity = triggerEvent.EntityB;
             }
             // healing pickup events
             if (playerEntity != Entity.Null && healthPickUpEntity != Entity.Null)
@@ -121,6 +141,17 @@ public partial struct PickUpsSystem : ISystem
                     RefRW<FireAbilityData> fireAbilityData = FireAbilityDataLookup.GetRefRW(playerEntity);
                     fireAbilityData.ValueRW.SpecialFireSwitch = true;
                     EntityCommandBuffer.DestroyEntity(abilityPickUpEntity);
+                }
+            }
+            // coins pickup events
+            if (playerEntity != Entity.Null && coinPickUpEntity != Entity.Null)
+            {
+                if (CollectibleDataLookup.HasComponent(playerEntity))
+                {
+                    RefRW<CollectibleData> collectibleData = CollectibleDataLookup.GetRefRW(playerEntity);
+                    RefRO<CoinPickUpData> coinPickUpData = CoinPickupDataLookup.GetRefRO(coinPickUpEntity);
+                    collectibleData.ValueRW.CoinsCollected += coinPickUpData.ValueRO.Value;
+                    EntityCommandBuffer.DestroyEntity(coinPickUpEntity);
                 }
             }
         }
