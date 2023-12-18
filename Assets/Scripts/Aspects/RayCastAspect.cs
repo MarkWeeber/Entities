@@ -8,7 +8,9 @@ public readonly partial struct RayCastAspect : IAspect
     private readonly Entity entity1;
     private readonly RefRW<RayCastData> rayCastData;
     private readonly RefRO<LocalTransform> localToWorld;
+#pragma warning disable IDE0052 // Удалить непрочитанные закрытые члены
     private readonly RefRO<RayCasterTag> rayCasterTag;
+#pragma warning restore IDE0052 // Удалить непрочитанные закрытые члены
 
     public void RayCast(CollisionWorld collisionWorld, Entity entity)
     {

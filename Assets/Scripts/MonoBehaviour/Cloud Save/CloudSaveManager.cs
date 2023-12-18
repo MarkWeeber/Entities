@@ -6,53 +6,119 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using System;
 
-public class CloudSaveManager : SingletonBehaviour<CloudSaveManager>
+public class CloudSaveManager : SingletonBehaviour<CloudSaveManager>, SaveDataSender
 {
     private const string key = "SaveData";
 
+    [SerializeField] private SaveData saveData;
+    [SerializeField] private float saveTime = 15.0f;
+
     public bool IsSignedIn;
-    public bool CloudDataFetched;
+    public bool SaveDataPersists;
     private LocalSaveManager localSaveManager;
-    private SaveData saveData;
+    private float saveTimer;
+
     protected override void Awake()
     {
         dontDestroyOnload = true;
         base.Awake();
         localSaveManager = LocalSaveManager.Instance;
+        localSaveManager.OnSaveDataSetEvent += OnSaveDataSetEvent;
+        saveTimer = saveTime;
     }
 
     private async void Start()
     {
         await InitialyzeUnityServicesAsync();
-        if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
+        await FetchData();
+        await UpdateWithLocalSaveManager();
+
+    }
+
+    private void OnDestroy()
+    {
+        SaveDataPersists = false;
+    }
+
+    private async void Update()
+    {
+        if (saveTime > 0f)
         {
-            IsSignedIn = true;
+            if (saveTimer < 0f)
+            {
+                saveTimer = saveTime;
+                await ForceSaveSingleData(key, saveData);
+            }
+            else
+            {
+                saveTimer -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void OnSaveDataSetEvent(SaveDataSender sender, SaveData data)
+    {
+        CloudSaveManager _sender = sender as CloudSaveManager;
+        if (_sender != this)
+        {
+            saveData = data;
+        }
+    }
+
+    private async Task FetchData()
+    {
+        if (IsSignedIn)
+        {
             saveData = await RetrieveSpecificData<SaveData>(key);
             if (saveData != null)
             {
-                CloudDataFetched = true;
+                SaveDataPersists = true;
+                InfoUI.Instance.SendInformation("CLOUD FETCH SUCCESS", MessageType.SUCCESS);
             }
-            if (localSaveManager.Active)
+        }
+    }
+
+    private async Task UpdateWithLocalSaveManager()
+    {
+        if (SaveDataPersists && IsSignedIn)
+        {
+            if (!saveData.Equals(localSaveManager.SaveData))
             {
-                if (!saveData.Equals(localSaveManager.SaveData))
+                DateTime cloudTime;
+                DateTime localTime;
+                bool cloudTimeValid = DateTime.TryParse(saveData.DateTime, out cloudTime);
+                bool localTimeValid = DateTime.TryParse(localSaveManager.SaveData.DateTime, out localTime);
+                if (!cloudTimeValid)
                 {
-                    DateTime cloudTime = DateTime.Parse(saveData.DateTime);
-                    DateTime localTime = DateTime.Parse(localSaveManager.SaveData.DateTime);
-                    if (cloudTime > localTime)
-                    {
-                        localSaveManager.SetSaveData(saveData.CoinsCollected, saveData.CurrentHealth);
-                    }
-                    else if (cloudTime < localTime)
-                    {
-                        await ForceSaveSingleData(key, LocalSaveManager.Instance.SaveData);
-                    }
+                    cloudTime = DateTime.Now;
+                    saveData.DateTime = cloudTime.ToString();
+                }
+                if (!localTimeValid)
+                {
+                    localTime = DateTime.Now;
+                    localSaveManager.SaveData.DateTime = localTime.ToString();
+                }
+                if (cloudTime > localTime)
+                {
+                    localSaveManager.SetSaveData(this, saveData);
+                }
+                else if (cloudTime < localTime)
+                {
+                    saveData = localSaveManager.SaveData;
+                    await ForceSaveSingleData(key, localSaveManager.SaveData);
+                }
+                else if(localTime == cloudTime)
+                {
+                    localSaveManager.CreateNewSaveData();
+                    saveData = localSaveManager.SaveData;
+                    await ForceSaveSingleData(key, localSaveManager.SaveData);
                 }
             }
-
         }
-        else
+        else if (localSaveManager.SaveDataPersists)
         {
-            IsSignedIn = false;
+            saveData = localSaveManager.SaveData;
+            SaveDataPersists = true;
         }
     }
 
@@ -91,6 +157,10 @@ public class CloudSaveManager : SingletonBehaviour<CloudSaveManager>
         if (!AuthenticationService.Instance.IsSignedIn)
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+        if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn)
+        {
+            IsSignedIn = true;
         }
     }
 

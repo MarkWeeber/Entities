@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 public class LocalSaveMenu
 {
@@ -13,6 +15,19 @@ public class LocalSaveMenu
                     FileInfo file_info = new FileInfo(file);
                     file_info.Delete();
                 }
-        Debug.Log("Cleared");
+        UnityEngine.Debug.Log("Cleared");
+    }
+    
+    [MenuItem("Local Save/Open Save Folder")]
+    public static void OpenSaveFolder()
+    {
+        string path = Application.persistentDataPath;
+        path = path.Replace("/", @"\");
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            Arguments = path,
+            FileName = "explorer.exe"
+        };
+        Process.Start(startInfo);
     }
 }

@@ -2,18 +2,21 @@
 using System.IO;
 using UnityEngine;
 
-public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
+public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSender
 {
     private const string saveFileNameEncrypted = "save.dat";
     private const string saveFileNameSimple = "save.txt";
     private const string passPhrase = "f92ksa0-1";
-
-    [SerializeField] private SaveData saveData;
-    public SaveData SaveData { get => saveData; set => saveData = value; }
     [SerializeField] private float saveTime = 4.0f;
+    
+    [SerializeField] private SaveData saveData;
+    public SaveData SaveData { get => saveData; }
+
+    public event Action<SaveDataSender, SaveData> OnSaveDataSetEvent;
+    public event Action OnSystemBaseUpdate;
+    public bool SaveDataPersists;
+
     private float saveTimer;
-    public bool Active;
-    public event Action OnDestroyEvent;
     private string pathEncrypted;
     private string pathSimple;
 
@@ -23,31 +26,25 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         base.Awake();
         pathEncrypted = Application.persistentDataPath + "/" + saveFileNameEncrypted;
         pathSimple = Application.persistentDataPath + "/" + saveFileNameSimple;
-    }
-
-    private void Start()
-    {
         RetreiveSaveDataLocal();
-        Active = true;
+        saveTimer = saveTime;
     }
 
     private void OnApplicationQuit()
     {
-        Save();
-        Active = false;
+        OnExit();
     }
 
     private void OnDestroy()
     {
-        Save();
-        Active = false;
+        OnExit();
     }
 
     private void Update()
     {
         if (saveTime > 0f)
         {
-            if (saveTimer <= 0f)
+            if (saveTimer < 0f)
             {
                 Save(false);
                 saveTimer = saveTime;
@@ -59,16 +56,29 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         }
     }
 
+    private void OnExit()
+    {
+        Save();
+        SaveDataPersists = false;
+        if (OnSaveDataSetEvent != null)
+        {
+            foreach (Action<SaveDataSender, SaveData> _delegate in OnSaveDataSetEvent.GetInvocationList())
+            {
+                OnSaveDataSetEvent -= _delegate;
+            }
+        }
+    }
+
     private void Save(bool clearDelegates = true)
     {
-        if (OnDestroyEvent != null)
+        if (OnSystemBaseUpdate != null)
         {
-            OnDestroyEvent.Invoke();
+            OnSystemBaseUpdate.Invoke();
             if (clearDelegates)
             {
-                foreach (Action _delegate in OnDestroyEvent.GetInvocationList())
+                foreach (Action _delegate in OnSystemBaseUpdate.GetInvocationList())
                 {
-                    OnDestroyEvent -= _delegate;
+                    OnSystemBaseUpdate -= _delegate;
                 }
             }
         }
@@ -87,12 +97,11 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
             {
                 string jsonText = StringCipher.Decrypt(ecryptedText, passPhrase);
                 saveData = JsonUtility.FromJson<SaveData>(jsonText);
-                InfoUI.Instance.SendInformation("SUCCESS", MessageType.SUCCESS);
+                InfoUI.Instance.SendInformation("SAVE FILE LOAD SUCCESS", MessageType.SUCCESS);
             }
             catch (Exception e)
             {
                 CreateNewSaveData();
-                SaveDataLocal();
                 InfoUI.Instance.SendInformation("COULD NOT PARSE", MessageType.WARNING);
                 Debug.LogWarning(e.Message);
             }
@@ -101,8 +110,8 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         {
             InfoUI.Instance.SendInformation("SAVE FILE NOT FOUND, CREATING DEFAULT VALUES", MessageType.WARNING);
             CreateNewSaveData();
-            SaveDataLocal();
         }
+        SaveDataPersists = true;
     }
 
     private void SaveDataLocal()
@@ -127,7 +136,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         }
     }
 
-    private void CreateNewSaveData()
+    public void CreateNewSaveData()
     {
         saveData = new SaveData()
         {
@@ -135,12 +144,14 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
             CoinsCollected = 0,
             CurrentHealth = 100f
         };
+        SaveDataLocal();
+        OnSaveDataSetEvent?.Invoke(this, saveData);
     }
 
-    public void SetSaveData(uint coinsCollected, float currentHealth)
+    public void SetSaveData(SaveDataSender sender, SaveData _saveData)
     {
+        saveData = _saveData;
         saveData.DateTime = DateTime.Now.ToString();
-        saveData.CoinsCollected = coinsCollected;
-        saveData.CurrentHealth = currentHealth;
+        OnSaveDataSetEvent?.Invoke(sender, saveData);
     }
 }

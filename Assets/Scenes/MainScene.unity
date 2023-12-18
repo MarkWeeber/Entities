@@ -531,7 +531,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18400498, y: 0.000000008456296, z: -0.0000000015830303, w: 0.98292536}
+  m_LocalRotation: {x: 0.18400498, y: -0.0000000084562926, z: 0.0000000015830296,
+    w: 0.98292536}
   m_LocalPosition: {x: -16.246431, y: 2.68, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -923,10 +924,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fadbba39d165ad43bfe92811dd17152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveTime: 4
   saveData:
+    DateTime: 
     CoinsCollected: 0
     CurrentHealth: 0
-  saveTime: 4
+  SaveDataPersists: 0
 --- !u!4 &450084758
 Transform:
   m_ObjectHideFlags: 0
@@ -1904,7 +1907,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1962fc86258fd304590c3106c9f55226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveData:
+    DateTime: 
+    CoinsCollected: 0
+    CurrentHealth: 0
+  saveTime: 15
   IsSignedIn: 0
+  SaveDataPersists: 0
 --- !u!4 &739951410
 Transform:
   m_ObjectHideFlags: 0
@@ -2802,7 +2811,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616213989}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18400498, y: 0.000000008456296, z: -0.0000000015830303, w: 0.98292536}
+  m_LocalRotation: {x: 0.18400498, y: -0.0000000084562926, z: 0.0000000015830296,
+    w: 0.98292536}
   m_LocalPosition: {x: -16.246431, y: 2.68, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

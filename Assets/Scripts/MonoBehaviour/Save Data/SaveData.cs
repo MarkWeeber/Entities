@@ -10,7 +10,11 @@ public class SaveData : IEquatable<SaveData>
 
     public bool Equals(SaveData other)
     {
-        if (String.Equals(DateTime, other.DateTime) && CoinsCollected == other.CoinsCollected && CurrentHealth == other.CurrentHealth)
+        if (other == null)
+        {
+            return false;
+        }
+        else if (String.Equals(DateTime, other.DateTime) && CoinsCollected == other.CoinsCollected && CurrentHealth == other.CurrentHealth)
         {
             return true;
         }
@@ -19,4 +23,9 @@ public class SaveData : IEquatable<SaveData>
             return false;
         }
     }
+}
+
+public interface SaveDataSender
+{
+
 }
