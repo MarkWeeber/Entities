@@ -9,11 +9,11 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
     private const string passPhrase = "f92ksa0-1";
 
     [SerializeField] private SaveData saveData;
+    public SaveData SaveData { get => saveData; set => saveData = value; }
     [SerializeField] private float saveTime = 4.0f;
     private float saveTimer;
-    public SaveData SaveData { get => saveData; set => saveData = value; }
+    public bool Active;
     public event Action OnDestroyEvent;
-
     private string pathEncrypted;
     private string pathSimple;
 
@@ -28,16 +28,19 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
     private void Start()
     {
         RetreiveSaveDataLocal();
+        Active = true;
     }
 
     private void OnApplicationQuit()
     {
         Save();
+        Active = false;
     }
 
     private void OnDestroy()
     {
         Save();
+        Active = false;
     }
 
     private void Update()
@@ -72,7 +75,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
         SaveDataLocal();
     }
 
-    public void RetreiveSaveDataLocal()
+    private void RetreiveSaveDataLocal()
     {
         string ecryptedText = string.Empty;
         if (File.Exists(pathEncrypted))
@@ -89,20 +92,20 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
             catch (Exception e)
             {
                 CreateNewSaveData();
+                SaveDataLocal();
                 InfoUI.Instance.SendInformation("COULD NOT PARSE", MessageType.WARNING);
-                InfoUI.Instance.SendInformation(e.Message, MessageType.WARNING);
-                Debug.LogWarning("Could not parse save data!");
+                Debug.LogWarning(e.Message);
             }
         }
         else
         {
-            InfoUI.Instance.SendInformation("FILE NOT FOUND", MessageType.WARNING);
+            InfoUI.Instance.SendInformation("SAVE FILE NOT FOUND, CREATING DEFAULT VALUES", MessageType.WARNING);
             CreateNewSaveData();
             SaveDataLocal();
         }
     }
 
-    public void SaveDataLocal()
+    private void SaveDataLocal()
     {
         try
         {
@@ -128,8 +131,16 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>
     {
         saveData = new SaveData()
         {
+            DateTime = "01.01.1900 00:00:00",
             CoinsCollected = 0,
             CurrentHealth = 100f
         };
+    }
+
+    public void SetSaveData(uint coinsCollected, float currentHealth)
+    {
+        saveData.DateTime = DateTime.Now.ToString();
+        saveData.CoinsCollected = coinsCollected;
+        saveData.CurrentHealth = currentHealth;
     }
 }

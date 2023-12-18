@@ -25,7 +25,7 @@ public partial class PlayerSaveDataSystem : SystemBase
     {
         if (!loadSuccess)
         {
-            if (LocalSaveManager.Instance != null)
+            if (LocalSaveManager.Instance.Active)
             {
                 foreach ((RefRW<CollectibleData> collectibleData, RefRW<HealthData> healthData)
                 in SystemAPI.Query<RefRW<CollectibleData>, RefRW<HealthData>>().WithAll<PlayerTag>())
@@ -53,10 +53,6 @@ public partial class PlayerSaveDataSystem : SystemBase
 
     private void OnLocalSaveManagerDestroyEvent()
     {
-        LocalSaveManager.Instance.SaveData = new SaveData
-        {
-            CurrentHealth = _healthData.CurrentHealth,
-            CoinsCollected = _collectibleData.CoinsCollected
-        };
+        LocalSaveManager.Instance.SetSaveData(_collectibleData.CoinsCollected, _healthData.CurrentHealth);
     }
 }
