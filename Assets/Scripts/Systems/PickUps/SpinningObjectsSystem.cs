@@ -48,7 +48,9 @@ public partial struct SpinningObjectsSystem : ISystem
         {
             if (ConstantSpinningDataLookup.IsComponentEnabled(entity))
             {
-                localTransform.ValueRW.RotateY(constantSpinningData.ValueRO.YSpinAngle * Mathf.Deg2Rad * DeltaTime);
+                quaternion newRot = quaternion.RotateY(constantSpinningData.ValueRO.YSpinAngle * DeltaTime);
+                localTransform.ValueRW.Rotation = math.mul(newRot, localTransform.ValueRO.Rotation);
+                //localTransform.ValueRW.RotateY(constantSpinningData.ValueRO.YSpinAngle * Mathf.Deg2Rad * DeltaTime);
                 localTransform.ValueRW.Position.y += 
                     (float)math.sin(ElapsedTime * constantSpinningData.ValueRO.HeightPhaseSpeed) * constantSpinningData.ValueRO.HeightPhase * DeltaTime;
             }

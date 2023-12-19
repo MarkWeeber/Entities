@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9befb9afc7331d46943ebb873b2332d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  YSpinSpeed: 30
-  HeightPhase: 0.5
+  YSpinAngle: 5
+  HeightPhase: 1
   HeightPhaseSpeed: 5
 --- !u!1 &7502165489575367911
 GameObject:
