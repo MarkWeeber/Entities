@@ -34,12 +34,6 @@ public partial struct HealthDamageAreaSystem : ISystem
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         healthDataLookup.Update(ref state);
         areaDamagerLookup.Update(ref state);
-        //state.Dependency = new HealthDamageEvents
-        //{
-        //    AreaDamagerLookup = areaDamagerLookup,
-        //    HealthLookup = healthDataLookup,
-        //    Deltatime = deltaTime
-        //}.Schedule(simulation, state.Dependency);
         HealthDamageEvents healthDamageEvents = new HealthDamageEvents
         {
             AreaDamagerLookup = areaDamagerLookup,
@@ -56,6 +50,7 @@ public partial struct HealthDamageAreaSystem : ISystem
         public ComponentLookup<AreaDamagerData> AreaDamagerLookup;
         public ComponentLookup<HealthData> HealthLookup;
         public float Deltatime;
+        [BurstCompile]
         public void Execute(TriggerEvent triggerEvent)
         {
             RefRW<HealthData> heathRW;

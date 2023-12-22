@@ -25,14 +25,14 @@ public partial struct SpinningObjectsSystem : ISystem
         constantSpinningDataLookup.Update(ref state);
         double elapsedTime = SystemAPI.Time.ElapsedTime;
         float deltatime = SystemAPI.Time.DeltaTime;
-        SpinningEntityJob job = new SpinningEntityJob
+        new SpinningEntityJob
         {
             ConstantSpinningDataLookup = constantSpinningDataLookup,
             DeltaTime = deltatime,
             ElapsedTime = elapsedTime
-        };
-        JobHandle jobHandle = job.ScheduleParallel(state.Dependency);
-        jobHandle.Complete();
+        }.ScheduleParallel();
+        //JobHandle jobHandle = job.ScheduleParallel(state.Dependency);
+        //jobHandle.Complete();
     }
     [BurstCompile]
     private partial struct SpinningEntityJob : IJobEntity
@@ -40,6 +40,7 @@ public partial struct SpinningObjectsSystem : ISystem
         [ReadOnly] public ComponentLookup<ConstantSpinningData> ConstantSpinningDataLookup;
         public double ElapsedTime;
         public float DeltaTime;
+        [BurstCompile]
         private void Execute(
             Entity entity,
             RefRW<LocalTransform> localTransform,

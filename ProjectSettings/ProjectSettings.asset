@@ -815,8 +815,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_PHYSICS_CUSTOM
-    Standalone: UNITY_PHYSICS_CUSTOM
+    Android: UNITY_PHYSICS_CUSTOM;ENABLE_DOTS_DEFORMATION_MOTION_VECTORS
+    Standalone: UNITY_PHYSICS_CUSTOM;ENABLE_DOTS_DEFORMATION_MOTION_VECTORS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

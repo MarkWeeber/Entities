@@ -73,7 +73,7 @@ public partial struct PickUpsSystem : ISystem
         [ReadOnly] public ComponentLookup<CoinPickUpData> CoinPickupDataLookup;
         public ComponentLookup<CollectibleData> CollectibleDataLookup;
         public EntityCommandBuffer EntityCommandBuffer;
-        
+        [BurstCompile]
         public void Execute(TriggerEvent triggerEvent)
         {
             Entity playerEntity = Entity.Null;

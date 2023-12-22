@@ -19,18 +19,18 @@ public partial struct PlayerMovementLockSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
-        MovementDataTimerJob movementDataTimerJob = new MovementDataTimerJob
+        EntityQuery playerTagQuery = SystemAPI.QueryBuilder().WithAll<PlayerTag, MovementData>().Build();
+        new MovementDataTimerJob
         {
             DeltaTime = deltaTime
-        };
-        JobHandle jobHandle = movementDataTimerJob.ScheduleParallel(state.Dependency);
-        jobHandle.Complete();
+        }.ScheduleParallel(playerTagQuery);
     }
 
     [BurstCompile]
     private partial struct MovementDataTimerJob : IJobEntity
     {
         public float DeltaTime;
+        [BurstCompile]
         private void Execute (RefRW<MovementData> movementData, PlayerTag playerTag)
         {
             if (movementData.ValueRO.LockTimer > 0f)

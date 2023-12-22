@@ -5,12 +5,9 @@ using Unity.Transforms;
 
 public readonly partial struct RayCastAspect : IAspect
 {
-    private readonly Entity entity1;
+    private readonly Entity _entity;
     private readonly RefRW<RayCastData> rayCastData;
     private readonly RefRO<LocalTransform> localToWorld;
-#pragma warning disable IDE0052 // Удалить непрочитанные закрытые члены
-    private readonly RefRO<RayCasterTag> rayCasterTag;
-#pragma warning restore IDE0052 // Удалить непрочитанные закрытые члены
 
     public void RayCast(CollisionWorld collisionWorld, Entity entity)
     {
@@ -26,7 +23,7 @@ public readonly partial struct RayCastAspect : IAspect
         {
             for(int i = 0; i < raycastHits.Length; i++)
             {
-                if (raycastHits[i].Entity != entity1)
+                if (raycastHits[i].Entity != _entity)
                 {
                     rayCastHit = raycastHits[i];
                     break;

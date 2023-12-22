@@ -55,7 +55,7 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
         public ComponentLookup<BouncyProjectileTag> BouncyLookup;
         public ComponentLookup<DestructibleProjectileTag> DestructibleLookup;
         public ComponentLookup<LocalTransform> LocalTransformLookup;
-
+        [BurstCompile]
         public void Execute(CollisionEvent collisionEvent)
         {
             if (BouncyLookup.HasComponent(collisionEvent.EntityA))

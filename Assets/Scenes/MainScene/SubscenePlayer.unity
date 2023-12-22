@@ -815,7 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirePort: {fileID: 1173117014}
-  FireTime: 0.5
+  FireTime: 0.1
 --- !u!114 &663177782
 MonoBehaviour:
   m_ObjectHideFlags: 0

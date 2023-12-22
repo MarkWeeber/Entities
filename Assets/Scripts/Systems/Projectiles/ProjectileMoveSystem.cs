@@ -21,17 +21,17 @@ public partial struct ProjectileMoveSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
-        ProjectileMoveJob projectileMoveJob = new ProjectileMoveJob
+        EntityQuery projectileQuery = SystemAPI.QueryBuilder().WithAspect<ProjectileMovementAspect>().WithAll<ProjectileTag>().Build();
+        new ProjectileMoveJob
         {
             DeltaTime = deltaTime
-        };
-        JobHandle jobHandle = projectileMoveJob.ScheduleParallel(state.Dependency);
-        jobHandle.Complete();
+        }.ScheduleParallel(projectileQuery);
     }
     [BurstCompile]
     private partial struct ProjectileMoveJob : IJobEntity
     {
         public float DeltaTime;
+        [BurstCompile]
         private void Execute(ProjectileMovementAspect projectileMovementAspect)
         {
             projectileMovementAspect.Move(DeltaTime);

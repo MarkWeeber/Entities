@@ -7,7 +7,6 @@ public readonly partial struct ProjectileMovementAspect : IAspect
     private readonly Entity entity;
     private readonly RefRW<LocalTransform> localTransform;
     private readonly RefRO<MovementData> movementData;
-    private readonly RefRO<ProjectileTag> tag;
 
     public void Move(float deltaTime)
     {

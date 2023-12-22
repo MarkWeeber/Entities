@@ -24,33 +24,33 @@ public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        // raycasted bouncy projectiles
+        EntityQuery bouncyProjectilesQuery = SystemAPI.QueryBuilder().WithAll<RayCastData, LocalTransform, BouncyProjectileTag>().Build();
+        new BounceOnRayCastHitJob { }.ScheduleParallel(bouncyProjectilesQuery);
+
         // raycasted self-descruct projectiles
+        EntityQuery selfDestructProjectilesQuery = SystemAPI.QueryBuilder().WithAll<RayCastData, DestructibleProjectileTag>().Build();
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
         DestructOnRayCastHitJob destructOnRayCastHitJob = new DestructOnRayCastHitJob
         {
             ParallelWriter = parallelWriter,
         };
-        JobHandle destructingRayCastsHandle = destructOnRayCastHitJob.ScheduleParallel(state.Dependency);
+        JobHandle destructingRayCastsHandle = destructOnRayCastHitJob.ScheduleParallel(selfDestructProjectilesQuery, state.Dependency);
         destructingRayCastsHandle.Complete();
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
-        // raycasted bouncy projectiles
-        BounceOnRayCastHitJob bounceOnRayCastHitJob = new BounceOnRayCastHitJob { };
-        JobHandle bounceRayCastsHandle = bounceOnRayCastHitJob.ScheduleParallel(state.Dependency);
-        bounceRayCastsHandle.Complete();
-
     }
     [BurstCompile]
     private partial struct DestructOnRayCastHitJob : IJobEntity
     {
         internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        [BurstCompile]
         private void Execute
             (
                 [ChunkIndexInQuery] int sortKey,
                 Entity entity,
-                RefRO<RayCastData> rayCastData,
-                DestructibleProjectileTag destructOnRayCastHitTag
+                RefRO<RayCastData> rayCastData
             )
         {
             if (rayCastData.ValueRO.RaycastHit.Entity != Entity.Null)
@@ -63,11 +63,11 @@ public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
     [BurstCompile]
     private partial struct BounceOnRayCastHitJob : IJobEntity
     {
+        [BurstCompile]
         private void Execute
             (
                 RefRO<RayCastData> rayCastData,
-                RefRW<LocalTransform> localTransform,
-                BouncyProjectileTag bounceOnRayCastHitTag
+                RefRW<LocalTransform> localTransform
             )
         {
             if (rayCastData.ValueRO.RaycastHit.Entity != Entity.Null)

@@ -24,14 +24,17 @@ public partial struct PlayerAbilitiesSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         PlayerInputData playerInputData = SystemAPI.GetSingleton<PlayerInputData>();
-        
+        EntityQuery playerSprintQuery = SystemAPI.QueryBuilder()
+            .WithAll<PlayerTag, MovementData, SprintAbilityData, LocalTransform>()
+            .Build();
+        EntityQuery playerFireQuery = SystemAPI.QueryBuilder()
+            .WithAll<PlayerTag, MovementData, FireAbilityData, LocalTransform>()
+            .Build();
         // sprint abilities
-        SprintJob sprintJob = new SprintJob
+        new SprintJob
         {
             Sprinting = playerInputData.Sprinting
-        };
-        JobHandle sprintJobHandle = sprintJob.ScheduleParallel(state.Dependency);
-        sprintJobHandle.Complete();
+        }.ScheduleParallel(playerSprintQuery);
 
         // Fire abilities
         if (SystemAPI.TryGetSingleton<ProjectileSpawnerData>(out ProjectileSpawnerData projectileSpawnerData))
@@ -49,7 +52,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
                 SpecialProjectilePrefabEnity = specialProjectilePrefab,
                 LocalToWorldLookup = localToWorldLookup
             };
-            JobHandle fireJobHandle = fireJob.ScheduleParallel(state.Dependency);
+            JobHandle fireJobHandle = fireJob.ScheduleParallel(playerFireQuery, state.Dependency);
             fireJobHandle.Complete();
             ecb.Playback(state.EntityManager);
             ecb.Dispose();
@@ -60,11 +63,12 @@ public partial struct PlayerAbilitiesSystem : ISystem
     private partial struct SprintJob : IJobEntity
     {
         public bool Sprinting;
+        [BurstCompile]
         private void Execute(
             RefRW<MovementData> movementData,
             RefRW<SprintAbilityData> sprintAbilityData,
-            RefRO<LocalTransform> localTransform,
-            PlayerTag playerTag)
+            RefRO<LocalTransform> localTransform
+            )
         {
             if (movementData.ValueRO.LockTimer <= 0f) // locker is vacant
             {
@@ -96,18 +100,18 @@ public partial struct PlayerAbilitiesSystem : ISystem
         public Entity ProjectilePrefabEnity;
         public Entity SpecialProjectilePrefabEnity;
         [ReadOnly] public ComponentLookup<LocalToWorld> LocalToWorldLookup;
+        [BurstCompile]
         private void Execute
             (
                 [ChunkIndexInQuery] int sortKey,
                 RefRW<MovementData> movementData,
                 RefRW<FireAbilityData> fireAbilityData,
-                RefRO<LocalTransform> localTransform,
-                PlayerTag playerTag
+                RefRO<LocalTransform> localTransform
             )
         {
             if (movementData.ValueRO.LockTimer <= 0f) // locker is vacant
             {
-                if (Firing && fireAbilityData.ValueRO.Released)
+                if (Firing && (fireAbilityData.ValueRO.Released || true))
                 {
                     movementData.ValueRW.LockTimer = fireAbilityData.ValueRO.FireTime;
                     movementData.ValueRW.LockedMovement = float3.zero;
