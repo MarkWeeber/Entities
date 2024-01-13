@@ -27,7 +27,7 @@ public partial class PlayerSaveDataSystem : SystemBase, SaveDataSender
     {
         if (!localLoadSuccess)
         {
-            if (localSaveManager.SaveDataPersists)
+            if (localSaveManager != null && localSaveManager.SaveDataPersists)
             {
                 foreach ((RefRW<CollectibleData> collectibleData, RefRW<HealthData> healthData)
                 in SystemAPI.Query<RefRW<CollectibleData>, RefRW<HealthData>>().WithAll<PlayerTag>())
