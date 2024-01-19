@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,10 +20,16 @@ public class KeyFrameStoreEditor : Editor
             keyFrameStore.ResetKeyFrames();
         }
 
-        if (GUILayout.Button("Store Key Frames"))
+        if (GUILayout.Button("Store One Key Frame"))
         {
             keyFrameStore.StoreKeyFrame();
         }
+        
+        #region input textfield
+        GUIStyle style = new GUIStyle(EditorStyles.textField);
+        GUILayout.Label("Save file path");
+        keyFrameStore.SavePath = EditorGUILayout.TextField(keyFrameStore.SavePath, style);
+        #endregion
 
         if (GUILayout.Button("Complete Storing Key Frames"))
         {
@@ -30,5 +37,4 @@ public class KeyFrameStoreEditor : Editor
         }
         #endregion
     }
-
 }
