@@ -10,9 +10,11 @@ using Unity.Collections;
 public partial struct PlayerAbilitiesSystem : ISystem
 {
     private ComponentLookup<LocalToWorld> localToWorldLookup;
+    private float timer;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        timer = 0f;
         localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
         state.RequireForUpdate<PlayerInputData>();
     }
@@ -23,6 +25,30 @@ public partial struct PlayerAbilitiesSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        float deltaTime = SystemAPI.Time.DeltaTime;
+        if (SystemAPI.TryGetSingleton<SystemControllerData>(out SystemControllerData systemControllerData))
+        {
+            if (!systemControllerData.Player)
+            {
+                return;
+            }
+            else if (systemControllerData.PlayerRate > 0f)
+            {
+                if (timer < 0f)
+                {
+                    timer = systemControllerData.PlayerRate;
+                }
+                else
+                {
+                    timer -= deltaTime;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            return;
+        }
         PlayerInputData playerInputData = SystemAPI.GetSingleton<PlayerInputData>();
         EntityQuery playerSprintQuery = SystemAPI.QueryBuilder()
             .WithAll<PlayerTag, MovementData, SprintAbilityData, LocalTransform>()

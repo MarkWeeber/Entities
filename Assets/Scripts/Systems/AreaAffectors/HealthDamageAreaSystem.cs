@@ -12,16 +12,16 @@ public partial struct HealthDamageAreaSystem : ISystem
 {
     ComponentLookup<HealthData> healthDataLookup;
     ComponentLookup<AreaDamagerData> areaDamagerLookup;
+    private float timer;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        timer = 0f;
         state.RequireForUpdate<HealthData>();
         state.RequireForUpdate<AreaDamagerData>();
         healthDataLookup = state.GetComponentLookup<HealthData>(false);
         areaDamagerLookup = state.GetComponentLookup<AreaDamagerData>(false);
-        //healthDataLookup = SystemAPI.GetComponentLookup<HealthData>(false);
-        //areaDamagerLookup = SystemAPI.GetComponentLookup<AreaDamagerData>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -31,6 +31,29 @@ public partial struct HealthDamageAreaSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
+        if (SystemAPI.TryGetSingleton<SystemControllerData>(out SystemControllerData systemControllerData))
+        {
+            if(!systemControllerData.AreaEffector)
+            {
+                return;
+            }
+            else if(systemControllerData.AreaEffectorRate > 0f)
+            {
+                if (timer < 0f)
+                {
+                    timer = systemControllerData.AreaEffectorRate;
+                }
+                else
+                {
+                    timer -= deltaTime;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            return;
+        }
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         healthDataLookup.Update(ref state);
         areaDamagerLookup.Update(ref state);

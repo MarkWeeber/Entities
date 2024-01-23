@@ -31,8 +31,6 @@ public partial struct SpinningObjectsSystem : ISystem
             DeltaTime = deltatime,
             ElapsedTime = elapsedTime
         }.ScheduleParallel();
-        //JobHandle jobHandle = job.ScheduleParallel(state.Dependency);
-        //jobHandle.Complete();
     }
     [BurstCompile]
     private partial struct SpinningEntityJob : IJobEntity
@@ -51,7 +49,6 @@ public partial struct SpinningObjectsSystem : ISystem
             {
                 quaternion newRot = quaternion.RotateY(constantSpinningData.ValueRO.YSpinAngle * DeltaTime);
                 localTransform.ValueRW.Rotation = math.mul(newRot, localTransform.ValueRO.Rotation);
-                //localTransform.ValueRW.RotateY(constantSpinningData.ValueRO.YSpinAngle * Mathf.Deg2Rad * DeltaTime);
                 localTransform.ValueRW.Position.y += 
                     (float)math.sin(ElapsedTime * constantSpinningData.ValueRO.HeightPhaseSpeed) * constantSpinningData.ValueRO.HeightPhase * DeltaTime;
             }
