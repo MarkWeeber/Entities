@@ -5,6 +5,8 @@ public class SystemsControllerAuthoring : MonoBehaviour
 {
     public bool Player = true;
     public float PlayerRate = 0f;
+    public bool Animation = true;
+    public float AnimationRate = 0f;
     public bool AI = true;
     public float AIRate = 0f;
     public bool AreaEffector = true;
@@ -23,6 +25,8 @@ public class SystemsControllerAuthoring : MonoBehaviour
             {
                 Player = authoring.Player,
                 PlayerRate = authoring.PlayerRate,
+                Animation = authoring.Animation,
+                AnimationRate = authoring.AnimationRate,
                 AI = authoring.AI,
                 AIRate = authoring.AIRate,
                 AreaEffector = authoring.AreaEffector,

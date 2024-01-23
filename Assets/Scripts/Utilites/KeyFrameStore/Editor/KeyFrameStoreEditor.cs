@@ -19,7 +19,8 @@ public class KeyFrameStoreEditor : Editor
         {
             keyFrameStore.ResetKeyFrames();
         }
-
+        GUILayout.Label("Frame Time");
+        keyFrameStore.KeyFrameTime = EditorGUILayout.FloatField(keyFrameStore.KeyFrameTime, new GUIStyle(EditorStyles.numberField));
         if (GUILayout.Button("Store One Key Frame"))
         {
             keyFrameStore.StoreKeyFrame();

@@ -5,7 +5,6 @@ using Unity.Mathematics;
 [System.Serializable]
 public struct KeyFrameComponent : IBufferElementData
 {
-    public int Index;
     public float Time;
     public float3 Position;
     public float4 Rotation;

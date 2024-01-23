@@ -4,6 +4,8 @@ public struct SystemControllerData : IComponentData
 {
     public bool Player;
     public float PlayerRate;
+    public bool Animation;
+    public float AnimationRate;
     public bool AI;
     public float AIRate;
     public bool AreaEffector;

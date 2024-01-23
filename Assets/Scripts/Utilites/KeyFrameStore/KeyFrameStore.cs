@@ -9,49 +9,46 @@ public class KeyFrameStore : MonoBehaviour
 {
     public string SavePath = "Assets/Animations/CustomKeyFrames/example";
     private string savePath;
+    public float KeyFrameTime = 0f;
+    private float keyFrameTime;
     private int keyFrames = 0;
-
-    private string content = "";
-    private KeyFrameStorage keyFrameStorage;
-    private KeyFrameList keyFrameStore;
-    public void StoreKeyFrame()
-    {
-        Debug.Log("STORING");
-        StoreAllChildrenTransformData();
-    }
+    private KeyFrameStorage keyFrameStorage = new KeyFrameStorage { Store = new List<KeyFrameList>()};
 
     public void ResetKeyFrames()
     {
-        keyFrameStorage.Store = new List<KeyFrameList>();
-        keyFrameStore.Keys = new List<KeyFrameComponent>();
+        keyFrameStorage.Store.Clear();
         keyFrames = 0;
-        content = "";
     }
-    
+
+    public void StoreKeyFrame()
+    {
+        Debug.Log("STORING, with time: " + KeyFrameTime.ToString());
+        keyFrameTime = KeyFrameTime;
+        StoreAllChildrenTransformData();
+    }
+
     public void CompleteStoringKeyFrames()
     {
         Debug.Log("Gathered keyframe count: " +  keyFrames);
         savePath = SavePath;
-        Debug.Log(savePath);
         SaveKeyFramesAsset();
     }
 
     private void StoreAllChildrenTransformData()
     {
-        keyFrameStore.Keys.Clear();
+        KeyFrameList _keyFrameStore = new KeyFrameList { Keys = new List<KeyFrameComponent>()};
         Transform[] transforms = GetComponentsInChildren<Transform>();
         foreach (Transform t in transforms)
         {
-            content += t.name + " : " + t.localPosition;
-            keyFrameStore.Keys.Add(new KeyFrameComponent
+            _keyFrameStore.Keys.Add(new KeyFrameComponent
             {
+                Time = keyFrameTime,
                 Name = (FixedString32Bytes)t.name,
                 Position = t.localPosition,
                 Rotation = new float4(t.localRotation.x, t.localRotation.y, t.localRotation.z, t.localRotation.w)
             });
         }
-        Debug.Log(content);
-        keyFrameStorage.Store.Add(keyFrameStore);
+        keyFrameStorage.Store.Add(_keyFrameStore);
         keyFrames++;
     }
 
