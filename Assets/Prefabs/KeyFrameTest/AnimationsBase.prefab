@@ -47,3 +47,4 @@ MonoBehaviour:
   animationNameAndPrefabs:
   - Name: CubeTest
     Prefab: {fileID: 59691932784248209, guid: 8eb15fad61c83ff4f964420995ad7b22, type: 3}
+    AnimationDuration: 1

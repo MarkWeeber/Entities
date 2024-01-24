@@ -257,7 +257,12 @@ PrefabInstance:
     - target: {fileID: 7921655720385000032, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
       propertyPath: AnimationRate
-      value: 0
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921655720385000032, guid: d6ab34cb947921f42af9b4af826fb5e7,
+        type: 3}
+      propertyPath: AnimationOffset
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8502400855052226948, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
