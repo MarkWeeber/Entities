@@ -131,6 +131,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
+        type: 3}
+      propertyPath: animationNameAndPrefabs.Array.data[0].Loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3568772594545607584, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -248,21 +253,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921655720385000032, guid: d6ab34cb947921f42af9b4af826fb5e7,
-        type: 3}
-      propertyPath: Animation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921655720385000032, guid: d6ab34cb947921f42af9b4af826fb5e7,
-        type: 3}
-      propertyPath: AnimationRate
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7921655720385000032, guid: d6ab34cb947921f42af9b4af826fb5e7,
-        type: 3}
-      propertyPath: AnimationOffset
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8502400855052226948, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}

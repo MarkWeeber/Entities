@@ -4,6 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Collections;
+using UnityEngine;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -11,10 +12,16 @@ public partial struct PlayerAbilitiesSystem : ISystem
 {
     private ComponentLookup<LocalToWorld> localToWorldLookup;
     private float timer;
+    private bool offsetTimerEngaged;
+    private float offsetTimer;
+    private double lastUpdateTime;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         timer = 0f;
+        offsetTimerEngaged = false;
+        offsetTimer = 0f;
+        lastUpdateTime = 0d;
         localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
         state.RequireForUpdate<PlayerInputData>();
     }
@@ -32,7 +39,17 @@ public partial struct PlayerAbilitiesSystem : ISystem
             {
                 return;
             }
-            else if (systemControllerData.PlayerRate > 0f)
+            if (!offsetTimerEngaged && systemControllerData.PlayerOffset > 0f)
+            {
+                offsetTimer = systemControllerData.PlayerOffset;
+                offsetTimerEngaged = true;
+            }
+            if (offsetTimerEngaged && offsetTimer > 0f)
+            {
+                offsetTimer -= deltaTime; // offset timer wait
+                return;
+            }
+            if (systemControllerData.PlayerRate > 0f)
             {
                 if (timer < 0f)
                 {
@@ -40,7 +57,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
                 }
                 else
                 {
-                    timer -= deltaTime;
+                    timer -= deltaTime; // rate timer wait
                     return;
                 }
             }
@@ -49,6 +66,8 @@ public partial struct PlayerAbilitiesSystem : ISystem
         {
             return;
         }
+        float actualDeltaTime = (float)(SystemAPI.Time.ElapsedTime - lastUpdateTime);
+        lastUpdateTime = SystemAPI.Time.ElapsedTime;
         PlayerInputData playerInputData = SystemAPI.GetSingleton<PlayerInputData>();
         EntityQuery playerSprintQuery = SystemAPI.QueryBuilder()
             .WithAll<PlayerTag, MovementData, SprintAbilityData, LocalTransform>()

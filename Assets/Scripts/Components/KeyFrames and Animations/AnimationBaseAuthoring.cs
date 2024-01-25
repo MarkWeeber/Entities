@@ -19,6 +19,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
 					AnimationName = (FixedString32Bytes)item.Name,
 					AnimationHolder = GetEntity(item.Prefab, TransformUsageFlags.None),
 					AnimationDuration = item.AnimationDuration,
+					Loop = item.Loop
 				});
             }
         }
@@ -29,5 +30,6 @@ public class AnimationBaseAuthoring : MonoBehaviour
 		public string Name;
 		public GameObject Prefab;
 		public float AnimationDuration;
+		public bool Loop;
 	}
 }
