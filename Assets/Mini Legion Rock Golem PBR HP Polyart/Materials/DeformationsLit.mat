@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_AnimationLit
+  m_Name: DeformationsLit
   m_Shader: {fileID: -6465566751694194690, guid: a17de9a2129524a4b96200e4e04dbd61,
     type: 3}
   m_Parent: {fileID: 0}
