@@ -360,116 +360,116 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: FreeGolemMesh(Clone)
+    - name: Golem(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: RockGolemMesh
-      parentName: 
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: 0, w: 1}
-      scale: {x: 0.01, y: 0.01, z: 0.01}
     - name: Hips
-      parentName: 
+      parentName: Golem(Clone)
       position: {x: -1.965804e-32, y: 1.3112836, z: -0.08118872}
       rotation: {x: -0.39858624, y: 0.5840625, z: -0.39858624, w: 0.5840625}
       scale: {x: 0.009999998, y: 0.009999999, z: 0.01}
     - name: Spine
-      parentName: 
+      parentName: Hips
       position: {x: -69.20399, y: 3.5527137e-15, z: 5.8732485e-15}
       rotation: {x: 0.9578972, y: -0.2871116, z: 0.000000023757593, w: 0.000000034812842}
       scale: {x: 1, y: 0.99999976, z: 0.99999976}
     - name: Head
-      parentName: 
+      parentName: Spine
       position: {x: -154.29463, y: 5.684342e-14, z: -3.8132932e-14}
       rotation: {x: -0.46238393, y: 0.8866798, z: 0.000000034901912, w: 0.00000007405869}
       scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
     - name: joint1
-      parentName: 
+      parentName: Head
       position: {x: -143.96768, y: -6.592568e-14, z: -0.0000004861293}
       rotation: {x: -0.14052385, y: -0.69300294, z: -0.14052385, w: 0.693003}
       scale: {x: 0.99999994, y: 1, z: 0.9999999}
     - name: Upper_Arm_L
-      parentName: 
+      parentName: Spine
       position: {x: -70.163086, y: -21.702755, z: 95.466225}
-      rotation: {x: -0.43947268, y: 0.5402175, z: 0.45121092, w: 0.558066}
+      rotation: {x: -0.43947262, y: 0.5402175, z: 0.45121086, w: 0.558066}
       scale: {x: 0.99999994, y: 0.99999994, z: 1.0000002}
     - name: Lower_Arm_L
-      parentName: 
+      parentName: Upper_Arm_L
       position: {x: -97.45501, y: 3.294153e-14, z: -3.774758e-15}
       rotation: {x: -0.00025281365, y: 0.052751947, z: 0.001095112, w: 0.99860704}
       scale: {x: 1, y: 0.99999994, z: 0.9999997}
     - name: Hand_L
-      parentName: 
+      parentName: Lower_Arm_L
       position: {x: -87.86816, y: 3.9848025e-14, z: -1.14438615e-14}
       rotation: {x: 0.0012184269, y: 0.029338505, z: 0.021391558, w: 0.9993399}
       scale: {x: 0.99999976, y: 1, z: 1}
     - name: Index_Proximal_L
-      parentName: 
+      parentName: Hand_L
       position: {x: -41.420086, y: 4.5827152e-14, z: 7.504906e-15}
-      rotation: {x: -0.0029143794, y: -0.14608686, z: -0.019731868, w: 0.98907065}
+      rotation: {x: -0.0029143796, y: -0.14608687, z: -0.01973187, w: 0.9890707}
       scale: {x: 1.0000002, y: 0.99999994, z: 1.0000001}
     - name: Upper_Arm_R
-      parentName: 
+      parentName: Spine
       position: {x: -70.16289, y: -21.70275, z: -95.466194}
-      rotation: {x: -0.4394824, y: 0.5402095, z: -0.45122132, w: -0.5580577}
+      rotation: {x: -0.4394824, y: 0.5402094, z: -0.45122132, w: -0.55805767}
       scale: {x: 0.9999996, y: 1, z: 0.9999998}
     - name: Lower_Arm_R
-      parentName: 
+      parentName: Upper_Arm_R
       position: {x: -97.45533, y: -3.3483497e-14, z: -9.66344e-15}
       rotation: {x: 0.000252748, y: -0.0527522, z: 0.0010966779, w: 0.998607}
       scale: {x: 1.0000005, y: 1.0000001, z: 1.0000001}
     - name: Hand_R
-      parentName: 
+      parentName: Lower_Arm_R
       position: {x: -87.868355, y: -6.188814e-14, z: -1.975039e-14}
       rotation: {x: -0.0012368751, y: -0.02934142, z: 0.021391688, w: 0.9993398}
       scale: {x: 1, y: 1.0000001, z: 0.9999999}
     - name: Index_Proximal_R
-      parentName: 
+      parentName: Hand_R
       position: {x: -41.419212, y: 4.329922e-14, z: -7.770477e-16}
-      rotation: {x: 0.14608993, y: -0.0029145307, z: 0.9890702, w: 0.019732356}
+      rotation: {x: 0.14608994, y: -0.002914531, z: 0.98907024, w: 0.019732358}
       scale: {x: 1.0000001, y: 1.0000001, z: 1}
     - name: Upper_Leg_L
-      parentName: 
+      parentName: Hips
       position: {x: 9.164483, y: -14.981082, z: -36.73124}
       rotation: {x: 0.039810836, y: -0.28742167, z: 0.91385657, w: 0.28402483}
       scale: {x: 0.99999994, y: 0.99999994, z: 1}
     - name: Lower_Leg_L
-      parentName: 
+      parentName: Upper_Leg_L
       position: {x: -61.180252, y: -1.0588751e-14, z: -9.325873e-15}
       rotation: {x: -0.6010192, y: -0.20095313, z: 0.07563234, w: 0.76985294}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
     - name: Foot_L
-      parentName: 
+      parentName: Lower_Leg_L
       position: {x: -58.150978, y: 1.2101431e-14, z: 1.9984014e-14}
-      rotation: {x: 0.43606794, y: 0.6766259, z: -0.40200195, w: 0.43636763}
+      rotation: {x: 0.43606788, y: 0.6766259, z: -0.4020019, w: 0.43636763}
       scale: {x: 0.99999994, y: 1.0000002, z: 0.9999998}
     - name: Toes_L
-      parentName: 
+      parentName: Foot_L
       position: {x: -42.884983, y: 1.7994287e-14, z: 7.771561e-15}
       rotation: {x: 0.0360023, y: -0.6670982, z: -0.045820963, w: 0.7426872}
       scale: {x: 0.9999999, y: 0.9999999, z: 1}
     - name: Upper_Reg_R
-      parentName: 
+      parentName: Hips
       position: {x: 9.16404, y: -14.980912, z: 36.731197}
       rotation: {x: -0.039810687, y: 0.28742367, z: 0.913856, w: 0.28402463}
       scale: {x: 1, y: 1.0000001, z: 1}
     - name: Lower_Reg_R
-      parentName: 
+      parentName: Upper_Reg_R
       position: {x: -61.1807, y: 7.854828e-15, z: -2.0872193e-14}
       rotation: {x: 0.6010187, y: 0.20095176, z: 0.0756311, w: 0.76985383}
       scale: {x: 0.99999994, y: 0.99999994, z: 0.99999976}
     - name: Foot_R
-      parentName: 
+      parentName: Lower_Reg_R
       position: {x: -58.15096, y: -1.887379e-15, z: 3.774758e-15}
-      rotation: {x: -0.4360692, y: -0.6766257, z: -0.40200052, w: 0.43636802}
+      rotation: {x: -0.43606916, y: -0.6766257, z: -0.4020005, w: 0.436368}
       scale: {x: 0.99999994, y: 1.0000001, z: 0.9999999}
     - name: Toes_R
-      parentName: 
+      parentName: Foot_R
       position: {x: -42.88502, y: 3.757411e-15, z: -2.5979217e-14}
-      rotation: {x: 0.66709834, y: 0.036002237, z: 0.7426872, w: 0.045820963}
+      rotation: {x: 0.6670983, y: 0.036002234, z: 0.74268717, w: 0.04582096}
       scale: {x: 0.99999976, y: 0.99999964, z: 0.9999998}
+    - name: RockGolemMesh
+      parentName: Golem(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
