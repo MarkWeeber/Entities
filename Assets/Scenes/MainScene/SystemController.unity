@@ -169,14 +169,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: 1
   PlayerRate: 0
+  PlayerOffset: 0
+  Animation: 1
+  AnimationRate: 0
+  AnimationOffset: 0
   AI: 1
   AIRate: 0
+  AIOffset: 0
   AreaEffector: 1
   AreaEffectorRate: 0
+  AreaEffectorOffset: 0
   Projectile: 1
   PojectileRate: 0
+  PojectileOffset: 0
   RayCast: 1
   RayCastRate: 0
+  RayCastOffset: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

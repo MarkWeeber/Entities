@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5795598751154818052
+--- !u!1 &8332134132083207554
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3568772594545607584}
-  - component: {fileID: 2204013907542602434}
+  - component: {fileID: 6896899115949050662}
+  - component: {fileID: 2267834722795397114}
   m_Layer: 0
-  m_Name: AnimationsBase
+  m_Name: Golem_Attacking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3568772594545607584
+--- !u!4 &6896899115949050662
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5795598751154818052}
+  m_GameObject: {fileID: 8332134132083207554}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,25 +32,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2204013907542602434
+--- !u!114 &2267834722795397114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5795598751154818052}
+  m_GameObject: {fileID: 8332134132083207554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33beba3ba3b53c4ebd5cde2f7c796a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f91ba33b4c16d24eaedeea6015473ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationNameAndPrefabs:
-  - Name: CubeTest
-    Prefab: {fileID: 59691932784248209, guid: 8eb15fad61c83ff4f964420995ad7b22, type: 3}
-    AnimationDuration: 1
-    Loop: 1
-  - Name: Golem_Attacking
-    Prefab: {fileID: 8332134132083207554, guid: b55d28815b63f6d4496d93b3472f1c24,
-      type: 3}
-    AnimationDuration: 2.26666
-    Loop: 1
+  KeyFramesAsset: {fileID: 11400000, guid: 3803261103fc356489da870a295f2c72, type: 2}

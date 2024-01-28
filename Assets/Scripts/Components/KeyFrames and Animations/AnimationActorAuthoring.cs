@@ -23,6 +23,7 @@ public class AnimationActorAuthoring : MonoBehaviour
 					continue;
 				}
 				Entity _entity = GetEntity(go, TransformUsageFlags.Dynamic);
+				//AddComponent(_entity, new DynamicEntityTag());
 				animationPartComponents.Add(new AnimationPartComponent
 				{
 					Name = (FixedString32Bytes)go.name,
