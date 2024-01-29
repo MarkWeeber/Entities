@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class KeyFrameAuthoring : MonoBehaviour
 {
-	[SerializeField] private KeyFramesAsset KeyFramesAsset;
+	public KeyFramesAsset KeyFramesAsset;
 	class Baker : Baker<KeyFrameAuthoring>
 	{
 		public override void Bake(KeyFrameAuthoring authoring)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6896899115949050662}
   - component: {fileID: 2267834722795397114}
   m_Layer: 0
-  m_Name: Golem_Attacking
+  m_Name: Golem_Die
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f91ba33b4c16d24eaedeea6015473ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KeyFramesAsset: {fileID: 11400000, guid: 3803261103fc356489da870a295f2c72, type: 2}
+  KeyFramesAsset: {fileID: 11400000, guid: 8b511ad2497f93643bb6a04a9fb85cb2, type: 2}

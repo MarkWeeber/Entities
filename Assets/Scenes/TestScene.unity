@@ -1516,8 +1516,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe781da8090ce24a832f274504069b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SavePath: Assets/Animations/CustomKeyFrames/Golem_Attacking
-  KeyFrameTime: 2.6666
+  SavePath: Assets/Animations/CustomKeyFrames/
+  AnimationName: Golem_Die
+  TotalTime: 1.1666
+  KeyFramePercent: 1
 --- !u!137 &137999719251472205
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -1602,7 +1604,7 @@ PrefabInstance:
     - target: {fileID: 4960375051912875856, guid: 16739247ba8f42a47abd69d5fb630d4f,
         type: 3}
       propertyPath: m_Name
-      value: Cube (1)
+      value: Test_Cube
       objectReference: {fileID: 0}
     - target: {fileID: 6555395342056052658, guid: 16739247ba8f42a47abd69d5fb630d4f,
         type: 3}
@@ -1669,6 +1671,6 @@ SceneRoots:
   - {fileID: 402095403}
   - {fileID: 1433169926}
   - {fileID: 1820310707}
+  - {fileID: 4168634365730605}
   - {fileID: 4365193915715776730}
   - {fileID: 670200330}
-  - {fileID: 4168634365730605}

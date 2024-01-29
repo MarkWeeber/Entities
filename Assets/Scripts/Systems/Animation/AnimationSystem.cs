@@ -4,7 +4,7 @@ using Unity.Collections;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Jobs;
-using UnityEngine;
+
 
 [BurstCompile]
 public partial struct AnimationSystem : ISystem
@@ -15,6 +15,7 @@ public partial struct AnimationSystem : ISystem
     private double lastUpdateTime;
     private BufferLookup<AnimationPartComponent> animationPartLookup;
     private BufferLookup<KeyFrameComponent> keyFramesLookup;
+    private ComponentLookup<LocalTransform> localTransformLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
@@ -25,6 +26,7 @@ public partial struct AnimationSystem : ISystem
         state.RequireForUpdate<AnimationBaseComponent>();
         animationPartLookup = state.GetBufferLookup<AnimationPartComponent>(isReadOnly: true);
         keyFramesLookup = state.GetBufferLookup<KeyFrameComponent>(isReadOnly: true);
+        localTransformLookup = state.GetComponentLookup<LocalTransform>(isReadOnly: true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -72,6 +74,7 @@ public partial struct AnimationSystem : ISystem
         DynamicBuffer<AnimationBaseComponent> animationBaseBuffer = SystemAPI.GetSingletonBuffer<AnimationBaseComponent>();
         animationPartLookup.Update(ref state);
         keyFramesLookup.Update(ref state);
+        localTransformLookup.Update(ref state);
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
         AnimationsJob animationsJob = new AnimationsJob
@@ -80,6 +83,7 @@ public partial struct AnimationSystem : ISystem
             AnimationBasesDynamicBuffer = animationBaseBuffer,
             AnimationPartLookup = animationPartLookup,
             KeyFramesLookup = keyFramesLookup,
+            LocalTransformLookup = localTransformLookup,
             DeltaTime = actualDeltaTime
         };
         JobHandle jobHandle = animationsJob.ScheduleParallel(state.Dependency);
@@ -100,6 +104,8 @@ public partial struct AnimationSystem : ISystem
         public BufferLookup<AnimationPartComponent> AnimationPartLookup;
         [ReadOnly]
         public BufferLookup<KeyFrameComponent> KeyFramesLookup;
+        [ReadOnly]
+        public ComponentLookup<LocalTransform> LocalTransformLookup;
         public float DeltaTime;
         [BurstCompile]
         private void Execute
@@ -121,6 +127,8 @@ public partial struct AnimationSystem : ISystem
                     if (AnimationBasesDynamicBuffer[i].AnimationName == animationName) // animation found
                     {
                         float animationDuration = AnimationBasesDynamicBuffer[i].AnimationDuration;
+                        float timeScale = AnimationBasesDynamicBuffer[i].TimeScale;
+                        float easeIn = AnimationBasesDynamicBuffer[i].EasIn;
                         bool nonLoopedAnimationEnded = false;
                         bool isAnimationLooped = AnimationBasesDynamicBuffer[i].Loop;
                         if (actorNonLoopAnimationReached && !isAnimationLooped) // animation already completed no need to animate
@@ -198,6 +206,18 @@ public partial struct AnimationSystem : ISystem
                                             newPosition = end.Position;
                                             newRotation = end.Rotation;
                                         }
+                                        if (easeIn > 0f) // check for ease ins
+                                        {
+                                            float easeInDuration = easeIn * animationDuration;
+                                            float easeInRate = currentAnimationTime / easeInDuration;
+                                            if (easeInRate < 1f)
+                                            {
+                                                RefRO<LocalTransform> currentLocalTransform = LocalTransformLookup.GetRefRO(partEntity);
+                                                newPosition = math.lerp(currentLocalTransform.ValueRO.Position, newPosition, easeInRate);
+                                                newRotation = math.slerp(currentLocalTransform.ValueRO.Rotation, newRotation, easeInRate);
+                                            }
+                                            
+                                        }
                                         ParallelWriter.SetComponent<LocalTransform>(sortKey, partEntity, new LocalTransform
                                         {
                                             Position = newPosition,
@@ -210,7 +230,7 @@ public partial struct AnimationSystem : ISystem
                             }
                         }
                         // shift animation timer
-                        currentAnimationTime += DeltaTime;
+                        currentAnimationTime += DeltaTime * timeScale;
                         animationActorComponent.ValueRW.AnimationTime = currentAnimationTime;
                         break; // animating completed
                     }

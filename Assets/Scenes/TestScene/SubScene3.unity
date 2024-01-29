@@ -152,33 +152,33 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.size
-      value: 3
+      propertyPath: KeyFrameAssets.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.data[1].Loop
+      propertyPath: AnimationSettings.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.data[2].Loop
-      value: 1
+      propertyPath: AnimationSettings.Array.data[0].Loop
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.data[2].Name
-      value: Character_Waving
+      propertyPath: AnimationSettings.Array.data[0].EaseIn
+      value: 0.142
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.data[2].Prefab
+      propertyPath: AnimationSettings.Array.data[0].Prefab
       value: 
-      objectReference: {fileID: 202807451146977655, guid: 9f105a0a22d202a4f8968e8c7a56234f,
+      objectReference: {fileID: 8332134132083207554, guid: b55d28815b63f6d4496d93b3472f1c24,
         type: 3}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
-      propertyPath: animationNameAndPrefabs.Array.data[2].AnimationDuration
+      propertyPath: AnimationSettings.Array.data[0].TimeScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3568772594545607584, guid: f46b2390bedc61c44b82b6df0167fdf7,
@@ -272,17 +272,17 @@ PrefabInstance:
     - target: {fileID: 7789536632554969157, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7789536632554969157, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7789536632554969157, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7789536632554969157, guid: d6ab34cb947921f42af9b4af826fb5e7,
         type: 3}
@@ -534,6 +534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PBR_Golem_Entity
+      objectReference: {fileID: 0}
+    - target: {fileID: 6913328257380836296, guid: b5daa0bdfe69ca647850d4757de72d90,
+        type: 3}
+      propertyPath: namePlaceHolder
+      value: Golem_Die
       objectReference: {fileID: 0}
     - target: {fileID: 8216233962151540221, guid: b5daa0bdfe69ca647850d4757de72d90,
         type: 3}

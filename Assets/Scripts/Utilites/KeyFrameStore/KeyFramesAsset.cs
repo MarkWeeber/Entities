@@ -4,8 +4,7 @@
 public class KeyFramesAsset : ScriptableObject
 {
     public string AnimationName;
-    public bool Loop;
+    public float AnimationDuration;
     [HideInInspector]
-    public string Content;
-    
+    public string Content;   
 }

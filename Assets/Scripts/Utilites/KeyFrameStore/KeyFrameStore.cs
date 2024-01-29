@@ -7,10 +7,13 @@ using UnityEngine;
 
 public class KeyFrameStore : MonoBehaviour
 {
-    public string SavePath = "Assets/Animations/CustomKeyFrames/example";
+    public string SavePath = "Assets/Animations/CustomKeyFrames/";
     private string savePath;
-    public float KeyFrameTime = 0f;
-    private float keyFrameTime;
+    public string AnimationName = "";
+    public float TotalTime = 0f;
+    private float totalTime = 0f;
+    public float KeyFramePercent = 0f;
+    private float keyFramePercent;
     private int keyFrames = 0;
     private KeyFrameStorage keyFrameStorage = new KeyFrameStorage { Store = new List<KeyFrameList>()};
 
@@ -22,8 +25,9 @@ public class KeyFrameStore : MonoBehaviour
 
     public void StoreKeyFrame()
     {
-        Debug.Log("STORING, with time: " + KeyFrameTime.ToString());
-        keyFrameTime = KeyFrameTime;
+        Debug.Log("STORING, with : " + KeyFramePercent.ToString() + " percent, and with total time: " + TotalTime.ToString());
+        keyFramePercent = KeyFramePercent;
+        totalTime = TotalTime;
         StoreAllChildrenTransformData();
     }
 
@@ -42,7 +46,7 @@ public class KeyFrameStore : MonoBehaviour
         {
             _keyFrameStore.Keys.Add(new KeyFrameComponent
             {
-                Time = keyFrameTime,
+                Time = keyFramePercent * totalTime,
                 Name = (FixedString32Bytes)t.name,
                 Position = t.localPosition,
                 Rotation = new float4(t.localRotation.x, t.localRotation.y, t.localRotation.z, t.localRotation.w)
@@ -55,10 +59,11 @@ public class KeyFrameStore : MonoBehaviour
     private void SaveKeyFramesAsset()
     {
         KeyFramesAsset keyFramesAsset = ScriptableObject.CreateInstance<KeyFramesAsset>();
-        keyFramesAsset.name = "testNew";
+        keyFramesAsset.name = AnimationName;
+        keyFramesAsset.AnimationName = AnimationName;
+        keyFramesAsset.AnimationDuration = TotalTime;
         keyFramesAsset.Content = JsonUtility.ToJson(keyFrameStorage);
-        Debug.Log(keyFramesAsset.Content);
-        AssetDatabase.CreateAsset(keyFramesAsset, savePath + ".asset");
+        AssetDatabase.CreateAsset(keyFramesAsset, savePath + AnimationName + ".asset");
     }
 }
 
