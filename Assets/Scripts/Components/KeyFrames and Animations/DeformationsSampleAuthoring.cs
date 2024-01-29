@@ -71,3 +71,5 @@ internal struct BindPose : IBufferElementData
 {
     public float4x4 Value;
 }
+
+internal struct RootTag : IComponentData { }
