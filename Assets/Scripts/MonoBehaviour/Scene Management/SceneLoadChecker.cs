@@ -4,7 +4,6 @@ using Unity.Scenes;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-
 public class SceneLoadChecker : MonoBehaviour
 {
     [SerializeField] private List<SubScene> subScenes;
@@ -34,7 +33,12 @@ public class SceneLoadChecker : MonoBehaviour
         if (check)
         {
             allSceneLoaded = true;
+            Time.timeScale = 1f;
             onScenesLoaded?.Invoke();
+        }
+        else
+        {
+            Time.timeScale = 0f;
         }
     }
 

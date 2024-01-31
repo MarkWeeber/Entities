@@ -163,12 +163,12 @@ PrefabInstance:
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
       propertyPath: AnimationSettings.Array.data[0].Loop
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
       propertyPath: AnimationSettings.Array.data[0].EaseIn
-      value: 0.142
+      value: 0.49
       objectReference: {fileID: 0}
     - target: {fileID: 2204013907542602434, guid: f46b2390bedc61c44b82b6df0167fdf7,
         type: 3}
@@ -330,7 +330,7 @@ PrefabInstance:
     - target: {fileID: 5675976264108290080, guid: 804fc72a2fb33ba458ed1ebfbd601f0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.814596
+      value: -1.5645962
       objectReference: {fileID: 0}
     - target: {fileID: 5675976264108290080, guid: 804fc72a2fb33ba458ed1ebfbd601f0f,
         type: 3}

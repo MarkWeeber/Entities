@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028408, g: 0.22571537, b: 0.30692348, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028389, g: 0.22571364, b: 0.3069231, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1593,6 +1593,21 @@ SkinnedMeshRenderer:
     m_Center: {x: -80.1039, y: -2.447403, z: 17.706985}
     m_Extent: {x: 241.08421, y: 215.05971, z: 397.3723}
   m_DirtyAABB: 0
+--- !u!4 &3827270505173054334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8220169510453545389}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4365193915715776730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1661,12 +1676,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16739247ba8f42a47abd69d5fb630d4f, type: 3}
+--- !u!1 &8220169510453545389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3827270505173054334}
+  - component: {fileID: 8500367489805289763}
+  m_Layer: 0
+  m_Name: SceneLoadChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &8500367489805289763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8220169510453545389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31826fc06c921e64fbf9a50d7b60d6d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subScenes:
+  - {fileID: 1674386089}
+  - {fileID: 402095402}
+  - {fileID: 670200329}
+  onScenesLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1166492679}
   - {fileID: 858228257}
+  - {fileID: 3827270505173054334}
   - {fileID: 1674386090}
   - {fileID: 402095403}
   - {fileID: 1433169926}
