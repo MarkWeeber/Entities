@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [CustomEditor(typeof(AnimationParser))]
@@ -10,10 +11,16 @@ public class AnimationParseUtilityEditor : Editor
         GUI.enabled = false;
         EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour((AnimationParser)target), typeof(AnimationParser), false);
         GUI.enabled = true;
-        animationParser.AnimationClip = EditorGUILayout.ObjectField("Object", animationParser.AnimationClip, typeof(AnimationClip), false) as AnimationClip;
+        animationParser.AnimationClip = EditorGUILayout.ObjectField("Animation Clip", animationParser.AnimationClip, typeof(AnimationClip), false) as AnimationClip;
         if (GUILayout.Button("CHECK ANIMATION"))
         {
-            animationParser.Parse();
+            animationParser.ParseAnimation();
+        }
+        animationParser.AnimatorController 
+            = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(AnimatorController), false) as AnimatorController;
+        if (GUILayout.Button("CHECK ANIMATOR CONTROLLER"))
+        {
+            animationParser.ParseAnimatorController();
         }
     }
 
