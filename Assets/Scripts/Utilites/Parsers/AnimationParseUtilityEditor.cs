@@ -22,6 +22,12 @@ public class AnimationParseUtilityEditor : Editor
         {
             animationParser.ParseAnimatorController();
         }
+        animationParser.Animator
+            = EditorGUILayout.ObjectField("Animator", animationParser.Animator, typeof(Animator), true) as Animator;
+        if (GUILayout.Button("CHECK ANIMATOR"))
+        {
+            animationParser.ParseAnimator();
+        }
     }
 
 
