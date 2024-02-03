@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Unity.Entities;
 using UnityEditor.Animations;
 
-public class AnimatorControllerComponent : IComponentData
+public class AnimatorControllerComponent : IComponentData, IEnableableComponent
 {
-    public AnimatorController Value;
+    public List<AnimatorController> Value;
+    public Entity EmptyEntity;
 }
