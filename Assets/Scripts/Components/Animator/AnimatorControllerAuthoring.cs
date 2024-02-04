@@ -12,8 +12,8 @@ public class AnimatorControllerAuthoring : MonoBehaviour
 	{
 		public override void Bake(AnimatorControllerAuthoring authoring)
 		{
-			Entity entity = GetEntity(TransformUsageFlags.None);
-			Entity emtpyEntity = GetEntity(authoring.EmptyGameObject, TransformUsageFlags.None);
+			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+			Entity emtpyEntity = GetEntity(authoring.EmptyGameObject, TransformUsageFlags.Dynamic);
 			AddComponentObject(entity, new AnimatorControllerComponent
 			{
 				Value = authoring.animatorControllers,
