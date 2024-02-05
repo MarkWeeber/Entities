@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics.GraphicsIntegration;
@@ -117,6 +118,20 @@ namespace Unity.Physics.Authoring
                         PreviousVelocity = physicsVelocity,
                     });
                 }
+            }
+            if (authoring.constraints)
+            {
+                PhysicsJoint physicsJoint = new PhysicsJoint();
+                FixedList128Bytes<Constraint> constraintList = physicsJoint.GetConstraints();
+                Constraint constraint = new Constraint();
+                constraint.Type = ConstraintType.Angular;
+                constraint.SpringDamping /= 100;
+                constraint.SpringFrequency /= 100;
+                constraint.Min = 0;
+                constraint.Max = 90;
+                constraintList.Add(constraint);
+                physicsJoint.SetConstraints(constraintList);
+                AddComponent<PhysicsJoint>(entity, physicsJoint);
             }
         }
     }
