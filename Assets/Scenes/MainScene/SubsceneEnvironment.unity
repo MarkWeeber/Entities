@@ -1201,6 +1201,7 @@ GameObject:
   - component: {fileID: 801145355}
   - component: {fileID: 801145359}
   - component: {fileID: 801145358}
+  - component: {fileID: 801145360}
   m_Layer: 0
   m_Name: HeavySphere
   m_TagString: Untagged
@@ -1267,7 +1268,7 @@ Transform:
   m_GameObject: {fileID: 801145352}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.55, y: 3, z: 3.26}
+  m_LocalPosition: {x: 0.696, y: 3, z: -0.104}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1467,6 +1468,26 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &801145360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801145352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714da6023913a6d47a78b08f1e14e6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearConstrains:
+    x: 0
+    y: 0
+    z: 0
+  AngularConstrains:
+    x: 1
+    y: 1
+    z: 1
 --- !u!1 &812746679
 GameObject:
   m_ObjectHideFlags: 0

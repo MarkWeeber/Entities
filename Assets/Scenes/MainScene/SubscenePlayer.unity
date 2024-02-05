@@ -981,6 +981,7 @@ GameObject:
   - component: {fileID: 663177776}
   - component: {fileID: 663177782}
   - component: {fileID: 663177783}
+  - component: {fileID: 663177784}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -997,7 +998,7 @@ Transform:
   m_GameObject: {fileID: 663177768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -16.25, y: -1.2, z: 2}
+  m_LocalPosition: {x: -18.71, y: 0.17, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1303,6 +1304,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65175656f8a96b40a2e7a7610b3e98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &663177784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663177768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714da6023913a6d47a78b08f1e14e6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearConstrains:
+    x: 0
+    y: 0
+    z: 0
+  AngularConstrains:
+    x: 1
+    y: 0
+    z: 1
 --- !u!1 &679997748
 GameObject:
   m_ObjectHideFlags: 0

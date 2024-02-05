@@ -113,10 +113,6 @@ namespace Unity.Physics.Authoring
         [SerializeField]
         CustomPhysicsBodyTags m_CustomTags = CustomPhysicsBodyTags.Nothing;
 
-        [SerializeField]
-        [Tooltip("Experimenting with constraints")]
-        public bool constraints = true;
-
         void OnEnable()
         {
             // included so tick box appears in Editor

@@ -4,17 +4,17 @@ using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class AnimatorControllerAuthoring : MonoBehaviour
+public class AnimatorBaseControllerAuthoring : MonoBehaviour
 {
 	public List <AnimatorController> animatorControllers;
 	public GameObject EmptyGameObject;
-	class Baker : Baker<AnimatorControllerAuthoring>
+	class Baker : Baker<AnimatorBaseControllerAuthoring>
 	{
-		public override void Bake(AnimatorControllerAuthoring authoring)
+		public override void Bake(AnimatorBaseControllerAuthoring authoring)
 		{
 			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 			Entity emtpyEntity = GetEntity(authoring.EmptyGameObject, TransformUsageFlags.Dynamic);
-			AddComponentObject(entity, new AnimatorControllerComponent
+			AddComponentObject(entity, new AnimatorBaseControllerComponent
 			{
 				Value = authoring.animatorControllers,
 				EmptyEntity = emtpyEntity

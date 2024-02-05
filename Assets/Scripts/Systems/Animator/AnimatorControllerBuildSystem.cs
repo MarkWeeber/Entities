@@ -21,7 +21,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         ECB = new EntityCommandBuffer(Allocator.Temp);
-        foreach((AnimatorControllerComponent animatorControllerComponent, Entity entity) in SystemAPI.Query<AnimatorControllerComponent>().WithEntityAccess())
+        foreach((AnimatorBaseControllerComponent animatorControllerComponent, Entity entity) in SystemAPI.Query<AnimatorBaseControllerComponent>().WithEntityAccess())
         {
             Organize(entity, animatorControllerComponent);
         }
@@ -29,19 +29,28 @@ public partial struct AnimatorControllerBuildSystem : ISystem
         ECB.Dispose();
     }
 
-    private void Organize(Entity entity, AnimatorControllerComponent animatorControllerComponent)
+    private void Organize(Entity entity, AnimatorBaseControllerComponent animatorControllerComponent)
     {
-        ECB.SetComponentEnabled<AnimatorControllerComponent>(entity, false);
+        ECB.SetComponentEnabled<AnimatorBaseControllerComponent>(entity, false);
         Entity emtpyEntity = animatorControllerComponent.EmptyEntity;
         Entity rootEntity = ECB.Instantiate(emtpyEntity);
         FixedString64Bytes rootEntityName = (FixedString64Bytes)"AnimatorControllerBase";
         ECB.SetName(rootEntity, in rootEntityName);
-        ECB.AddComponent(rootEntity, new AnimatorControllerBaseTag());
+        ECB.AddBuffer<AnimatorControllerBase>(rootEntity);
         ECB.AddBuffer<LinkedEntityGroup>(rootEntity);
         ECB.AppendToBuffer(rootEntity, new LinkedEntityGroup { Value = rootEntity });
         foreach (AnimatorController animatorController in animatorControllerComponent.Value) // each animator
         {
             Entity animatorEntitiy = CreateChildEntity<AnimatorTag>("Animator", rootEntity, rootEntity, emtpyEntity);
+            ECB.AppendToBuffer(rootEntity, new AnimatorControllerBase
+            {
+                AnimatorControllerEntity = animatorEntitiy,
+                AnimatorName = (FixedString32Bytes)animatorController.name
+            });
+            ECB.AddComponent(animatorEntitiy, new AnimatorControllerData
+            {
+                AnimatorName = (FixedString32Bytes)animatorController.name
+            });
             ECB.AddBuffer<AnimatorParameter>(animatorEntitiy);
             foreach (AnimatorControllerParameter animatorControllerParameter in animatorController.parameters) // params dynamic buffer
             {
@@ -54,10 +63,11 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     DefaultBool = animatorControllerParameter.defaultBool
                 });
             }
+            int animationClipIndex = 0;
+            ECB.AddBuffer<AnimationClipData>(animatorEntitiy);
             foreach (AnimationClip animationClip in animatorController.animationClips) // animation clips
             {
                 Entity animationEntitiy = CreateChildEntity<AnimationClipTag>("Animation", animatorEntitiy, rootEntity, emtpyEntity);
-                ECB.AddComponent(animationEntitiy, new AnimationClipData { AnimationClipName = (FixedString32Bytes)animationClip.name });
                 ECB.AddBuffer<AnimationClipPathPropery>(animationEntitiy);
 #pragma warning disable CS0618 // Тип или член устарел
                 foreach (AnimationClipCurveData clipCurveData in AnimationUtility.GetAllCurves(animationClip, includeCurveData: true)) // curve data
@@ -80,7 +90,16 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     }
                 }
 #pragma warning restore CS0618 // Тип или член устарел
+                ECB.AppendToBuffer<AnimationClipData>(animatorEntitiy, new AnimationClipData
+                {
+                    AnimationClipIndex = animationClipIndex,
+                    AnimationClipName = (FixedString32Bytes)animationClip.name,
+                    AnimationClipHoldingEntity = animationEntitiy
+                });
+                animationClipIndex++;
             }
+            ECB.AddBuffer<AnimatorLayersData>(animatorEntitiy);
+            int layerIndex = 0;
             foreach (AnimatorControllerLayer layer in animatorController.layers) // layers
             {
                 Entity layerEntity = CreateChildEntity("Layer", animatorEntitiy, rootEntity, emtpyEntity);
@@ -91,18 +110,26 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     LayerBlendingMode = layer.blendingMode,
                 });
                 ECB.AddBuffer<AnimatorStateData>(layerEntity);
+                int defaultStateIndex = 0;
+                int stateIndex = 0;
                 foreach (ChildAnimatorState state in layer.stateMachine.states) // states
                 {
                     Entity transitionsHoldingEntity = CreateChildEntity("Transitions", layerEntity, rootEntity, emtpyEntity);
                     bool defaultState = layer.stateMachine.defaultState == state.state;
                     ECB.AppendToBuffer(layerEntity, new AnimatorStateData
                     {
+                        StateIndex = stateIndex,
                         DefaultState = defaultState,
                         AnimatorStateName = state.state.name,
                         AnimationClipName = state.state.motion.name,
                         Speed = state.state.speed,
                         TransitionsHoldingEntity = transitionsHoldingEntity,
                     });
+                    if (defaultState)
+                    {
+                        defaultStateIndex = stateIndex;
+                    }
+                    stateIndex++;
                     ECB.AddBuffer<AnimatorStateTransitionData>(transitionsHoldingEntity);
                     foreach (AnimatorStateTransition stateTransition in state.state.transitions)
                     {
@@ -131,6 +158,13 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                         }
                     }
                 }
+                ECB.AppendToBuffer<AnimatorLayersData>(animatorEntitiy, new AnimatorLayersData
+                {
+                    DefaultLayerState = defaultStateIndex,
+                    LayerIndex = layerIndex,
+                    LayerEntity = layerEntity
+                });
+                layerIndex++;
             }
         }
     }
@@ -151,7 +185,23 @@ public partial struct AnimatorControllerBuildSystem : ISystem
     }
 }
 
-public struct AnimatorControllerBaseTag : IComponentData { }
+public struct AnimatorControllerBase : IBufferElementData
+{
+    public FixedString32Bytes AnimatorName;
+    public Entity AnimatorControllerEntity;
+}
+
+public struct AnimatorControllerData : IComponentData
+{
+    public FixedString32Bytes AnimatorName;
+}
+
+public struct AnimatorLayersData : IBufferElementData
+{
+    public int LayerIndex;
+    public Entity LayerEntity;
+    public int DefaultLayerState;
+}
 
 public struct AnimatorParameter : IBufferElementData
 {
@@ -162,9 +212,11 @@ public struct AnimatorParameter : IBufferElementData
     public bool DefaultBool;
 }
 
-public struct AnimationClipData : IComponentData
+public struct AnimationClipData : IBufferElementData
 {
+    public int AnimationClipIndex;
     public FixedString32Bytes AnimationClipName;
+    public Entity AnimationClipHoldingEntity;
 }
 
 public struct AnimationClipPathPropery : IBufferElementData
@@ -193,6 +245,7 @@ public struct AnimatorLayer : IComponentData
 
 public struct AnimatorStateData : IBufferElementData
 {
+    public int StateIndex;
     public bool DefaultState;
     public FixedString32Bytes AnimatorStateName;
     public FixedString32Bytes AnimationClipName;

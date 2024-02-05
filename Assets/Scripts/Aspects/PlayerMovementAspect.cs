@@ -27,8 +27,8 @@ public readonly partial struct PlayerMovementAspect : IAspect
         }
         SetVelocity(velocity);
         SlerpRotate(velocity, deltaTime);
-        ResetRotation();
-        ResetAngularVelocity();
+        //ResetRotation();
+        //ResetAngularVelocity();
         SaveStatistics(velocity);
     }
 
