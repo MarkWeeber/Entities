@@ -21,7 +21,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         ECB = new EntityCommandBuffer(Allocator.Temp);
-        foreach((AnimatorBaseControllerComponent animatorControllerComponent, Entity entity) in SystemAPI.Query<AnimatorBaseControllerComponent>().WithEntityAccess())
+        foreach ((AnimatorBaseControllerComponent animatorControllerComponent, Entity entity) in SystemAPI.Query<AnimatorBaseControllerComponent>().WithEntityAccess())
         {
             Organize(entity, animatorControllerComponent);
         }
@@ -65,6 +65,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
             }
             int animationClipIndex = 0;
             ECB.AddBuffer<AnimationClipData>(animatorEntitiy);
+            NativeArray<AnimationClipData> animationClipDatas = new NativeArray<AnimationClipData>(animatorController.animationClips.Length, Allocator.Temp);
             foreach (AnimationClip animationClip in animatorController.animationClips) // animation clips
             {
                 Entity animationEntitiy = CreateChildEntity<AnimationClipTag>("Animation", animatorEntitiy, rootEntity, emtpyEntity);
@@ -90,12 +91,15 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     }
                 }
 #pragma warning restore CS0618 // Тип или член устарел
-                ECB.AppendToBuffer<AnimationClipData>(animatorEntitiy, new AnimationClipData
+                AnimationClipData animationClipData = new AnimationClipData
                 {
                     AnimationClipIndex = animationClipIndex,
+                    Looped = animationClip.isLooping,
                     AnimationClipName = (FixedString32Bytes)animationClip.name,
                     AnimationClipHoldingEntity = animationEntitiy
-                });
+                };
+                ECB.AppendToBuffer<AnimationClipData>(animatorEntitiy, animationClipData);
+                animationClipDatas[animationClipIndex] = animationClipData;
                 animationClipIndex++;
             }
             ECB.AddBuffer<AnimatorLayersData>(animatorEntitiy);
@@ -110,32 +114,54 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     LayerBlendingMode = layer.blendingMode,
                 });
                 ECB.AddBuffer<AnimatorStateData>(layerEntity);
+                NativeArray<AnimatorStateData> animatorsStateTemp = new NativeArray<AnimatorStateData>(layer.stateMachine.states.Length, Allocator.Temp);
                 int defaultStateIndex = 0;
                 int stateIndex = 0;
                 foreach (ChildAnimatorState state in layer.stateMachine.states) // states
                 {
                     Entity transitionsHoldingEntity = CreateChildEntity("Transitions", layerEntity, rootEntity, emtpyEntity);
                     bool defaultState = layer.stateMachine.defaultState == state.state;
-                    ECB.AppendToBuffer(layerEntity, new AnimatorStateData
+                    //NativeArray<FixedString32Bytes> statesTemporaryData = new NativeArray<FixedString32Bytes>(Allocator.Temp);
+                    Entity animationClipHoldingEntity = Entity.Null;
+                    foreach (AnimationClipData item in animationClipDatas) // match with animation entity
+                    {
+                        if (item.AnimationClipName == (FixedString32Bytes)state.state.motion.name)
+                        {
+                            animationClipHoldingEntity = item.AnimationClipHoldingEntity;
+                        }
+                    }
+                    AnimatorStateData animatorStateData = new AnimatorStateData
                     {
                         StateIndex = stateIndex,
                         DefaultState = defaultState,
-                        AnimatorStateName = state.state.name,
-                        AnimationClipName = state.state.motion.name,
+                        AnimatorStateName = (FixedString32Bytes)state.state.name,
+                        AnimationClipName = (FixedString32Bytes)state.state.motion.name,
+                        AnimationClipHoldingEntity = animationClipHoldingEntity,
                         Speed = state.state.speed,
                         TransitionsHoldingEntity = transitionsHoldingEntity,
-                    });
+                    };
+                    ECB.AppendToBuffer(layerEntity, animatorStateData);
+                    animatorsStateTemp[stateIndex] = animatorStateData;
                     if (defaultState)
                     {
                         defaultStateIndex = stateIndex;
                     }
-                    stateIndex++;
                     ECB.AddBuffer<AnimatorStateTransitionData>(transitionsHoldingEntity);
                     foreach (AnimatorStateTransition stateTransition in state.state.transitions)
                     {
                         Entity conditionsHoldingEntity = CreateChildEntity("Conditions", transitionsHoldingEntity, rootEntity, emtpyEntity);
+                        int destinationStateIndex = -1;
+                        foreach (AnimatorStateData tempData in animatorsStateTemp)
+                        {
+                            if (tempData.AnimatorStateName == (FixedString32Bytes)stateTransition.destinationState.name)
+                            {
+                                destinationStateIndex = tempData.StateIndex;
+                                break;
+                            }
+                        }
                         ECB.AppendToBuffer(transitionsHoldingEntity, new AnimatorStateTransitionData
                         {
+                            DestinationStateIndex = destinationStateIndex,
                             DestinationStateName = (FixedString32Bytes)stateTransition.destinationState.name,
                             HasExitTime = stateTransition.hasExitTime,
                             ExitTime = stateTransition.exitTime,
@@ -157,6 +183,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                             });
                         }
                     }
+                    stateIndex++;
                 }
                 ECB.AppendToBuffer<AnimatorLayersData>(animatorEntitiy, new AnimatorLayersData
                 {
@@ -165,7 +192,9 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                     LayerEntity = layerEntity
                 });
                 layerIndex++;
+                animatorsStateTemp.Dispose();
             }
+            animationClipDatas.Dispose();
         }
     }
     private Entity CreateChildEntity(string entityName, Entity parentEntity, Entity mainEntity, Entity emptyEntity)
@@ -215,6 +244,7 @@ public struct AnimatorParameter : IBufferElementData
 public struct AnimationClipData : IBufferElementData
 {
     public int AnimationClipIndex;
+    public bool Looped;
     public FixedString32Bytes AnimationClipName;
     public Entity AnimationClipHoldingEntity;
 }
@@ -250,17 +280,19 @@ public struct AnimatorStateData : IBufferElementData
     public FixedString32Bytes AnimatorStateName;
     public FixedString32Bytes AnimationClipName;
     public float Speed;
+    public Entity AnimationClipHoldingEntity;
     public Entity TransitionsHoldingEntity;
 }
 
 public struct AnimatorStateTransitionData : IBufferElementData
 {
+    public int DestinationStateIndex;
     public FixedString32Bytes DestinationStateName;
     public bool HasExitTime;
     public float ExitTime;
     public bool HasFixedDuration;
     public float Duration;
-    public  float Offset;
+    public float Offset;
     public TransitionInterruptionSource InterruptionSource;
     public bool OrderedInterruption;
     public Entity ConditionsHoldingEntity;

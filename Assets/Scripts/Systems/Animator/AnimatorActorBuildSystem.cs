@@ -10,6 +10,7 @@ public partial struct AnimatorActorBuildSystem : ISystem
     private EntityQuery actorsQuery;
     private BufferLookup<AnimatorParameter> parametersLookup;
     private BufferLookup<AnimatorLayersData> animatorLayersLookup;
+    private BufferLookup<AnimatorStateData> animatorStateDataLookup;
     //private 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -18,6 +19,7 @@ public partial struct AnimatorActorBuildSystem : ISystem
         state.RequireForUpdate<AnimatorControllerBase>();
         parametersLookup = state.GetBufferLookup<AnimatorParameter>(true);
         animatorLayersLookup = state.GetBufferLookup<AnimatorLayersData>(true);
+        animatorStateDataLookup = state.GetBufferLookup<AnimatorStateData>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -35,12 +37,14 @@ public partial struct AnimatorActorBuildSystem : ISystem
 
             parametersLookup.Update(ref state);
             animatorLayersLookup.Update(ref state);
+            animatorStateDataLookup.Update(ref state);
 
             state.Dependency = new OrganizeAnimatorActorsJob
             {
                 AnimatorBase = animatorsArray,
                 ParametersLookup = parametersLookup,
                 AnimatorLayersLookup = animatorLayersLookup,
+                AnimatorStateDataLookup = animatorStateDataLookup,
                 ParallelWriter = parallelWriter,
             }.ScheduleParallel(actorsQuery, state.Dependency);
             animatorsArray.Dispose();
@@ -59,6 +63,8 @@ public partial struct AnimatorActorBuildSystem : ISystem
         public BufferLookup<AnimatorParameter> ParametersLookup;
         [ReadOnly]
         public BufferLookup<AnimatorLayersData> AnimatorLayersLookup;
+        [ReadOnly]
+        public BufferLookup<AnimatorStateData> AnimatorStateDataLookup;
         public EntityCommandBuffer.ParallelWriter ParallelWriter;
         [BurstCompile]
         private void Execute(
@@ -115,14 +121,39 @@ public partial struct AnimatorActorBuildSystem : ISystem
                 if (AnimatorLayersLookup.TryGetBuffer(animatorComponent.ValueRO.AnimatorControllerEntity, out DynamicBuffer<AnimatorLayersData> animatorLayers))
                 {
                     ParallelWriter.AddBuffer<AnimatorActorLayerComponent>(sortKey, actorEntity);
+                    ParallelWriter.AddBuffer<AnimatorActorTransitionComponent>(sortKey, actorEntity);
                     foreach (AnimatorLayersData item in animatorLayers)
                     {
+                        int defaulStateIndex = -1;
+                        if (AnimatorStateDataLookup.TryGetBuffer(item.LayerEntity, out DynamicBuffer<AnimatorStateData> statesBuffer))
+                        {
+                            foreach (AnimatorStateData stateData in statesBuffer)
+                            {
+                                if (stateData.DefaultState)
+                                {
+                                    defaulStateIndex = stateData.StateIndex;
+                                }
+                            }
+                        }
                         AnimatorActorLayerComponent animatorActorLayerComponent = new AnimatorActorLayerComponent();
                         animatorActorLayerComponent.AnimationTime = 0f;
-                        animatorActorLayerComponent.LayerNumber = item.LayerIndex;
+                        animatorActorLayerComponent.LayerIndex = item.LayerIndex;
                         animatorActorLayerComponent.CurrentStateIndex = item.DefaultLayerState;
                         animatorActorLayerComponent.LayerEntity = item.LayerEntity;
                         ParallelWriter.AppendToBuffer<AnimatorActorLayerComponent>(sortKey, actorEntity, animatorActorLayerComponent);
+                        AnimatorActorTransitionComponent animatorActorTransitionComponent =  new AnimatorActorTransitionComponent
+                        {
+                            LayerIndex = item.LayerIndex,
+                            Running = false,
+                            HasExitTime = false,
+                            TransitionTimer = 0f,
+                            TransitionDuration = 0f,
+                            OffsetTimeDuration = 0f,
+                            CurrentStateIndex = defaulStateIndex,
+                            NextStateIndex = -1,
+                            ExitTimeDuration = 0f,
+                        };
+                        ParallelWriter.AppendToBuffer<AnimatorActorTransitionComponent>(sortKey, actorEntity, animatorActorTransitionComponent);
                     }
                 }
             }
