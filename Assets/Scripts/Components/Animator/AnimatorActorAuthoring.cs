@@ -14,9 +14,9 @@ public class AnimatorActorAuthoring : MonoBehaviour
 			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 			AddComponent(entity, new AnimatorActorComponent
 			{
-				AnimatorControllerName = (FixedString32Bytes)authoring.AnimatorName,
-				AnimatorControllerEntity = Entity.Null
+				AnimatorControllerName = (FixedString32Bytes)authoring.AnimatorName
 			});
+			AddComponent(entity, new AnimatorActorBuilderComponent { });
 			DynamicBuffer<AnimatorActorPartComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartComponent>(entity);
 			string rootPathName = authoring.gameObject.name;
 			animatorActorPartComponents.Add(new AnimatorActorPartComponent

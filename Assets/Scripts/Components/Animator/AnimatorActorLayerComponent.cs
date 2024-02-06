@@ -6,5 +6,4 @@ public struct AnimatorActorLayerComponent : IBufferElementData
     public int LayerIndex;
     public int CurrentStateIndex;
     public float AnimationTime;
-    public Entity LayerEntity;
 }

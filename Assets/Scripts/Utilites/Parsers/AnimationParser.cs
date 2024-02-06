@@ -1,10 +1,9 @@
 ﻿using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 public class AnimationParser : MonoBehaviour
 {
     public AnimationClip AnimationClip;
-    public AnimatorController AnimatorController;
+    public UnityEditor.Animations.AnimatorController AnimatorController;
     public Animator Animator;
 
     public void ParseAnimation()
@@ -41,15 +40,15 @@ public class AnimationParser : MonoBehaviour
                 Debug.Log($"name: {parameter.name} type: {parameter.type} defaultbool: {parameter.defaultBool}");
             }
             var stateMachine = AnimatorController.layers[0].stateMachine;
-            foreach (ChildAnimatorState state in stateMachine.states)
+            foreach (UnityEditor.Animations.ChildAnimatorState state in stateMachine.states)
             {
-                AnimatorState animatorState = state.state;
+                UnityEditor.Animations.AnimatorState animatorState = state.state;
                 Motion motion = animatorState.motion;
                 Debug.Log(motion.name);
-                foreach (AnimatorStateTransition stateTransition in animatorState.transitions)
+                foreach (UnityEditor.Animations.AnimatorStateTransition stateTransition in animatorState.transitions)
                 {
                     Debug.Log($"transition name: {stateTransition.destinationState}");
-                    foreach (AnimatorCondition animatorCondition in stateTransition.conditions)
+                    foreach (UnityEditor.Animations.AnimatorCondition animatorCondition in stateTransition.conditions)
                     {
                         Debug.Log($"parameter: {animatorCondition.parameter} mode: {animatorCondition.mode} treshold {animatorCondition.threshold} ");
                     }
@@ -71,7 +70,7 @@ public class AnimationParser : MonoBehaviour
             {
                 ParseAnimation(animationClip);
             };
-            ParseAnimatorController(Animator.runtimeAnimatorController as AnimatorController);
+            ParseAnimatorController(Animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController);
         }
     }
 
@@ -99,19 +98,19 @@ public class AnimationParser : MonoBehaviour
         }
     }
 
-    private void ParseAnimatorController(AnimatorController animatorController)
+    private void ParseAnimatorController(UnityEditor.Animations.AnimatorController animatorController)
     {
         Debug.Log(animatorController.name);
-        AnimatorStateMachine stateMachine = animatorController.layers[0].stateMachine;
-        foreach (ChildAnimatorState state in stateMachine.states)
+        UnityEditor.Animations.AnimatorStateMachine stateMachine = animatorController.layers[0].stateMachine;
+        foreach (UnityEditor.Animations.ChildAnimatorState state in stateMachine.states)
         {
-            AnimatorState animatorState = state.state;
+            UnityEditor.Animations.AnimatorState animatorState = state.state;
             Motion motion = animatorState.motion;
             Debug.Log(motion.name);
-            foreach (AnimatorStateTransition stateTransition in animatorState.transitions)
+            foreach (UnityEditor.Animations.AnimatorStateTransition stateTransition in animatorState.transitions)
             {
                 Debug.Log($"transition name: {stateTransition.destinationState}");
-                foreach (AnimatorCondition animatorCondition in stateTransition.conditions)
+                foreach (UnityEditor.Animations.AnimatorCondition animatorCondition in stateTransition.conditions)
                 {
                     Debug.Log($"parameter: {animatorCondition.parameter} mode: {animatorCondition.mode} treshold {animatorCondition.threshold} ");
                 }

@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 [CustomEditor(typeof(AnimationParser))]
@@ -17,7 +16,7 @@ public class AnimationParseUtilityEditor : Editor
             animationParser.ParseAnimation();
         }
         animationParser.AnimatorController 
-            = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(AnimatorController), false) as AnimatorController;
+            = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(UnityEditor.Animations.AnimatorController), false) as UnityEditor.Animations.AnimatorController;
         if (GUILayout.Button("CHECK ANIMATOR CONTROLLER"))
         {
             animationParser.ParseAnimatorController();

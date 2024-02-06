@@ -2,12 +2,11 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public partial struct AnimatorControllerBuildSystem : ISystem
+public partial struct AnimatorControllerBuildSystemObsolete : ISystem
 {
     private BufferLookup<LinkedEntityGroup> linkedEntitiesLookup;
     private EntityCommandBuffer ECB;
@@ -20,10 +19,15 @@ public partial struct AnimatorControllerBuildSystem : ISystem
     }
     public void OnUpdate(ref SystemState state)
     {
+        return;
         ECB = new EntityCommandBuffer(Allocator.Temp);
         foreach ((AnimatorBaseControllerComponent animatorControllerComponent, Entity entity) in SystemAPI.Query<AnimatorBaseControllerComponent>().WithEntityAccess())
         {
-            Organize(entity, animatorControllerComponent);
+            if (animatorControllerComponent.Updated)
+            {
+                animatorControllerComponent.Updated = false;
+                Organize(entity, animatorControllerComponent);
+            }
         }
         ECB.Playback(state.EntityManager);
         ECB.Dispose();
@@ -31,7 +35,6 @@ public partial struct AnimatorControllerBuildSystem : ISystem
 
     private void Organize(Entity entity, AnimatorBaseControllerComponent animatorControllerComponent)
     {
-        ECB.SetComponentEnabled<AnimatorBaseControllerComponent>(entity, false);
         Entity emtpyEntity = animatorControllerComponent.EmptyEntity;
         Entity rootEntity = ECB.Instantiate(emtpyEntity);
         FixedString64Bytes rootEntityName = (FixedString64Bytes)"AnimatorControllerBase";
@@ -39,7 +42,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
         ECB.AddBuffer<AnimatorControllerBase>(rootEntity);
         ECB.AddBuffer<LinkedEntityGroup>(rootEntity);
         ECB.AppendToBuffer(rootEntity, new LinkedEntityGroup { Value = rootEntity });
-        foreach (AnimatorController animatorController in animatorControllerComponent.Value) // each animator
+        foreach (UnityEditor.Animations.AnimatorController animatorController in animatorControllerComponent.Value) // each animator
         {
             Entity animatorEntitiy = CreateChildEntity<AnimatorTag>("Animator", rootEntity, rootEntity, emtpyEntity);
             ECB.AppendToBuffer(rootEntity, new AnimatorControllerBase
@@ -104,7 +107,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
             }
             ECB.AddBuffer<AnimatorLayersData>(animatorEntitiy);
             int layerIndex = 0;
-            foreach (AnimatorControllerLayer layer in animatorController.layers) // layers
+            foreach (UnityEditor.Animations.AnimatorControllerLayer layer in animatorController.layers) // layers
             {
                 Entity layerEntity = CreateChildEntity("Layer", animatorEntitiy, rootEntity, emtpyEntity);
                 ECB.AddComponent(layerEntity, new AnimatorLayer
@@ -117,7 +120,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                 NativeArray<AnimatorStateData> animatorsStateTemp = new NativeArray<AnimatorStateData>(layer.stateMachine.states.Length, Allocator.Temp);
                 int defaultStateIndex = 0;
                 int stateIndex = 0;
-                foreach (ChildAnimatorState state in layer.stateMachine.states) // states
+                foreach (UnityEditor.Animations.ChildAnimatorState state in layer.stateMachine.states) // states
                 {
                     Entity transitionsHoldingEntity = CreateChildEntity("Transitions", layerEntity, rootEntity, emtpyEntity);
                     bool defaultState = layer.stateMachine.defaultState == state.state;
@@ -147,7 +150,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                         defaultStateIndex = stateIndex;
                     }
                     ECB.AddBuffer<AnimatorStateTransitionData>(transitionsHoldingEntity);
-                    foreach (AnimatorStateTransition stateTransition in state.state.transitions)
+                    foreach (UnityEditor.Animations.AnimatorStateTransition stateTransition in state.state.transitions)
                     {
                         Entity conditionsHoldingEntity = CreateChildEntity("Conditions", transitionsHoldingEntity, rootEntity, emtpyEntity);
                         int destinationStateIndex = -1;
@@ -173,7 +176,7 @@ public partial struct AnimatorControllerBuildSystem : ISystem
                             ConditionsHoldingEntity = conditionsHoldingEntity,
                         });
                         ECB.AddBuffer<AnimatorStateTransitionCondition>(conditionsHoldingEntity);
-                        foreach (AnimatorCondition animatorCondition in stateTransition.conditions)
+                        foreach (UnityEditor.Animations.AnimatorCondition animatorCondition in stateTransition.conditions)
                         {
                             ECB.AppendToBuffer(conditionsHoldingEntity, new AnimatorStateTransitionCondition
                             {
@@ -270,7 +273,7 @@ public struct AnimatorLayer : IComponentData
 {
     public FixedString32Bytes LayerName;
     public float Weight;
-    public AnimatorLayerBlendingMode LayerBlendingMode;
+    public UnityEditor.Animations.AnimatorLayerBlendingMode LayerBlendingMode;
 }
 
 public struct AnimatorStateData : IBufferElementData
@@ -293,14 +296,14 @@ public struct AnimatorStateTransitionData : IBufferElementData
     public bool HasFixedDuration;
     public float Duration;
     public float Offset;
-    public TransitionInterruptionSource InterruptionSource;
+    public UnityEditor.Animations.TransitionInterruptionSource InterruptionSource;
     public bool OrderedInterruption;
     public Entity ConditionsHoldingEntity;
 }
 
 public struct AnimatorStateTransitionCondition : IBufferElementData
 {
-    public AnimatorConditionMode Mode;
+    public UnityEditor.Animations.AnimatorConditionMode Mode;
     public FixedString32Bytes Parameter;
     public float Treshold;
 }

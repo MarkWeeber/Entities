@@ -10,7 +10,7 @@
 //[WorldSystemFilter(WorldSystemFilterFlags.Default | WorldSystemFilterFlags.Editor)]
 //[UpdateInGroup(typeof(PresentationSystemGroup))]
 //[UpdateBefore(typeof(DeformationsInPresentation))]
-//public partial class CalculateSkinMatrixSystemBase : SystemBase
+//public partial class CalculateSkinMatrixSystemBaseObsolete : SystemBase
 //{
 //    EntityQuery m_BoneEntityQuery;
 //    EntityQuery m_RootEntityQuery;

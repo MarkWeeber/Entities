@@ -5,7 +5,7 @@
 //using Unity.Transforms;
 
 //[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
-//public partial class ComputeSkinMatricesBakingSystemBase : SystemBase
+//public partial class ComputeSkinMatricesBakingSystemBaseObsolete : SystemBase
 //{
 //    protected override void OnUpdate()
 //    {

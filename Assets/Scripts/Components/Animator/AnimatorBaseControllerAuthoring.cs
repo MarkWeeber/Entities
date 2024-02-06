@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class AnimatorBaseControllerAuthoring : MonoBehaviour
 {
-	public List <AnimatorController> animatorControllers;
+	public List <RuntimeAnimatorController> animatorControllers;
 	public GameObject EmptyGameObject;
 	class Baker : Baker<AnimatorBaseControllerAuthoring>
 	{
@@ -16,6 +15,7 @@ public class AnimatorBaseControllerAuthoring : MonoBehaviour
 			Entity emtpyEntity = GetEntity(authoring.EmptyGameObject, TransformUsageFlags.Dynamic);
 			AddComponentObject(entity, new AnimatorBaseControllerComponent
 			{
+				Updated = true,
 				Value = authoring.animatorControllers,
 				EmptyEntity = emtpyEntity
             });

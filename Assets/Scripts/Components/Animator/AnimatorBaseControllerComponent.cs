@@ -1,9 +1,14 @@
 using System.Collections.Generic;
 using Unity.Entities;
-using UnityEditor.Animations;
+using UnityEngine;
 
-public class AnimatorBaseControllerComponent : IComponentData, IEnableableComponent
+public class AnimatorBaseControllerComponent : IComponentData
 {
-    public List<AnimatorController> Value;
+    public bool Updated;
+    public List<RuntimeAnimatorController> Value;
     public Entity EmptyEntity;
+    public AnimatorBaseControllerComponent()
+    {
+
+    }
 }
