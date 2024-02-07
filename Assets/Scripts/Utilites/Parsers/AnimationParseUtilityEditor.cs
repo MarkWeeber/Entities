@@ -13,7 +13,7 @@ public class AnimationParseUtilityEditor : Editor
         animationParser.AnimationClip = EditorGUILayout.ObjectField("Animation Clip", animationParser.AnimationClip, typeof(AnimationClip), false) as AnimationClip;
         if (GUILayout.Button("CHECK ANIMATION"))
         {
-            animationParser.ParseAnimation();
+            //animationParser.ParseAnimation();
         }
         //animationParser.AnimatorController 
         //    = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(UnityEditor.Animations.AnimatorController), false) as UnityEditor.Animations.AnimatorController;
