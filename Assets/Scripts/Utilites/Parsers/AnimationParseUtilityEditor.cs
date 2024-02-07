@@ -15,12 +15,12 @@ public class AnimationParseUtilityEditor : Editor
         {
             animationParser.ParseAnimation();
         }
-        animationParser.AnimatorController 
-            = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(UnityEditor.Animations.AnimatorController), false) as UnityEditor.Animations.AnimatorController;
-        if (GUILayout.Button("CHECK ANIMATOR CONTROLLER"))
-        {
-            animationParser.ParseAnimatorController();
-        }
+        //animationParser.AnimatorController 
+        //    = EditorGUILayout.ObjectField("Animator Controller", animationParser.AnimatorController, typeof(UnityEditor.Animations.AnimatorController), false) as UnityEditor.Animations.AnimatorController;
+        //if (GUILayout.Button("CHECK ANIMATOR CONTROLLER"))
+        //{
+        //    animationParser.ParseAnimatorController();
+        //}
         animationParser.Animator
             = EditorGUILayout.ObjectField("Animator", animationParser.Animator, typeof(Animator), true) as Animator;
         if (GUILayout.Button("CHECK ANIMATOR"))
