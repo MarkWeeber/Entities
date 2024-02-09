@@ -11,7 +11,7 @@ public partial struct AnimatorAnimateSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<AnimatorDB>();
+        state.RequireForUpdate<AnimatorBuffer>();
         state.RequireForUpdate<AnimatorActorComponent>();
     }
     [BurstCompile]
@@ -21,20 +21,20 @@ public partial struct AnimatorAnimateSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        if (SystemAPI.TryGetSingletonBuffer<AnimatorDB>(out DynamicBuffer<AnimatorDB> animatorDB))
+        if (SystemAPI.TryGetSingletonBuffer<AnimatorBuffer>(out DynamicBuffer<AnimatorBuffer> animatorDB))
         {
-            NativeArray<AnimatorDB> animators = animatorDB.AsNativeArray();
-            NativeArray<AnimationDB> animations = SystemAPI.GetSingletonBuffer<AnimationDB>().AsNativeArray();
-            NativeArray<AnimatorLayerDB> layers = SystemAPI.GetSingletonBuffer<AnimatorLayerDB>().AsNativeArray();
-            NativeArray<LayerStateDB> states = SystemAPI.GetSingletonBuffer<LayerStateDB>().AsNativeArray();
-            NativeArray<StateTransitionDB> transitions = SystemAPI.GetSingletonBuffer<StateTransitionDB>().AsNativeArray();
-            NativeArray<TransitionCondtionDB> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionDB>().AsNativeArray();
-            NativeArray<AnimatorParametersDB> parameters = SystemAPI.GetSingletonBuffer<AnimatorParametersDB>().AsNativeArray();
+            NativeArray<AnimatorBuffer> animators = animatorDB.AsNativeArray();
+            NativeArray<AnimationBuffer> animations = SystemAPI.GetSingletonBuffer<AnimationBuffer>().AsNativeArray();
+            NativeArray<AnimatorLayerBuffer> layers = SystemAPI.GetSingletonBuffer<AnimatorLayerBuffer>().AsNativeArray();
+            NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
+            NativeArray<StateTransitionBuffer> transitions = SystemAPI.GetSingletonBuffer<StateTransitionBuffer>().AsNativeArray();
+            NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
+            NativeArray<AnimatorParametersBuffer> parameters = SystemAPI.GetSingletonBuffer<AnimatorParametersBuffer>().AsNativeArray();
 
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
             EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
             EntityQuery actorsQuery = SystemAPI.QueryBuilder()
-                .WithAll<AnimatorActorComponent, AnimatorActorParametersComponent, AnimatorLayerData>()
+                .WithAll<AnimatorActorComponent, AnimatorActorParametersComponent>()
                 .Build();
 
             state.Dependency.Complete();

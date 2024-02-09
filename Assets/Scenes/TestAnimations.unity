@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &257327013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257327015}
+  - component: {fileID: 257327014}
+  m_Layer: 0
+  m_Name: AnimationsAndAnimatorsParser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &257327014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257327013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a261d240817afe34d9da1786cc81ff2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RuntimeAnimatorController: {fileID: 9100000, guid: 6fd91d1e59fa08540ace57d1cccc257f,
+    type: 2}
+--- !u!4 &257327015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257327013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &428131044
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,8 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a261d240817afe34d9da1786cc81ff2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationClip: {fileID: 7400000, guid: d7e582a2cd6dd39488c2995f2602057f, type: 2}
-  Animator: {fileID: 0}
+  RuntimeAnimatorController: {fileID: 0}
 --- !u!4 &1130147411
 Transform:
   m_ObjectHideFlags: 0
@@ -601,8 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a261d240817afe34d9da1786cc81ff2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationClip: {fileID: 7400000, guid: d3aad3207f5c7984a878d6d3e713003f, type: 2}
-  Animator: {fileID: 1228694802}
+  RuntimeAnimatorController: {fileID: 0}
 --- !u!95 &1228694802
 Animator:
   serializedVersion: 5
@@ -624,76 +668,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &1266381565
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1266381567}
-  - component: {fileID: 1266381568}
-  - component: {fileID: 1266381569}
-  m_Layer: 0
-  m_Name: Parser
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1266381567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266381565}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1266381568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266381565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee713917dee013d469bd5c916b1f16eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RunTimeAnimatorController: {fileID: 9100000, guid: 6fd91d1e59fa08540ace57d1cccc257f,
-    type: 2}
-  AnimationClip: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
-  ResultText: '{"AnimatorStateTransition":[{"fileID":"-8429520950595858789","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":null,"m_Conditions":[],"m_DstStateMachine":{"fileID":"0"},"m_DstState":{"fileID":"250434452733574921"},"m_Solo":"0","m_Mute":"0","m_IsExit":"0","serializedVersion":"3","m_TransitionDuration":"0.25","m_TransitionOffset":"0","m_ExitTime":"0.625","m_HasExitTime":"1","m_HasFixedDuration":"1","m_InterruptionSource":"0","m_OrderedInterruption":"1","m_CanTransitionToSelf":"1"},{"fileID":"-2791273288272405628","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":null,"m_Conditions":[{"m_ConditionMode":"4","m_ConditionEvent":"FloatParameter","m_EventTreshold":"0.2"},{"m_ConditionMode":"1","m_ConditionEvent":"BoolParameter","m_EventTreshold":"0"},{"m_ConditionMode":"6","m_ConditionEvent":"IntParameter","m_EventTreshold":"7"},{"m_ConditionMode":"4","m_ConditionEvent":"IntParameter","m_EventTreshold":"9"},{"m_ConditionMode":"3","m_ConditionEvent":"FloatParameter","m_EventTreshold":"0.99"},{"m_ConditionMode":"2","m_ConditionEvent":"BoolParameter","m_EventTreshold":"0"},{"m_ConditionMode":"1","m_ConditionEvent":"TriggerParameter","m_EventTreshold":"0"}],"m_DstStateMachine":{"fileID":"0"},"m_DstState":{"fileID":"3136076252251812975"},"m_Solo":"0","m_Mute":"0","m_IsExit":"0","serializedVersion":"3","m_TransitionDuration":"0.1","m_TransitionOffset":"0","m_ExitTime":"0","m_HasExitTime":"0","m_HasFixedDuration":"0","m_InterruptionSource":"0","m_OrderedInterruption":"1","m_CanTransitionToSelf":"1"}],"AnimatorState":[{"fileID":"-2918577212146379417","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"TestAnimation","m_Speed":"1","m_CycleOffset":"0","m_Transitions":[{"fileID":"-2791273288272405628"}],"m_StateMachineBehaviours":[],"m_Position":{"x":"50","y":"50","z":"0"},"m_IKOnFeet":"0","m_WriteDefaultValues":"1","m_Mirror":"0","m_SpeedParameterActive":"0","m_MirrorParameterActive":"0","m_CycleOffsetParameterActive":"0","m_TimeParameterActive":"0","m_Motion":{"fileID":"7400000","guid":"d7e582a2cd6dd39488c2995f2602057f","type":"2"},"m_Tag":null,"m_SpeedParameter":null,"m_MirrorParameter":null,"m_CycleOffsetParameter":null,"m_TimeParameter":null},{"fileID":"250434452733574921","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"wave","m_Speed":"1","m_CycleOffset":"0","m_Transitions":[],"m_StateMachineBehaviours":[],"m_Position":{"x":"50","y":"50","z":"0"},"m_IKOnFeet":"0","m_WriteDefaultValues":"1","m_Mirror":"0","m_SpeedParameterActive":"0","m_MirrorParameterActive":"0","m_CycleOffsetParameterActive":"0","m_TimeParameterActive":"0","m_Motion":{"fileID":"7400000","guid":"06ef74a38bf4c9f4f805fdab6c8e8749","type":"2"},"m_Tag":null,"m_SpeedParameter":null,"m_MirrorParameter":null,"m_CycleOffsetParameter":null,"m_TimeParameter":null},{"fileID":"3136076252251812975","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"TestAnimation
-    0","m_Speed":"1","m_CycleOffset":"0","m_Transitions":[],"m_StateMachineBehaviours":[],"m_Position":{"x":"50","y":"50","z":"0"},"m_IKOnFeet":"0","m_WriteDefaultValues":"1","m_Mirror":"0","m_SpeedParameterActive":"0","m_MirrorParameterActive":"0","m_CycleOffsetParameterActive":"0","m_TimeParameterActive":"0","m_Motion":{"fileID":"7400000","guid":"d7e582a2cd6dd39488c2995f2602057f","type":"2"},"m_Tag":null,"m_SpeedParameter":null,"m_MirrorParameter":null,"m_CycleOffsetParameter":null,"m_TimeParameter":null},{"fileID":"6966234473207361249","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"run","m_Speed":"1","m_CycleOffset":"0","m_Transitions":[{"fileID":"-8429520950595858789"}],"m_StateMachineBehaviours":[],"m_Position":{"x":"50","y":"50","z":"0"},"m_IKOnFeet":"0","m_WriteDefaultValues":"1","m_Mirror":"0","m_SpeedParameterActive":"0","m_MirrorParameterActive":"0","m_CycleOffsetParameterActive":"0","m_TimeParameterActive":"0","m_Motion":{"fileID":"7400000","guid":"e3e4cb248c2bf35478ff9002272afd54","type":"2"},"m_Tag":null,"m_SpeedParameter":null,"m_MirrorParameter":null,"m_CycleOffsetParameter":null,"m_TimeParameter":null}],"AnimatorController":[{"fileID":"9100000","m_ObjectHideFlags":"0","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"TestAnimator","serializedVersion":"5","m_AnimatorParameters":[{"m_Name":"FloatParameter","m_Type":"1","m_DefaultFloat":"0.331733","m_DefaultInt":"0","m_DefaultBool":"0","m_Controller":{"fileID":"9100000"}},{"m_Name":"IntParameter","m_Type":"3","m_DefaultFloat":"0","m_DefaultInt":"9","m_DefaultBool":"0","m_Controller":{"fileID":"9100000"}},{"m_Name":"BoolParameter","m_Type":"4","m_DefaultFloat":"0","m_DefaultInt":"0","m_DefaultBool":"1","m_Controller":{"fileID":"9100000"}},{"m_Name":"TriggerParameter","m_Type":"9","m_DefaultFloat":"0","m_DefaultInt":"0","m_DefaultBool":"0","m_Controller":{"fileID":"9100000"}}],"m_AnimatorLayers":[{"serializedVersion":"5","m_Name":"Base
-    Layer","m_StateMachine":{"fileID":"5269299457902354326"},"m_Mask":{"fileID":"0"},"m_Motions":[],"m_Behaviours":[],"m_BlendingMode":"0","m_SyncedLayerIndex":"-1","m_DefaultWeight":"0","m_IKPass":"0","m_SyncedLayerAffectsTiming":"0","m_Controller":{"fileID":"9100000"}},{"serializedVersion":"5","m_Name":"New
-    Layer","m_StateMachine":{"fileID":"1609218810937327883"},"m_Mask":{"fileID":"0"},"m_Motions":[],"m_Behaviours":[],"m_BlendingMode":"0","m_SyncedLayerIndex":"-1","m_DefaultWeight":"0","m_IKPass":"0","m_SyncedLayerAffectsTiming":"0","m_Controller":{"fileID":"9100000"}}]}],"AnimatorStateMachine":[{"fileID":"1609218810937327883","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"New
-    Layer","m_ChildStates":[{"serializedVersion":"1","m_State":{"fileID":"6966234473207361249"},"m_Position":{"x":"380","y":"90","z":"0"}},{"serializedVersion":"1","m_State":{"fileID":"250434452733574921"},"m_Position":{"x":"361.12933","y":"285.96634","z":"0"}}],"m_ChildStateMachines":[],"m_AnyStateTransitions":[],"m_EntryTransitions":[],"m_StateMachineTransitions":{},"m_StateMachineBehaviours":[],"m_AnyStatePosition":{"x":"50","y":"20","z":"0"},"m_EntryPosition":{"x":"50","y":"120","z":"0"},"m_ExitPosition":{"x":"800","y":"120","z":"0"},"m_ParentStateMachinePosition":{"x":"800","y":"20","z":"0"},"m_DefaultState":{"fileID":"6966234473207361249"}},{"fileID":"5269299457902354326","serializedVersion":"6","m_ObjectHideFlags":"1","m_CorrespondingSourceObject":{"fileID":"0"},"m_PrefabInstance":{"fileID":"0"},"m_PrefabAsset":{"fileID":"0"},"m_Name":"Base
-    Layer","m_ChildStates":[{"serializedVersion":"1","m_State":{"fileID":"-2918577212146379417"},"m_Position":{"x":"310","y":"120","z":"0"}},{"serializedVersion":"1","m_State":{"fileID":"3136076252251812975"},"m_Position":{"x":"320","y":"230","z":"0"}}],"m_ChildStateMachines":[],"m_AnyStateTransitions":[],"m_EntryTransitions":[],"m_StateMachineTransitions":{},"m_StateMachineBehaviours":[],"m_AnyStatePosition":{"x":"50","y":"20","z":"0"},"m_EntryPosition":{"x":"50","y":"120","z":"0"},"m_ExitPosition":{"x":"800","y":"120","z":"0"},"m_ParentStateMachinePosition":{"x":"800","y":"20","z":"0"},"m_DefaultState":{"fileID":"-2918577212146379417"}}]}'
-  AnimationParseSuccess: 0
-  AnimatorParseSuccess: 1
-  AnimatorDotsAssetTest: {fileID: 0}
-  AnimationDotsAssetTest: {fileID: 0}
---- !u!114 &1266381569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266381565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82562dba521ccd247b89e20113c2f3cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1626208583
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,4 +795,4 @@ SceneRoots:
   - {fileID: 1130147411}
   - {fileID: 1228694799}
   - {fileID: 789573227}
-  - {fileID: 1266381567}
+  - {fileID: 257327015}

@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 458875709}
-  - component: {fileID: 458875708}
   m_Layer: 0
   m_Name: AnimatorControllersBase
   m_TagString: Untagged
@@ -140,23 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &458875708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 458875707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b4350aba0187b48a4c6b9c290e4694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorControllers:
-  - {fileID: 9100000, guid: 6fd91d1e59fa08540ace57d1cccc257f, type: 2}
-  - {fileID: 9100000, guid: 7e490e82db7dd064bb4cf9ac5761e1a2, type: 2}
-  EmptyGameObject: {fileID: 8561881065083012356, guid: fb05d40cc09fd8d42b7f5a9b2d8f26e4,
-    type: 3}
 --- !u!4 &458875709
 Transform:
   m_ObjectHideFlags: 0
