@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using Utils.Parse;
 using Utils.Parser;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -32,13 +30,24 @@ public class YamlToJsonParserEditor : Editor
             parser.ParseAnimation();
         }
 
-        parser.RunTimeAnimatorController = EditorGUILayout.ObjectField("Animator Clip", parser.RunTimeAnimatorController, typeof(RuntimeAnimatorController), false) as RuntimeAnimatorController;
+        parser.RunTimeAnimatorController = EditorGUILayout.ObjectField("Animator Controller", parser.RunTimeAnimatorController, typeof(RuntimeAnimatorController), false) as RuntimeAnimatorController;
         if (GUILayout.Button("Parse Animator"))
         {
             parser.AnimatorParseSuccess = ParseObject(parser, ObjectType.Animator);
             parser.ParseAnimator();
         }
 
+        parser.AnimationDotsAssetTest = EditorGUILayout.ObjectField("Test Animation Asset", parser.AnimatorDotsAssetTest, typeof(AnimationDotsAsset), false) as AnimationDotsAsset;
+        if (GUILayout.Button("Test Animation DOTS Asset"))
+        {
+            parser.TestAnimatorDotsObjectAsset();
+        }
+
+        parser.AnimatorDotsAssetTest = EditorGUILayout.ObjectField("Test Animator Asset", parser.AnimatorDotsAssetTest, typeof(AnimatorDotsAsset), false) as AnimatorDotsAsset;
+        if (GUILayout.Button("Test Animator DOTS Asset"))
+        {
+            parser.TestAnimatorDotsObjectAsset();
+        }
     }
 
     private bool ParseObject(YamlToJsonParser parser, ObjectType objectType)
@@ -137,7 +146,9 @@ public class YamlToJsonParserEditor : Editor
         {
             var asset = ScriptableObject.CreateInstance<AnimatorDotsAsset>();
             //asset.Content = contnet;
-            asset.AnimatorDOTSObject = JsonUtility.FromJson<AnimatorDOTSObject>(contnet);
+            asset.Content = contnet;
+            asset.AnimatorDOTSObject = new AnimatorDotsObject();
+            asset.AnimatorDOTSObject = JsonUtility.FromJson<AnimatorDotsObject>(contnet);
             instanceId = parser.RunTimeAnimatorController.GetInstanceID();
             var assetPath = AssetDatabase.GetAssetPath(instanceId);
             assetPath = assetPath.Replace(".controller", "DOTS.asset");
@@ -146,8 +157,8 @@ public class YamlToJsonParserEditor : Editor
         else if (objectType == ObjectType.Animation)
         {
             var asset = ScriptableObject.CreateInstance<AnimationDotsAsset>();
-            //asset.Content = contnet;
-            asset.AnimationDOTSObject = JsonUtility.FromJson<AnimationDOTSObject>(contnet);
+            asset.Content = contnet;
+            asset.AnimationDOTSObject = JsonUtility.FromJson<AnimationDotsObject>(contnet);
             instanceId = parser.AnimationClip.GetInstanceID();
             var assetPath = AssetDatabase.GetAssetPath(instanceId);
             assetPath = assetPath.Replace(".anim", "DOTS.asset");

@@ -1,10 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
+using Utils.Parser;
 using Utils.Parser;
 
 [CreateAssetMenu(fileName = "New Dots Animator Asset", menuName = "Custom Assets/DOTS Animator")]
-public class AnimatorDotsAsset : ScriptableObject
+public class AnimationDotsAsset : ScriptableObject
 {
     [HideInInspector]
     public string Content;
-    public AnimatorDOTSObject AnimatorDOTSObject;
+    public AnimationDotsObject AnimationDOTSObject;
 }
