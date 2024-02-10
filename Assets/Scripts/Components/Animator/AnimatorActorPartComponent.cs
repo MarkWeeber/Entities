@@ -1,8 +1,8 @@
 using Unity.Collections;
 using Unity.Entities;
 
-public struct AnimatorActorPartComponent : IBufferElementData
+public struct AnimatorActorPartComponent : IComponentData
 {
-    public Entity Value;
+    public Entity RootEntity;
     public FixedString512Bytes Path;
 }

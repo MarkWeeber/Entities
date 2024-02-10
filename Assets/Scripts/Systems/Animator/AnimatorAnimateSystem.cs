@@ -34,12 +34,13 @@ public partial struct AnimatorAnimateSystem : ISystem
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
             EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
             EntityQuery actorsQuery = SystemAPI.QueryBuilder()
-                .WithAll<AnimatorActorComponent, AnimatorActorParametersComponent>()
+                .WithAll<AnimatorActorComponent, AnimatorActorParametersBuffer>()
                 .Build();
 
             state.Dependency.Complete();
             ecb.Playback(state.EntityManager);
             ecb.Dispose();
+
 
             animators.Dispose();
             animations.Dispose();

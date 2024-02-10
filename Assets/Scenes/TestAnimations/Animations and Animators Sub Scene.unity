@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &458875707
+--- !u!1 &1892341
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,21 +131,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 458875709}
+  - component: {fileID: 1892343}
+  - component: {fileID: 1892342}
   m_Layer: 0
-  m_Name: AnimatorControllersBase
+  m_Name: AnimatorBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &458875709
+--- !u!114 &1892342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1efa96889036274eb202129ece2171e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aniamtorDotsAssetLists:
+  - {fileID: 11400000, guid: 93d653e4799f8874e82b2d06525fc730, type: 2}
+  - {fileID: 11400000, guid: a09a1ae1a4700164494529ff10f1b0e3, type: 2}
+--- !u!4 &1892343
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 458875707}
+  m_GameObject: {fileID: 1892341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -227,4 +243,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 762040629}
-  - {fileID: 458875709}
+  - {fileID: 1892343}

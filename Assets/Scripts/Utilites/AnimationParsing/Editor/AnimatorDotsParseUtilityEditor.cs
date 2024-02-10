@@ -61,7 +61,6 @@ public class AnimatorDotsParseUtilityEditor : Editor
 #pragma warning restore CS0618
             for (int curveIndex = 0; curveIndex < curveData.Length; curveIndex++)
             {
-                Debug.Log("Curve");
                 AnimationClipCurveData animationClipCurveItem = curveData[curveIndex];
                 AnimationCurveBuffer cureItem = new AnimationCurveBuffer
                 {

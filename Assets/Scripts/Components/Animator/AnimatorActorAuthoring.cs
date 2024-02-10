@@ -16,9 +16,9 @@ public class AnimatorActorAuthoring : MonoBehaviour
 			{
 				AnimatorControllerName = (FixedString32Bytes)authoring.AnimatorName
 			});
-			DynamicBuffer<AnimatorActorPartComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartComponent>(entity);
+			DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartBufferComponent>(entity);
 			string rootPathName = authoring.gameObject.name;
-			animatorActorPartComponents.Add(new AnimatorActorPartComponent
+			animatorActorPartComponents.Add(new AnimatorActorPartBufferComponent
 			{
 				Value = entity,
 				Path = (FixedString512Bytes)rootPathName
@@ -26,7 +26,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
 			RegisterChildren(authoring.gameObject, ref animatorActorPartComponents, rootPathName);
 		}
 
-		private void RegisterChildren(GameObject gameObject, ref DynamicBuffer<AnimatorActorPartComponent> animatorActorParts, string pathName)
+		private void RegisterChildren(GameObject gameObject, ref DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorParts, string pathName)
         {
 			List<GameObject> children = new List<GameObject>();
 			GetChildren(gameObject, children, false);
@@ -39,7 +39,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 }
 				string currentPathName = pathName + "/" + go.name;
 				Entity entity = GetEntity(go, TransformUsageFlags.Dynamic);
-				animatorActorParts.Add(new AnimatorActorPartComponent
+				animatorActorParts.Add(new AnimatorActorPartBufferComponent
 				{
 					Path = (FixedString512Bytes)currentPathName,
 					Value = entity
