@@ -178,7 +178,7 @@ public partial struct PlayerAbilitiesSystem : ISystem
                 
             }
         }
-
+        [BurstCompile]
         private void SpawnProjectile(int sortkey, float3 spawnLocation, quaternion rotation, bool specialFire)
         {
             Entity spawnedEntity = ParallelWriter.Instantiate(sortkey,

@@ -54,6 +54,7 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
     public partial struct AddBoneAndRootTagsJob : IJobEntity
     {
         internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        [BurstCompile]
         private void Execute(
                 [ChunkIndexInQuery] int sortKey,
                 RefRO<RootEntity> rootEntity,
@@ -79,6 +80,7 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
     {
         public EntityManager EntityManager;
         internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        [BurstCompile]
         private void Execute
             (
                 [ChunkIndexInQuery] int sortKey,

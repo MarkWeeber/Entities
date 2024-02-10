@@ -62,7 +62,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
         public NativeArray<LayerStateBuffer> States;
         public EntityCommandBuffer.ParallelWriter ParallelWriter;
         [BurstCompile]
-        private void Execute([ChunkIndexInQuery] int sortKey, Entity entity, RefRO<AnimatorActorComponent> animatorActorComponent)
+        private void Execute([ChunkIndexInQuery] int sortKey, Entity entity, RefRW<AnimatorActorComponent> animatorActorComponent)
         {
             // getting animator id
             int animatorId = -1;
@@ -70,6 +70,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
             {
                 if (animator.Name == animatorActorComponent.ValueRO.AnimatorControllerName)
                 {
+                    animatorActorComponent.ValueRW.AnimatorId = animator.Id;
                     animatorId = animator.Id;
                     break;
                 }
@@ -115,7 +116,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
                 }
             }
             // adding layers states and transition infos
-            ParallelWriter.AddBuffer<AnimatorActorLayerComponent>(sortKey, entity);
+            ParallelWriter.AddBuffer<AnimatorActorLayerBuffer>(sortKey, entity);
             ParallelWriter.AddBuffer<AnimatorActorTransitionBuffer>(sortKey, entity);
             foreach (var layer in Layers)
             {
@@ -130,13 +131,13 @@ public partial struct AnimatorActorBakingSystem : ISystem
                             break;
                         }
                     }
-                    var actorLayerItem = new AnimatorActorLayerComponent
+                    var actorLayerItem = new AnimatorActorLayerBuffer
                     {
-                        LayerIndex = layer.Id,
+                        Id = layer.Id,
                         AnimationTime = 0f,
                         CurrentStateIndex = defaultStateId,
                     };
-                    ParallelWriter.AppendToBuffer<AnimatorActorLayerComponent>(sortKey, entity, actorLayerItem);
+                    ParallelWriter.AppendToBuffer<AnimatorActorLayerBuffer>(sortKey, entity, actorLayerItem);
                     var transitionInfoItem = new AnimatorActorTransitionBuffer
                     {
                         Running = false,

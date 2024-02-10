@@ -1,9 +1,9 @@
 using Unity.Collections;
 using Unity.Entities;
 
-public struct AnimatorActorLayerComponent : IBufferElementData
+public struct AnimatorActorLayerBuffer : IBufferElementData
 {
-    public int LayerIndex;
+    public int Id;
     public int CurrentStateIndex;
     public float AnimationTime;
 }
