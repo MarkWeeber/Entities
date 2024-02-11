@@ -15,6 +15,7 @@ public partial struct AnimatorAnimateSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        state.Enabled = false;
         state.RequireForUpdate<AnimatorBuffer>();
         state.RequireForUpdate<AnimatorActorComponent>();
         animatorActorComponentLookup = state.GetComponentLookup<AnimatorActorComponent>(true);
@@ -32,8 +33,6 @@ public partial struct AnimatorAnimateSystem : ISystem
         {
             NativeArray<AnimatorBuffer> animators = animatorDB.AsNativeArray();
             NativeArray<AnimationBuffer> animations = SystemAPI.GetSingletonBuffer<AnimationBuffer>().AsNativeArray();
-            NativeArray<AnimationCurveBuffer> curves = SystemAPI.GetSingletonBuffer<AnimationCurveBuffer>().AsNativeArray();
-            NativeArray<AnimationCurveKeyBuffer> curveKeys = SystemAPI.GetSingletonBuffer<AnimationCurveKeyBuffer>().AsNativeArray();
             NativeArray<AnimatorLayerBuffer> layers = SystemAPI.GetSingletonBuffer<AnimatorLayerBuffer>().AsNativeArray();
             NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
             NativeArray<StateTransitionBuffer> transitions = SystemAPI.GetSingletonBuffer<StateTransitionBuffer>().AsNativeArray();
@@ -60,16 +59,12 @@ public partial struct AnimatorAnimateSystem : ISystem
                 States = states,
                 Transitions = transitions,
                 Conditions = conditions,
-                Curves = curves,
-                CurveKeys = curveKeys,
                 DeltaTime = deltaTime,
             }.ScheduleParallel(actorPartsQuery, state.Dependency);
             state.Dependency.Complete();
 
             animators.Dispose();
             animations.Dispose();
-            curves.Dispose();
-            curveKeys.Dispose();
             layers.Dispose();
             states.Dispose();
             transitions.Dispose();
@@ -98,10 +93,6 @@ public partial struct AnimatorAnimateSystem : ISystem
         public NativeArray<StateTransitionBuffer> Transitions;
         [ReadOnly]
         public NativeArray<TransitionCondtionBuffer> Conditions;
-        [ReadOnly]
-        public NativeArray<AnimationCurveBuffer> Curves;
-        [ReadOnly]
-        public NativeArray<AnimationCurveKeyBuffer> CurveKeys;
         public float DeltaTime;
         [BurstCompile]
         private void Execute([ChunkIndexInQuery] int sortKey, Entity entity, RefRW<LocalTransform> localTransform, RefRO<AnimatorActorPartComponent> animatorActorPartComponent)
@@ -160,120 +151,8 @@ public partial struct AnimatorAnimateSystem : ISystem
                 int4 rotationCurveIds = int4.zero;
                 bool3 positionApplyMatrix = new bool3(false, false, false);
                 bool4 rotationApplyMatrix = new bool4(false, false, false, false);
-                // get necessary curve ids
-                foreach (var curve in Curves)
-                {
-                    if (curve.AnimatorInstanceId == animatorInstanceId && curve.AnimationId == animationClipId)
-                    {
-                        if (curve.Path == path)
-                        {
-                            var propertyName = curve.PropertyName;
-                            if (propertyName == (FixedString32Bytes)"m_LocalPosition.x")
-                            {
-                                positionCurveIds.x = curve.Id;
-                                positionEngaged = true;
-                                positionApplyMatrix.x = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalPosition.y")
-                            {
-                                positionCurveIds.y = curve.Id;
-                                positionEngaged = true;
-                                positionApplyMatrix.y = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalPosition.z")
-                            {
-                                positionCurveIds.z = curve.Id;
-                                positionEngaged = true;
-                                positionApplyMatrix.z = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalRotation.x")
-                            {
-                                rotationCurveIds.x = curve.Id;
-                                rotationEngaged = true;
-                                rotationApplyMatrix.x = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalRotation.y")
-                            {
-                                rotationCurveIds.y = curve.Id;
-                                rotationEngaged = true;
-                                rotationApplyMatrix.y = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalRotation.z")
-                            {
-                                rotationCurveIds.z = curve.Id;
-                                rotationEngaged = true;
-                                rotationApplyMatrix.z = true;
-                            }
-                            if (propertyName == (FixedString32Bytes)"m_LocalRotation.w")
-                            {
-                                rotationCurveIds.w = curve.Id;
-                                rotationEngaged = true;
-                                rotationApplyMatrix.w = true;
-                            }
-                        }
-                    }
-                }
-                // buld new local transform
-                foreach (var key in CurveKeys)
-                {
-                    if (key.AnimatorInstanceId == animatorInstanceId)
-                    {
-                        if (key.Time <= currentAnimationTime)
-                        {
-                            if (fromTime < 0f)
-                            {
-                                fromTime = key.Time;
-                                if (positionEngaged)
-                                {
-                                    SavePositioning(key, ref fromPosition, positionCurveIds);
-                                }
-                                if (rotationEngaged)
-                                {
-                                    SaveRotation(key, ref fromRotation, rotationCurveIds);
-                                }
-                            }
-                            else if (fromTime > key.Time)
-                            {
-                                fromTime = key.Time;
-                                if (positionEngaged)
-                                {
-                                    SavePositioning(key, ref fromPosition, positionCurveIds);
-                                }
-                                if (rotationEngaged)
-                                {
-                                    SaveRotation(key, ref fromRotation, rotationCurveIds);
-                                }
-                            }
-                        }
-                        if (key.Time > currentAnimationTime)
-                        {
-                            if (toTime < 0f)
-                            {
-                                toTime = key.Time;
-                                if (positionEngaged)
-                                {
-                                    SavePositioning(key, ref toPosition, positionCurveIds);
-                                }
-                                if (rotationEngaged)
-                                {
-                                    SaveRotation(key, ref toRotation, rotationCurveIds);
-                                }
-                            }
-                            else if (toTime > key.Time)
-                            {
-                                toTime = key.Time;
-                                if (positionEngaged)
-                                {
-                                    SavePositioning(key, ref toPosition, positionCurveIds);
-                                }
-                                if (rotationEngaged)
-                                {
-                                    SaveRotation(key, ref toRotation, rotationCurveIds);
-                                }
-                            }
-                        }
-                    }
-                }
+                
+                // key frames
 
                 // apply transitioning values
                 if (toTime < 0f)

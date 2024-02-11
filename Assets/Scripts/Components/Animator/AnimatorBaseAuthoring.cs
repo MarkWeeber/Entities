@@ -15,8 +15,6 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 			DynamicBuffer<AnimatorBuffer> animatorBuffer = AddBuffer<AnimatorBuffer>(entity);
             DynamicBuffer<AnimationBuffer> animationBuffer = AddBuffer<AnimationBuffer>(entity);
-            DynamicBuffer<AnimationCurveBuffer> animationCurveBuffer = AddBuffer<AnimationCurveBuffer>(entity);
-            DynamicBuffer<AnimationCurveKeyBuffer> animationCurveKeyBuffer = AddBuffer<AnimationCurveKeyBuffer>(entity);
             DynamicBuffer<AnimatorParametersBuffer> animatorParametersBuffer = AddBuffer<AnimatorParametersBuffer>(entity);
             DynamicBuffer<AnimatorLayerBuffer> animatorLayersBuffer = AddBuffer<AnimatorLayerBuffer>(entity);
             DynamicBuffer<LayerStateBuffer> layerStatesBuffer = AddBuffer<LayerStateBuffer>(entity);
@@ -43,32 +41,6 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						Name = item.Name
                     };
                     animationBuffer.Add(animationComponent);
-                }
-				// animation curves
-				foreach (var item in parsedObject.AnimationCurveBuffer)
-				{
-                    var animationCurveComponent = new AnimationCurveBuffer
-                    {
-						AnimationId = item.AnimationId,
-						AnimatorInstanceId= item.AnimatorInstanceId,
-						Id = item.Id,
-						Path = item.Path,
-						PropertyName = item.PropertyName
-                    };
-                    animationCurveBuffer.Add(animationCurveComponent);
-                }
-				// animation curve keys
-				foreach (var item in parsedObject.AnimationCurveKeyBuffer)
-				{
-                    var animationCurveKeyComponent = new AnimationCurveKeyBuffer
-                    {
-						Id = item.Id,
-						CurveId = item.CurveId,
-						AnimatorInstanceId = item.AnimatorInstanceId,
-						Time = item.Time,
-						Value = item.Value
-                    };
-					animationCurveKeyBuffer.Add(animationCurveKeyComponent);
                 }
 				// animator parameters
 				foreach (var item in parsedObject.AnimatorParametersBuffer)

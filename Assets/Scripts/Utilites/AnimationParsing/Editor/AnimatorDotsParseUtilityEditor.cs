@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -7,6 +9,18 @@ using UnityEngine;
 [CustomEditor(typeof(AnimatorDotsParser))]
 public class AnimatorDotsParseUtilityEditor : Editor
 {
+    private const string _rotLocalx = "m_LocalRotation.x";
+    private const string _rotLocaly = "m_LocalRotation.y";
+    private const string _rotLocalz = "m_LocalRotation.z";
+    private const string _rotLocalw = "m_LocalRotation.w";
+    private const string _posLocalx = "m_LocalPosition.x";
+    private const string _posLocaly = "m_LocalPosition.y";
+    private const string _posLocalz = "m_LocalPosition.z";
+    private const string _rotLocalEulerx = "localEulerAnglesRaw.x";
+    private const string _rotLocalEulery = "localEulerAnglesRaw.y";
+    private const string _rotLocalEulerz = "localEulerAnglesRaw.z";
+    private const string _rotLocalEulerw = "localEulerAnglesRaw.w";
+
     private enum ObjectType
     {
         Animator = 0,
@@ -48,38 +62,40 @@ public class AnimatorDotsParseUtilityEditor : Editor
             AnimationClip animationClip = runtimeAnimatorController.animationClips[animationIndex];
             var animationItem = new AnimationBuffer
             {
-                Id = animationIndex,
+                Id = animationClip.GetInstanceID(),
                 Name = (FixedString32Bytes)animationClip.name,
                 Looped = animationClip.isLooping,
                 AnimatorInstanceId = animatorInstanceId
             };
             animationsTable.Add(animationItem);
 
-            // animation clip curve data
-#pragma warning disable CS0618
-            var curveData = AnimationUtility.GetAllCurves(animationClip, includeCurveData: true);
-#pragma warning restore CS0618
-            for (int curveIndex = 0; curveIndex < curveData.Length; curveIndex++)
+            // animation clip curve data - need to redo
+//#pragma warning disable CS0618
+//            var curveData = AnimationUtility.GetAllCurves(animationClip, includeCurveData: true);
+//#pragma warning restore CS0618
+            // animation clip data
+            // bindings
+            var bindings = AnimationUtility.GetCurveBindings(animationClip);
+            for (int curveIndex = 0; curveIndex < bindings.Length; curveIndex++)
             {
-                AnimationClipCurveData animationClipCurveItem = curveData[curveIndex];
-                AnimationCurveBuffer cureItem = new AnimationCurveBuffer
+                var curveBinding = bindings[curveIndex];
+                AnimationCurveBuffer curveItem = new AnimationCurveBuffer
                 {
                     Id = curveIndex,
                     AnimatorInstanceId = animatorInstanceId,
                     AnimationId = animationIndex,
-                    Path = (FixedString512Bytes)animationClipCurveItem.path,
-                    PropertyName = (FixedString32Bytes)animationClipCurveItem.propertyName
+                    Path = curveBinding.path,
+                    PropertyName = curveBinding.propertyName
                 };
-                animationCurveTable.Add(cureItem);
-
-                // curve keys
-                var keys = animationClipCurveItem.curve.keys;
-                for (int keyIndex = 0; keyIndex < keys.Length; keyIndex++)
+                animationCurveTable.Add(curveItem);
+                // keyframes
+                var keyFrames = AnimationUtility.GetEditorCurve(animationClip, curveBinding).keys;
+                for (int keyFrameIndex = 0; keyFrameIndex < keyFrames.Length; keyFrameIndex++)
                 {
-                    Keyframe keyFrameItem = keys[keyIndex];
+                    Keyframe keyFrameItem = keyFrames[keyFrameIndex];
                     AnimationCurveKeyBuffer curveKeyItem = new AnimationCurveKeyBuffer
                     {
-                        Id = keyIndex,
+                        Id = keyFrameIndex,
                         AnimatorInstanceId = animatorInstanceId,
                         CurveId = curveIndex,
                         Time = keyFrameItem.time,
@@ -88,6 +104,35 @@ public class AnimatorDotsParseUtilityEditor : Editor
                     animationCurveKeyTable.Add(curveKeyItem);
                 }
             }
+            //for (int curveIndex = 0; curveIndex < curveData.Length; curveIndex++)
+            //{
+            //    AnimationClipCurveData animationClipCurveItem = curveData[curveIndex];
+            //    AnimationCurveBuffer curveItem = new AnimationCurveBuffer
+            //    {
+            //        Id = curveIndex,
+            //        AnimatorInstanceId = animatorInstanceId,
+            //        AnimationId = animationIndex,
+            //        Path = (FixedString512Bytes)animationClipCurveItem.path,
+            //        PropertyName = (FixedString32Bytes)animationClipCurveItem.propertyName
+            //    };
+            //    animationCurveTable.Add(curveItem);
+
+            //    // curve keys
+            //    var keys = animationClipCurveItem.curve.keys;
+            //    for (int keyIndex = 0; keyIndex < keys.Length; keyIndex++)
+            //    {
+            //        Keyframe keyFrameItem = keys[keyIndex];
+            //        AnimationCurveKeyBuffer curveKeyItem = new AnimationCurveKeyBuffer
+            //        {
+            //            Id = keyIndex,
+            //            AnimatorInstanceId = animatorInstanceId,
+            //            CurveId = curveIndex,
+            //            Time = keyFrameItem.time,
+            //            Value = keyFrameItem.value,
+            //        };
+            //        animationCurveKeyTable.Add(curveKeyItem);
+            //    }
+            //}
         }
 
         // animator parameters
@@ -201,20 +246,190 @@ public class AnimatorDotsParseUtilityEditor : Editor
                 }
             }
         }
-        
         // result
         RuntimeAnimatorParsedObject result = new RuntimeAnimatorParsedObject();
         result.AssetInstanceId = animatorInstanceId;
         result.AnimatorName = runtimeAnimatorController.name;
         result.AnimationBuffer = animationsTable;
-        result.AnimationCurveBuffer = animationCurveTable;
-        result.AnimationCurveKeyBuffer = animationCurveKeyTable;
+        result.AnimationKeyBuffer = PrepareAnimationKeys(animationCurveTable, animationCurveKeyTable);
         result.AnimatorLayerBuffer = animatorLayersTable;
         result.AnimatorParametersBuffer = animatorParametersTable;
         result.LayerStateBuffer = layerStatesTable;
         result.StateTransitionBuffer = transitionsTable;
         result.TransitionCondtionBuffer = transitionCondtionsTable;
         return result;
+    }
+
+    private List<AnimationKeyBuffer> PrepareAnimationKeys(List<AnimationCurveBuffer> curves, List<AnimationCurveKeyBuffer> keys)
+    {
+        List<AnimationKeyBuffer> result = new List<AnimationKeyBuffer>();
+
+        // animator instances
+        var animatorIdsList = curves.Select(i => i.AnimatorInstanceId).Distinct().ToList();
+        // animation instances
+        var animationIdsList = curves.Select(i => i.AnimationId).Distinct().ToList();
+        // animation paths
+        var animationPathsList = curves.Select(i => i.Path).Distinct().ToList();
+        // animation properties
+        var animationPathPropertiesList = curves.Select(i => i.PropertyName).Distinct().ToList();
+        // times
+        var times = keys.Select(i => i.Time).Distinct().ToList();
+        times = times.OrderBy(i => i).ToList();
+
+        var selectedCurves = new List<AnimationCurveBuffer>();
+        var selectedKeys = new List<AnimationCurveKeyBuffer>();
+        var selectedCurveIds = new List<int>();
+        float3 positionValue = float3.zero;
+        float4 rotationValue = float4.zero;
+        float4 rotationEulerValue = float4.zero;
+        bool positionEngaged = false;
+        bool rotationEngaged = false;
+        bool rotationEulerEngaged = false;
+        var animationKey = new AnimationKeyBuffer();
+        // animators
+        foreach (var animatorId in animatorIdsList)
+        {
+            // animations
+            foreach (var animationId in animationIdsList)
+            {
+                // paths
+                foreach (var path in animationPathsList)
+                {
+                    // times
+                    foreach (var time in times)
+                    {
+                        positionEngaged = false;
+                        rotationEngaged = false;
+                        rotationEulerEngaged = false;
+                        positionValue = float3.zero;
+                        rotationValue = new float4(0f, 0f, 0f, 1f);
+                        rotationEulerValue = new float4(0f, 0f, 0f, 1f);
+                        // now try to collect all properties per this time
+                        // properties
+                        foreach (var property in animationPathPropertiesList)
+                        {
+                            // selected curve Ids
+                            selectedCurveIds.Clear();
+                            selectedCurveIds = curves.Where(
+                                i => i.AnimatorInstanceId == animatorId
+                                && i.AnimationId == animationId
+                                && i.Path == path
+                                && i.PropertyName == property).ToList().Select(i => i.Id).ToList();
+                            // curves per time and propery
+                            foreach (var curveId in selectedCurveIds)
+                            {
+                                // selected keys
+                                selectedKeys.Clear();
+                                selectedKeys = keys.Where(
+                                    i => i.Time == time
+                                    && i.CurveId == curveId
+                                    && i.AnimatorInstanceId == animatorId).ToList();
+                                // keys
+                                foreach (var key in selectedKeys)
+                                {
+                                    CollectPositionAndRotation(
+                                        ref positionEngaged,
+                                        ref rotationEngaged,
+                                        ref rotationEulerEngaged,
+                                        ref positionValue,
+                                        ref rotationValue,
+                                        ref rotationEulerValue,
+                                        property,
+                                        key.Value);
+                                }
+                            }
+                        }
+                        // check if properties collected
+                        if (!positionEngaged && !rotationEngaged)
+                        {
+                            continue;
+                        }
+                        animationKey = new AnimationKeyBuffer
+                        {
+                            AnimationId = animationId,
+                            AnimatorInstanceId = animatorId,
+                            PositionEngaged = positionEngaged,
+                            RotationEngaged = rotationEngaged,
+                            RotationEulerEngaged = rotationEulerEngaged,
+                            PositionValue = positionValue,
+                            RotationValue = rotationValue,
+                            RotationEulerValue = rotationEulerValue,
+                            Path = path.ToString(),
+                            Time = time,
+                        };
+                        result.Add(animationKey);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private void CollectPositionAndRotation(
+        ref bool positionEngaged,
+        ref bool rotationEngaged,
+        ref bool rotationEulerEngaged,
+        ref float3 position,
+        ref float4 rotation,
+        ref float4 rotationEuler,
+        string propertyName,
+        float value)
+    {
+        if (propertyName == _posLocalx)
+        {
+            position.x = value;
+            positionEngaged = true;
+        }
+        if (propertyName == _posLocaly)
+        {
+            position.y = value;
+            positionEngaged = true;
+        }
+        if (propertyName == _posLocalz)
+        {
+            position.z = value;
+            positionEngaged = true;
+        }
+        if (propertyName == _rotLocalx)
+        {
+            rotation.x = value;
+            rotationEngaged = true;
+        }
+        if (propertyName == _rotLocaly)
+        {
+            rotation.y = value;
+            rotationEngaged = true;
+        }
+        if (propertyName == _rotLocalz)
+        {
+            rotation.z = value;
+            rotationEngaged = true;
+        }
+        if (propertyName == _rotLocalw)
+        {
+            rotation.w = value;
+            rotationEngaged = true;
+        }
+        if (propertyName == _rotLocalEulerx)
+        {
+            rotationEuler.x = value;
+            rotationEulerEngaged = true;
+        }
+        if (propertyName == _rotLocalEulery)
+        {
+            rotationEuler.y = value;
+            rotationEulerEngaged = true;
+        }
+        if (propertyName == _rotLocalEulerz)
+        {
+            rotationEuler.z = value;
+            rotationEulerEngaged = true;
+        }
+        if (propertyName == _rotLocalEulerw)
+        {
+            rotationEuler.w = value;
+            rotationEulerEngaged = true;
+        }
     }
 
     private void SaveAsset(RuntimeAnimatorController runtimeAnimatorController, RuntimeAnimatorParsedObject parsedObject)
