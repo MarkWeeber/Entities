@@ -13,6 +13,17 @@ public partial struct TransitionCondtionBuffer : IBufferElementData
 }
 
 [System.Serializable]
+public struct TransitionCondtion
+{
+    public int Id;
+    public int AnimatorInstanceId;
+    public int TransitionId;
+    public AnimatorTransitionConditionMode Mode;
+    public string Parameter;
+    public float Treshold;
+}
+
+[System.Serializable]
 public enum AnimatorTransitionConditionMode
 {
     //

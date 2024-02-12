@@ -6,6 +6,6 @@ public partial struct AnimationBuffer : IBufferElementData
 {
     public int Id;
     public int AnimatorInstanceId;
-    public FixedString32Bytes Name;
     public bool Looped;
+    public float Length;
 }

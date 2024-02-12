@@ -10,5 +10,4 @@ public partial struct LayerStateBuffer : IBufferElementData
     public bool DefaultState;
     public int AnimationClipId;
     public float Speed;
-    public FixedString32Bytes StateName;
 }

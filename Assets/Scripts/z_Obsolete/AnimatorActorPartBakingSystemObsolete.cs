@@ -4,11 +4,12 @@ using Unity.Collections;
 
 [WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
 [BurstCompile]
-public partial struct AnimatorActorPartBakingSystem : ISystem
+public partial struct AnimatorActorPartBakingSystemObsolete : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        state.Enabled = false;
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

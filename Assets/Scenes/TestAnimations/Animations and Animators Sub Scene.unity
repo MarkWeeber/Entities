@@ -152,7 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1efa96889036274eb202129ece2171e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aniamtorDotsAssetLists: []
+  aniamtorDotsAssetLists:
+  - {fileID: 11400000, guid: 93d653e4799f8874e82b2d06525fc730, type: 2}
+  - {fileID: 11400000, guid: aaf7b59a2b360b44ea399677763331ed, type: 2}
 --- !u!4 &1892343
 Transform:
   m_ObjectHideFlags: 0
