@@ -327,6 +327,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
                 }
             }
         }
+        result = result.OrderBy(x => x.Time).ToList();
         return result;
     }
 

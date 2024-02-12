@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: TestAnimatorDOTS
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35092
+  AnimatorInstanceId: 35130
   AnimatorName: TestAnimator
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35092
+    AssetInstanceId: 35130
     AnimatorName: TestAnimator
     Animations:
-    - Id: 35252
-      AnimatorInstanceId: 35092
+    - Id: 35288
+      AnimatorInstanceId: 35130
       Looped: 1
-      Length: 0.5
+      Length: 9
     AnimationKeys:
-    - AnimationId: 35252
-      AnimatorInstanceId: 35092
+    - AnimationId: 35288
+      AnimatorInstanceId: 35130
       Path: Cube (2)
       Time: 0
       PositionEngaged: 1
@@ -44,10 +44,10 @@ MonoBehaviour:
         y: 0
         z: 0
         w: 1
-    - AnimationId: 35252
-      AnimatorInstanceId: 35092
+    - AnimationId: 35288
+      AnimatorInstanceId: 35130
       Path: Cube (2)
-      Time: 0.33333334
+      Time: 5
       PositionEngaged: 1
       PositionValue:
         x: 2
@@ -65,10 +65,31 @@ MonoBehaviour:
         y: 30
         z: 30
         w: 1
-    - AnimationId: 35252
-      AnimatorInstanceId: 35092
+    - AnimationId: 35288
+      AnimatorInstanceId: 35130
       Path: Cube (2)
-      Time: 0.5
+      Time: 6
+      PositionEngaged: 1
+      PositionValue:
+        x: 2
+        y: 2
+        z: 2
+      RotationEngaged: 0
+      RotationValue:
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+      RotationEulerEngaged: 1
+      RotationEulerValue:
+        x: -30
+        y: 30
+        z: 30
+        w: 1
+    - AnimationId: 35288
+      AnimatorInstanceId: 35130
+      Path: Cube (2)
+      Time: 9
       PositionEngaged: 1
       PositionValue:
         x: 2
@@ -88,41 +109,41 @@ MonoBehaviour:
         w: 1
     AnimatorLayers:
     - Id: 0
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       DefaultWeight: 0
     LayerStates:
     - Id: 0
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       LayerId: 0
       DefaultState: 1
-      AnimationClipId: 35252
+      AnimationClipId: 35288
       Speed: 1
     StateTransitions: []
     TransitionCondtions: []
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       ParameterName: FloatParameter
       Type: 1
       DefaultFloat: 0.331733
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       ParameterName: IntParameter
       Type: 3
       DefaultFloat: 0
       DefaultInt: 9
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       ParameterName: BoolParameter
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 1
     - Id: 3
-      AnimatorInstanceId: 35092
+      AnimatorInstanceId: 35130
       ParameterName: TriggerParameter
       Type: 9
       DefaultFloat: 0

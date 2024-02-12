@@ -56,7 +56,7 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						AnimationId = item.AnimationId,
 						AnimatorInstanceId = item.AnimatorInstanceId,
 						Path = (FixedString512Bytes) item.Path,
-						PositionEngaged = item.RotationEngaged,
+						PositionEngaged = item.PositionEngaged,
 						PositionValue = item.PositionValue,
 						RotationEngaged = item.RotationEngaged,
 						RotationValue = item.RotationValue,

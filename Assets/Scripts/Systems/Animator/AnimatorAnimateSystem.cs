@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -114,14 +115,20 @@ public partial struct AnimatorAnimateSystem : ISystem
             for (int layerIndex = 0; layerIndex < actorLayers.Length; layerIndex++)
             {
                 var layer = actorLayers[layerIndex];
-                AnimateLayer(ref layer);
+                AnimateLayer(sortKey, ref layer, ref actorParts, DeltaTime, false);
                 actorLayers[layerIndex] = layer;
             }
         }
 
         [BurstCompile]
-        private void AnimateLayer(ref AnimatorActorLayerBuffer layer)
+        private void AnimateLayer(
+            int sortKey,
+            ref AnimatorActorLayerBuffer layer,
+            ref DynamicBuffer<AnimatorActorPartBufferComponent> actorParts,
+            float deltaTime,
+            bool keysAlreadySortedByTime)
         {
+            // finding animation clip id
             int animationClipId = -1;
             foreach (var state in States)
             {
@@ -131,16 +138,18 @@ public partial struct AnimatorAnimateSystem : ISystem
                     break;
                 }
             }
+            bool animationFound = false;
             AnimationBuffer animationClip = new AnimationBuffer();
             foreach (var animation in Animations)
             {
                 if (animation.AnimatorInstanceId == _animatorInstatnceId && animation.Id == animationClipId)
                 {
                     animationClip = animation;
+                    animationFound = true;
                     break;
                 }
             }
-            if (animationClip.Equals(default(AnimationBuffer)))
+            if (!animationFound) // animation clip somehow not found, returning it
             {
                 return;
             }
@@ -149,27 +158,138 @@ public partial struct AnimatorAnimateSystem : ISystem
             // manage timers
             var animationDuration = animationClip.Length;
             var looped = animationClip.Looped;
+            //looped = false;
             var currentTimer = layer.AnimationTime;
-            if (looped && currentTimer > animationDuration)
+            var loopEnded = false;
+            if (currentTimer > animationDuration)
             {
-                currentTimer = currentTimer % animationDuration;
-            }
-            // loop each animation key
-            bool fistFound = false;
-            bool secondFound = false;
-            var firstKey = new AnimationKeyBuffer();
-            var secondKey = new AnimationKeyBuffer();
-            foreach (var animationKey in AnimationKeys)
-            {
-                if (animationKey.AnimatorInstanceId == _animatorInstatnceId && animationKey.AnimationId == animationClipId)
+                if (looped)
                 {
-                    if (!secondFound && animationKey.Time > currentTimer)
-                    {
-                        secondKey = animationKey;
-                        secondFound = true;
-                    }
+                    currentTimer = currentTimer % animationDuration;
+                }
+                else
+                {
+                    currentTimer = animationDuration;
+                    loopEnded = true;
                 }
             }
+            // loop over paths
+            foreach (var part in actorParts)
+            {
+                // loop each animation key
+                bool firstFound = false;
+                bool secondFound = false;
+                var firstKey = new AnimationKeyBuffer();
+                var secondKey = new AnimationKeyBuffer();
+                foreach (var animationKey in AnimationKeys)
+                {
+                    if (animationKey.AnimatorInstanceId == _animatorInstatnceId && animationKey.AnimationId == animationClipId && part.Path == animationKey.Path)
+                    {
+                        if (animationKey.Time <= currentTimer)
+                        {
+                            if (!firstFound)
+                            {
+                                firstKey = animationKey;
+                                firstFound = true;
+                            }
+                            else if (!keysAlreadySortedByTime)
+                            {
+                                if (animationKey.Time > firstKey.Time)
+                                {
+                                    firstKey = animationKey;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!secondFound)
+                            {
+                                secondKey = animationKey;
+                                secondFound = true;
+                            }
+                            else if (!keysAlreadySortedByTime)
+                            {
+                                if (animationKey.Time < secondKey.Time)
+                                {
+                                    secondKey = animationKey;
+                                }
+                            }
+                        }
+                    }
+                    if (keysAlreadySortedByTime)
+                    {
+                        if ((firstFound && secondFound) || (firstFound && loopEnded))
+                        {
+                            break;
+                        }
+                    }
+                }
+                // calculate new position and rotation
+                float3 newPosition = float3.zero;
+                quaternion newRotation = quaternion.identity;
+                if (loopEnded)
+                {
+                    if (firstKey.PositionEngaged)
+                    {
+                        newPosition = firstKey.PositionValue;
+                    }
+                    if (firstKey.RotationEulerEngaged)
+                    {
+                        newRotation = quaternion.Euler(firstKey.RotationEulerValue.z, firstKey.RotationEulerValue.y, firstKey.RotationEulerValue.z);
+                    }
+                    if (firstKey.RotationEngaged)
+                    {
+                        newRotation = new quaternion(firstKey.RotationValue);
+                    }
+                }
+                else
+                {
+                    float rate = (currentTimer - firstKey.Time) / (secondKey.Time - firstKey.Time);
+                    if (firstKey.PositionEngaged)
+                    {
+                        newPosition = math.lerp(firstKey.PositionValue, secondKey.PositionValue, rate);
+                    }
+                    if (firstKey.RotationEulerEngaged)
+                    {
+                        newRotation = math.slerp(
+                            quaternion.Euler(
+                                math.radians(firstKey.RotationEulerValue.x),
+                                math.radians(firstKey.RotationEulerValue.y),
+                                math.radians(firstKey.RotationEulerValue.z)),
+                            quaternion.Euler(
+                                math.radians(secondKey.RotationEulerValue.x),
+                                math.radians(secondKey.RotationEulerValue.y),
+                                math.radians(secondKey.RotationEulerValue.z)),
+                            rate);
+                    }
+                    if (firstKey.RotationEngaged)
+                    {
+                        newRotation = math.slerp(new quaternion(firstKey.RotationValue), new quaternion(secondKey.RotationValue), rate);
+                    }
+                }
+                // apply new values
+                Entity partEntity = part.Value;
+                RefRO<LocalTransform> partLocaltTransform = LocalTransformLookup.GetRefRO(partEntity);
+                float3 setPosition = partLocaltTransform.ValueRO.Position;
+                quaternion setRotation = partLocaltTransform.ValueRO.Rotation;
+                float scale = partLocaltTransform.ValueRO.Scale;
+                if (firstKey.PositionEngaged)
+                {
+                    setPosition = newPosition;
+                }
+                if (firstKey.RotationEngaged || firstKey.RotationEulerEngaged)
+                {
+                    setRotation = newRotation;
+                }
+                ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
+                {
+                    Position = setPosition,
+                    Rotation = setRotation,
+                    Scale = scale
+                });
+            }
+            currentTimer += deltaTime;
+            layer.AnimationTime = currentTimer;
         }
     }
 }
