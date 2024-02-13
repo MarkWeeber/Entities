@@ -60,8 +60,6 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						PositionValue = item.PositionValue,
 						RotationEngaged = item.RotationEngaged,
 						RotationValue = item.RotationValue,
-						RotationEulerEngaged = item.RotationEulerEngaged,
-						RotationEulerValue = item.RotationEulerValue,
 						Time = item.Time,
 					};
 					animationKeyBuffers.Add(animationKeyComponent);

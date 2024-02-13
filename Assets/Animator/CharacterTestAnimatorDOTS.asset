@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
+  m_Name: CharacterTestAnimatorDOTS
+  m_EditorClassIdentifier: 
+  AnimatorInstanceId: -347902
+  AnimatorName: CharacterTestAnimator
+  RuntimeAnimatorParsedObject:
+    AssetInstanceId: -347902
+    AnimatorName: CharacterTestAnimator
+    Animations:
+    - Id: -296022
+      AnimatorInstanceId: -347902
+      Looped: 1
+      Length: 3.5
+    AnimationKeys:
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Time: 0
+      PositionEngaged: 1
+      PositionValue:
+        x: 0
+        y: 0
+        z: 0
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Time: 1.4166666
+      PositionEngaged: 1
+      PositionValue:
+        x: 0
+        y: 0
+        z: 0
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Time: 1.6
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.01
+        y: 0
+        z: -0.01
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Time: 3.3
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.01
+        y: 0
+        z: -0.01
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Time: 3.5
+      PositionEngaged: 1
+      PositionValue:
+        x: 0
+        y: 0
+        z: 0
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Time: 0
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.025
+        y: 0.001
+        z: 0.0007
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Time: 1.4166666
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.025
+        y: 0.001
+        z: 0.0007
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Time: 1.6
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.0095
+        y: -0.0005
+        z: -0.004
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Time: 3.3
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.0095
+        y: -0.0005
+        z: -0.004
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: -296022
+      AnimatorInstanceId: -347902
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Time: 3.5
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.025
+        y: 0.001
+        z: 0.0007
+      RotationEngaged: 0
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    AnimatorLayers:
+    - Id: -347916
+      AnimatorInstanceId: -347902
+      DefaultWeight: 0
+    LayerStates:
+    - Id: -348102
+      AnimatorInstanceId: -347902
+      LayerId: -347916
+      DefaultState: 1
+      AnimationClipId: -296022
+      Speed: 1
+    StateTransitions: []
+    TransitionCondtions: []
+    AnimatorParameters: []

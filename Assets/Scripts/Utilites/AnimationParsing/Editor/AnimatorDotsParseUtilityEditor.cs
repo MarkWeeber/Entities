@@ -126,9 +126,10 @@ public class AnimatorDotsParseUtilityEditor : Editor
         for (int layerIndex = 0; layerIndex < layers.Length; layerIndex++)
         {
             UnityEditor.Animations.AnimatorControllerLayer layer = layers[layerIndex];
+            var layerId = layer.stateMachine.GetInstanceID();
             var layerItem = new AnimatorLayerBuffer
             {
-                Id = layerIndex,
+                Id = layerId,
                 AnimatorInstanceId = animatorInstanceId,
                 DefaultWeight = layer.defaultWeight,
             };
@@ -139,22 +140,15 @@ public class AnimatorDotsParseUtilityEditor : Editor
             for (int stateIndex = 0; stateIndex < states.Length; stateIndex++)
             {
                 UnityEditor.Animations.ChildAnimatorState childAnimatorState = states[stateIndex];
-                int relevantAnimationIndex = -1;
-                foreach (var animationClip in animationsTable)
-                {
-                    if (animationClip.Id == childAnimatorState.state.motion.GetInstanceID())
-                    {
-                        relevantAnimationIndex = animationClip.Id;
-                        break;
-                    }
-                }
+                var stateId = childAnimatorState.state.GetInstanceID();
                 bool defaultState = layer.stateMachine.defaultState == childAnimatorState.state;
+                var relevantAnimationId = childAnimatorState.state.motion.GetInstanceID();
                 var layerStatItem = new LayerStateBuffer
                 {
-                    Id = stateIndex,
+                    Id = stateId,
                     AnimatorInstanceId = animatorInstanceId,
-                    LayerId = layerIndex,
-                    AnimationClipId = relevantAnimationIndex,
+                    LayerId = layerId,
+                    AnimationClipId = relevantAnimationId,
                     DefaultState = defaultState,
                     Speed = childAnimatorState.state.speed
                 };
@@ -165,12 +159,14 @@ public class AnimatorDotsParseUtilityEditor : Editor
                 for (int transitionIndex = 0; transitionIndex < transitions.Length; transitionIndex++)
                 {
                     UnityEditor.Animations.AnimatorStateTransition animatorStateTransition = transitions[transitionIndex];
+                    var transitionId = animatorStateTransition.GetInstanceID();
+                    var destinationStateId = animatorStateTransition.destinationState.GetInstanceID();
                     var stateTransitionItem = new StateTransitionBuffer
                     {
-                        Id = transitionIndex,
+                        Id = transitionId,
                         AnimatorInstanceId = animatorInstanceId,
-                        StateId = stateIndex,
-                        DestinationStateId = -1,
+                        StateId = stateId,
+                        DestinationStateId = destinationStateId,
                         HasExitTime = animatorStateTransition.hasExitTime,
                         ExitTime = animatorStateTransition.exitTime,
                         TransitionDuration = animatorStateTransition.duration,
@@ -187,26 +183,12 @@ public class AnimatorDotsParseUtilityEditor : Editor
                         {
                             Id = condtionIndex,
                             AnimatorInstanceId = animatorInstanceId,
-                            TransitionId = transitionIndex,
+                            TransitionId = transitionId,
                             Mode = (AnimatorTransitionConditionMode)animatorCondition.mode,
                             Parameter = animatorCondition.parameter,
                             Treshold = animatorCondition.threshold
                         };
                         transitionCondtionsTable.Add(transitionConditionItem);
-                    }
-                }
-            }
-            // settings destination ids
-            for (int i = 0; i < transitionsTable.Count; i++)
-            {
-                var _transition = transitionsTable[i];
-                foreach (var _layer in layerStatesTable)
-                {
-                    if (_transition.DestinationStateId == _layer.Id)
-                    {
-                        _transition.DestinationStateId = _layer.Id;
-                        transitionsTable[i] = _transition;
-                        break;
                     }
                 }
             }
@@ -228,6 +210,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
     private List<AnimationKey> PrepareAnimationKeys(List<AnimationCurveBuffer> curves, List<AnimationCurveKeyBuffer> keys)
     {
         List<AnimationKey> result = new List<AnimationKey>();
+        List<AnimationKeyPreProcess> preProcess = new List<AnimationKeyPreProcess>();
 
         // animator instances
         var animatorIdsList = curves.Select(i => i.AnimatorInstanceId).Distinct().ToList();
@@ -250,7 +233,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
         bool positionEngaged = false;
         bool rotationEngaged = false;
         bool rotationEulerEngaged = false;
-        var animationKey = new AnimationKey();
+        var animationKey = new AnimationKeyPreProcess();
         // animators
         foreach (var animatorId in animatorIdsList)
         {
@@ -309,7 +292,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
                         {
                             continue;
                         }
-                        animationKey = new AnimationKey
+                        animationKey = new AnimationKeyPreProcess
                         {
                             AnimationId = animationId,
                             AnimatorInstanceId = animatorId,
@@ -322,12 +305,51 @@ public class AnimatorDotsParseUtilityEditor : Editor
                             Path = path.ToString(),
                             Time = time,
                         };
-                        result.Add(animationKey);
+                        preProcess.Add(animationKey);
                     }
                 }
             }
         }
-        result = result.OrderBy(x => x.Time).ToList();
+        result = ProcessKeys(preProcess);
+        //result = result.OrderBy(x => x.Time).ToList();
+        return result;
+    }
+
+    private List<AnimationKey> ProcessKeys(List<AnimationKeyPreProcess> animationKeyPreProcesses)
+    {
+        var result = new List<AnimationKey>();
+        bool rotationEngaged = false;
+        quaternion rotationValue = quaternion.identity;
+        foreach (var preProcess in animationKeyPreProcesses)
+        {
+            rotationEngaged = false;
+            rotationValue = quaternion.identity;
+            rotationEngaged = preProcess.RotationEngaged || preProcess.RotationEulerEngaged;
+            if (preProcess.RotationEulerEngaged)
+            {
+                rotationValue = quaternion.Euler(
+                                math.radians(preProcess.RotationEulerValue.x),
+                                math.radians(preProcess.RotationEulerValue.y),
+                                math.radians(preProcess.RotationEulerValue.z));
+            }
+            if (preProcess.RotationEngaged)
+            {
+                rotationValue = new quaternion(preProcess.RotationValue);
+            }
+            var newKey = new AnimationKey
+            {
+                AnimationId = preProcess.AnimationId,
+                AnimatorInstanceId = preProcess.AnimatorInstanceId,
+                Path = preProcess.Path,
+                PositionEngaged = preProcess.PositionEngaged,
+                PositionValue = preProcess.PositionValue,
+                RotationEngaged = rotationEngaged,
+                RotationValue = rotationValue,
+                Time = preProcess.Time,
+            };
+            result.Add(newKey);
+        }
+
         return result;
     }
 

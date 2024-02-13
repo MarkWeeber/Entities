@@ -1,9 +1,9 @@
-using System.Diagnostics;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -158,7 +158,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             // manage timers
             var animationDuration = animationClip.Length;
             var looped = animationClip.Looped;
-            //looped = false;
             var currentTimer = layer.AnimationTime;
             var loopEnded = false;
             if (currentTimer > animationDuration)
@@ -233,38 +232,35 @@ public partial struct AnimatorAnimateSystem : ISystem
                     {
                         newPosition = firstKey.PositionValue;
                     }
-                    if (firstKey.RotationEulerEngaged)
-                    {
-                        newRotation = quaternion.Euler(firstKey.RotationEulerValue.z, firstKey.RotationEulerValue.y, firstKey.RotationEulerValue.z);
-                    }
                     if (firstKey.RotationEngaged)
                     {
-                        newRotation = new quaternion(firstKey.RotationValue);
+                        newRotation = firstKey.RotationValue;
                     }
                 }
                 else
                 {
-                    float rate = (currentTimer - firstKey.Time) / (secondKey.Time - firstKey.Time);
-                    if (firstKey.PositionEngaged)
+                    if (secondFound)
                     {
-                        newPosition = math.lerp(firstKey.PositionValue, secondKey.PositionValue, rate);
+                        float rate = (currentTimer - firstKey.Time) / (secondKey.Time - firstKey.Time);
+                        if (firstKey.PositionEngaged)
+                        {
+                            newPosition = math.lerp(firstKey.PositionValue, secondKey.PositionValue, rate);
+                        }
+                        if (firstKey.RotationEngaged)
+                        {
+                            newRotation = math.slerp(firstKey.RotationValue, secondKey.RotationValue, rate);
+                        }
                     }
-                    if (firstKey.RotationEulerEngaged)
+                    else
                     {
-                        newRotation = math.slerp(
-                            quaternion.Euler(
-                                math.radians(firstKey.RotationEulerValue.x),
-                                math.radians(firstKey.RotationEulerValue.y),
-                                math.radians(firstKey.RotationEulerValue.z)),
-                            quaternion.Euler(
-                                math.radians(secondKey.RotationEulerValue.x),
-                                math.radians(secondKey.RotationEulerValue.y),
-                                math.radians(secondKey.RotationEulerValue.z)),
-                            rate);
-                    }
-                    if (firstKey.RotationEngaged)
-                    {
-                        newRotation = math.slerp(new quaternion(firstKey.RotationValue), new quaternion(secondKey.RotationValue), rate);
+                        if (firstKey.PositionEngaged)
+                        {
+                            newPosition = firstKey.PositionValue;
+                        }
+                        if (firstKey.RotationEngaged)
+                        {
+                            newRotation = firstKey.RotationValue;
+                        }
                     }
                 }
                 // apply new values
@@ -277,7 +273,7 @@ public partial struct AnimatorAnimateSystem : ISystem
                 {
                     setPosition = newPosition;
                 }
-                if (firstKey.RotationEngaged || firstKey.RotationEulerEngaged)
+                if (firstKey.RotationEngaged)
                 {
                     setRotation = newRotation;
                 }
@@ -287,6 +283,13 @@ public partial struct AnimatorAnimateSystem : ISystem
                     Rotation = setRotation,
                     Scale = scale
                 });
+                // debug
+                if (part.Path == (FixedString512Bytes)"basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf")
+                {
+                    //Debug.Log(setPosition);
+                    Debug.Log($"firstKey Pos: {firstKey.PositionValue} secondKey Pos: {secondKey.PositionValue}");
+                    //Debug.Log($"firstKey Time: {firstKey.Time} secondKey Time: {secondKey.Time}");
+                }
             }
             currentTimer += deltaTime;
             layer.AnimationTime = currentTimer;

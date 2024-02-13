@@ -1,7 +1,6 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
 
-[System.Serializable]
 public partial struct AnimatorParametersBuffer : IBufferElementData
 {
     public int Id;

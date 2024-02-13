@@ -12,19 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: TestAnimatorDOTS
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35130
+  AnimatorInstanceId: 49120
   AnimatorName: TestAnimator
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35130
+    AssetInstanceId: 49120
     AnimatorName: TestAnimator
     Animations:
-    - Id: 35288
-      AnimatorInstanceId: 35130
+    - Id: 49774
+      AnimatorInstanceId: 49120
+      Looped: 1
+      Length: 9
+    - Id: 49774
+      AnimatorInstanceId: 49120
       Looped: 1
       Length: 9
     AnimationKeys:
-    - AnimationId: 35288
-      AnimatorInstanceId: 35130
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
       Path: Cube (2)
       Time: 0
       PositionEngaged: 1
@@ -32,20 +36,15 @@ MonoBehaviour:
         x: 0
         y: 0
         z: 0
-      RotationEngaged: 0
+      RotationEngaged: 1
       RotationValue:
-        x: 0
-        y: 0
-        z: 0
-        w: 1
-      RotationEulerEngaged: 1
-      RotationEulerValue:
-        x: 0
-        y: 0
-        z: 0
-        w: 1
-    - AnimationId: 35288
-      AnimatorInstanceId: 35130
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
       Path: Cube (2)
       Time: 5
       PositionEngaged: 1
@@ -53,20 +52,15 @@ MonoBehaviour:
         x: 2
         y: 2
         z: 2
-      RotationEngaged: 0
+      RotationEngaged: 1
       RotationValue:
-        x: 0
-        y: 0
-        z: 0
-        w: 1
-      RotationEulerEngaged: 1
-      RotationEulerValue:
-        x: -30
-        y: 30
-        z: 30
-        w: 1
-    - AnimationId: 35288
-      AnimatorInstanceId: 35130
+        value:
+          x: -0.17677669
+          y: 0.3061862
+          z: 0.3061862
+          w: 0.8838835
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
       Path: Cube (2)
       Time: 6
       PositionEngaged: 1
@@ -74,20 +68,15 @@ MonoBehaviour:
         x: 2
         y: 2
         z: 2
-      RotationEngaged: 0
+      RotationEngaged: 1
       RotationValue:
-        x: 0
-        y: 0
-        z: 0
-        w: 1
-      RotationEulerEngaged: 1
-      RotationEulerValue:
-        x: -30
-        y: 30
-        z: 30
-        w: 1
-    - AnimationId: 35288
-      AnimatorInstanceId: 35130
+        value:
+          x: -0.17677669
+          y: 0.3061862
+          z: 0.3061862
+          w: 0.8838835
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
       Path: Cube (2)
       Time: 9
       PositionEngaged: 1
@@ -95,55 +84,192 @@ MonoBehaviour:
         x: 2
         y: 2
         z: 2
-      RotationEngaged: 0
+      RotationEngaged: 1
       RotationValue:
+        value:
+          x: -0.17677669
+          y: 0.3061862
+          z: 0.3061862
+          w: 0.8838835
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)
+      Time: 0
+      PositionEngaged: 1
+      PositionValue:
         x: 0
-        y: 0
-        z: 0
-        w: 1
-      RotationEulerEngaged: 1
-      RotationEulerValue:
-        x: -30
-        y: 30
-        z: 30
-        w: 1
+        y: 1
+        z: 0.75
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)
+      Time: 5
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.25
+        y: 0.25
+        z: -0.5
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: 0.14519376
+          y: 0.111411095
+          z: 0.111411095
+          w: 0.9767774
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)
+      Time: 6
+      PositionEngaged: 1
+      PositionValue:
+        x: -0.75
+        y: 1.25
+        z: 0.54
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: -0.36572307
+          y: 0.2574987
+          z: 0.38054138
+          w: 0.8094007
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)/Cube (4)
+      Time: 0
+      PositionEngaged: 1
+      PositionValue:
+        x: 1
+        y: 0.5
+        z: 0.5
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)/Cube (4)
+      Time: 5
+      PositionEngaged: 1
+      PositionValue:
+        x: 1.12
+        y: 1.05
+        z: -0.035
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: 0.3588838
+          y: 0.17704543
+          z: 0.6092638
+          w: 0.6845838
+    - AnimationId: 49774
+      AnimatorInstanceId: 49120
+      Path: Cube (2)/Cube (3)/Cube (4)
+      Time: 6
+      PositionEngaged: 1
+      PositionValue:
+        x: 1.1
+        y: 0.99
+        z: 0.85
+      RotationEngaged: 1
+      RotationValue:
+        value:
+          x: 0.028398275
+          y: 0.04217599
+          z: 0.05112797
+          w: 0.99739695
     AnimatorLayers:
-    - Id: 0
-      AnimatorInstanceId: 35130
+    - Id: 50044
+      AnimatorInstanceId: 49120
       DefaultWeight: 0
     LayerStates:
-    - Id: 0
-      AnimatorInstanceId: 35130
-      LayerId: 0
+    - Id: 50046
+      AnimatorInstanceId: 49120
+      LayerId: 50044
       DefaultState: 1
-      AnimationClipId: 35288
+      AnimationClipId: 49774
       Speed: 1
-    StateTransitions: []
-    TransitionCondtions: []
+    - Id: -218226
+      AnimatorInstanceId: 49120
+      LayerId: 50044
+      DefaultState: 0
+      AnimationClipId: 49774
+      Speed: 1
+    StateTransitions:
+    - Id: -218252
+      AnimatorInstanceId: 49120
+      StateId: 50046
+      DestinationStateId: -218226
+      HasExitTime: 1
+      ExitTime: 0.9722222
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: -218600
+      AnimatorInstanceId: 49120
+      StateId: -218226
+      DestinationStateId: 50046
+      HasExitTime: 1
+      ExitTime: 0.9722222
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    TransitionCondtions:
+    - Id: 0
+      AnimatorInstanceId: 49120
+      TransitionId: -218252
+      Mode: 3
+      Parameter: FloatParameter
+      Treshold: 0.74
+    - Id: 1
+      AnimatorInstanceId: 49120
+      TransitionId: -218252
+      Mode: 1
+      Parameter: BoolParameter
+      Treshold: 0
+    - Id: 0
+      AnimatorInstanceId: 49120
+      TransitionId: -218600
+      Mode: 2
+      Parameter: BoolParameter
+      Treshold: 0
+    - Id: 1
+      AnimatorInstanceId: 49120
+      TransitionId: -218600
+      Mode: 4
+      Parameter: FloatParameter
+      Treshold: 0.2
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35130
+      AnimatorInstanceId: 49120
       ParameterName: FloatParameter
       Type: 1
       DefaultFloat: 0.331733
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35130
+      AnimatorInstanceId: 49120
       ParameterName: IntParameter
       Type: 3
       DefaultFloat: 0
       DefaultInt: 9
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35130
+      AnimatorInstanceId: 49120
       ParameterName: BoolParameter
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 1
     - Id: 3
-      AnimatorInstanceId: 35130
+      AnimatorInstanceId: 49120
       ParameterName: TriggerParameter
       Type: 9
       DefaultFloat: 0
