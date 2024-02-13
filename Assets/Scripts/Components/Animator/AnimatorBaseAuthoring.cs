@@ -21,7 +21,8 @@ public class AnimatorBaseAuthoring : MonoBehaviour
             DynamicBuffer<LayerStateBuffer> layerStatesBuffer = AddBuffer<LayerStateBuffer>(entity);
             DynamicBuffer<StateTransitionBuffer> transitionsBuffer = AddBuffer<StateTransitionBuffer>(entity);
             DynamicBuffer<TransitionCondtionBuffer> transitionCondtionsBuffer = AddBuffer<TransitionCondtionBuffer>(entity);
-			DynamicBuffer<AnimationKeyBuffer> animationKeyBuffers = AddBuffer<AnimationKeyBuffer>(entity);
+			DynamicBuffer<AnimationPositionBuffer> animationPositionsBuffer = AddBuffer<AnimationPositionBuffer>(entity);
+			DynamicBuffer<AnimationRotationBuffer> animationRotationsBuffer = AddBuffer<AnimationRotationBuffer>(entity);
             foreach (var asset in authoring.aniamtorDotsAssetLists)
 			{
 				if (asset == null)
@@ -48,22 +49,31 @@ public class AnimatorBaseAuthoring : MonoBehaviour
                     };
                     animationBuffer.Add(animationComponent);
                 }
-				// animation keys
-				foreach (var item in parsedObject.AnimationKeys)
+				// animation position keys
+				foreach (var positionKey in parsedObject.Positions)
 				{
-					var animationKeyComponent = new AnimationKeyBuffer
+					var positionKeyComponent = new AnimationPositionBuffer
 					{
-						AnimationId = item.AnimationId,
-						AnimatorInstanceId = item.AnimatorInstanceId,
-						Path = (FixedString512Bytes) item.Path,
-						PositionEngaged = item.PositionEngaged,
-						PositionValue = item.PositionValue,
-						RotationEngaged = item.RotationEngaged,
-						RotationValue = item.RotationValue,
-						Time = item.Time,
+						AnimationId = positionKey.AnimationId,
+						Path = (FixedString512Bytes) positionKey.Path,
+						Time = positionKey.Time,
+						Value = positionKey.Value,
 					};
-					animationKeyBuffers.Add(animationKeyComponent);
-				}
+					animationPositionsBuffer.Add(positionKeyComponent);
+
+                }
+				// animation rotation keys
+				foreach (var rotationKey in parsedObject.Rotations)
+				{
+					var rotationKeyComponent = new AnimationRotationBuffer
+					{
+						AnimationId = rotationKey.AnimationId,
+						Path = (FixedString512Bytes) rotationKey.Path,
+						Time = rotationKey.Time,
+						Value = rotationKey.Value,
+					};
+                    animationRotationsBuffer.Add(rotationKeyComponent);
+                }
 				// animator parameters
 				foreach (var item in parsedObject.AnimatorParameters)
 				{

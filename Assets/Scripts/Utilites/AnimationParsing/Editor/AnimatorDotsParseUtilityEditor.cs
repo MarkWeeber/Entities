@@ -195,10 +195,12 @@ public class AnimatorDotsParseUtilityEditor : Editor
         }
         // result
         RuntimeAnimatorParsedObject result = new RuntimeAnimatorParsedObject();
+        result.Positions = new List<AnimationPositionSerialized>();
+        result.Rotations = new List<AnimationRotationSerialized>();
+        PrepareAnimationKeys(animationCurveTable, animationCurveKeyTable, result.Positions, result.Rotations);
         result.AssetInstanceId = animatorInstanceId;
         result.AnimatorName = runtimeAnimatorController.name;
         result.Animations = animationsTable;
-        result.AnimationKeys = PrepareAnimationKeys(animationCurveTable, animationCurveKeyTable);
         result.AnimatorLayers = animatorLayersTable;
         result.AnimatorParameters = animatorParametersTable;
         result.LayerStates = layerStatesTable;
@@ -207,7 +209,11 @@ public class AnimatorDotsParseUtilityEditor : Editor
         return result;
     }
 
-    private List<AnimationKey> PrepareAnimationKeys(List<AnimationCurveBuffer> curves, List<AnimationCurveKeyBuffer> keys)
+    private void PrepareAnimationKeys(
+        List<AnimationCurveBuffer> curves,
+        List<AnimationCurveKeyBuffer> keys,
+        List<AnimationPositionSerialized> animationPositions,
+        List<AnimationRotationSerialized> animationRotations)
     {
         List<AnimationKey> result = new List<AnimationKey>();
         List<AnimationKeyPreProcess> preProcess = new List<AnimationKeyPreProcess>();
@@ -310,47 +316,57 @@ public class AnimatorDotsParseUtilityEditor : Editor
                 }
             }
         }
-        result = ProcessKeys(preProcess);
+        ProcessKeys(preProcess, animationPositions, animationRotations);
+        animationPositions = animationPositions.OrderBy(i => i.Time).ToList();
+        animationRotations = animationRotations.OrderBy(i => i.Time).ToList();
         //result = result.OrderBy(x => x.Time).ToList();
-        return result;
     }
 
-    private List<AnimationKey> ProcessKeys(List<AnimationKeyPreProcess> animationKeyPreProcesses)
+    private void ProcessKeys(
+        List<AnimationKeyPreProcess> animationKeyPreProcesses,
+        List<AnimationPositionSerialized> animationPositions,
+        List<AnimationRotationSerialized> animationRotations)
     {
-        var result = new List<AnimationKey>();
-        bool rotationEngaged = false;
         quaternion rotationValue = quaternion.identity;
         foreach (var preProcess in animationKeyPreProcesses)
         {
-            rotationEngaged = false;
             rotationValue = quaternion.identity;
-            rotationEngaged = preProcess.RotationEngaged || preProcess.RotationEulerEngaged;
             if (preProcess.RotationEulerEngaged)
             {
                 rotationValue = quaternion.Euler(
                                 math.radians(preProcess.RotationEulerValue.x),
                                 math.radians(preProcess.RotationEulerValue.y),
                                 math.radians(preProcess.RotationEulerValue.z));
+                animationRotations.Add(new AnimationRotationSerialized
+                {
+                    AnimationId = preProcess.AnimationId,
+                    Path = preProcess.Path,
+                    Time = preProcess.Time,
+                    Value = rotationValue
+                });
             }
             if (preProcess.RotationEngaged)
             {
                 rotationValue = new quaternion(preProcess.RotationValue);
+                animationRotations.Add(new AnimationRotationSerialized
+                {
+                    AnimationId = preProcess.AnimationId,
+                    Path = preProcess.Path,
+                    Time = preProcess.Time,
+                    Value = rotationValue
+                });
             }
-            var newKey = new AnimationKey
+            if (preProcess.PositionEngaged)
             {
-                AnimationId = preProcess.AnimationId,
-                AnimatorInstanceId = preProcess.AnimatorInstanceId,
-                Path = preProcess.Path,
-                PositionEngaged = preProcess.PositionEngaged,
-                PositionValue = preProcess.PositionValue,
-                RotationEngaged = rotationEngaged,
-                RotationValue = rotationValue,
-                Time = preProcess.Time,
-            };
-            result.Add(newKey);
+                animationPositions.Add(new AnimationPositionSerialized
+                {
+                    AnimationId = preProcess.AnimationId,
+                    Path = preProcess.Path,
+                    Time = preProcess.Time,
+                    Value = preProcess.PositionValue
+                });
+            }
         }
-
-        return result;
     }
 
     private void CollectPositionAndRotation(

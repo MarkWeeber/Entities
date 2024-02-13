@@ -1,3 +1,4 @@
+using System.Globalization;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -31,7 +32,8 @@ public partial struct AnimatorAnimateSystem : ISystem
             NativeArray<AnimationBuffer> animations = SystemAPI.GetSingletonBuffer<AnimationBuffer>().AsNativeArray();
             NativeArray<AnimatorLayerBuffer> layers = SystemAPI.GetSingletonBuffer<AnimatorLayerBuffer>().AsNativeArray();
             NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
-            NativeArray<AnimationKeyBuffer> animationKeys = SystemAPI.GetSingletonBuffer<AnimationKeyBuffer>().AsNativeArray();
+            NativeArray<AnimationPositionBuffer> positions = SystemAPI.GetSingletonBuffer<AnimationPositionBuffer>().AsNativeArray();
+            NativeArray<AnimationRotationBuffer> rotations = SystemAPI.GetSingletonBuffer<AnimationRotationBuffer>().AsNativeArray();
             NativeArray<StateTransitionBuffer> transitions = SystemAPI.GetSingletonBuffer<StateTransitionBuffer>().AsNativeArray();
             NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
 
@@ -53,7 +55,8 @@ public partial struct AnimatorAnimateSystem : ISystem
             {
                 Animators = animators,
                 Animations = animations,
-                AnimationKeys = animationKeys,
+                Positions = positions,
+                Rotations = rotations,
                 Conditions = conditions,
                 Layers = layers,
                 States = states,
@@ -70,7 +73,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             animations.Dispose();
             layers.Dispose();
             states.Dispose();
-            animationKeys.Dispose();
             transitions.Dispose();
             conditions.Dispose();
         }
@@ -88,7 +90,9 @@ public partial struct AnimatorAnimateSystem : ISystem
         [ReadOnly]
         public NativeArray<LayerStateBuffer> States;
         [ReadOnly]
-        public NativeArray<AnimationKeyBuffer> AnimationKeys;
+        public NativeArray<AnimationPositionBuffer> Positions;
+        [ReadOnly]
+        public NativeArray<AnimationRotationBuffer> Rotations;
         [ReadOnly]
         public NativeArray<StateTransitionBuffer> Transitions;
         [ReadOnly]
@@ -115,7 +119,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             for (int layerIndex = 0; layerIndex < actorLayers.Length; layerIndex++)
             {
                 var layer = actorLayers[layerIndex];
-                AnimateLayer(sortKey, ref layer, ref actorParts, DeltaTime, false);
+                AnimateLayer(sortKey, ref layer, ref actorParts, DeltaTime);
                 actorLayers[layerIndex] = layer;
             }
         }
@@ -125,8 +129,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             int sortKey,
             ref AnimatorActorLayerBuffer layer,
             ref DynamicBuffer<AnimatorActorPartBufferComponent> actorParts,
-            float deltaTime,
-            bool keysAlreadySortedByTime)
+            float deltaTime)
         {
             // finding animation clip id
             int animationClipId = -1;
@@ -175,124 +178,280 @@ public partial struct AnimatorAnimateSystem : ISystem
             // loop over paths
             foreach (var part in actorParts)
             {
-                // loop each animation key
-                bool firstFound = false;
-                bool secondFound = false;
-                var firstKey = new AnimationKeyBuffer();
-                var secondKey = new AnimationKeyBuffer();
-                foreach (var animationKey in AnimationKeys)
+                // positions
+                float3 firstPosition = float3.zero;
+                float3 secondPosition = float3.zero;
+                bool firstPositionFound = false;
+                bool secondPositionFound = false;
+                float firstPositionTime = -1f;
+                float secondPositionTime = -1f;
+                foreach (var position in Positions)
                 {
-                    if (animationKey.AnimatorInstanceId == _animatorInstatnceId && animationKey.AnimationId == animationClipId && part.Path == animationKey.Path)
+                    if (position.AnimationId == animationClipId && part.Path == position.Path)
                     {
-                        if (animationKey.Time <= currentTimer)
+                        if (currentTimer <= position.Time)
                         {
-                            if (!firstFound)
+                            if (!firstPositionFound)
                             {
-                                firstKey = animationKey;
-                                firstFound = true;
+                                firstPosition = position.Value;
+                                firstPositionTime = position.Time;
+                                firstPositionFound = true;
                             }
-                            else if (!keysAlreadySortedByTime)
+                            else
                             {
-                                if (animationKey.Time > firstKey.Time)
+                                if (firstPositionTime > position.Time)
                                 {
-                                    firstKey = animationKey;
+                                    firstPosition = position.Value;
+                                    firstPositionTime = position.Time;
                                 }
                             }
                         }
                         else
                         {
-                            if (!secondFound)
+                            if (!secondPositionFound)
                             {
-                                secondKey = animationKey;
-                                secondFound = true;
+                                secondPosition = position.Value;
+                                secondPositionTime = position.Time;
+                                secondPositionFound = true;
                             }
-                            else if (!keysAlreadySortedByTime)
+                            else
                             {
-                                if (animationKey.Time < secondKey.Time)
+                                if (secondPositionTime < position.Time)
                                 {
-                                    secondKey = animationKey;
+                                    secondPosition = position.Value;
+                                    secondPositionTime = position.Time;
                                 }
                             }
                         }
                     }
-                    if (keysAlreadySortedByTime)
+                }
+                // rotations
+                quaternion firstRotation = quaternion.identity;
+                quaternion secondRotation = quaternion.identity;
+                bool firstRotationFound = false;
+                bool secondRotationFound = false;
+                float firstRotationTime = -1f;
+                float secondRotationTime = -1f;
+                foreach (var rotation in Rotations)
+                {
+                    if (rotation.AnimationId == animationClipId && part.Path == rotation.Path)
                     {
-                        if ((firstFound && secondFound) || (firstFound && loopEnded))
+                        if (currentTimer <= rotation.Time)
                         {
-                            break;
+                            if (!firstRotationFound)
+                            {
+                                firstRotation = rotation.Value;
+                                firstRotationTime = rotation.Time;
+                                firstRotationFound = true;
+                            }
+                            else
+                            {
+                                if (firstRotationTime > rotation.Time)
+                                {
+                                    firstRotation = rotation.Value;
+                                    firstRotationTime = rotation.Time;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!secondRotationFound)
+                            {
+                                secondRotation = rotation.Value;
+                                secondRotationTime = rotation.Time;
+                                secondRotationFound = true;
+                            }
+                            else
+                            {
+                                if (secondRotationTime < rotation.Time)
+                                {
+                                    secondRotation = rotation.Value;
+                                    secondRotationTime = rotation.Time;
+                                }
+                            }
                         }
                     }
                 }
-                // calculate new position and rotation
-                float3 newPosition = float3.zero;
-                quaternion newRotation = quaternion.identity;
+
+                // get current data from local transform
+                Entity partEntity = part.Value;
+                RefRO<LocalTransform> partLocaltTransform = LocalTransformLookup.GetRefRO(partEntity);
+                float3 newPosition = partLocaltTransform.ValueRO.Position;
+                quaternion newRotation = partLocaltTransform.ValueRO.Rotation;
+                float scale = partLocaltTransform.ValueRO.Scale;
+
+                // calculcate rates
                 if (loopEnded)
                 {
-                    if (firstKey.PositionEngaged)
+                    if (firstPositionFound)
                     {
-                        newPosition = firstKey.PositionValue;
+                        newPosition = firstPosition;
                     }
-                    if (firstKey.RotationEngaged)
+                    if (firstRotationFound)
                     {
-                        newRotation = firstKey.RotationValue;
+                        newRotation = firstRotation;
                     }
                 }
                 else
                 {
-                    if (secondFound)
+                    if (secondPositionFound)
                     {
-                        float rate = (currentTimer - firstKey.Time) / (secondKey.Time - firstKey.Time);
-                        if (firstKey.PositionEngaged)
-                        {
-                            newPosition = math.lerp(firstKey.PositionValue, secondKey.PositionValue, rate);
-                        }
-                        if (firstKey.RotationEngaged)
-                        {
-                            newRotation = math.slerp(firstKey.RotationValue, secondKey.RotationValue, rate);
-                        }
+                        float rate = (currentTimer - firstPositionTime) / (secondPositionTime - firstPositionTime);
+                        newPosition = math.lerp(firstPosition, secondPosition, rate);
                     }
-                    else
+                    if (secondRotationFound)
                     {
-                        if (firstKey.PositionEngaged)
-                        {
-                            newPosition = firstKey.PositionValue;
-                        }
-                        if (firstKey.RotationEngaged)
-                        {
-                            newRotation = firstKey.RotationValue;
-                        }
+                        float rate = (currentTimer - firstRotationTime) / (secondRotationTime - firstRotationTime);
+                        newRotation = math.slerp(firstRotation, secondRotation, rate);
                     }
                 }
-                // apply new values
-                Entity partEntity = part.Value;
-                RefRO<LocalTransform> partLocaltTransform = LocalTransformLookup.GetRefRO(partEntity);
-                float3 setPosition = partLocaltTransform.ValueRO.Position;
-                quaternion setRotation = partLocaltTransform.ValueRO.Rotation;
-                float scale = partLocaltTransform.ValueRO.Scale;
-                if (firstKey.PositionEngaged)
-                {
-                    setPosition = newPosition;
-                }
-                if (firstKey.RotationEngaged)
-                {
-                    setRotation = newRotation;
-                }
-                ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
-                {
-                    Position = setPosition,
-                    Rotation = setRotation,
-                    Scale = scale
-                });
-                // debug
+
                 if (part.Path == (FixedString512Bytes)"basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf")
                 {
-                    //Debug.Log(setPosition);
-                    Debug.Log($"firstKey Pos: {firstKey.PositionValue} secondKey Pos: {secondKey.PositionValue}");
-                    //Debug.Log($"firstKey Time: {firstKey.Time} secondKey Time: {secondKey.Time}");
+                    
                 }
+
+                // apply
+                ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
+                {
+                    Position = newPosition,
+                    Rotation = newRotation,
+                    Scale = scale
+                });
             }
             currentTimer += deltaTime;
             layer.AnimationTime = currentTimer;
         }
     }
 }
+
+/*
+foreach (var part in actorParts)
+{
+    // loop each animation key
+    bool fisrtPositionFound = false;
+    bool secondPositionFound = false;
+    bool firstRotationFound = false;
+    bool secondRotationFound = false;
+    var firstPositionKey = new AnimationKeyBuffer();
+    var secondPositionKey = new AnimationKeyBuffer();
+    var firstRotationKey = new AnimationKeyBuffer();
+    var secondRotationKey = new AnimationKeyBuffer();
+    foreach (var animationKey in AnimationKeys)
+    {
+        if (animationKey.AnimatorInstanceId == _animatorInstatnceId && animationKey.AnimationId == animationClipId && part.Path == animationKey.Path)
+        {
+            if (animationKey.PositionEngaged) // positions
+            {
+                if (animationKey.Time <= currentTimer) // first value
+                {
+                    if (!fisrtPositionFound)
+                    {
+                        firstPositionKey = animationKey;
+                        fisrtPositionFound = true;
+                    }
+                    else if (!keysAlreadySortedByTime)
+                    {
+                        if (animationKey.Time > firstPositionKey.Time)
+                        {
+                            firstPositionKey = animationKey;
+                        }
+                    }
+                }
+                else // second value
+                {
+                    if (!secondPositionFound)
+                    {
+                        secondPositionKey = animationKey;
+                        secondPositionFound = true;
+                    }
+                    else if (!keysAlreadySortedByTime)
+                    {
+                        if (animationKey.Time > secondPositionKey.Time)
+                        {
+                            secondPositionKey = animationKey;
+                        }
+                    }
+                }
+            }
+            if (animationKey.RotationEngaged) // rotaions
+            {
+                if (animationKey.Time <= currentTimer) // first value
+                {
+                    if (!firstRotationFound)
+                    {
+                        firstRotationKey = animationKey;
+                        secondRotationFound = true;
+                    }
+                    else if (!keysAlreadySortedByTime)
+                    {
+                        if (animationKey.Time > firstRotationKey.Time)
+                        {
+                            firstRotationKey = animationKey;
+                        }
+                    }
+                }
+                else // second value
+                {
+                    if (!secondRotationFound)
+                    {
+                        secondRotationKey = animationKey;
+                        secondRotationFound = true;
+                    }
+                    else if (!keysAlreadySortedByTime)
+                    {
+                        if (animationKey.Time > secondRotationKey.Time)
+                        {
+                            secondRotationKey = animationKey;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // calculate new position and rotation
+    Entity partEntity = part.Value;
+    RefRO<LocalTransform> partLocaltTransform = LocalTransformLookup.GetRefRO(partEntity);
+    float3 newPosition = partLocaltTransform.ValueRO.Position;
+    quaternion newRotation = partLocaltTransform.ValueRO.Rotation;
+    if (loopEnded)
+    {
+        if (secondPositionFound)
+        {
+            newPosition = secondPositionKey.PositionValue;
+        }
+        if (secondRotationFound)
+        {
+            newRotation = secondRotationKey.RotationValue;
+        }
+    }
+    else
+    {
+        float positionRate = (currentTimer - firstPositionKey.Time) / (secondPositionKey.Time - firstPositionKey.Time);
+        float rotationRate = (currentTimer - firstRotationKey.Time) / (secondRotationKey.Time - firstRotationKey.Time);
+        if (secondPositionFound)
+        {
+            newPosition = math.lerp(firstPositionKey.PositionValue, secondPositionKey.PositionValue, positionRate);
+        }
+        if (secondRotationFound)
+        {
+            newRotation = math.slerp(firstRotationKey.RotationValue, secondRotationKey.RotationValue, rotationRate);
+        }
+    }
+    // apply new values
+    float scale = partLocaltTransform.ValueRO.Scale;
+    ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
+    {
+        Position = newPosition,
+        Rotation = newRotation,
+        Scale = scale
+    });
+    // debug
+    if (part.Path == (FixedString512Bytes)"basic_rig")
+    {
+        //Debug.Log(setPosition);
+        //Debug.Log($"Time: {currentTimer} FIRST Y: {firstKey.PositionValue.y} SECOND Y: {secondKey.PositionValue.y}");
+        //Debug.Log($"firstKey Time: {firstKey.Time} secondKey Time: {secondKey.Time}");
+    }
+}
+*/

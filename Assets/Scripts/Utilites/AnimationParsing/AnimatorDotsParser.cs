@@ -13,7 +13,8 @@ public class RuntimeAnimatorParsedObject
     public int AssetInstanceId;
     public string AnimatorName;
     public List<AnimationBuffer> Animations;
-    public List<AnimationKey> AnimationKeys;
+    public List<AnimationPositionSerialized> Positions;
+    public List<AnimationRotationSerialized> Rotations;
     public List<AnimatorLayerBuffer> AnimatorLayers;
     public List<LayerStateBuffer> LayerStates;
     public List<StateTransitionBuffer> StateTransitions;

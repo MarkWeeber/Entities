@@ -23,11 +23,12 @@ public partial struct AnimatorActorBakingSystem : ISystem
             NativeArray<AnimatorLayerBuffer> layers = SystemAPI.GetSingletonBuffer<AnimatorLayerBuffer>().AsNativeArray();
             NativeArray<AnimatorParametersBuffer> parameters = SystemAPI.GetSingletonBuffer<AnimatorParametersBuffer>().AsNativeArray();
             NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
-
+            NativeArray<AnimationPositionBuffer> positions = SystemAPI.GetSingletonBuffer<AnimationPositionBuffer>().AsNativeArray();
+            NativeArray<AnimationRotationBuffer> rotations = SystemAPI.GetSingletonBuffer<AnimationRotationBuffer>().AsNativeArray();
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
             EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
             EntityQuery animatorActorEntities = SystemAPI.QueryBuilder()
-                .WithAll<AnimatorActorComponent>()
+                .WithAll<AnimatorActorComponent, AnimatorActorPartBufferComponent>()
                 .Build();
 
             state.Dependency = new PrepareAnimatorActorJob
@@ -36,13 +37,15 @@ public partial struct AnimatorActorBakingSystem : ISystem
                 Layers = layers,
                 Parameters = parameters,
                 States = states,
+                Positions = positions,
+                Rotations = rotations,
                 ParallelWriter = parallelWriter,
             }.ScheduleParallel(animatorActorEntities, state.Dependency);
 
             state.Dependency.Complete();
             ecb.Playback(state.EntityManager);
             ecb.Dispose();
-            
+            positions.Dispose();
             states.Dispose();
             animators.Dispose();
             layers.Dispose();
@@ -60,9 +63,17 @@ public partial struct AnimatorActorBakingSystem : ISystem
         public NativeArray<AnimatorParametersBuffer> Parameters;
         [ReadOnly]
         public NativeArray<LayerStateBuffer> States;
+        [ReadOnly]
+        public NativeArray<AnimationPositionBuffer> Positions;
+        [ReadOnly]
+        public NativeArray<AnimationRotationBuffer> Rotations;
         public EntityCommandBuffer.ParallelWriter ParallelWriter;
         [BurstCompile]
-        private void Execute([ChunkIndexInQuery] int sortKey, Entity entity, RefRW<AnimatorActorComponent> animatorActorComponent)
+        private void Execute(
+            [ChunkIndexInQuery] int sortKey,
+            Entity entity,
+            RefRW<AnimatorActorComponent> animatorActorComponent,
+            DynamicBuffer<AnimatorActorPartBufferComponent> parts)
         {
             // getting animator id
             int animatorId = -1;
@@ -153,6 +164,50 @@ public partial struct AnimatorActorBakingSystem : ISystem
                     ParallelWriter.AppendToBuffer<AnimatorActorTransitionBuffer>(sortKey, entity, transitionInfoItem);
                 }
             }
+
+            // adding buffer for each of parts
+            NativeArray<AnimationPositionBuffer> animationPositions = new NativeArray<AnimationPositionBuffer>(Positions, Allocator.Temp);
+            animationPositions.Sort(new CompareAnimationPositionTimeBuffer());
+            NativeArray<AnimationRotationBuffer> animationRotations = new NativeArray<AnimationRotationBuffer>(Rotations, Allocator.Temp);
+            animationRotations.Sort(new CompareAnimationRotationTimeBuffer());
+            foreach (var part in parts)
+            {
+                Entity partEntity = part.Value;
+                // positions
+                ParallelWriter.AddBuffer<AnimationPartPositionBuffer>(sortKey, partEntity);
+                for (int i = 0; i < animationPositions.Length; i++)
+                {
+                    var item = animationPositions[i];
+                    if (item.Path == part.Path)
+                    {
+                        var partItem = new AnimationPartPositionBuffer
+                        {
+                            AnimationId = item.AnimationId,
+                            Time = item.Time,
+                            Value = item.Value,
+                        };
+                        ParallelWriter.AppendToBuffer(sortKey, partEntity, partItem);
+                    }
+                }
+                // rotations
+                ParallelWriter.AddBuffer<AnimationPartRotationBuffer>(sortKey, partEntity);
+                for (int i = 0; i < animationRotations.Length; i++)
+                {
+                    var item = animationRotations[i];
+                    if (item.Path == part.Path)
+                    {
+                        var partItem = new AnimationPartRotationBuffer
+                        {
+                            AnimationId = item.AnimationId,
+                            Time = item.Time,
+                            Value = item.Value,
+                        };
+                        ParallelWriter.AppendToBuffer(sortKey, partEntity, partItem);
+                    }
+                }
+            }
+            animationPositions.Dispose();
+            animationRotations.Dispose();
         }
     }
 }
