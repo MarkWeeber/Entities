@@ -1,5 +1,4 @@
-﻿using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 
 [System.Serializable]
 public partial struct StateTransitionBuffer : IBufferElementData
