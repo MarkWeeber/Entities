@@ -135,7 +135,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             int animationClipId = -1;
             foreach (var state in States)
             {
-                if (state.AnimatorInstanceId == _animatorInstatnceId && state.Id == layer.CurrentStateIndex)
+                if (state.AnimatorInstanceId == _animatorInstatnceId && state.Id == layer.CurrentStateId)
                 {
                     animationClipId = state.AnimationClipId;
                     break;
@@ -161,7 +161,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // manage timers
             var animationDuration = animationClip.Length;
             var looped = animationClip.Looped;
-            var currentTimer = layer.AnimationTime;
+            var currentTimer = layer.CurrentAnimationTime;
             var loopEnded = false;
             if (currentTimer > animationDuration)
             {
@@ -306,11 +306,6 @@ public partial struct AnimatorAnimateSystem : ISystem
                     }
                 }
 
-                if (part.Path == (FixedString512Bytes)"basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf")
-                {
-                    
-                }
-
                 // apply
                 ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
                 {
@@ -320,138 +315,7 @@ public partial struct AnimatorAnimateSystem : ISystem
                 });
             }
             currentTimer += deltaTime;
-            layer.AnimationTime = currentTimer;
+            layer.CurrentAnimationTime = currentTimer;
         }
     }
 }
-
-/*
-foreach (var part in actorParts)
-{
-    // loop each animation key
-    bool fisrtPositionFound = false;
-    bool secondPositionFound = false;
-    bool firstRotationFound = false;
-    bool secondRotationFound = false;
-    var firstPositionKey = new AnimationKeyBuffer();
-    var secondPositionKey = new AnimationKeyBuffer();
-    var firstRotationKey = new AnimationKeyBuffer();
-    var secondRotationKey = new AnimationKeyBuffer();
-    foreach (var animationKey in AnimationKeys)
-    {
-        if (animationKey.AnimatorInstanceId == _animatorInstatnceId && animationKey.AnimationId == animationClipId && part.Path == animationKey.Path)
-        {
-            if (animationKey.PositionEngaged) // positions
-            {
-                if (animationKey.Time <= currentTimer) // first value
-                {
-                    if (!fisrtPositionFound)
-                    {
-                        firstPositionKey = animationKey;
-                        fisrtPositionFound = true;
-                    }
-                    else if (!keysAlreadySortedByTime)
-                    {
-                        if (animationKey.Time > firstPositionKey.Time)
-                        {
-                            firstPositionKey = animationKey;
-                        }
-                    }
-                }
-                else // second value
-                {
-                    if (!secondPositionFound)
-                    {
-                        secondPositionKey = animationKey;
-                        secondPositionFound = true;
-                    }
-                    else if (!keysAlreadySortedByTime)
-                    {
-                        if (animationKey.Time > secondPositionKey.Time)
-                        {
-                            secondPositionKey = animationKey;
-                        }
-                    }
-                }
-            }
-            if (animationKey.RotationEngaged) // rotaions
-            {
-                if (animationKey.Time <= currentTimer) // first value
-                {
-                    if (!firstRotationFound)
-                    {
-                        firstRotationKey = animationKey;
-                        secondRotationFound = true;
-                    }
-                    else if (!keysAlreadySortedByTime)
-                    {
-                        if (animationKey.Time > firstRotationKey.Time)
-                        {
-                            firstRotationKey = animationKey;
-                        }
-                    }
-                }
-                else // second value
-                {
-                    if (!secondRotationFound)
-                    {
-                        secondRotationKey = animationKey;
-                        secondRotationFound = true;
-                    }
-                    else if (!keysAlreadySortedByTime)
-                    {
-                        if (animationKey.Time > secondRotationKey.Time)
-                        {
-                            secondRotationKey = animationKey;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    // calculate new position and rotation
-    Entity partEntity = part.Value;
-    RefRO<LocalTransform> partLocaltTransform = LocalTransformLookup.GetRefRO(partEntity);
-    float3 newPosition = partLocaltTransform.ValueRO.Position;
-    quaternion newRotation = partLocaltTransform.ValueRO.Rotation;
-    if (loopEnded)
-    {
-        if (secondPositionFound)
-        {
-            newPosition = secondPositionKey.PositionValue;
-        }
-        if (secondRotationFound)
-        {
-            newRotation = secondRotationKey.RotationValue;
-        }
-    }
-    else
-    {
-        float positionRate = (currentTimer - firstPositionKey.Time) / (secondPositionKey.Time - firstPositionKey.Time);
-        float rotationRate = (currentTimer - firstRotationKey.Time) / (secondRotationKey.Time - firstRotationKey.Time);
-        if (secondPositionFound)
-        {
-            newPosition = math.lerp(firstPositionKey.PositionValue, secondPositionKey.PositionValue, positionRate);
-        }
-        if (secondRotationFound)
-        {
-            newRotation = math.slerp(firstRotationKey.RotationValue, secondRotationKey.RotationValue, rotationRate);
-        }
-    }
-    // apply new values
-    float scale = partLocaltTransform.ValueRO.Scale;
-    ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
-    {
-        Position = newPosition,
-        Rotation = newRotation,
-        Scale = scale
-    });
-    // debug
-    if (part.Path == (FixedString512Bytes)"basic_rig")
-    {
-        //Debug.Log(setPosition);
-        //Debug.Log($"Time: {currentTimer} FIRST Y: {firstKey.PositionValue.y} SECOND Y: {secondKey.PositionValue.y}");
-        //Debug.Log($"firstKey Time: {firstKey.Time} secondKey Time: {secondKey.Time}");
-    }
-}
-*/

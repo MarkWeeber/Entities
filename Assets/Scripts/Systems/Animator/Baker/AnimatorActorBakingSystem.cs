@@ -145,8 +145,8 @@ public partial struct AnimatorActorBakingSystem : ISystem
                     var actorLayerItem = new AnimatorActorLayerBuffer
                     {
                         Id = layer.Id,
-                        AnimationTime = 0f,
-                        CurrentStateIndex = defaultStateId,
+                        CurrentAnimationTime = 0f,
+                        CurrentStateId = defaultStateId,
                     };
                     ParallelWriter.AppendToBuffer<AnimatorActorLayerBuffer>(sortKey, entity, actorLayerItem);
                     var transitionInfoItem = new AnimatorActorTransitionBuffer
@@ -165,7 +165,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
                 }
             }
 
-            // adding buffer for each of parts
+            // adding part component and buffers for each of parts
             NativeArray<AnimationPositionBuffer> animationPositions = new NativeArray<AnimationPositionBuffer>(Positions, Allocator.Temp);
             animationPositions.Sort(new CompareAnimationPositionTimeBuffer());
             NativeArray<AnimationRotationBuffer> animationRotations = new NativeArray<AnimationRotationBuffer>(Rotations, Allocator.Temp);
@@ -173,6 +173,8 @@ public partial struct AnimatorActorBakingSystem : ISystem
             foreach (var part in parts)
             {
                 Entity partEntity = part.Value;
+                // part component
+                ParallelWriter.AddComponent(sortKey, partEntity, new AnimatorActorPartComponent());
                 // positions
                 ParallelWriter.AddBuffer<AnimationPartPositionBuffer>(sortKey, partEntity);
                 for (int i = 0; i < animationPositions.Length; i++)

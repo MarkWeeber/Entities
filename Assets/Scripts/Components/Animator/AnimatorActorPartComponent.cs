@@ -1,8 +1,11 @@
-using Unity.Collections;
 using Unity.Entities;
 
 public struct AnimatorActorPartComponent : IComponentData
 {
-    public Entity RootEntity;
-    public FixedString512Bytes Path;
+    public int CurrentAnimationClipId;
+    public int NextAnimationClipId;
+    public float CurrentAnimationWeight;
+    public float NextAnimationWeight;
+    public float CurrentAnimationTime;
+    public float NextAnimationTime;
 }

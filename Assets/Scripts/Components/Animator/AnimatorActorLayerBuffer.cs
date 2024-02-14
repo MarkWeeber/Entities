@@ -4,6 +4,7 @@ using Unity.Entities;
 public struct AnimatorActorLayerBuffer : IBufferElementData
 {
     public int Id;
-    public int CurrentStateIndex;
-    public float AnimationTime;
+    public int CurrentStateId;
+    public float CurrentAnimationTime;
+    public float TransitionAnimationTime;
 }
