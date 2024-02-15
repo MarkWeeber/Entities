@@ -11,10 +11,13 @@ using Unity.Transforms;
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct AnimatorAnimateSystem : ISystem
 {
+    private ComponentLookup<AnimatorActorPartComponent> partComponentLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<AnimatorActorComponent>();
+        state.RequireForUpdate<AnimatorActorPartComponent>();
+        partComponentLookup = state.GetComponentLookup<AnimatorActorPartComponent>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -39,32 +42,28 @@ public partial struct AnimatorAnimateSystem : ISystem
             return;
         }
 
-        EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
-        EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
         float deltaTime = SystemAPI.Time.DeltaTime;
+        partComponentLookup.Update(ref state);
 
         state.Dependency = new ActorAnimateJob
         {
-            ParallelWriter = parallelWriter,
+            PartComponentLookup = partComponentLookup,
             DeltaTime = deltaTime
         }.ScheduleParallel(acrtorsQuery, state.Dependency);
-
-        state.Dependency.Complete();
-        ecb.Playback(state.EntityManager);
-        ecb.Dispose();
     }
 
     [BurstCompile]
     private partial struct ActorAnimateJob : IJobEntity
     {
-        public EntityCommandBuffer.ParallelWriter ParallelWriter; // for setting AnimatorActorPartComponent
+        [ReadOnly]
+        public ComponentLookup<AnimatorActorPartComponent> PartComponentLookup;
         public float DeltaTime;
 
         [BurstCompile]
         public void Execute(
             [ChunkIndexInQuery] int sortKey,
             in DynamicBuffer<AnimationBuffer> animations,
-            in DynamicBuffer<AnimatorActorParametersBuffer> parameters,
+            ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
             in DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             ref DynamicBuffer<AnimatorActorLayerBuffer> layers,
             in DynamicBuffer<LayerStateBuffer> states,
@@ -72,92 +71,238 @@ public partial struct AnimatorAnimateSystem : ISystem
             in DynamicBuffer<TransitionCondtionBuffer> conditions
             )
         {
+            NativeArray<AnimationBuffer> _animations = animations.AsNativeArray();
+            NativeArray<AnimatorActorPartBufferComponent> _parts = parts.AsNativeArray();
+            NativeArray<LayerStateBuffer> _states = states.AsNativeArray();
+            NativeArray<StateTransitionBuffer> _transitions = transitions.AsNativeArray();
+            NativeArray<TransitionCondtionBuffer> _conditions = conditions.AsNativeArray();
             for (int layerIndex = 0; layerIndex < layers.Length; layerIndex++)
             {
                 var layer = layers[layerIndex];
                 ProcessLayer(
                     sortKey,
                     ref layer,
-                    in animations,
-                    in parameters,
-                    in parts,
-                    in states,
-                    in transitions,
-                    in conditions,
+                    _animations,
+                    ref parameters,
+                    _parts,
+                    _states,
+                    _transitions,
+                    _conditions,
                     DeltaTime);
                 layers[layerIndex] = layer;
             }
+            _animations.Dispose();
+            _parts.Dispose();
+            _states.Dispose();
+            _transitions.Dispose();
+            _conditions.Dispose();
         }
 
         [BurstCompile]
         private void ProcessLayer(
             int sortKey,
             ref AnimatorActorLayerBuffer layer,
-            in DynamicBuffer<AnimationBuffer> animations,
-            in DynamicBuffer<AnimatorActorParametersBuffer> parameters,
-            in DynamicBuffer<AnimatorActorPartBufferComponent> parts,
-            in DynamicBuffer<LayerStateBuffer> states,
-            in DynamicBuffer<StateTransitionBuffer> transitions,
-            in DynamicBuffer<TransitionCondtionBuffer> conditions,
+            NativeArray<AnimationBuffer> animations,
+            ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
+            NativeArray<AnimatorActorPartBufferComponent> parts,
+            NativeArray<LayerStateBuffer> states,
+            NativeArray<StateTransitionBuffer> transitions,
+            NativeArray<TransitionCondtionBuffer> conditions,
             float deltaTime
             )
         {
-            float defaultWeight = layer.DefaultWeight;
-            int currentStateId = layer.CurrentStateId;
-            float currentStateSpeed = layer.CurrentStateSpeed;
-            int currentAnimationId = layer.CurrentAnimationId;
-            float currentAnimationTime = layer.CurrentAnimationTime;
-            bool currentAnimationIsLooped = layer.CurrentAnimationIsLooped;
-            bool isInTransition = layer.IsInTransition;
-            float transitionTimer = layer.TransitionTimer;
-            float exitPercentage = layer.ExitPercentage;
-            bool fixedDuration = layer.FixedDuration;
-            float durationTime = layer.DurationTime;
-            float transitionAnimationTime = layer.TransitionAnimationTime;
-            float offsetPercentage = layer.OffsetPercentage;
-            int nextStateId = layer.NextStateId;
-            float nextStateSpeed = layer.NextStateSpeed;
-            int nextAnimationId = layer.NextAnimationId;
-            float nextAnimationTime = layer.NextAnimationTime;
-            bool nextAnimationIsLooped = layer.NextAnimationIsLooped;
-
-            // if newly created then set current animation info
-            if (currentAnimationId == 0)
+            var _layer = new AnimatorActorLayerBuffer(layer);
+            bool newTransitionFound = false;
+            var newTransition = new StateTransitionBuffer();
+            if (_layer.IsInTransition) // if alreay in transtion then continue the transition
             {
-                foreach (var state in states)
+                if (_layer.TransitionTimer < 0) // transition completed, make changes
                 {
-                    if (state.Id == currentStateId && state.LayerId == layer.Id)
-                    {
-                        currentAnimationId = state.AnimationClipId;
-                        break;
-                    }
+                    CompleteTransition(ref layer);
+                }
+                else // transition still has time
+                {
+
                 }
             }
-
-            // check parameters conditions matching
-            bool transitionFound = false;
-            var transition = new StateTransitionBuffer();
-            foreach (var _transition in transitions)
+            // check parameters conditions matching for new transition if not already in transition
+            else
             {
-                if (_transition.StateId == currentStateId)
+                foreach (var _transition in transitions)
                 {
-                    bool allConditionsMet = false;
-                    foreach (var condition in conditions)
+                    if (_transition.StateId == _layer.CurrentStateId)
                     {
-                        if (condition.TransitionId == _transition.Id)
+                        bool allConditionsMetForThisTransition = false;
+                        foreach (var condition in conditions)
                         {
-
+                            allConditionsMetForThisTransition = false;
+                            if (condition.TransitionId == _transition.Id)
+                            {
+                                allConditionsMetForThisTransition = CheckConditionMeet(condition, ref parameters);
+                            }
+                        }
+                        if (allConditionsMetForThisTransition)
+                        {
+                            newTransitionFound = true;
+                            newTransition = _transition;
+                            break;
                         }
                     }
                 }
-                if (transitionFound)
+            }
+            if (newTransitionFound && !_layer.IsInTransition) // if new transition found and current transition ended or was missing register transitioning
+            {
+                SetTransition(ref _layer, newTransition, states);
+            }
+
+            // update layer info
+            layer = _layer;
+        }
+
+        [BurstCompile]
+        private void UpdateTransition(ref AnimatorActorLayerBuffer layer)
+        {
+            float currentTransitionTime = layer.TransitionTimer - layer.TransitionDuration;
+            // calculate current animation time
+            float exitTime = layer.ExitPercentage * layer.CurrentAnimationLength;
+            float transitionDuration = (layer.FixedDuration)?layer.TransitionDuration:layer.TransitionDuration * layer.CurrentAnimationLength;
+            float offsetTime = layer.NextAnimationLength * layer.TransitionOffsetPercentage;
+            float newCurrentAnimationTime = exitTime;
+
+            // calculate transition animation time
+        }
+
+        [BurstCompile]
+        private void SetTransition(ref AnimatorActorLayerBuffer layer, StateTransitionBuffer newTransition, NativeArray<LayerStateBuffer> states)
+        {
+            layer.IsInTransition = true;
+            layer.CurrentStateId = newTransition.Id;
+            var newState = new LayerStateBuffer();
+            foreach (var state in states)
+            {
+                if (state.Id == newTransition.Id)
                 {
+                    newState = state;
                     break;
                 }
             }
+            layer.CurrentStateSpeed = newState.Id;
+            layer.CurrentAnimationId = newState.AnimationClipId;
+            layer.CurrentAnimationTime = newState.AnimationLength;
+            layer.CurrentAnimationIsLooped = newState.AnimationLooped;
+            layer.TransitionTimer = 0f;
+            layer.ExitPercentage = 0f;
+            layer.FixedDuration = false;
+            layer.TransitionDuration = 0f;
+            layer.TransitionOffsetPercentage = 0f;
+            layer.NextStateId = 0;
+            layer.NextStateSpeed = 0f;
+            layer.NextAnimationId = 0;
+            layer.NextAnimationTime = 0f;
+            layer.NextAnimationIsLooped = false;
+        }
 
-            // check if already in transition
+        [BurstCompile]
+        private void CompleteTransition(ref AnimatorActorLayerBuffer layer)
+        {
+            layer.IsInTransition = false;
+            layer.CurrentStateId = layer.NextStateId;
+            layer.CurrentStateSpeed = layer.NextStateSpeed;
+            layer.CurrentAnimationId = layer.NextAnimationId;
+            layer.CurrentAnimationTime = layer.NextAnimationTime;
+            layer.CurrentAnimationIsLooped = layer.NextAnimationIsLooped;
+            layer.TransitionTimer = 0f;
+            layer.ExitPercentage = 0f;
+            layer.FixedDuration = false;
+            layer.TransitionDuration = 0f;
+            layer.TransitionOffsetPercentage = 0f;
+            layer.NextStateId = 0;
+            layer.NextStateSpeed = 0f;
+            layer.NextAnimationId = 0;
+            layer.NextAnimationTime = 0f;
+            layer.NextAnimationIsLooped = false;
+        }
 
+        [BurstCompile]
+        private bool CheckConditionMeet(TransitionCondtionBuffer condition, ref DynamicBuffer<AnimatorActorParametersBuffer> parameters)
+        {
+            bool result = false;
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var parameter = parameters[i];
+                if (parameter.ParameterName == condition.Parameter)
+                {
+                    switch (condition.Mode)
+                    {
+                        case AnimatorTransitionConditionMode.If:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Bool)
+                            {
+                                if (parameter.BoolValue)
+                                {
+                                    return true;
+                                }
+                            }
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Trigger)
+                            {
+                                if (parameter.BoolValue)
+                                {
+                                    parameter.BoolValue = false;
+                                    parameters[i] = parameter;
+                                    return true;
+                                }
+                            }
+                            break;
+                        case AnimatorTransitionConditionMode.IfNot:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Bool)
+                            {
+                                if (!parameter.BoolValue)
+                                {
+                                    return true;
+                                }
+                            }
+                            break;
+                        case AnimatorTransitionConditionMode.Greater:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Int || parameter.Type == UnityEngine.AnimatorControllerParameterType.Float)
+                            {
+                                if (parameter.NumericValue > condition.Treshold)
+                                {
+                                    return true;
+                                }
+                            }
+                            break;
+                        case AnimatorTransitionConditionMode.Less:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Int || parameter.Type == UnityEngine.AnimatorControllerParameterType.Float)
+                            {
+                                if (parameter.NumericValue < condition.Treshold)
+                                {
+                                    return true;
+                                }
+                            }
+                            break;
+                        case AnimatorTransitionConditionMode.Equals:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Int || parameter.Type == UnityEngine.AnimatorControllerParameterType.Float)
+                            {
+                                if (parameter.NumericValue == condition.Treshold)
+                                {
+                                    return true;
+                                }
+                            }
+                            break;
+                        case AnimatorTransitionConditionMode.NotEqual:
+                            if (parameter.Type == UnityEngine.AnimatorControllerParameterType.Int || parameter.Type == UnityEngine.AnimatorControllerParameterType.Float)
+                            {
+                                if (parameter.NumericValue != condition.Treshold)
+                                {
+                                    return true;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return result;
         }
     }
 

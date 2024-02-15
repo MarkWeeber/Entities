@@ -76,28 +76,14 @@ public class AnimatorActorAuthoring : MonoBehaviour
             // animator parameters
             foreach (var parameter in parsedObject.AnimatorParameters)
             {
-
-                float defaultValue = 0;
+                float defaultNumericValue = 0;
                 switch (parameter.Type)
                 {
                     case UnityEngine.AnimatorControllerParameterType.Float:
-                        defaultValue = parameter.DefaultFloat;
+                        defaultNumericValue = parameter.DefaultFloat;
                         break;
                     case UnityEngine.AnimatorControllerParameterType.Int:
-                        defaultValue = parameter.DefaultInt;
-                        break;
-                    case UnityEngine.AnimatorControllerParameterType.Bool:
-                        if (parameter.DefaultBool)
-                        {
-                            defaultValue = 1;
-                        }
-                        else
-                        {
-                            defaultValue = -1;
-                        }
-                        break;
-                    case UnityEngine.AnimatorControllerParameterType.Trigger:
-                        defaultValue = 0;
+                        defaultNumericValue = parameter.DefaultInt;
                         break;
                     default:
                         break;
@@ -106,7 +92,8 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 {
                     ParameterName = parameter.ParameterName,
                     Type = parameter.Type,
-                    Value = defaultValue
+                    NumericValue = defaultNumericValue,
+                    BoolValue = parameter.DefaultBool
                 };
                 animatorActorParametersBuffer.Add(actorParameterItem);
             }
@@ -154,6 +141,15 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     {
                         defaultStateId = state.Id;
                     }
+                    var animationClip = new AnimationBuffer();
+                    foreach (var animation in parsedObject.Animations)
+                    {
+                        if (animation.Id == state.AnimationClipId)
+                        {
+                            animationClip = animation;
+                            break;
+                        }
+                    }
                     var layerStateComponent = new LayerStateBuffer
                     {
                         Id = state.Id,
@@ -161,7 +157,9 @@ public class AnimatorActorAuthoring : MonoBehaviour
                         AnimationClipId = state.AnimationClipId,
                         DefaultState = state.DefaultState,
                         LayerId = state.LayerId,
-                        Speed = state.Speed
+                        Speed = state.Speed,
+                        AnimationLength = animationClip.Length,
+                        AnimationLooped = animationClip.Looped,
                     };
                     layerStatesBuffer.Add(layerStateComponent);
                 }
@@ -172,13 +170,12 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     CurrentStateId = defaultStateId,
                     DefaultWeight = layer.DefaultWeight,
                     IsInTransition = false,
-                    DurationTime = 0f,
+                    TransitionDuration = 0f,
                     ExitPercentage = 0f,
                     FixedDuration = false,
                     NextAnimationTime = 0f,
                     NextStateId = defaultStateId,
-                    OffsetPercentage = 0f,
-                    TransitionAnimationTime = 0f,
+                    TransitionOffsetPercentage = 0f,
                     TransitionTimer = 0f,
                     NextAnimationId = 1,
                     NextAnimationIsLooped = false,

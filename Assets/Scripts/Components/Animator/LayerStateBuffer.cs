@@ -8,5 +8,7 @@ public partial struct LayerStateBuffer : IBufferElementData
     public int LayerId;
     public bool DefaultState;
     public int AnimationClipId;
+    public float AnimationLength;
+    public bool AnimationLooped;
     public float Speed;
 }

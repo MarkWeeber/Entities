@@ -6,5 +6,6 @@ public struct AnimatorActorParametersBuffer : IBufferElementData
 {
     public FixedString32Bytes ParameterName;
     public AnimatorControllerParameterType Type;
-    public float Value;
+    public float NumericValue;
+    public bool BoolValue;
 }
