@@ -167,7 +167,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
                         AnimatorInstanceId = animatorInstanceId,
                         StateId = stateId,
                         DestinationStateId = destinationStateId,
-                        HasExitTime = animatorStateTransition.hasExitTime,
+                        FixedDuration = animatorStateTransition.hasExitTime,
                         ExitTime = animatorStateTransition.exitTime,
                         TransitionDuration = animatorStateTransition.duration,
                         TransitionOffset = animatorStateTransition.offset

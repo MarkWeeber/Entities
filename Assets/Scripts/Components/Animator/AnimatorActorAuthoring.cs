@@ -107,7 +107,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     AnimatorInstanceId = item.AnimatorInstanceId,
                     DestinationStateId = item.DestinationStateId,
                     ExitTime = item.ExitTime,
-                    HasExitTime = item.HasExitTime,
+                    FixedDuration = item.FixedDuration,
                     StateId = item.StateId,
                     TransitionDuration = item.TransitionDuration,
                     TransitionOffset = item.TransitionOffset
@@ -134,19 +134,22 @@ public class AnimatorActorAuthoring : MonoBehaviour
             foreach (var layer in parsedObject.AnimatorLayers)
             {
                 int defaultStateId = -1;
+                var layerDefaultAnimationClip = new AnimationBuffer();
+                var defaultState = new LayerStateBuffer();
                 // states
                 foreach (var state in parsedObject.LayerStates)
                 {
                     if (layer.Id == state.LayerId && state.DefaultState)
                     {
                         defaultStateId = state.Id;
+                        defaultState = state;
                     }
-                    var animationClip = new AnimationBuffer();
-                    foreach (var animation in parsedObject.Animations)
+                    var animationClipForState = new AnimationBuffer();
+                    foreach (var animation in parsedObject.Animations) // find animation clip for this state
                     {
-                        if (animation.Id == state.AnimationClipId)
+                        if (state.AnimationClipId == animation.Id)
                         {
-                            animationClip = animation;
+                            animationClipForState = animation;
                             break;
                         }
                     }
@@ -158,55 +161,72 @@ public class AnimatorActorAuthoring : MonoBehaviour
                         DefaultState = state.DefaultState,
                         LayerId = state.LayerId,
                         Speed = state.Speed,
-                        AnimationLength = animationClip.Length,
-                        AnimationLooped = animationClip.Looped,
+                        AnimationLength = animationClipForState.Length,
+                        AnimationLooped = animationClipForState.Looped,
                     };
                     layerStatesBuffer.Add(layerStateComponent);
+                }
+                foreach (var animation in parsedObject.Animations)
+                {
+                    if (defaultState.AnimationClipId == animation.Id)
+                    {
+                        layerDefaultAnimationClip = animation;
+                        break;
+                    }
                 }
                 var actorLayerItem = new AnimatorActorLayerBuffer
                 {
                     Id = layer.Id,
-                    CurrentAnimationTime = 0f,
-                    CurrentStateId = defaultStateId,
                     DefaultWeight = layer.DefaultWeight,
-                    IsInTransition = false,
-                    TransitionDuration = 0f,
-                    ExitPercentage = 0f,
-                    FixedDuration = false,
-                    NextAnimationTime = 0f,
-                    NextStateId = defaultStateId,
-                    TransitionOffsetPercentage = 0f,
-                    TransitionTimer = 0f,
-                    NextAnimationId = 1,
+
+                    // current state and animation info
+                    CurrentStateId = defaultStateId,
+                    CurrentStateSpeed = defaultState.Speed,
+                    CurrentAnimationId = layerDefaultAnimationClip.Id,
+                    CurrentAnimationTime = 0f, // time needed for animation
+                    CurrentAnimationLength = layerDefaultAnimationClip.Length,
+                    CurrentAnimationIsLooped = layerDefaultAnimationClip.Looped,
+
+                    // transition info
+                    IsInTransition = false, // main transition switch
+                    TransitionDuration = 0f, // actual transition duration
+                    TransitionTimer = 0f, // actual transition timer
+
+                    FirstOffsetTimer = 0f, // start offset timer
+                    SecondAnimationOffset = 0f, // offset for second animation start
+
+                    // second state and animation info
+                    NextStateId = 0,
+                    NextStateSpeed = 1f,
+                    NextAnimationId = 0,
+                    NextAnimationTime = 0f, // time needed in transitioning animation
+                    NextAnimationLength = 0f,
+                    NextAnimationSpeed = 1f,
                     NextAnimationIsLooped = false,
-                    CurrentAnimationId = 0,
-                    CurrentAnimationIsLooped = false,
-                    CurrentStateSpeed = 1f,
-                    NextStateSpeed = 1f
                 };
                 animatorActorLayersBuffer.Add(actorLayerItem);
             }
         }
-            private void RegisterChildren(GameObject gameObject, ref DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorParts, string pathName)
+        private void RegisterChildren(GameObject gameObject, ref DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorParts, string pathName)
+        {
+            List<GameObject> children = new List<GameObject>();
+            GetChildren(gameObject, children, false);
+            string localPathName = pathName;
+            foreach (GameObject go in children)
             {
-                List<GameObject> children = new List<GameObject>();
-                GetChildren(gameObject, children, false);
-                string localPathName = pathName;
-                foreach (GameObject go in children)
+                if (go == gameObject)
                 {
-                    if (go == gameObject)
-                    {
-                        continue;
-                    }
-                    string currentPathName = pathName + go.name;
-                    Entity entity = GetEntity(go, TransformUsageFlags.Dynamic);
-                    animatorActorParts.Add(new AnimatorActorPartBufferComponent
-                    {
-                        Path = (FixedString512Bytes)currentPathName,
-                        Value = entity
-                    });
-                    RegisterChildren(go, ref animatorActorParts, currentPathName + "/");
+                    continue;
                 }
+                string currentPathName = pathName + go.name;
+                Entity entity = GetEntity(go, TransformUsageFlags.Dynamic);
+                animatorActorParts.Add(new AnimatorActorPartBufferComponent
+                {
+                    Path = (FixedString512Bytes)currentPathName,
+                    Value = entity
+                });
+                RegisterChildren(go, ref animatorActorParts, currentPathName + "/");
             }
         }
     }
+}

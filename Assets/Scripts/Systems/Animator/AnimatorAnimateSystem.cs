@@ -1,23 +1,19 @@
-using System;
 using Unity.Burst;
-using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.Transforms;
-
+using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct AnimatorAnimateSystem : ISystem
 {
-    private ComponentLookup<AnimatorActorPartComponent> partComponentLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<AnimatorActorComponent>();
         state.RequireForUpdate<AnimatorActorPartComponent>();
-        partComponentLookup = state.GetComponentLookup<AnimatorActorPartComponent>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -28,7 +24,6 @@ public partial struct AnimatorAnimateSystem : ISystem
     {
         EntityQuery acrtorsQuery = SystemAPI.QueryBuilder()
             .WithAll<
-             AnimationBuffer,
              AnimatorActorParametersBuffer,
              AnimatorActorPartBufferComponent,
              AnimatorActorLayerBuffer,
@@ -41,28 +36,30 @@ public partial struct AnimatorAnimateSystem : ISystem
         {
             return;
         }
-
+        var ecb = new EntityCommandBuffer(Allocator.TempJob);
+        var parallelWriter = ecb.AsParallelWriter();
         float deltaTime = SystemAPI.Time.DeltaTime;
-        partComponentLookup.Update(ref state);
 
         state.Dependency = new ActorAnimateJob
         {
-            PartComponentLookup = partComponentLookup,
+            ParallelWriter = parallelWriter,
             DeltaTime = deltaTime
         }.ScheduleParallel(acrtorsQuery, state.Dependency);
+
+        state.Dependency.Complete();
+        ecb.Playback(state.EntityManager);
+        ecb.Dispose();
     }
 
     [BurstCompile]
     private partial struct ActorAnimateJob : IJobEntity
     {
-        [ReadOnly]
-        public ComponentLookup<AnimatorActorPartComponent> PartComponentLookup;
+        public EntityCommandBuffer.ParallelWriter ParallelWriter;
         public float DeltaTime;
 
         [BurstCompile]
         public void Execute(
             [ChunkIndexInQuery] int sortKey,
-            in DynamicBuffer<AnimationBuffer> animations,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
             in DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             ref DynamicBuffer<AnimatorActorLayerBuffer> layers,
@@ -71,7 +68,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             in DynamicBuffer<TransitionCondtionBuffer> conditions
             )
         {
-            NativeArray<AnimationBuffer> _animations = animations.AsNativeArray();
             NativeArray<AnimatorActorPartBufferComponent> _parts = parts.AsNativeArray();
             NativeArray<LayerStateBuffer> _states = states.AsNativeArray();
             NativeArray<StateTransitionBuffer> _transitions = transitions.AsNativeArray();
@@ -82,7 +78,6 @@ public partial struct AnimatorAnimateSystem : ISystem
                 ProcessLayer(
                     sortKey,
                     ref layer,
-                    _animations,
                     ref parameters,
                     _parts,
                     _states,
@@ -91,7 +86,6 @@ public partial struct AnimatorAnimateSystem : ISystem
                     DeltaTime);
                 layers[layerIndex] = layer;
             }
-            _animations.Dispose();
             _parts.Dispose();
             _states.Dispose();
             _transitions.Dispose();
@@ -102,7 +96,6 @@ public partial struct AnimatorAnimateSystem : ISystem
         private void ProcessLayer(
             int sortKey,
             ref AnimatorActorLayerBuffer layer,
-            NativeArray<AnimationBuffer> animations,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
             NativeArray<AnimatorActorPartBufferComponent> parts,
             NativeArray<LayerStateBuffer> states,
@@ -114,34 +107,26 @@ public partial struct AnimatorAnimateSystem : ISystem
             var _layer = new AnimatorActorLayerBuffer(layer);
             bool newTransitionFound = false;
             var newTransition = new StateTransitionBuffer();
-            if (_layer.IsInTransition) // if alreay in transtion then continue the transition
-            {
-                if (_layer.TransitionTimer < 0) // transition completed, make changes
-                {
-                    CompleteTransition(ref layer);
-                }
-                else // transition still has time
-                {
-
-                }
-            }
-            // check parameters conditions matching for new transition if not already in transition
-            else
+            if (!_layer.IsInTransition) // if no transition thet check parameters conditions matching for new transition
             {
                 foreach (var _transition in transitions)
                 {
                     if (_transition.StateId == _layer.CurrentStateId)
                     {
-                        bool allConditionsMetForThisTransition = false;
+                        bool allConditionsMet = true;
+                        bool conditionMet = false;
                         foreach (var condition in conditions)
                         {
-                            allConditionsMetForThisTransition = false;
                             if (condition.TransitionId == _transition.Id)
                             {
-                                allConditionsMetForThisTransition = CheckConditionMeet(condition, ref parameters);
+                                conditionMet = CheckConditionMeet(condition, ref parameters);
+                                if (!conditionMet)
+                                {
+                                    allConditionsMet = false;
+                                }
                             }
                         }
-                        if (allConditionsMetForThisTransition)
+                        if (allConditionsMet)
                         {
                             newTransitionFound = true;
                             newTransition = _transition;
@@ -150,83 +135,86 @@ public partial struct AnimatorAnimateSystem : ISystem
                     }
                 }
             }
-            if (newTransitionFound && !_layer.IsInTransition) // if new transition found and current transition ended or was missing register transitioning
+            else // already in transition
             {
-                SetTransition(ref _layer, newTransition, states);
+                if (_layer.FirstOffsetTimer <= 0f && _layer.TransitionTimer <= 0f) // check if timers are completed
+                {
+                    PerfromTransition(ref _layer); // transition fully completed
+                }
             }
-
+            if (!_layer.IsInTransition && newTransitionFound) // new transition found
+            {
+                SetNewTransition(ref _layer, newTransition, states);
+            }
+            // shift timer
+            AddToTimers(ref _layer, deltaTime);
+            // clamp timer
+            ClampTimers(ref _layer);
+            // set parts' component
+            SetPartsComponents(sortKey, _layer, parts);
             // update layer info
             layer = _layer;
         }
 
         [BurstCompile]
-        private void UpdateTransition(ref AnimatorActorLayerBuffer layer)
+        private void SetPartsComponents(int sortKey, AnimatorActorLayerBuffer layer, NativeArray<AnimatorActorPartBufferComponent> parts)
         {
-            float currentTransitionTime = layer.TransitionTimer - layer.TransitionDuration;
-            // calculate current animation time
-            float exitTime = layer.ExitPercentage * layer.CurrentAnimationLength;
-            float transitionDuration = (layer.FixedDuration)?layer.TransitionDuration:layer.TransitionDuration * layer.CurrentAnimationLength;
-            float offsetTime = layer.NextAnimationLength * layer.TransitionOffsetPercentage;
-            float newCurrentAnimationTime = exitTime;
-
-            // calculate transition animation time
+            float transitionRate = -1f;
+            if (layer.IsInTransition && layer.FirstOffsetTimer <= 0f)
+            {
+                transitionRate = layer.TransitionTimer / layer.TransitionDuration;
+            }
+            foreach (var part in parts)
+            {
+                ParallelWriter.SetComponent(sortKey, part.Value, new AnimatorActorPartComponent
+                {
+                   CurrentAnimationClipId = layer.CurrentAnimationId,
+                   CurrentAnimationTime = layer.CurrentAnimationTime,
+                   NextAnimationClipId = layer.NextAnimationId,
+                   NextAnimationTime = layer.NextAnimationTime,
+                   TransitionRate = transitionRate
+                });
+            }
         }
 
         [BurstCompile]
-        private void SetTransition(ref AnimatorActorLayerBuffer layer, StateTransitionBuffer newTransition, NativeArray<LayerStateBuffer> states)
+        private void SetNewTransition(ref AnimatorActorLayerBuffer layer, StateTransitionBuffer newTransition, NativeArray<LayerStateBuffer> states)
         {
-            layer.IsInTransition = true;
-            layer.CurrentStateId = newTransition.Id;
             var newState = new LayerStateBuffer();
-            foreach (var state in states)
+            foreach (var _state in states)
             {
-                if (state.Id == newTransition.Id)
+                if (newTransition.DestinationStateId == _state.Id)
                 {
-                    newState = state;
+                    newState = _state;
                     break;
                 }
             }
-            layer.CurrentStateSpeed = newState.Id;
-            layer.CurrentAnimationId = newState.AnimationClipId;
-            layer.CurrentAnimationTime = newState.AnimationLength;
-            layer.CurrentAnimationIsLooped = newState.AnimationLooped;
-            layer.TransitionTimer = 0f;
-            layer.ExitPercentage = 0f;
-            layer.FixedDuration = false;
-            layer.TransitionDuration = 0f;
-            layer.TransitionOffsetPercentage = 0f;
-            layer.NextStateId = 0;
-            layer.NextStateSpeed = 0f;
-            layer.NextAnimationId = 0;
-            layer.NextAnimationTime = 0f;
-            layer.NextAnimationIsLooped = false;
-        }
+            // transition info
+            float transitionDuration = (newTransition.FixedDuration) ?
+                newTransition.TransitionDuration :
+                newTransition.TransitionDuration * newState.AnimationLength / newState.Speed;
+            layer.IsInTransition = true; // main transition switch
+            layer.TransitionDuration = transitionDuration; // actual transition duration
+            layer.TransitionTimer = transitionDuration; // actual transition timer
 
-        [BurstCompile]
-        private void CompleteTransition(ref AnimatorActorLayerBuffer layer)
-        {
-            layer.IsInTransition = false;
-            layer.CurrentStateId = layer.NextStateId;
-            layer.CurrentStateSpeed = layer.NextStateSpeed;
-            layer.CurrentAnimationId = layer.NextAnimationId;
-            layer.CurrentAnimationTime = layer.NextAnimationTime;
-            layer.CurrentAnimationIsLooped = layer.NextAnimationIsLooped;
-            layer.TransitionTimer = 0f;
-            layer.ExitPercentage = 0f;
-            layer.FixedDuration = false;
-            layer.TransitionDuration = 0f;
-            layer.TransitionOffsetPercentage = 0f;
-            layer.NextStateId = 0;
-            layer.NextStateSpeed = 0f;
-            layer.NextAnimationId = 0;
-            layer.NextAnimationTime = 0f;
-            layer.NextAnimationIsLooped = false;
+            layer.FirstOffsetTimer = newTransition.ExitTime * layer.CurrentAnimationLength / layer.CurrentStateSpeed; // start offset timer
+            layer.SecondAnimationOffset = newTransition.TransitionOffset * layer.NextAnimationLength; // offset for second animation start
+
+            // second state and animation info
+            layer.NextStateId = newState.Id;
+            layer.NextStateSpeed = newState.Speed;
+            layer.NextAnimationId = newState.AnimationClipId;
+            layer.NextAnimationTime = layer.SecondAnimationOffset; // time needed in transitioning animation
+            layer.NextAnimationLength = newState.AnimationLength;
+            layer.NextAnimationIsLooped = newState.AnimationLooped;
+
+
+
         }
 
         [BurstCompile]
         private bool CheckConditionMeet(TransitionCondtionBuffer condition, ref DynamicBuffer<AnimatorActorParametersBuffer> parameters)
         {
-            bool result = false;
             for (int i = 0; i < parameters.Length; i++)
             {
                 var parameter = parameters[i];
@@ -302,208 +290,84 @@ public partial struct AnimatorAnimateSystem : ISystem
                     }
                 }
             }
-            return result;
+            return false;
+        }
+
+        [BurstCompile]
+        private void ClampTimers(ref AnimatorActorLayerBuffer layer)
+        {
+            if (layer.CurrentAnimationTime > layer.CurrentAnimationLength)
+            {
+                if (layer.CurrentAnimationIsLooped)
+                {
+                    layer.CurrentAnimationTime = layer.CurrentAnimationTime % layer.CurrentAnimationLength;
+                }
+                else
+                {
+                    layer.CurrentAnimationTime = layer.CurrentAnimationLength;
+                }
+            }
+            if (layer.IsInTransition)
+            {
+                if (layer.NextAnimationTime > layer.NextAnimationLength)
+                {
+                    if (layer.NextAnimationIsLooped)
+                    {
+                        layer.NextAnimationTime = layer.NextAnimationTime % layer.NextAnimationLength;
+                    }
+                    else
+                    {
+                        layer.NextAnimationTime = layer.NextAnimationLength;
+                    }
+                }
+            }
+        }
+
+        [BurstCompile]
+        private void PerfromTransition(ref AnimatorActorLayerBuffer layer)
+        {
+            // current state and animation info
+            layer.CurrentStateId = layer.NextStateId;
+            layer.CurrentStateSpeed = layer.NextStateId;
+            layer.CurrentAnimationId = layer.NextAnimationId;
+            layer.CurrentAnimationTime = layer.NextAnimationTime; // time needed for animation
+            layer.CurrentAnimationLength = layer.NextAnimationTime;
+            layer.CurrentAnimationIsLooped = layer.NextAnimationIsLooped;
+
+            // transition info
+            layer.IsInTransition = false; // main transition switch
+            layer.TransitionDuration = 0f; // actual transition duration
+            layer.TransitionTimer = 0f; // actual transition timer
+
+            layer.FirstOffsetTimer = 0f; // start offset timer
+            layer.SecondAnimationOffset = 0f; // offset for second animation start
+
+            // second state and animation info
+            layer.NextStateId = 0;
+            layer.NextStateSpeed = 0f;
+            layer.NextAnimationId = 0;
+            layer.NextAnimationTime = 0f; // time needed in transitioning animation
+            layer.NextAnimationLength = 0f;
+            layer.NextAnimationIsLooped = false;
+        }
+
+        [BurstCompile]
+        private void AddToTimers(ref AnimatorActorLayerBuffer layer, float deltaTime)
+        {
+            layer.CurrentAnimationTime += deltaTime * layer.CurrentStateSpeed;
+            if (layer.IsInTransition)
+            {
+                if (layer.FirstOffsetTimer > 0)
+                {
+                    layer.FirstOffsetTimer -= deltaTime;
+                }
+                if (layer.FirstOffsetTimer <= 0) // inside duration
+                {
+                    float exessiveTime = layer.FirstOffsetTimer * -1;
+                    layer.NextAnimationTime += (deltaTime * layer.NextAnimationSpeed) + exessiveTime;
+                    layer.TransitionTimer -= (exessiveTime + deltaTime);
+                }
+            }
         }
     }
-
-
-
-    //[BurstCompile]
-    //private void ProcessLayer(
-    //    int sortKey,
-    //    ref AnimatorActorLayerBuffer layer,
-    //    NativeArray<AnimatorActorPartBufferComponent> actorParts,
-    //    NativeArray<AnimatorActorParametersBuffer> actorParameters,
-    //    float deltaTime)
-    //{
-    //    // finding animation clip id
-    //    int currentAnimationId = -1;
-    //    bool animationFound = false;
-    //    foreach (var state in States)
-    //    {
-    //        if (state.AnimatorInstanceId == _animatorInstatnceId && state.Id == layer.CurrentStateId)
-    //        {
-    //            currentAnimationId = state.AnimationClipId;
-    //            break;
-    //        }
-    //    }
-    //    AnimationBuffer animationClip = new AnimationBuffer();
-    //    foreach (var animation in Animations)
-    //    {
-    //        if (animation.AnimatorInstanceId == _animatorInstatnceId && animation.Id == currentAnimationId)
-    //        {
-    //            animationClip = animation;
-    //            animationFound = true;
-    //            break;
-    //        }
-    //    }
-    //    if (!animationFound) // animation clip somehow not found, returning it
-    //    {
-    //        return;
-    //    }
-
-    //    // check parameters for conditions
-
-
-
-    //    // animation found let's animate
-    //    // manage timers
-    //    var animationDuration = animationClip.Length;
-    //    var looped = animationClip.Looped;
-    //    var currentTimer = layer.CurrentAnimationTime;
-    //    var loopEnded = false;
-    //    if (currentTimer > animationDuration)
-    //    {
-    //        if (looped)
-    //        {
-    //            currentTimer = currentTimer % animationDuration;
-    //        }
-    //        else
-    //        {
-    //            currentTimer = animationDuration;
-    //            loopEnded = true;
-    //        }
-    //    }
-    //    // loop over paths
-    //    foreach (var part in actorParts)
-    //    {
-    //        // positions
-    //        float3 firstPosition = float3.zero;
-    //        float3 secondPosition = float3.zero;
-    //        bool firstPositionFound = false;
-    //        bool secondPositionFound = false;
-    //        float firstPositionTime = -1f;
-    //        float secondPositionTime = -1f;
-    //        foreach (var position in Positions)
-    //        {
-    //            if (position.AnimationId == currentAnimationId && part.Path == position.Path)
-    //            {
-    //                if (currentTimer <= position.Time)
-    //                {
-    //                    if (!firstPositionFound)
-    //                    {
-    //                        firstPosition = position.Value;
-    //                        firstPositionTime = position.Time;
-    //                        firstPositionFound = true;
-    //                    }
-    //                    else
-    //                    {
-    //                        if (firstPositionTime > position.Time)
-    //                        {
-    //                            firstPosition = position.Value;
-    //                            firstPositionTime = position.Time;
-    //                        }
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    if (!secondPositionFound)
-    //                    {
-    //                        secondPosition = position.Value;
-    //                        secondPositionTime = position.Time;
-    //                        secondPositionFound = true;
-    //                    }
-    //                    else
-    //                    {
-    //                        if (secondPositionTime < position.Time)
-    //                        {
-    //                            secondPosition = position.Value;
-    //                            secondPositionTime = position.Time;
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        // rotations
-    //        quaternion firstRotation = quaternion.identity;
-    //        quaternion secondRotation = quaternion.identity;
-    //        bool firstRotationFound = false;
-    //        bool secondRotationFound = false;
-    //        float firstRotationTime = -1f;
-    //        float secondRotationTime = -1f;
-    //        foreach (var rotation in Rotations)
-    //        {
-    //            if (rotation.AnimationId == currentAnimationId && part.Path == rotation.Path)
-    //            {
-    //                if (currentTimer <= rotation.Time)
-    //                {
-    //                    if (!firstRotationFound)
-    //                    {
-    //                        firstRotation = rotation.Value;
-    //                        firstRotationTime = rotation.Time;
-    //                        firstRotationFound = true;
-    //                    }
-    //                    else
-    //                    {
-    //                        if (firstRotationTime > rotation.Time)
-    //                        {
-    //                            firstRotation = rotation.Value;
-    //                            firstRotationTime = rotation.Time;
-    //                        }
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    if (!secondRotationFound)
-    //                    {
-    //                        secondRotation = rotation.Value;
-    //                        secondRotationTime = rotation.Time;
-    //                        secondRotationFound = true;
-    //                    }
-    //                    else
-    //                    {
-    //                        if (secondRotationTime < rotation.Time)
-    //                        {
-    //                            secondRotation = rotation.Value;
-    //                            secondRotationTime = rotation.Time;
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //        // get current data from local transform
-    //        Entity partEntity = part.Value;
-    //        RefRO<LocalTransform> partLocaltTransform = PartComponentLookup.GetRefRO(partEntity);
-    //        float3 newPosition = partLocaltTransform.ValueRO.Position;
-    //        quaternion newRotation = partLocaltTransform.ValueRO.Rotation;
-    //        float scale = partLocaltTransform.ValueRO.Scale;
-
-    //        // calculcate rates
-    //        if (loopEnded)
-    //        {
-    //            if (firstPositionFound)
-    //            {
-    //                newPosition = firstPosition;
-    //            }
-    //            if (firstRotationFound)
-    //            {
-    //                newRotation = firstRotation;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (secondPositionFound)
-    //            {
-    //                float rate = (currentTimer - firstPositionTime) / (secondPositionTime - firstPositionTime);
-    //                newPosition = math.lerp(firstPosition, secondPosition, rate);
-    //            }
-    //            if (secondRotationFound)
-    //            {
-    //                float rate = (currentTimer - firstRotationTime) / (secondRotationTime - firstRotationTime);
-    //                newRotation = math.slerp(firstRotation, secondRotation, rate);
-    //            }
-    //        }
-
-    //        // apply
-    //        ParallelWriter.SetComponent(sortKey, partEntity, new LocalTransform
-    //        {
-    //            Position = newPosition,
-    //            Rotation = newRotation,
-    //            Scale = scale
-    //        });
-    //    }
-    //    currentTimer += deltaTime;
-    //    layer.CurrentAnimationTime = currentTimer;
-    //}
 }

@@ -54,6 +54,10 @@ public partial struct AnimatorActorBakingSystem : ISystem
             DynamicBuffer<AnimationPositionBuffer> positions,
             DynamicBuffer<AnimationRotationBuffer> rotations)
         {
+            NativeArray<AnimationPositionBuffer> _position = positions.AsNativeArray();
+            _position.Sort(new CompareAnimationPositionTimeBuffer());
+            NativeArray<AnimationRotationBuffer> _rotations = rotations.AsNativeArray();
+            _rotations.Sort(new CompareAnimationRotationTimeBuffer());
             // adding part component and buffers for each of parts
             foreach (var part in parts)
             {
@@ -62,9 +66,9 @@ public partial struct AnimatorActorBakingSystem : ISystem
                 ParallelWriter.AddComponent(sortKey, partEntity, new AnimatorActorPartComponent());
                 // positions
                 ParallelWriter.AddBuffer<AnimationPartPositionBuffer>(sortKey, partEntity);
-                for (int i = 0; i < positions.Length; i++)
+                for (int i = 0; i < _position.Length; i++)
                 {
-                    var item = positions[i];
+                    var item = _position[i];
                     if (item.Path == part.Path)
                     {
                         var partItem = new AnimationPartPositionBuffer
@@ -78,9 +82,9 @@ public partial struct AnimatorActorBakingSystem : ISystem
                 }
                 // rotations
                 ParallelWriter.AddBuffer<AnimationPartRotationBuffer>(sortKey, partEntity);
-                for (int i = 0; i < rotations.Length; i++)
+                for (int i = 0; i < _rotations.Length; i++)
                 {
-                    var item = rotations[i];
+                    var item = _rotations[i];
                     if (item.Path == part.Path)
                     {
                         var partItem = new AnimationPartRotationBuffer
@@ -93,6 +97,8 @@ public partial struct AnimatorActorBakingSystem : ISystem
                     }
                 }
             }
+            _position.Dispose();
+            _rotations.Dispose();
         }
     }
 }

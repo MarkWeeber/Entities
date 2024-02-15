@@ -5,26 +5,29 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     public int Id;
     public float DefaultWeight;
 
+    // current state and animation info
     public int CurrentStateId;
     public float CurrentStateSpeed;
     public int CurrentAnimationId;
-    public float CurrentAnimationTime;
+    public float CurrentAnimationTime; // time needed for animation
     public float CurrentAnimationLength;
     public bool CurrentAnimationIsLooped;
 
+    // transition info
+    public bool IsInTransition; // main transition switch
+    public float TransitionDuration; // actual transition duration
+    public float TransitionTimer; // actual transition timer
 
-    public bool IsInTransition;
-    public float TransitionTimer;
-    public float ExitPercentage;
-    public bool FixedDuration;
-    public float TransitionDuration;
-    public float TransitionOffsetPercentage;
+    public float FirstOffsetTimer; // start offset timer
+    public float SecondAnimationOffset; // offset for second animation start
 
+    // second state and animation info
     public int NextStateId;
     public float NextStateSpeed;
     public int NextAnimationId;
-    public float NextAnimationTime;
+    public float NextAnimationTime; // time needed in transitioning animation
     public float NextAnimationLength;
+    public float NextAnimationSpeed;
     public bool NextAnimationIsLooped;
 
     public AnimatorActorLayerBuffer(
@@ -38,15 +41,15 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         bool CurrentAnimationIsLooped,
         bool IsInTransition,
         float TransitionTimer,
-        float ExitPercentage,
-        bool FixedDuration,
-        float TransitionDurationTime,
-        float OffsetPercentage,
+        float TransitionDuration,
+        float FirstOffsetTimer,
+        float SecondAnimationOffset,
         int NextStateId,
         float NextStateSpeed,
         int NextAnimationId,
         float NextAnimationTime,
         float NextAnimationLength,
+        float NextAnimationSpeed,
         bool NextAnimationIsLooped
     )
     {
@@ -60,15 +63,15 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.CurrentAnimationIsLooped = CurrentAnimationIsLooped;
         this.IsInTransition = IsInTransition;
         this.TransitionTimer = TransitionTimer;
-        this.ExitPercentage = ExitPercentage;
-        this.FixedDuration = FixedDuration;
-        this.TransitionDuration = TransitionDurationTime;
-        this.TransitionOffsetPercentage = OffsetPercentage;
+        this.TransitionDuration = TransitionDuration;
+        this.FirstOffsetTimer = FirstOffsetTimer;
+        this.SecondAnimationOffset = SecondAnimationOffset;
         this.NextStateId = NextStateId;
         this.NextStateSpeed = NextStateSpeed;
         this.NextAnimationId = NextAnimationId;
         this.NextAnimationTime = NextAnimationTime;
         this.NextAnimationLength = NextAnimationLength;
+        this.NextAnimationSpeed = NextAnimationSpeed;
         this.NextAnimationIsLooped = NextAnimationIsLooped;
     }
     public AnimatorActorLayerBuffer(AnimatorActorLayerBuffer layer)
@@ -83,15 +86,16 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.CurrentAnimationIsLooped = layer.CurrentAnimationIsLooped;
         this.IsInTransition = layer.IsInTransition;
         this.TransitionTimer = layer.TransitionTimer;
-        this.ExitPercentage = layer.ExitPercentage;
-        this.FixedDuration = layer.FixedDuration;
         this.TransitionDuration = layer.TransitionDuration;
-        this.TransitionOffsetPercentage = layer.TransitionOffsetPercentage;
+        this.FirstOffsetTimer = layer.FirstOffsetTimer;
+        this.SecondAnimationOffset = layer.SecondAnimationOffset;
+        this.TransitionDuration = layer.TransitionDuration;
         this.NextStateId = layer.NextStateId;
         this.NextStateSpeed = layer.NextStateSpeed;
         this.NextAnimationId = layer.NextAnimationId;
         this.NextAnimationTime = layer.NextAnimationTime;
         this.NextAnimationLength = layer.NextAnimationLength;
+        this.NextAnimationSpeed = layer.NextAnimationSpeed;
         this.NextAnimationIsLooped = layer.NextAnimationIsLooped;
     }
 

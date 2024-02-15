@@ -7,7 +7,7 @@ public partial struct StateTransitionBuffer : IBufferElementData
     public int AnimatorInstanceId;
     public int StateId;
     public int DestinationStateId;
-    public bool HasExitTime;
+    public bool FixedDuration;
     public float ExitTime;
     public float TransitionDuration;
     public float TransitionOffset;

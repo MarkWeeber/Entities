@@ -536,6 +536,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_Entity_test
       objectReference: {fileID: 0}
+    - target: {fileID: 8612971877532485932, guid: 4656de3bd35dbe446b07edda46ff7708,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8965078632494045617, guid: 4656de3bd35dbe446b07edda46ff7708,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -624,6 +629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character_Entity
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279088878561037523, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8974614825699568540, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
         type: 3}
