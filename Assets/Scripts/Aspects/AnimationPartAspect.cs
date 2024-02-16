@@ -9,7 +9,7 @@ public readonly partial struct AnimationPartAspect : IAspect
     private readonly RefRW<LocalTransform> localTransform;
     private readonly DynamicBuffer<AnimationPartPositionBuffer> positions;
     private readonly DynamicBuffer<AnimationPartRotationBuffer> rotations;
-    private readonly RefRO<AnimatorActorPartComponent> partComponent;
+    private readonly RefRW<AnimatorActorPartComponent> partComponent;
     public void Animate()
     {
         int currentAnimationId = partComponent.ValueRO.CurrentAnimationClipId;
@@ -20,38 +20,23 @@ public readonly partial struct AnimationPartAspect : IAspect
         float3 secondPos = float3.zero;
         float firstPosTime = 0f;
         float secondPosTime = 0f;
-        for(int i = 0; i < positions.Length; i++)
+        for (int i = 0; i < positions.Length; i++)
         {
             var pos = positions[i];
-            if (pos.AnimationId == partComponent.ValueRO.CurrentAnimationClipId)
+            if (pos.AnimationId == currentAnimationId)
             {
-                if (!firstPosFound && pos.Time <= partComponent.ValueRO.CurrentAnimationTime)
+                if (pos.Time <= currentAnimationTime)
                 {
-                    firstPos = pos.Value;
-                    firstPosTime = pos.Time;
                     firstPosFound = true;
+                    firstPosTime = pos.Time;
+                    firstPos = pos.Value;
                 }
-                else
+                if (pos.Time > currentAnimationTime)
                 {
-                    if (firstPosTime < pos.Time)
-                    {
-                        firstPosTime = pos.Time;
-                        firstPos = pos.Value;
-                    }
-                }
-                if (!secondPosFound && pos.Time > partComponent.ValueRO.CurrentAnimationTime)
-                {
-                    secondPos = pos.Value;
-                    secondPosTime = pos.Time;
                     secondPosFound = true;
-                }
-                else
-                {
-                    if (secondPosTime > pos.Time)
-                    {
-                        secondPos = pos.Value;
-                        secondPosTime = pos.Time;
-                    }
+                    secondPosTime = pos.Time;
+                    secondPos = pos.Value;
+                    break;
                 }
             }
         }
@@ -64,35 +49,24 @@ public readonly partial struct AnimationPartAspect : IAspect
         for (int i = 0; i < rotations.Length; i++)
         {
             var rot = rotations[i];
-            if (rot.AnimationId == partComponent.ValueRO.CurrentAnimationClipId)
+            if (rot.AnimationId == currentAnimationId)
             {
-                if (!firstRotFound && rot.Time <= partComponent.ValueRO.CurrentAnimationTime)
+                if (_entity.Index == 115)
                 {
-                    firstRot = rot.Value;
-                    firstRotTime = rot.Time;
+                    Debug.Log(rot.AnimationId + " = " + currentAnimationId);
+                }
+                if (rot.Time <= currentAnimationTime)
+                {
                     firstRotFound = true;
+                    firstRotTime = rot.Time;
+                    firstRot = rot.Value;
                 }
-                else
+                if (rot.Time > currentAnimationTime)
                 {
-                    if (firstRotTime < rot.Time)
-                    {
-                        firstRot = rot.Value;
-                        firstRotTime = rot.Time;
-                    }
-                }
-                if (!secondRotFound && rot.Time > partComponent.ValueRO.CurrentAnimationTime)
-                {
-                    secondRot = rot.Value;
-                    secondRotTime = rot.Time;
                     secondRotFound = true;
-                }
-                else
-                {
-                    if (secondRotTime > rot.Time)
-                    {
-                        secondRot = rot.Value;
-                        secondRotTime = rot.Time;
-                    }
+                    secondRotTime = rot.Time;
+                    secondRot = rot.Value;
+                    break;
                 }
             }
         }
@@ -104,8 +78,9 @@ public readonly partial struct AnimationPartAspect : IAspect
         {
             float rate = (partComponent.ValueRO.CurrentAnimationTime - firstPosTime) / (secondPosTime - firstPosTime);
             setPosition = math.lerp(firstPos, secondPos, rate);
+
         }
-        else if (firstPosFound)
+        if (firstPosFound && !secondPosFound)
         {
             setPosition = firstPos;
         }
@@ -113,11 +88,24 @@ public readonly partial struct AnimationPartAspect : IAspect
         {
             float rate = (partComponent.ValueRO.CurrentAnimationTime - firstRotTime) / (secondRotTime - firstRotTime);
             setRotation = math.slerp(firstRot, secondRot, rate);
+
         }
-        else if (firstRotFound)
+        if (firstRotFound && !secondRotFound)
         {
             setRotation = firstRot;
         }
+        partComponent.ValueRW.FirstPosition = firstPos;
+        partComponent.ValueRW.FirstRotation = firstRot;
+        partComponent.ValueRW.SecondPosition = secondPos;
+        partComponent.ValueRW.SecondRotation = secondRot;
+        partComponent.ValueRW.SetPosition = setPosition;
+        partComponent.ValueRW.SetRotation = setRotation;
+        partComponent.ValueRW.FirstPosFound = firstPosFound;
+        partComponent.ValueRW.SecondPosFound = secondPosFound;
+        partComponent.ValueRW.FirstRotFound = firstRotFound;
+        partComponent.ValueRW.SecondRotFound = secondRotFound;
+
+
         localTransform.ValueRW.Position = setPosition;
         localTransform.ValueRW.Rotation = setRotation;
         localTransform.ValueRW.Scale = setScale;

@@ -539,7 +539,7 @@ PrefabInstance:
     - target: {fileID: 8612971877532485932, guid: 4656de3bd35dbe446b07edda46ff7708,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8965078632494045617, guid: 4656de3bd35dbe446b07edda46ff7708,
         type: 3}
@@ -625,6 +625,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4621047344489671888, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 27fc69715c85ece4786aaee397c4a4d7, type: 2}
     - target: {fileID: 8279088878561037523, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
         type: 3}
       propertyPath: m_Name
@@ -633,13 +638,13 @@ PrefabInstance:
     - target: {fileID: 8279088878561037523, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8974614825699568540, guid: 7f83d3f0d0c2b4e4dae68a93e6756fdd,
         type: 3}
       propertyPath: animatorDotsAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 55df0d7d05cdd6a4f976be532d57b311,
+      objectReference: {fileID: 11400000, guid: 0d35469d1524e014fbe7ce6d42da13a1,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -718,8 +723,7 @@ PrefabInstance:
         type: 3}
       propertyPath: animatorDotsAsset
       value: 
-      objectReference: {fileID: 11400000, guid: aaf7b59a2b360b44ea399677763331ed,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

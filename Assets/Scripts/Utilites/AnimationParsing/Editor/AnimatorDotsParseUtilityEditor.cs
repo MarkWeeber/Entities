@@ -1,3 +1,4 @@
+using Codice.Client.Common;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -96,6 +97,7 @@ public class AnimatorDotsParseUtilityEditor : Editor
                         CurveId = curveIndex,
                         Time = keyFrameItem.time,
                         Value = keyFrameItem.value,
+                        AnimationId = animationId,
                     };
                     animationCurveKeyTable.Add(curveKeyItem);
                 }
@@ -217,7 +219,6 @@ public class AnimatorDotsParseUtilityEditor : Editor
     {
         List<AnimationKey> result = new List<AnimationKey>();
         List<AnimationKeyPreProcess> preProcess = new List<AnimationKeyPreProcess>();
-
         // animator instances
         var animatorIdsList = curves.Select(i => i.AnimatorInstanceId).Distinct().ToList();
         // animation instances
@@ -277,7 +278,8 @@ public class AnimatorDotsParseUtilityEditor : Editor
                                 selectedKeys = keys.Where(
                                     i => i.Time == time
                                     && i.CurveId == curveId
-                                    && i.AnimatorInstanceId == animatorId).ToList();
+                                    && i.AnimatorInstanceId == animatorId
+                                    && i.AnimationId == animationId).ToList();
                                 // keys
                                 foreach (var key in selectedKeys)
                                 {
@@ -290,6 +292,14 @@ public class AnimatorDotsParseUtilityEditor : Editor
                                         ref rotationEulerValue,
                                         property,
                                         key.Value);
+                                    if (property == _posLocalx && time == 5)
+                                    {
+                                        Debug.Log("ANIM ID: " + animationId + "Curve ID: " + curveId + " KEY VAL: " + key.Value);
+                                    }
+                                    //if (time == 5 && positionEngaged)
+                                    //{
+                                    //    Debug.Log("ID: " + animationId + "X: " + positionValue.x);
+                                    //}
                                 }
                             }
                         }
