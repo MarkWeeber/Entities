@@ -292,14 +292,6 @@ public class AnimatorDotsParseUtilityEditor : Editor
                                         ref rotationEulerValue,
                                         property,
                                         key.Value);
-                                    if (property == _posLocalx && time == 5)
-                                    {
-                                        Debug.Log("ANIM ID: " + animationId + "Curve ID: " + curveId + " KEY VAL: " + key.Value);
-                                    }
-                                    //if (time == 5 && positionEngaged)
-                                    //{
-                                    //    Debug.Log("ID: " + animationId + "X: " + positionValue.x);
-                                    //}
                                 }
                             }
                         }

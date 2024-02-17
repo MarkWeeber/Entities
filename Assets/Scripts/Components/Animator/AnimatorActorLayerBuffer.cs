@@ -20,6 +20,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
 
     public float FirstOffsetTimer; // start offset timer
     public float SecondAnimationOffset; // offset for second animation start
+    public float TransitionRate;
 
     // second state and animation info
     public int NextStateId;
@@ -44,6 +45,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         float TransitionDuration,
         float FirstOffsetTimer,
         float SecondAnimationOffset,
+        float TransitionRate,
         int NextStateId,
         float NextStateSpeed,
         int NextAnimationId,
@@ -66,6 +68,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.TransitionDuration = TransitionDuration;
         this.FirstOffsetTimer = FirstOffsetTimer;
         this.SecondAnimationOffset = SecondAnimationOffset;
+        this.TransitionRate = TransitionRate;
         this.NextStateId = NextStateId;
         this.NextStateSpeed = NextStateSpeed;
         this.NextAnimationId = NextAnimationId;
@@ -89,6 +92,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.TransitionDuration = layer.TransitionDuration;
         this.FirstOffsetTimer = layer.FirstOffsetTimer;
         this.SecondAnimationOffset = layer.SecondAnimationOffset;
+        this.TransitionRate = layer.TransitionRate;
         this.TransitionDuration = layer.TransitionDuration;
         this.NextStateId = layer.NextStateId;
         this.NextStateSpeed = layer.NextStateSpeed;

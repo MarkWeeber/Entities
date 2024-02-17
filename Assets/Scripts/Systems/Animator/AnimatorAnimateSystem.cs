@@ -1,6 +1,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -146,23 +147,26 @@ public partial struct AnimatorAnimateSystem : ISystem
             {
                 SetNewTransition(ref _layer, newTransition, states);
             }
-            // shift timer
-            AddToTimers(ref _layer, deltaTime);
             // clamp timer
             ClampTimers(ref _layer);
             // set parts' component
-            SetPartsComponents(sortKey, _layer, parts);
+            SetPartsComponents(sortKey, ref _layer, parts);
+            // shift timer
+            AddToTimers(ref _layer, deltaTime);
             // update layer info
             layer = _layer;
         }
 
         [BurstCompile]
-        private void SetPartsComponents(int sortKey, AnimatorActorLayerBuffer layer, NativeArray<AnimatorActorPartBufferComponent> parts)
+        private void SetPartsComponents(int sortKey, ref AnimatorActorLayerBuffer layer, NativeArray<AnimatorActorPartBufferComponent> parts)
         {
             float transitionRate = -1f;
+            layer.TransitionRate = 0;
             if (layer.IsInTransition && layer.FirstOffsetTimer <= 0f)
             {
-                transitionRate = layer.TransitionTimer / layer.TransitionDuration;
+                transitionRate = (layer.TransitionDuration - layer.TransitionTimer) / layer.TransitionDuration;
+                transitionRate = math.clamp(transitionRate, 0f, 1f);
+                layer.TransitionRate = transitionRate;
             }
             foreach (var part in parts)
             {
@@ -196,7 +200,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             layer.IsInTransition = true; // main transition switch
             layer.TransitionDuration = transitionDuration; // actual transition duration
             layer.TransitionTimer = transitionDuration; // actual transition timer
-
+            layer.TransitionRate = 0;
             layer.FirstOffsetTimer = newTransition.ExitTime * layer.CurrentAnimationLength / layer.CurrentStateSpeed; // start offset timer
             layer.SecondAnimationOffset = newTransition.TransitionOffset * layer.NextAnimationLength; // offset for second animation start
 
@@ -328,17 +332,17 @@ public partial struct AnimatorAnimateSystem : ISystem
         {
             // current state and animation info
             layer.CurrentStateId = layer.NextStateId;
-            layer.CurrentStateSpeed = layer.NextStateId;
+            layer.CurrentStateSpeed = layer.NextStateSpeed;
             layer.CurrentAnimationId = layer.NextAnimationId;
             layer.CurrentAnimationTime = layer.NextAnimationTime; // time needed for animation
-            layer.CurrentAnimationLength = layer.NextAnimationTime;
+            layer.CurrentAnimationLength = layer.NextAnimationLength;
             layer.CurrentAnimationIsLooped = layer.NextAnimationIsLooped;
 
             // transition info
             layer.IsInTransition = false; // main transition switch
             layer.TransitionDuration = 0f; // actual transition duration
             layer.TransitionTimer = 0f; // actual transition timer
-
+            layer.TransitionRate = 0;
             layer.FirstOffsetTimer = 0f; // start offset timer
             layer.SecondAnimationOffset = 0f; // offset for second animation start
 

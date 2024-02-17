@@ -14,6 +14,48 @@ public readonly partial struct AnimationPartAspect : IAspect
     {
         int currentAnimationId = partComponent.ValueRO.CurrentAnimationClipId;
         float currentAnimationTime = partComponent.ValueRO.CurrentAnimationTime;
+        float3 setPosition = localTransform.ValueRO.Position;
+        quaternion setRotation = localTransform.ValueRO.Rotation;
+        float setScale = localTransform.ValueRO.Scale;
+        
+        // obtain first animation values
+        ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId);
+
+        // check if transition exists
+        float transitionRate = partComponent.ValueRO.TransitionRate;
+        if (transitionRate >= 0)
+        {
+            int nextAnimationId = partComponent.ValueRO.NextAnimationClipId;
+            float nextAnimationTime = partComponent.ValueRO.NextAnimationTime;
+            float3 nextPosition = localTransform.ValueRO.Position;
+            quaternion nextRotation = localTransform.ValueRO.Rotation;
+            ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId);
+            setPosition = math.lerp(setPosition, nextPosition, transitionRate);
+            setRotation = math.slerp(setRotation, nextRotation, transitionRate);
+        }
+
+        // setting values
+        localTransform.ValueRW.Position = setPosition;
+        localTransform.ValueRW.Rotation = setRotation;
+        localTransform.ValueRW.Scale = setScale;
+
+        //// debug info
+        //partComponent.ValueRW.FirstPosition = firstPos;
+        //partComponent.ValueRW.FirstRotation = firstRot;
+        //partComponent.ValueRW.SecondPosition = secondPos;
+        //partComponent.ValueRW.SecondRotation = secondRot;
+        //partComponent.ValueRW.SetPosition = setPosition;
+        //partComponent.ValueRW.SetRotation = setRotation;
+        //partComponent.ValueRW.FirstPosFound = firstPosFound;
+        //partComponent.ValueRW.SecondPosFound = secondPosFound;
+        //partComponent.ValueRW.FirstRotFound = firstRotFound;
+        //partComponent.ValueRW.SecondRotFound = secondRotFound;
+
+
+    }
+
+    private void ObtainAnimationValues(ref float3 position, ref quaternion rotation, float animationTime, int animationId)
+    {
         bool firstPosFound = false;
         bool secondPosFound = false;
         float3 firstPos = float3.zero;
@@ -23,15 +65,15 @@ public readonly partial struct AnimationPartAspect : IAspect
         for (int i = 0; i < positions.Length; i++)
         {
             var pos = positions[i];
-            if (pos.AnimationId == currentAnimationId)
+            if (pos.AnimationId == animationId)
             {
-                if (pos.Time <= currentAnimationTime)
+                if (pos.Time <= animationTime)
                 {
                     firstPosFound = true;
                     firstPosTime = pos.Time;
                     firstPos = pos.Value;
                 }
-                if (pos.Time > currentAnimationTime)
+                if (pos.Time > animationTime)
                 {
                     secondPosFound = true;
                     secondPosTime = pos.Time;
@@ -49,19 +91,19 @@ public readonly partial struct AnimationPartAspect : IAspect
         for (int i = 0; i < rotations.Length; i++)
         {
             var rot = rotations[i];
-            if (rot.AnimationId == currentAnimationId)
+            if (rot.AnimationId == animationId)
             {
                 if (_entity.Index == 115)
                 {
-                    Debug.Log(rot.AnimationId + " = " + currentAnimationId);
+                    Debug.Log(rot.AnimationId + " = " + animationId);
                 }
-                if (rot.Time <= currentAnimationTime)
+                if (rot.Time <= animationTime)
                 {
                     firstRotFound = true;
                     firstRotTime = rot.Time;
                     firstRot = rot.Value;
                 }
-                if (rot.Time > currentAnimationTime)
+                if (rot.Time > animationTime)
                 {
                     secondRotFound = true;
                     secondRotTime = rot.Time;
@@ -71,43 +113,25 @@ public readonly partial struct AnimationPartAspect : IAspect
             }
         }
 
-        float3 setPosition = localTransform.ValueRO.Position;
-        quaternion setRotation = localTransform.ValueRO.Rotation;
-        float setScale = localTransform.ValueRO.Scale;
         if (secondPosFound && firstPosFound)
         {
-            float rate = (partComponent.ValueRO.CurrentAnimationTime - firstPosTime) / (secondPosTime - firstPosTime);
-            setPosition = math.lerp(firstPos, secondPos, rate);
+            float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
+            position = math.lerp(firstPos, secondPos, rate);
 
         }
         if (firstPosFound && !secondPosFound)
         {
-            setPosition = firstPos;
+            position = firstPos;
         }
         if (secondRotFound && firstRotFound)
         {
-            float rate = (partComponent.ValueRO.CurrentAnimationTime - firstRotTime) / (secondRotTime - firstRotTime);
-            setRotation = math.slerp(firstRot, secondRot, rate);
+            float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
+            rotation = math.slerp(firstRot, secondRot, rate);
 
         }
         if (firstRotFound && !secondRotFound)
         {
-            setRotation = firstRot;
+            rotation = firstRot;
         }
-        partComponent.ValueRW.FirstPosition = firstPos;
-        partComponent.ValueRW.FirstRotation = firstRot;
-        partComponent.ValueRW.SecondPosition = secondPos;
-        partComponent.ValueRW.SecondRotation = secondRot;
-        partComponent.ValueRW.SetPosition = setPosition;
-        partComponent.ValueRW.SetRotation = setRotation;
-        partComponent.ValueRW.FirstPosFound = firstPosFound;
-        partComponent.ValueRW.SecondPosFound = secondPosFound;
-        partComponent.ValueRW.FirstRotFound = firstRotFound;
-        partComponent.ValueRW.SecondRotFound = secondRotFound;
-
-
-        localTransform.ValueRW.Position = setPosition;
-        localTransform.ValueRW.Rotation = setRotation;
-        localTransform.ValueRW.Scale = setScale;
     }
 }

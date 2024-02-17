@@ -644,7 +644,7 @@ PrefabInstance:
         type: 3}
       propertyPath: animatorDotsAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 0d35469d1524e014fbe7ce6d42da13a1,
+      objectReference: {fileID: 11400000, guid: 55df0d7d05cdd6a4f976be532d57b311,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
