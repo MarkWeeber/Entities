@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
+using CustomUtils;
 
 public readonly partial struct AnimationPartAspect : IAspect
 {
@@ -31,7 +31,9 @@ public readonly partial struct AnimationPartAspect : IAspect
             quaternion nextRotation = localTransform.ValueRO.Rotation;
             ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId);
             setPosition = math.lerp(setPosition, nextPosition, transitionRate);
+            //setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
             setRotation = math.slerp(setRotation, nextRotation, transitionRate);
+            //setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
         }
 
         // setting values
@@ -93,10 +95,6 @@ public readonly partial struct AnimationPartAspect : IAspect
             var rot = rotations[i];
             if (rot.AnimationId == animationId)
             {
-                if (_entity.Index == 115)
-                {
-                    Debug.Log(rot.AnimationId + " = " + animationId);
-                }
                 if (rot.Time <= animationTime)
                 {
                     firstRotFound = true;
@@ -117,6 +115,7 @@ public readonly partial struct AnimationPartAspect : IAspect
         {
             float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
             position = math.lerp(firstPos, secondPos, rate);
+            //position = CustomMath.Lean(firstPos, secondPos, rate);
 
         }
         if (firstPosFound && !secondPosFound)
@@ -127,6 +126,7 @@ public readonly partial struct AnimationPartAspect : IAspect
         {
             float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
             rotation = math.slerp(firstRot, secondRot, rate);
+            //rotation = CustomMath.Lean(firstRot, secondRot, rate);
 
         }
         if (firstRotFound && !secondRotFound)
