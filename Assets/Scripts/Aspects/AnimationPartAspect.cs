@@ -30,10 +30,10 @@ public readonly partial struct AnimationPartAspect : IAspect
             float3 nextPosition = localTransform.ValueRO.Position;
             quaternion nextRotation = localTransform.ValueRO.Rotation;
             ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId);
-            setPosition = math.lerp(setPosition, nextPosition, transitionRate);
-            //setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
-            setRotation = math.slerp(setRotation, nextRotation, transitionRate);
-            //setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
+            //setPosition = math.lerp(setPosition, nextPosition, transitionRate);
+            setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
+            //setRotation = math.slerp(setRotation, nextRotation, transitionRate);
+            setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
         }
 
         // setting values
@@ -114,8 +114,8 @@ public readonly partial struct AnimationPartAspect : IAspect
         if (secondPosFound && firstPosFound)
         {
             float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
-            position = math.lerp(firstPos, secondPos, rate);
-            //position = CustomMath.Lean(firstPos, secondPos, rate);
+            //position = math.lerp(firstPos, secondPos, rate);
+            position = CustomMath.Lean(firstPos, secondPos, rate);
 
         }
         if (firstPosFound && !secondPosFound)
@@ -125,8 +125,8 @@ public readonly partial struct AnimationPartAspect : IAspect
         if (secondRotFound && firstRotFound)
         {
             float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
-            rotation = math.slerp(firstRot, secondRot, rate);
-            //rotation = CustomMath.Lean(firstRot, secondRot, rate);
+            //rotation = math.slerp(firstRot, secondRot, rate);
+            rotation = CustomMath.Lean(firstRot, secondRot, rate);
 
         }
         if (firstRotFound && !secondRotFound)
