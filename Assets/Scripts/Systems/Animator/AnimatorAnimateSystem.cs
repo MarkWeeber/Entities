@@ -176,7 +176,8 @@ public partial struct AnimatorAnimateSystem : ISystem
                    CurrentAnimationTime = layer.CurrentAnimationTime,
                    NextAnimationClipId = layer.NextAnimationId,
                    NextAnimationTime = layer.NextAnimationTime,
-                   TransitionRate = transitionRate
+                   TransitionRate = transitionRate,
+                   Method = layer.Method
                 });
             }
         }

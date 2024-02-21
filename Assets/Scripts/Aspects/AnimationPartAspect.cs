@@ -19,7 +19,7 @@ public readonly partial struct AnimationPartAspect : IAspect
         float setScale = localTransform.ValueRO.Scale;
         
         // obtain first animation values
-        ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId);
+        ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId, partComponent.ValueRO.Method);
 
         // check if transition exists
         float transitionRate = partComponent.ValueRO.TransitionRate;
@@ -29,11 +29,24 @@ public readonly partial struct AnimationPartAspect : IAspect
             float nextAnimationTime = partComponent.ValueRO.NextAnimationTime;
             float3 nextPosition = localTransform.ValueRO.Position;
             quaternion nextRotation = localTransform.ValueRO.Rotation;
-            ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId);
-            //setPosition = math.lerp(setPosition, nextPosition, transitionRate);
-            setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
-            //setRotation = math.slerp(setRotation, nextRotation, transitionRate);
-            setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
+            ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId, partComponent.ValueRO.Method);
+            switch (partComponent.ValueRO.Method)
+            {
+                case PartsAnimationMethod.Lerp:
+                    setPosition = math.lerp(setPosition, nextPosition, transitionRate);
+                    setRotation = math.slerp(setRotation, nextRotation, transitionRate);
+                    break;
+                case PartsAnimationMethod.Lean:
+                    setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
+                    setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
+                    break;
+                case PartsAnimationMethod.SmoothStep:
+                    setPosition = CustomMath.SmoothStep(setPosition, nextPosition, transitionRate);
+                    setRotation = CustomMath.SmoothStep(setRotation, nextRotation, transitionRate);
+                    break;
+                default:
+                    break;
+            }
         }
 
         // setting values
@@ -56,7 +69,7 @@ public readonly partial struct AnimationPartAspect : IAspect
 
     }
 
-    private void ObtainAnimationValues(ref float3 position, ref quaternion rotation, float animationTime, int animationId)
+    private void ObtainAnimationValues(ref float3 position, ref quaternion rotation, float animationTime, int animationId, PartsAnimationMethod method)
     {
         bool firstPosFound = false;
         bool secondPosFound = false;
@@ -114,8 +127,20 @@ public readonly partial struct AnimationPartAspect : IAspect
         if (secondPosFound && firstPosFound)
         {
             float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
-            //position = math.lerp(firstPos, secondPos, rate);
-            position = CustomMath.Lean(firstPos, secondPos, rate);
+            switch (method)
+            {
+                case PartsAnimationMethod.Lerp:
+                    position = math.lerp(firstPos, secondPos, rate);
+                    break;
+                case PartsAnimationMethod.Lean:
+                    position = CustomMath.Lean(firstPos, secondPos, rate);
+                    break;
+                case PartsAnimationMethod.SmoothStep:
+                    position = CustomMath.SmoothStep(firstPos, secondPos, rate);
+                    break;
+                default:
+                    break;
+            }
 
         }
         if (firstPosFound && !secondPosFound)
@@ -125,8 +150,20 @@ public readonly partial struct AnimationPartAspect : IAspect
         if (secondRotFound && firstRotFound)
         {
             float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
-            //rotation = math.slerp(firstRot, secondRot, rate);
-            rotation = CustomMath.Lean(firstRot, secondRot, rate);
+            switch (method)
+            {
+                case PartsAnimationMethod.Lerp:
+                    rotation = math.slerp(firstRot, secondRot, rate);
+                    break;
+                case PartsAnimationMethod.Lean:
+                    rotation = CustomMath.Lean(firstRot, secondRot, rate);
+                    break;
+                case PartsAnimationMethod.SmoothStep:
+                    rotation = CustomMath.SmoothStep(firstRot, secondRot, rate);
+                    break;
+                default:
+                    break;
+            }
 
         }
         if (firstRotFound && !secondRotFound)

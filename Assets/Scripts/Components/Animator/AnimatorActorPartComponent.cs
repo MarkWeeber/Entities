@@ -8,4 +8,5 @@ public struct AnimatorActorPartComponent : IComponentData
     public float CurrentAnimationTime;
     public float NextAnimationTime;
     public float TransitionRate;
+    public PartsAnimationMethod Method;
 }

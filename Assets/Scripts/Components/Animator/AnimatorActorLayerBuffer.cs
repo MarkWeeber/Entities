@@ -30,6 +30,8 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     public float NextAnimationLength;
     public float NextAnimationSpeed;
     public bool NextAnimationIsLooped;
+    // animation method
+    public PartsAnimationMethod Method;
 
     public AnimatorActorLayerBuffer(
         int Id,
@@ -52,7 +54,8 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         float NextAnimationTime,
         float NextAnimationLength,
         float NextAnimationSpeed,
-        bool NextAnimationIsLooped
+        bool NextAnimationIsLooped,
+        PartsAnimationMethod Method
     )
     {
         this.Id = Id;
@@ -76,6 +79,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.NextAnimationLength = NextAnimationLength;
         this.NextAnimationSpeed = NextAnimationSpeed;
         this.NextAnimationIsLooped = NextAnimationIsLooped;
+        this.Method = Method;
     }
     public AnimatorActorLayerBuffer(AnimatorActorLayerBuffer layer)
     {
@@ -101,6 +105,14 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.NextAnimationLength = layer.NextAnimationLength;
         this.NextAnimationSpeed = layer.NextAnimationSpeed;
         this.NextAnimationIsLooped = layer.NextAnimationIsLooped;
+        this.Method = layer.Method;
     }
 
+}
+
+public enum PartsAnimationMethod
+{
+    Lerp = 0,
+    Lean = 1,
+    SmoothStep = 2,
 }
