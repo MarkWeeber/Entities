@@ -3,8 +3,10 @@ using Unity.Entities;
 using Unity.Collections;
 using UnityEngine;
 
-[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
+//[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
 [BurstCompile]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateBefore(typeof(SpawnerSystem))]
 public partial struct AnimatorActorBakingSystem : ISystem
 {
     [BurstCompile]
@@ -24,6 +26,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
             .WithAll<
                 AnimatorActorComponent,
                 AnimatorActorPartBufferComponent,
+                AnimatorActorBakedComponent,
                 AnimationPositionBuffer,
                 AnimationRotationBuffer>()
             .Build();
@@ -52,7 +55,8 @@ public partial struct AnimatorActorBakingSystem : ISystem
             [ChunkIndexInQuery] int sortKey,
             DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             DynamicBuffer<AnimationPositionBuffer> positions,
-            DynamicBuffer<AnimationRotationBuffer> rotations)
+            DynamicBuffer<AnimationRotationBuffer> rotations,
+            Entity entity)
         {
             NativeArray<AnimationPositionBuffer> _position = positions.AsNativeArray();
             _position.Sort(new CompareAnimationPositionTimeBuffer());
@@ -99,6 +103,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
             }
             _position.Dispose();
             _rotations.Dispose();
+            ParallelWriter.SetComponentEnabled<AnimatorActorBakedComponent>(sortKey, entity, false);
         }
     }
 }

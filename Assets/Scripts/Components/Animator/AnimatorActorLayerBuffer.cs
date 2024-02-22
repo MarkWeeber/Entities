@@ -110,6 +110,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
 
 }
 
+[System.Serializable]
 public enum PartsAnimationMethod
 {
     Lerp = 0,

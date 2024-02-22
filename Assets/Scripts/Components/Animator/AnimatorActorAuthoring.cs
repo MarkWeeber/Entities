@@ -6,6 +6,7 @@ using UnityEngine;
 public class AnimatorActorAuthoring : MonoBehaviour
 {
     public AnimatorDotsAsset animatorDotsAsset;
+    public PartsAnimationMethod Method;
     class Baker : Baker<AnimatorActorAuthoring>
     {
         public override void Bake(AnimatorActorAuthoring authoring)
@@ -19,12 +20,13 @@ public class AnimatorActorAuthoring : MonoBehaviour
             {
                 AnimatorId = authoring.animatorDotsAsset.AnimatorInstanceId,
             });
-            RegisterBuffers(entity, authoring.animatorDotsAsset);
+            AddComponent(entity, new AnimatorActorBakedComponent());
+            RegisterBuffers(entity, authoring.animatorDotsAsset, authoring.Method);
             DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartBufferComponent>(entity);
             RegisterChildren(authoring.gameObject, ref animatorActorPartComponents, "");
         }
 
-        private void RegisterBuffers(Entity entity, AnimatorDotsAsset asset)
+        private void RegisterBuffers(Entity entity, AnimatorDotsAsset asset, PartsAnimationMethod method)
         {
             DynamicBuffer<AnimationBuffer> animationBuffer = AddBuffer<AnimationBuffer>(entity);
             DynamicBuffer<AnimatorActorParametersBuffer> animatorActorParametersBuffer = AddBuffer<AnimatorActorParametersBuffer>(entity);
@@ -203,6 +205,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     NextAnimationLength = 0f,
                     NextAnimationSpeed = 1f,
                     NextAnimationIsLooped = false,
+                    Method = method
                 };
                 animatorActorLayersBuffer.Add(actorLayerItem);
             }

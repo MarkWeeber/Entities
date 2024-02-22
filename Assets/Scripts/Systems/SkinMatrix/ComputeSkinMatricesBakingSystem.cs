@@ -6,8 +6,10 @@ using Unity.Rendering;
 using Unity.Transforms;
 using Unity.Jobs;
 
-[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
+//[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
 [BurstCompile]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateBefore(typeof(AnimatorActorBakingSystem))]
 public partial struct ComputeSkinMatricesBakingSystem : ISystem
 {
     [BurstCompile]
@@ -21,12 +23,22 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        EntityQuery deformationEntities = SystemAPI.QueryBuilder()
+            .WithAll<DeformationSampleColor, RootEntity, BoneEntity>()
+            .WithNone<BoneTag>()
+            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+        EntityQuery deformationEntitiesWithAdditionalBakingData = SystemAPI.QueryBuilder()
+            .WithAll<DeformationSampleColor, AdditionalEntitiesBakingData>()
+            .WithNone<URPMaterialPropertyBaseColor>()
+            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+        if (deformationEntities.CalculateEntityCount() == 0 && deformationEntitiesWithAdditionalBakingData.CalculateEntityCount() == 0)
+        {
+            return;
+        }
         EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter parallelWriter = entityCommandBuffer.AsParallelWriter();
 
-        EntityQuery deformationEntities = SystemAPI.QueryBuilder()
-            .WithAll<DeformationSampleColor, RootEntity, BoneEntity>()
-            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+
         AddBoneAndRootTagsJob addBoneAndRootTagsJob = new AddBoneAndRootTagsJob
         {
             ParallelWriter = parallelWriter
@@ -34,15 +46,13 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
         JobHandle addBoneAndRootTagsJobHandle = addBoneAndRootTagsJob.ScheduleParallel(deformationEntities, state.Dependency);
         addBoneAndRootTagsJobHandle.Complete();
 
-        EntityQuery deformationEntitiesWithAdditionalBakingData = SystemAPI.QueryBuilder()
-            .WithAll<DeformationSampleColor, AdditionalEntitiesBakingData>()
-            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+
         OverrideMaterialColorJob overrideMaterialColorJob = new OverrideMaterialColorJob
         {
             ParallelWriter = parallelWriter,
             EntityManager = state.EntityManager
         };
-        
+
         JobHandle overrideMaterialColorJobHandle = overrideMaterialColorJob.Schedule(deformationEntitiesWithAdditionalBakingData, state.Dependency);
         overrideMaterialColorJobHandle.Complete();
 

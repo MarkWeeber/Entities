@@ -3,8 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -170,7 +169,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             }
             foreach (var part in parts)
             {
-                ParallelWriter.SetComponent(sortKey, part.Value, new AnimatorActorPartComponent
+                ParallelWriter.AddComponent(sortKey, part.Value, new AnimatorActorPartComponent
                 {
                    CurrentAnimationClipId = layer.CurrentAnimationId,
                    CurrentAnimationTime = layer.CurrentAnimationTime,
