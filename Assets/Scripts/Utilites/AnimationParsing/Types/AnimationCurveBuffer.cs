@@ -1,9 +1,12 @@
-﻿[System.Serializable]
-public struct AnimationCurveBuffer
+﻿namespace ParseUtils
 {
-    public int Id;
-    public int AnimatorInstanceId;
-    public int AnimationId;
-    public string Path;
-    public string PropertyName;
+    [System.Serializable]
+    public struct AnimationCurveBuffer
+    {
+        public int Id;
+        public int AnimatorInstanceId;
+        public int AnimationId;
+        public string Path;
+        public string PropertyName;
+    }
 }

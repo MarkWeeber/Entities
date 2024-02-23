@@ -1,10 +1,13 @@
-﻿[System.Serializable]
-public struct AnimationCurveKeyBuffer
+﻿namespace ParseUtils
 {
-    public int Id;
-    public int AnimatorInstanceId;
-    public int AnimationId;
-    public int CurveId;
-    public float Time;
-    public float Value;
+    [System.Serializable]
+    public struct AnimationCurveKeyBuffer
+    {
+        public int Id;
+        public int AnimatorInstanceId;
+        public int AnimationId;
+        public int CurveId;
+        public float Time;
+        public float Value;
+    }
 }

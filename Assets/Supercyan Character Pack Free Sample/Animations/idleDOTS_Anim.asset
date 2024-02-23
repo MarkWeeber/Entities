@@ -1,0 +1,1769 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff666ba08b683884183efced6ecfcf64, type: 3}
+  m_Name: idleDOTS_Anim
+  m_EditorClassIdentifier: 
+  Id: -79384
+  AnimationName: idle
+  AnimatorInstanceId: 35152
+  AnimationClipParsedObject:
+    Id: -79384
+    AnimationName: idle
+    AnimatorInstanceId: 35152
+    Positions:
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27106017
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27105603
+        z: 0.0000007247925
+      Time: 0.016666668
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.26959363
+        z: 0.00027130128
+      Time: 0.35
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.26450196
+        z: 0.0015403366
+      Time: 0.98333335
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.26538736
+        z: 0.0023205567
+      Time: 1.3666667
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27060923
+        z: 0.0029677965
+      Time: 2.1833334
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.2644164
+        z: 0.0014825822
+      Time: 3.0166667
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27069676
+        z: 0.000049514772
+      Time: 3.85
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27105528
+        z: 0.00000064849854
+      Time: 3.9833333
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        x: -0
+        y: 0.27106017
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        x: -0
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        x: -0
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        x: -0.0052738423
+        y: -0.0007686234
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        x: -0.0052738423
+        y: -0.0007686234
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        x: -0.0132064745
+        y: -0.000010483653
+        z: -2.8986848e-11
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        x: -0.0132064745
+        y: -0.000010483653
+        z: -2.8986848e-11
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        x: -0.013221325
+        y: -0.0011474586
+        z: -9.462383e-12
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        x: -0.013221325
+        y: -0.0011474586
+        z: -9.462383e-12
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        x: -0.005142178
+        y: 9.536744e-10
+        z: 1.8189895e-15
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        x: -0.005142178
+        y: 9.536744e-10
+        z: 1.8189895e-15
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle
+      Value:
+        x: -0.009793095
+        y: -0.0032242334
+        z: 0.003381914
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle
+      Value:
+        x: -0.009793095
+        y: -0.0032242334
+        z: 0.003381914
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        x: -0.0073148473
+        y: -4.768372e-10
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        x: -0.0073148473
+        y: -4.768372e-10
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        x: -0.010840543
+        y: -9.536744e-10
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        x: -0.010840543
+        y: -9.536744e-10
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        x: -0.011165715
+        y: -4.768372e-10
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        x: -0.011165715
+        y: -4.768372e-10
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger0
+      Value:
+        x: -0.0030959342
+        y: -0.00052522373
+        z: -0.0026663544
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger0
+      Value:
+        x: -0.0030959342
+        y: -0.00052522373
+        z: -0.0026663544
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger1
+      Value:
+        x: -0.009509617
+        y: 0.00013267994
+        z: -0.0008340402
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger1
+      Value:
+        x: -0.009509617
+        y: 0.00013267994
+        z: -0.0008340402
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger2
+      Value:
+        x: -0.008257889
+        y: 0.00015519619
+        z: 0.0024709876
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger2
+      Value:
+        x: -0.008257889
+        y: 0.00015519619
+        z: 0.0024709876
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle
+      Value:
+        x: -0.009793095
+        y: -0.0032242148
+        z: -0.0033819326
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle
+      Value:
+        x: -0.009793095
+        y: -0.0032242148
+        z: -0.0033819326
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        x: -0.007314849
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        x: -0.007314849
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        x: -0.010840535
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        x: -0.010840535
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        x: -0.011165713
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        x: -0.011165713
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger0
+      Value:
+        x: -0.0030959342
+        y: -0.00052522373
+        z: 0.0026663544
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger0
+      Value:
+        x: -0.0030959342
+        y: -0.00052522373
+        z: 0.0026663544
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger1
+      Value:
+        x: -0.009509617
+        y: 0.00013267994
+        z: 0.00083404
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger1
+      Value:
+        x: -0.009509617
+        y: 0.00013267994
+        z: 0.00083404
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger2
+      Value:
+        x: -0.008257889
+        y: 0.00015519524
+        z: -0.0024709878
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger2
+      Value:
+        x: -0.008257889
+        y: 0.00015519524
+        z: -0.0024709878
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        x: 0.000000009536744
+        y: 0.000000010013581
+        z: 0.006581991
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        x: 0.000000009536744
+        y: 0.000000010013581
+        z: 0.006581991
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        x: -0.01284573
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        x: -0.01284573
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        x: -0.011653763
+        y: -2.384186e-10
+        z: -4.768372e-10
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        x: -0.011653763
+        y: -2.384186e-10
+        z: -4.768372e-10
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot/basic_rig L Toe0
+      Value:
+        x: -0.0038557665
+        y: 0.0038214028
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot/basic_rig L Toe0
+      Value:
+        x: -0.0038557665
+        y: 0.0038214028
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        x: -0.000000009536744
+        y: -0.000000008106232
+        z: -0.006581991
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        x: -0.000000009536744
+        y: -0.000000008106232
+        z: -0.006581991
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        x: -0.01284573
+        y: 0
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        x: -0.01284573
+        y: 0
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        x: -0.011653765
+        y: -4.768372e-10
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        x: -0.011653765
+        y: -4.768372e-10
+        z: 0
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot/basic_rig R Toe0
+      Value:
+        x: -0.0038557665
+        y: 0.0038214023
+        z: 0
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot/basic_rig R Toe0
+      Value:
+        x: -0.0038557665
+        y: 0.0038214023
+        z: 0
+      Time: 4
+    Rotations:
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        value:
+          x: -0.5000003
+          y: 0.4999997
+          z: 0.4999997
+          w: 0.5000003
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig
+      Value:
+        value:
+          x: -0.5000003
+          y: 0.4999997
+          z: 0.4999997
+          w: 0.5000003
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5343837
+          y: 0.46306947
+          z: 0.46306956
+          w: 0.5343851
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5343837
+          y: 0.46306947
+          z: 0.46306956
+          w: 0.5343851
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5343837
+          y: 0.46306947
+          z: 0.46306956
+          w: 0.5343851
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5352911
+          y: 0.4637078
+          z: 0.46241978
+          w: 0.53348523
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5375852
+          y: 0.46532065
+          z: 0.4607677
+          w: 0.5311987
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis
+      Value:
+        value:
+          x: -0.5343837
+          y: 0.46306947
+          z: 0.46306956
+          w: 0.5343851
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: -0.000002023673
+          y: 0.00000065658793
+          z: 0.07452234
+          w: 0.9972193
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: -0.0000020290781
+          y: 0.0000006612564
+          z: 0.068230875
+          w: 0.9976696
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: -0.0000020336192
+          y: 0.0000006652133
+          z: 0.06286834
+          w: 0.99802184
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: 0.0002698928
+          y: -0.0015448881
+          z: 0.06333473
+          w: 0.9979911
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: 0.00092735066
+          y: -0.005467789
+          z: 0.0691595
+          w: 0.99759024
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine
+      Value:
+        value:
+          x: -0.000002023673
+          y: 0.00000065658793
+          z: 0.07452234
+          w: 0.9972193
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: -0.0000000033779475
+          y: 0.00000013265809
+          z: -0.039041154
+          w: 0.9992376
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: -0.0000000033778826
+          y: 0.00000013265806
+          z: -0.03904115
+          w: 0.9992376
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: -0.0000000033778866
+          y: 0.00000013265804
+          z: -0.039041154
+          w: 0.9992376
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: 0.00009133616
+          y: -0.0027323205
+          z: -0.039041024
+          w: 0.9992339
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: 0.00032284542
+          y: -0.009658001
+          z: -0.03903938
+          w: 0.999191
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+      Value:
+        value:
+          x: -0.0000000033779488
+          y: 0.00000013265807
+          z: -0.03904115
+          w: 0.9992376
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: -5.958555e-14
+          y: 0.00000012098272
+          z: -0.04361939
+          w: 0.99904823
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: -2.1221196e-14
+          y: 0.00000012098273
+          z: -0.043619394
+          w: 0.99904823
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: 7.637671e-14
+          y: 0.00000012098273
+          z: -0.04361938
+          w: 0.99904823
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: 0.00014017119
+          y: 0.003270321
+          z: -0.043619134
+          w: 0.99904287
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: 0.0004954466
+          y: 0.011558917
+          z: -0.043616436
+          w: 0.99898136
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck
+      Value:
+        value:
+          x: -6.6547225e-14
+          y: 0.00000012098272
+          z: -0.04361938
+          w: 0.99904823
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: 0.0000000044133137
+          y: -0.00000025472397
+          z: 0.063173994
+          w: 0.9980025
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: 0.0000000055340887
+          y: -0.0000002399988
+          z: 0.057874456
+          w: 0.9983239
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: 0.0000000070902666
+          y: -0.0000002064075
+          z: 0.04579529
+          w: 0.9989509
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: -0.00048972445
+          y: 0.000103222286
+          z: 0.04808508
+          w: 0.99884313
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: -0.0017470785
+          y: 0.00039022914
+          z: 0.06335878
+          w: 0.99798924
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        Neck/basic_rig Head
+      Value:
+        value:
+          x: 0.0000000044133035
+          y: -0.00000025472394
+          z: 0.06317398
+          w: 0.9980025
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle
+      Value:
+        value:
+          x: -0.56180394
+          y: -0.00022486234
+          z: 0.8272703
+          w: -0.00032863257
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle
+      Value:
+        value:
+          x: -0.56180394
+          y: -0.00022486234
+          z: 0.8272703
+          w: -0.00032863257
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.10749433
+          y: -0.4507806
+          z: 0.04324274
+          w: 0.88508296
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.09516957
+          y: -0.4495609
+          z: 0.06314741
+          w: 0.88591766
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.09686082
+          y: -0.44815636
+          z: 0.05735031
+          w: 0.8868398
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.106269486
+          y: -0.4497101
+          z: 0.04041321
+          w: 0.8859088
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.1100639
+          y: -0.456828
+          z: 0.0375325
+          w: 0.88192147
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm
+      Value:
+        value:
+          x: 0.10749433
+          y: -0.4507806
+          z: 0.043242734
+          w: 0.88508296
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: -0.0000000047403916
+          y: 0.000000006849643
+          z: 0.14125824
+          w: 0.9899728
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: -0.000000008372783
+          y: 0.000000006396824
+          z: 0.1326078
+          w: 0.9911686
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: 0.0000000048291176
+          y: 0.000000038094612
+          z: 0.11860577
+          w: 0.99294144
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: 0.0000000035641017
+          y: -0.0000000071143913
+          z: 0.105457194
+          w: 0.99442387
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: 0.00000000292581
+          y: 0.000000015334951
+          z: 0.11411679
+          w: 0.99346733
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
+      Value:
+        value:
+          x: -0.0000000047403916
+          y: 0.000000006849643
+          z: 0.14125824
+          w: 0.9899728
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.79905486
+          y: -0.05990534
+          z: -0.080749474
+          w: 0.5927919
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.84029174
+          y: -0.102306716
+          z: -0.027915759
+          w: 0.5316615
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.8259268
+          y: -0.09248115
+          z: -0.04074732
+          w: 0.55464566
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.79195136
+          y: -0.065217875
+          z: -0.07500434
+          w: 0.60244006
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.7871683
+          y: -0.058269043
+          z: -0.08335572
+          w: 0.60829484
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
+      Value:
+        value:
+          x: -0.79905486
+          y: -0.05990534
+          z: -0.080749474
+          w: 0.5927919
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger0
+      Value:
+        value:
+          x: -0.064693175
+          y: -0.12706348
+          z: -0.088724144
+          w: 0.985798
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger0
+      Value:
+        value:
+          x: -0.064693175
+          y: -0.12706348
+          z: -0.088724144
+          w: 0.985798
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger1
+      Value:
+        value:
+          x: -0.0003879974
+          y: -0.000089379464
+          z: -0.2244963
+          w: 0.97447485
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger1
+      Value:
+        value:
+          x: -0.0003879974
+          y: -0.000089379464
+          z: -0.2244963
+          w: 0.97447485
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger2
+      Value:
+        value:
+          x: -0.037908867
+          y: 0.27701142
+          z: -0.12898798
+          w: 0.9514146
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
+        L Finger2
+      Value:
+        value:
+          x: -0.037908867
+          y: 0.27701142
+          z: -0.12898798
+          w: 0.9514146
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle
+      Value:
+        value:
+          x: 0.56180394
+          y: 0.00022253001
+          z: 0.8272703
+          w: -0.0003301351
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle
+      Value:
+        value:
+          x: 0.56180394
+          y: 0.00022253001
+          z: 0.8272703
+          w: -0.0003301351
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.107494324
+          y: 0.45078066
+          z: 0.043242745
+          w: 0.88508296
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.10431794
+          y: 0.4455323
+          z: 0.04430011
+          w: 0.8880632
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.104613684
+          y: 0.44826332
+          z: 0.042086735
+          w: 0.88676083
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.10899482
+          y: 0.4512923
+          z: 0.03544157
+          w: 0.88498545
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.11067758
+          y: 0.4455076
+          z: 0.03377938
+          w: 0.88776827
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm
+      Value:
+        value:
+          x: -0.107494354
+          y: 0.45078066
+          z: 0.043242756
+          w: 0.88508296
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: -0.00000000263548
+          y: -0.0000000079021
+          z: 0.14125825
+          w: 0.9899728
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: 0.000000018183725
+          y: -0.000000026972794
+          z: 0.17977387
+          w: 0.98370796
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: -0.00000001348234
+          y: 0.000000012851938
+          z: 0.16507
+          w: 0.9862819
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: 0.00000001782882
+          y: -0.000000027667072
+          z: 0.13369438
+          w: 0.99102265
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: 0.000000011081055
+          y: 0.0000000014527309
+          z: 0.13000032
+          w: 0.99151397
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm
+      Value:
+        value:
+          x: -0.00000000263548
+          y: -0.0000000079021
+          z: 0.14125825
+          w: 0.9899728
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.79905486
+          y: 0.059905328
+          z: -0.080749474
+          w: 0.5927919
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.8398082
+          y: 0.10237264
+          z: -0.027881702
+          w: 0.53241396
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.83044505
+          y: 0.09189974
+          z: -0.04106336
+          w: 0.54793185
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.8032537
+          y: 0.06395259
+          z: -0.07577698
+          w: 0.58732563
+      Time: 2.4666667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.7962878
+          y: 0.05727196
+          z: -0.083977535
+          w: 0.5963166
+      Time: 3.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
+      Value:
+        value:
+          x: 0.79905486
+          y: 0.059905328
+          z: -0.080749474
+          w: 0.5927919
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger0
+      Value:
+        value:
+          x: 0.064693175
+          y: 0.12706347
+          z: -0.08872415
+          w: 0.985798
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger0
+      Value:
+        value:
+          x: 0.064693175
+          y: 0.12706347
+          z: -0.08872415
+          w: 0.985798
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger1
+      Value:
+        value:
+          x: 0.0003879964
+          y: 0.0000893835
+          z: -0.22449632
+          w: 0.97447485
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger1
+      Value:
+        value:
+          x: 0.0003879964
+          y: 0.0000893835
+          z: -0.22449632
+          w: 0.97447485
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger2
+      Value:
+        value:
+          x: 0.03790887
+          y: -0.27701142
+          z: -0.128988
+          w: 0.9514146
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
+        R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
+        R Finger2
+      Value:
+        value:
+          x: 0.03790887
+          y: -0.27701142
+          z: -0.128988
+          w: 0.9514146
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.13804461
+          y: 0.9800252
+          z: 0.14180626
+          w: -0.019631365
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.16561536
+          y: 0.97575486
+          z: 0.14226039
+          w: -0.015362677
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.1485985
+          y: 0.9785364
+          z: 0.14179736
+          w: -0.01668899
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.14079805
+          y: 0.9796972
+          z: 0.14173901
+          w: -0.016711822
+      Time: 2.3666668
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.17340401
+          y: 0.974413
+          z: 0.14271255
+          w: -0.009140716
+      Time: 3.1833334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
+      Value:
+        value:
+          x: -0.13804461
+          y: 0.9800252
+          z: 0.14180626
+          w: -0.019631365
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: -0.000000021535081
+          y: 0.0000000072929893
+          z: 0.28038245
+          w: 0.9598884
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: 0.0000000059381517
+          y: 0.000000008137517
+          z: 0.34514782
+          w: 0.9385483
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: -0.000000023554998
+          y: 0.000000011791999
+          z: 0.31575942
+          w: 0.9488393
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: -0.000000005473531
+          y: 0.000000007135937
+          z: 0.27964628
+          w: 0.9601031
+      Time: 2.15
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: -0.000000012154399
+          y: -0.000000004719642
+          z: 0.361985
+          w: 0.9321839
+      Time: 2.966667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: 0.000000010339393
+          y: 0.0000000012315504
+          z: 0.2940006
+          w: 0.95580524
+      Time: 3.8000002
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+      Value:
+        value:
+          x: 3.7171394e-10
+          y: 0.0000000020490578
+          z: 0.28038192
+          w: 0.9598886
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.02767581
+          y: -0.013352883
+          z: -0.21697511
+          w: 0.9756934
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.02815428
+          y: -0.011964833
+          z: -0.2556235
+          w: 0.9662923
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.02788395
+          y: -0.011215371
+          z: -0.24233082
+          w: 0.96972805
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.027710902
+          y: -0.011396688
+          z: -0.22903934
+          w: 0.97295594
+      Time: 2.3000002
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.028290555
+          y: -0.011729934
+          z: -0.26601878
+          w: 0.96348125
+      Time: 3.1333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.02769316
+          y: -0.013320304
+          z: -0.2182231
+          w: 0.97541493
+      Time: 3.9500003
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot
+      Value:
+        value:
+          x: -0.027675936
+          y: -0.013352971
+          z: -0.21697478
+          w: 0.97569346
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot/basic_rig L Toe0
+      Value:
+        value:
+          x: 0.000000017125053
+          y: -0.00000018571248
+          z: -0.70710707
+          w: 0.7071065
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
+        L Foot/basic_rig L Toe0
+      Value:
+        value:
+          x: 0.000000017125053
+          y: -0.00000018571248
+          z: -0.70710707
+          w: 0.7071065
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.13692914
+          y: 0.9784484
+          z: -0.15325034
+          w: 0.020086009
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.16450784
+          y: 0.974204
+          z: -0.15370564
+          w: 0.015436319
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.14751701
+          y: 0.9769723
+          z: -0.1532282
+          w: 0.016882047
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.13861084
+          y: 0.97827476
+          z: -0.15295328
+          w: 0.019256998
+      Time: 2.3833334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.16362894
+          y: 0.97430813
+          z: -0.15334073
+          w: 0.020879468
+      Time: 3.2000003
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
+      Value:
+        value:
+          x: -0.13692942
+          y: 0.97844833
+          z: -0.15325047
+          w: 0.020085938
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: -0.0000000014935135
+          y: -0.000000008195021
+          z: 0.27960205
+          w: 0.960116
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: 0.000000013700239
+          y: -0.000000004892828
+          z: 0.3445167
+          w: 0.9387802
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: 0.0000000035284708
+          y: -0.0000000047164637
+          z: 0.31508687
+          w: 0.9490629
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: 0.000000022060737
+          y: 0.0000000024910005
+          z: 0.2773509
+          w: 0.9607687
+      Time: 2.1333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: 0.000000009154328
+          y: -5.767165e-10
+          z: 0.34787604
+          w: 0.93754053
+      Time: 2.95
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: -9.192166e-10
+          y: -0.000000009988487
+          z: 0.28474036
+          w: 0.9586047
+      Time: 3.766667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+      Value:
+        value:
+          x: -0.000000030402045
+          y: -0.000000008853592
+          z: 0.27960205
+          w: 0.96011597
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009083197
+          y: 0.017738951
+          z: -0.2170199
+          w: 0.9759637
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009751418
+          y: 0.0170482
+          z: -0.25592494
+          w: 0.9664971
+      Time: 0.8166667
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009401563
+          y: 0.015956867
+          z: -0.2424258
+          w: 0.9699932
+      Time: 1.6333334
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009127407
+          y: 0.015877737
+          z: -0.22695458
+          w: 0.9737331
+      Time: 2.2833335
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009790551
+          y: 0.017031249
+          z: -0.25811452
+          w: 0.9659146
+      Time: 3.1166668
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009068206
+          y: 0.017733261
+          z: -0.21617512
+          w: 0.97615147
+      Time: 3.9333336
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot
+      Value:
+        value:
+          x: 0.009083133
+          y: 0.017738964
+          z: -0.2170196
+          w: 0.97596383
+      Time: 4
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot/basic_rig R Toe0
+      Value:
+        value:
+          x: 0.0000000867259
+          y: -0.000000044579053
+          z: -0.7071068
+          w: 0.7071068
+      Time: 0
+    - AnimationId: -79384
+      Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
+        R Foot/basic_rig R Toe0
+      Value:
+        value:
+          x: 0.0000000867259
+          y: -0.000000044579053
+          z: -0.7071068
+          w: 0.7071068
+      Time: 4

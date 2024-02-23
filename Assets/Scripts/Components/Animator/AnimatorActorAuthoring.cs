@@ -1,3 +1,4 @@
+using ParseUtils;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
@@ -43,38 +44,38 @@ public class AnimatorActorAuthoring : MonoBehaviour
             {
                 var animationComponent = new AnimationBuffer
                 {
-                    Id = item.Id,
+                    AnimationInstanceId = item.AnimationInstanceId,
                     AnimatorInstanceId = item.AnimatorInstanceId,
                     Looped = item.Looped,
                     Length = item.Length,
                 };
                 animationBuffer.Add(animationComponent);
             }
-            // animation position keys
-            foreach (var positionKey in parsedObject.Positions)
-            {
-                var positionKeyComponent = new AnimationPositionBuffer
-                {
-                    AnimationId = positionKey.AnimationId,
-                    Path = (FixedString512Bytes)positionKey.Path,
-                    Time = positionKey.Time,
-                    Value = positionKey.Value,
-                };
-                animationPositionsBuffer.Add(positionKeyComponent);
+            //// animation position keys
+            //foreach (var positionKey in parsedObject.Positions)
+            //{
+            //    var positionKeyComponent = new AnimationPositionBuffer
+            //    {
+            //        AnimationId = positionKey.AnimationId,
+            //        Path = (FixedString512Bytes)positionKey.Path,
+            //        Time = positionKey.Time,
+            //        Value = positionKey.Value,
+            //    };
+            //    animationPositionsBuffer.Add(positionKeyComponent);
 
-            }
-            // animation rotation keys
-            foreach (var rotationKey in parsedObject.Rotations)
-            {
-                var rotationKeyComponent = new AnimationRotationBuffer
-                {
-                    AnimationId = rotationKey.AnimationId,
-                    Path = (FixedString512Bytes)rotationKey.Path,
-                    Time = rotationKey.Time,
-                    Value = rotationKey.Value,
-                };
-                animationRotationsBuffer.Add(rotationKeyComponent);
-            }
+            //}
+            //// animation rotation keys
+            //foreach (var rotationKey in parsedObject.Rotations)
+            //{
+            //    var rotationKeyComponent = new AnimationRotationBuffer
+            //    {
+            //        AnimationId = rotationKey.AnimationId,
+            //        Path = (FixedString512Bytes)rotationKey.Path,
+            //        Time = rotationKey.Time,
+            //        Value = rotationKey.Value,
+            //    };
+            //    animationRotationsBuffer.Add(rotationKeyComponent);
+            //}
             // animator parameters
             foreach (var parameter in parsedObject.AnimatorParameters)
             {
@@ -149,7 +150,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     var animationClipForState = new AnimationBuffer();
                     foreach (var animation in parsedObject.Animations) // find animation clip for this state
                     {
-                        if (state.AnimationClipId == animation.Id)
+                        if (state.AnimationClipId == animation.AnimationInstanceId)
                         {
                             animationClipForState = animation;
                             break;
@@ -170,7 +171,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 }
                 foreach (var animation in parsedObject.Animations)
                 {
-                    if (defaultState.AnimationClipId == animation.Id)
+                    if (defaultState.AnimationClipId == animation.AnimationInstanceId)
                     {
                         layerDefaultAnimationClip = animation;
                         break;
@@ -184,7 +185,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     // current state and animation info
                     CurrentStateId = defaultStateId,
                     CurrentStateSpeed = defaultState.Speed,
-                    CurrentAnimationId = layerDefaultAnimationClip.Id,
+                    CurrentAnimationId = layerDefaultAnimationClip.AnimationInstanceId,
                     CurrentAnimationTime = 0f, // time needed for animation
                     CurrentAnimationLength = layerDefaultAnimationClip.Length,
                     CurrentAnimationIsLooped = layerDefaultAnimationClip.Looped,
