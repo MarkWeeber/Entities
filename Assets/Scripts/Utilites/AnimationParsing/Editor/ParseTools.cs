@@ -452,9 +452,8 @@ namespace ParseUtils
             asset.AnimationClipParsedObject.AnimationName = parsedObject.AnimationName;
             asset.AnimationClipParsedObject.Id = parsedObject.Id;
             asset.AnimationClipParsedObject.AnimatorInstanceId = parsedObject.AnimatorInstanceId;
-            asset.AnimationName = parsedObject.AnimationName;
-            asset.Id = parsedObject.Id;
-            asset.AnimatorInstanceId = parsedObject.AnimatorInstanceId;
+            asset.AnimationClipParsedObject.Length = animationClip.length;
+            asset.AnimationClipParsedObject.Looped = animationClip.isLooping;
             var instanceId = animationClip.GetInstanceID();
             var assetPath = AssetDatabase.GetAssetPath(instanceId);
             assetPath = assetPath.Replace(".anim", "DOTS_Anim.asset");

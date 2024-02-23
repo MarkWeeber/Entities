@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069eaaac395c56a4a9d3e5e897391d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorDotsAsset: {fileID: 11400000, guid: 34d772d70a05b7746b3fcac80ffe8c7d, type: 2}
+  animatorDotsAsset: {fileID: 11400000, guid: e2dc1770336b3a342b61ab120f1e9b39, type: 2}
   Method: 0
 --- !u!1 &806187432299445492
 GameObject:

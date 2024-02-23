@@ -1,0 +1,406 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
+  m_Name: Zombie_1DOTS_Controller
+  m_EditorClassIdentifier: 
+  AnimatorInstanceId: 35254
+  AnimatorName: Zombie_1
+  RuntimeAnimatorParsedObject:
+    AssetInstanceId: 35254
+    AnimatorName: Zombie_1
+    Animations:
+    - AnimationInstanceId: 35184
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 6
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 73
+            byte0003: 100
+            byte0004: 108
+            byte0005: 101
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 1
+      Length: 2.6666667
+    - AnimationInstanceId: 35044
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 8
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 65
+            byte0003: 116
+            byte0004: 116
+            byte0005: 97
+            byte0006: 99
+            byte0007: 107
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 1
+      Length: 1
+    - AnimationInstanceId: 35058
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 13
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 70
+            byte0003: 97
+            byte0004: 108
+            byte0005: 108
+            byte0006: 105
+            byte0007: 110
+            byte0008: 103
+            byte0009: 66
+            byte0010: 97
+            byte0011: 99
+            byte0012: 107
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 0
+      Length: 1.4000001
+    - AnimationInstanceId: 35076
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 13
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 82
+            byte0003: 117
+            byte0004: 110
+            byte0005: 95
+            byte0006: 73
+            byte0007: 110
+            byte0008: 80
+            byte0009: 108
+            byte0010: 97
+            byte0011: 99
+            byte0012: 101
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 1
+      Length: 1.5333334
+    - AnimationInstanceId: 35342
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 15
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 87
+            byte0003: 97
+            byte0004: 108
+            byte0005: 107
+            byte0006: 49
+            byte0007: 95
+            byte0008: 73
+            byte0009: 110
+            byte0010: 80
+            byte0011: 108
+            byte0012: 97
+            byte0013: 99
+            byte0014: 101
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 1
+      Length: 2
+    - AnimationInstanceId: 35320
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 14
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 87
+            byte0003: 97
+            byte0004: 108
+            byte0005: 107
+            byte0006: 95
+            byte0007: 73
+            byte0008: 110
+            byte0009: 80
+            byte0010: 108
+            byte0011: 97
+            byte0012: 99
+            byte0013: 101
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 1
+      Length: 2
+    - AnimationInstanceId: 35292
+      AnimatorInstanceId: 35254
+      Name:
+        utf8LengthInBytes: 16
+        bytes:
+          offset0000:
+            byte0000: 90
+            byte0001: 95
+            byte0002: 70
+            byte0003: 97
+            byte0004: 108
+            byte0005: 108
+            byte0006: 105
+            byte0007: 110
+            byte0008: 103
+            byte0009: 70
+            byte0010: 111
+            byte0011: 114
+            byte0012: 119
+            byte0013: 97
+            byte0014: 114
+            byte0015: 100
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      Looped: 0
+      Length: 1.1666667
+    AnimatorLayers:
+    - Id: 35480
+      AnimatorInstanceId: 35254
+      DefaultWeight: 0
+    LayerStates:
+    - Id: 35482
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 1
+      AnimationClipId: 35184
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35484
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35044
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35486
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35058
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35488
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35076
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35490
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35342
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35492
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35320
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    - Id: 35494
+      AnimatorInstanceId: 35254
+      LayerId: 35480
+      DefaultState: 0
+      AnimationClipId: 35292
+      AnimationLength: 0
+      AnimationLooped: 0
+      Speed: 1
+    StateTransitions:
+    - Id: 35496
+      AnimatorInstanceId: 35254
+      StateId: 35482
+      DestinationStateId: 35484
+      FixedDuration: 1
+      ExitTime: 0.90625
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35498
+      AnimatorInstanceId: 35254
+      StateId: 35484
+      DestinationStateId: 35486
+      FixedDuration: 1
+      ExitTime: 0.75
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35500
+      AnimatorInstanceId: 35254
+      StateId: 35486
+      DestinationStateId: 35490
+      FixedDuration: 1
+      ExitTime: 0.8214286
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35502
+      AnimatorInstanceId: 35254
+      StateId: 35488
+      DestinationStateId: 35494
+      FixedDuration: 1
+      ExitTime: 0.8369565
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35504
+      AnimatorInstanceId: 35254
+      StateId: 35490
+      DestinationStateId: 35492
+      FixedDuration: 1
+      ExitTime: 0.875
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35506
+      AnimatorInstanceId: 35254
+      StateId: 35492
+      DestinationStateId: 35488
+      FixedDuration: 1
+      ExitTime: 0.875
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    - Id: 35508
+      AnimatorInstanceId: 35254
+      StateId: 35494
+      DestinationStateId: 35482
+      FixedDuration: 1
+      ExitTime: 0.78571427
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    TransitionCondtions: []
+    AnimatorParameters: []

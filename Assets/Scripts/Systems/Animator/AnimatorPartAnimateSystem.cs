@@ -12,6 +12,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        state.Enabled = false;
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

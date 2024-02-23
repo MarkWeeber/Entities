@@ -29,63 +29,21 @@ public class AnimatorActorAuthoring : MonoBehaviour
 
         private void RegisterBuffers(Entity entity, AnimatorDotsAsset asset, PartsAnimationMethod method)
         {
-            DynamicBuffer<AnimationBuffer> animationBuffer = AddBuffer<AnimationBuffer>(entity);
             DynamicBuffer<AnimatorActorParametersBuffer> animatorActorParametersBuffer = AddBuffer<AnimatorActorParametersBuffer>(entity);
             DynamicBuffer<AnimatorActorLayerBuffer> animatorActorLayersBuffer = AddBuffer<AnimatorActorLayerBuffer>(entity);
-            DynamicBuffer<LayerStateBuffer> layerStatesBuffer = AddBuffer<LayerStateBuffer>(entity);
-            DynamicBuffer<StateTransitionBuffer> transitionsBuffer = AddBuffer<StateTransitionBuffer>(entity);
-            DynamicBuffer<TransitionCondtionBuffer> transitionCondtionsBuffer = AddBuffer<TransitionCondtionBuffer>(entity);
-            DynamicBuffer<AnimationPositionBuffer> animationPositionsBuffer = AddBuffer<AnimationPositionBuffer>(entity);
-            DynamicBuffer<AnimationRotationBuffer> animationRotationsBuffer = AddBuffer<AnimationRotationBuffer>(entity);
 
             var parsedObject = asset.RuntimeAnimatorParsedObject;
-            // animations
-            foreach (var item in parsedObject.Animations)
-            {
-                var animationComponent = new AnimationBuffer
-                {
-                    AnimationInstanceId = item.AnimationInstanceId,
-                    AnimatorInstanceId = item.AnimatorInstanceId,
-                    Looped = item.Looped,
-                    Length = item.Length,
-                };
-                animationBuffer.Add(animationComponent);
-            }
-            //// animation position keys
-            //foreach (var positionKey in parsedObject.Positions)
-            //{
-            //    var positionKeyComponent = new AnimationPositionBuffer
-            //    {
-            //        AnimationId = positionKey.AnimationId,
-            //        Path = (FixedString512Bytes)positionKey.Path,
-            //        Time = positionKey.Time,
-            //        Value = positionKey.Value,
-            //    };
-            //    animationPositionsBuffer.Add(positionKeyComponent);
 
-            //}
-            //// animation rotation keys
-            //foreach (var rotationKey in parsedObject.Rotations)
-            //{
-            //    var rotationKeyComponent = new AnimationRotationBuffer
-            //    {
-            //        AnimationId = rotationKey.AnimationId,
-            //        Path = (FixedString512Bytes)rotationKey.Path,
-            //        Time = rotationKey.Time,
-            //        Value = rotationKey.Value,
-            //    };
-            //    animationRotationsBuffer.Add(rotationKeyComponent);
-            //}
             // animator parameters
             foreach (var parameter in parsedObject.AnimatorParameters)
             {
                 float defaultNumericValue = 0;
                 switch (parameter.Type)
                 {
-                    case UnityEngine.AnimatorControllerParameterType.Float:
+                    case AnimatorControllerParameterType.Float:
                         defaultNumericValue = parameter.DefaultFloat;
                         break;
-                    case UnityEngine.AnimatorControllerParameterType.Int:
+                    case AnimatorControllerParameterType.Int:
                         defaultNumericValue = parameter.DefaultInt;
                         break;
                     default:
@@ -101,38 +59,6 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 animatorActorParametersBuffer.Add(actorParameterItem);
             }
 
-            // state transitions
-            foreach (var item in parsedObject.StateTransitions)
-            {
-                var stateTransitionComponent = new StateTransitionBuffer
-                {
-                    Id = item.Id,
-                    AnimatorInstanceId = item.AnimatorInstanceId,
-                    DestinationStateId = item.DestinationStateId,
-                    ExitTime = item.ExitTime,
-                    FixedDuration = item.FixedDuration,
-                    StateId = item.StateId,
-                    TransitionDuration = item.TransitionDuration,
-                    TransitionOffset = item.TransitionOffset
-                };
-                transitionsBuffer.Add(stateTransitionComponent);
-            }
-
-            // transition conditions
-            foreach (var item in parsedObject.TransitionCondtions)
-            {
-                var transitionCondtionComponent = new TransitionCondtionBuffer
-                {
-                    Id = item.Id,
-                    AnimatorInstanceId = item.AnimatorInstanceId,
-                    Mode = item.Mode,
-                    Parameter = item.Parameter,
-                    TransitionId = item.TransitionId,
-                    Treshold = item.Treshold
-                };
-                transitionCondtionsBuffer.Add(transitionCondtionComponent);
-            }
-
             // layers and states
             foreach (var layer in parsedObject.AnimatorLayers)
             {
@@ -146,28 +72,8 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     {
                         defaultStateId = state.Id;
                         defaultState = state;
+                        break;
                     }
-                    var animationClipForState = new AnimationBuffer();
-                    foreach (var animation in parsedObject.Animations) // find animation clip for this state
-                    {
-                        if (state.AnimationClipId == animation.AnimationInstanceId)
-                        {
-                            animationClipForState = animation;
-                            break;
-                        }
-                    }
-                    var layerStateComponent = new LayerStateBuffer
-                    {
-                        Id = state.Id,
-                        AnimatorInstanceId = state.AnimatorInstanceId,
-                        AnimationClipId = state.AnimationClipId,
-                        DefaultState = state.DefaultState,
-                        LayerId = state.LayerId,
-                        Speed = state.Speed,
-                        AnimationLength = animationClipForState.Length,
-                        AnimationLooped = animationClipForState.Looped,
-                    };
-                    layerStatesBuffer.Add(layerStateComponent);
                 }
                 foreach (var animation in parsedObject.Animations)
                 {

@@ -14,6 +14,7 @@ public partial struct AnimatorAnimateSystem : ISystem
     {
         state.RequireForUpdate<AnimatorActorComponent>();
         state.RequireForUpdate<AnimatorActorPartComponent>();
+        state.Enabled = false;
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

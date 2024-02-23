@@ -7,11 +7,12 @@ using UnityEngine;
 [BurstCompile]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 [UpdateBefore(typeof(SpawnerSystem))]
-public partial struct AnimatorActorBakingSystem : ISystem
+public partial struct AnimatorActorBakingSystemObsolete : ISystem
 {
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        state.Enabled = false;
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

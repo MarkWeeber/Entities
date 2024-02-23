@@ -6,10 +6,10 @@ using Unity.Rendering;
 using Unity.Transforms;
 using Unity.Jobs;
 
-//[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
+[WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
 [BurstCompile]
-[UpdateInGroup(typeof(InitializationSystemGroup))]
-[UpdateBefore(typeof(AnimatorActorBakingSystem))]
+//[UpdateInGroup(typeof(InitializationSystemGroup))]
+//[UpdateBefore(typeof(AnimatorActorBakingSystem))]
 public partial struct ComputeSkinMatricesBakingSystem : ISystem
 {
     [BurstCompile]
@@ -26,11 +26,11 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
         EntityQuery deformationEntities = SystemAPI.QueryBuilder()
             .WithAll<DeformationSampleColor, RootEntity, BoneEntity>()
             .WithNone<BoneTag>()
-            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+            .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
         EntityQuery deformationEntitiesWithAdditionalBakingData = SystemAPI.QueryBuilder()
             .WithAll<DeformationSampleColor, AdditionalEntitiesBakingData>()
             .WithNone<URPMaterialPropertyBaseColor>()
-            .WithOptions(EntityQueryOptions.IncludeDisabledEntities).Build();
+            .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
         if (deformationEntities.CalculateEntityCount() == 0 && deformationEntitiesWithAdditionalBakingData.CalculateEntityCount() == 0)
         {
             return;

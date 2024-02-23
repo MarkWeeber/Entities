@@ -6,9 +6,6 @@ namespace ParseUtils
     [CreateAssetMenu(fileName = "New Dots Animation Asset", menuName = "Custom Assets/DOTS Animation")]
     public class AnimationDotsAsset : ScriptableObject
     {
-        public int Id;
-        public string AnimationName;
-        public int AnimatorInstanceId;
         public AnimationClipParsedObject AnimationClipParsedObject;
     }
 
@@ -19,6 +16,8 @@ namespace ParseUtils
         public int Id;
         public string AnimationName;
         public int AnimatorInstanceId;
+        public float Length;
+        public bool Looped;
         public List<AnimationPositionSerialized> Positions;
         public List<AnimationRotationSerialized> Rotations;
     }
