@@ -31,7 +31,8 @@ public partial struct AnimatorAnimateSystem : ISystem
              AnimatorActorComponent,
              AnimatorActorParametersBuffer,
              AnimatorActorPartBufferComponent,
-             AnimatorActorLayerBuffer>()
+             AnimatorActorLayerBuffer,
+             AnimationBlobBuffer>()
             .Build();
 
         if (acrtorsQuery.CalculateEntityCount() < 1)
@@ -44,11 +45,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
             NativeArray<StateTransitionBuffer> transitions = SystemAPI.GetSingletonBuffer<StateTransitionBuffer>().AsNativeArray();
             NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
-
-            NativeArray<AnimationBuffer> animations = SystemAPI.GetSingletonBuffer<AnimationBuffer>().AsNativeArray();
-            NativeArray<AnimationRotationBuffer> rotations = SystemAPI.GetSingletonBuffer<AnimationRotationBuffer>().AsNativeArray();
-            NativeArray<AnimationPositionBuffer> positions = SystemAPI.GetSingletonBuffer<AnimationPositionBuffer>().AsNativeArray();
-
+            NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
 
             var ecb = new EntityCommandBuffer(Allocator.TempJob);
             var parallelWriter = ecb.AsParallelWriter();
@@ -60,9 +57,7 @@ public partial struct AnimatorAnimateSystem : ISystem
                 States = states,
                 Transitions = transitions,
                 Conditions = conditions,
-                Animations = animations,
-                Rotations = rotations,
-                Positions = positions,
+                AnimationBlob = animationBlob,
                 LocalTransformLookup = localTransformLookup,
                 ParallelWriter = parallelWriter,
                 DeltaTime = deltaTime
@@ -72,13 +67,10 @@ public partial struct AnimatorAnimateSystem : ISystem
             ecb.Playback(state.EntityManager);
             ecb.Dispose();
 
+            animationBlob.Dispose();
             states.Dispose();
             transitions.Dispose();
             conditions.Dispose();
-
-            animations.Dispose();
-            rotations.Dispose();
-            positions.Dispose();
         }
     }
 
@@ -92,11 +84,7 @@ public partial struct AnimatorAnimateSystem : ISystem
         [ReadOnly]
         public NativeArray<TransitionCondtionBuffer> Conditions;
         [ReadOnly]
-        public NativeArray<AnimationBuffer> Animations;
-        [ReadOnly]
-        public NativeArray<AnimationRotationBuffer> Rotations;
-        [ReadOnly]
-        public NativeArray<AnimationPositionBuffer> Positions;
+        public NativeArray<AnimationBlobBuffer> AnimationBlob;
         [ReadOnly]
         public ComponentLookup<LocalTransform> LocalTransformLookup;
         public EntityCommandBuffer.ParallelWriter ParallelWriter;
@@ -110,6 +98,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             RefRO<AnimatorActorComponent> animatorActorComponent
             )
         {
+            Debug.Log("CHECK");
             NativeArray<AnimatorActorPartBufferComponent> _parts = parts.AsNativeArray();
             for (int layerIndex = 0; layerIndex < layers.Length; layerIndex++)
             {
@@ -382,8 +371,12 @@ public partial struct AnimatorAnimateSystem : ISystem
         }
 
         [BurstCompile]
-        private void AnimateParts(int sortKey, ref AnimatorActorLayerBuffer layer, NativeArray<AnimatorActorPartBufferComponent> parts)
+        private void AnimateParts(
+            int sortKey,
+            ref AnimatorActorLayerBuffer layer,
+            NativeArray<AnimatorActorPartBufferComponent> parts)
         {
+            Debug.Log("CHECK");
             float transitionRate = -1f;
             layer.TransitionRate = 0;
             if (layer.IsInTransition && layer.FirstOffsetTimer <= 0f)
@@ -392,23 +385,60 @@ public partial struct AnimatorAnimateSystem : ISystem
                 transitionRate = math.clamp(transitionRate, 0f, 1f);
                 layer.TransitionRate = transitionRate;
             }
+            int currentAnimationId = layer.CurrentAnimationId;
+            int nextAnimationId = layer.NextAnimationId;
+            bool isInTransition = layer.IsInTransition;
+            int currentAnimIndex = 0;
+            int nextAnimIndex = 0;
+            bool currentFound = false;
+            bool nextFound = false;
+            for (int i = 0; i < AnimationBlob.Length; i++)
+            {
+                var animationBlob = AnimationBlob[i];
+                if (animationBlob.Id == currentAnimationId)
+                {
+                    currentAnimIndex = i;
+                    currentFound = true;
+                }
+                if (isInTransition && animationBlob.Id == nextAnimationId)
+                {
+                    nextAnimIndex = i;
+                    nextFound = true;
+                }
+                if (currentFound)
+                {
+                    if (isInTransition)
+                    {
+                        if (nextFound)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            ref RotationsPool currentRotationsPool = ref AnimationBlob[currentAnimIndex].Rotations.Value;
+            ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
+            ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
+            ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
             foreach (var part in parts)
             {
-                AnimatePart(sortKey, layer, part);
-                //ParallelWriter.AddComponent(sortKey, part.Value, new AnimatorActorPartComponent
-                //{
-                //    CurrentAnimationClipId = layer.CurrentAnimationId,
-                //    CurrentAnimationTime = layer.CurrentAnimationTime,
-                //    NextAnimationClipId = layer.NextAnimationId,
-                //    NextAnimationTime = layer.NextAnimationTime,
-                //    TransitionRate = transitionRate,
-                //    Method = layer.Method
-                //});
+                AnimatePart(sortKey, layer, part, ref currentRotationsPool, ref nextRotationsPool, ref currentPositionsPool, ref nextPositionsPool);
             }
         }
 
         [BurstCompile]
-        private void AnimatePart(int sortKey, AnimatorActorLayerBuffer layer, AnimatorActorPartBufferComponent part)
+        private void AnimatePart(
+            int sortKey,
+            AnimatorActorLayerBuffer layer,
+            AnimatorActorPartBufferComponent part,
+            ref RotationsPool currentRotationsPool,
+            ref RotationsPool nextRotationsPool,
+            ref PositionsPool currentPositionsPool,
+            ref PositionsPool nextPositionsPool)
         {
             int currentAnimationId = layer.CurrentAnimationId;
             float currentAnimationTime = layer.CurrentAnimationTime;
@@ -418,7 +448,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             float setScale = localTransform.ValueRO.Scale;
 
             // obtain first animation values
-            ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId, part, layer.Method);
+            ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId, part, layer.Method, ref currentRotationsPool, ref currentPositionsPool);
 
             // check if transition exists
             float transitionRate = layer.TransitionRate;
@@ -428,7 +458,7 @@ public partial struct AnimatorAnimateSystem : ISystem
                 float nextAnimationTime = layer.NextAnimationTime;
                 float3 nextPosition = localTransform.ValueRO.Position;
                 quaternion nextRotation = localTransform.ValueRO.Rotation;
-                ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId, part, layer.Method);
+                ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId, part, layer.Method, ref nextRotationsPool, ref nextPositionsPool);
                 switch (layer.Method)
                 {
                     case PartsAnimationMethod.Lerp:
@@ -464,7 +494,9 @@ public partial struct AnimatorAnimateSystem : ISystem
             float animationTime,
             int animationId,
             AnimatorActorPartBufferComponent part,
-            PartsAnimationMethod method)
+            PartsAnimationMethod method,
+            ref RotationsPool rotationsPool,
+            ref PositionsPool positionsPool)
         {
             bool firstPosFound = false;
             bool secondPosFound = false;
@@ -472,52 +504,53 @@ public partial struct AnimatorAnimateSystem : ISystem
             float3 secondPos = float3.zero;
             float firstPosTime = 0f;
             float secondPosTime = 0f;
-            //for (int i = 0; i < Positions.Length; i++)
-            //{
-            //    var pos = Positions[i];
-            //    if (pos.Path == part.Path && pos.AnimationId == animationId)
-            //    {
-            //        if (pos.Time <= animationTime)
-            //        {
-            //            firstPosFound = true;
-            //            firstPosTime = pos.Time;
-            //            firstPos = pos.Value;
-            //        }
-            //        if (pos.Time > animationTime)
-            //        {
-            //            secondPosFound = true;
-            //            secondPosTime = pos.Time;
-            //            secondPos = pos.Value;
-            //            break;
-            //        }
-            //    }
-            //}
+            Debug.Log(positionsPool.Positions.Length);
+            for (int i = 0; i < positionsPool.Positions.Length; i++)
+            {
+                var pos = positionsPool.Positions[i];
+                if (pos.Path == part.Path && pos.AnimationId == animationId)
+                {
+                    if (pos.Time <= animationTime)
+                    {
+                        firstPosFound = true;
+                        firstPosTime = pos.Time;
+                        firstPos = pos.Value;
+                    }
+                    if (pos.Time > animationTime)
+                    {
+                        secondPosFound = true;
+                        secondPosTime = pos.Time;
+                        secondPos = pos.Value;
+                        break;
+                    }
+                }
+            }
             bool firstRotFound = false;
             bool secondRotFound = false;
             quaternion firstRot = quaternion.identity;
             quaternion secondRot = quaternion.identity;
             float firstRotTime = 0f;
             float secondRotTime = 0f;
-            //for (int i = 0; i < Rotations.Length; i++)
-            //{
-            //    var rot = Rotations[i];
-            //    if (rot.Path == part.Path && rot.AnimationId == animationId)
-            //    {
-            //        if (rot.Time <= animationTime)
-            //        {
-            //            firstRotFound = true;
-            //            firstRotTime = rot.Time;
-            //            firstRot = rot.Value;
-            //        }
-            //        if (rot.Time > animationTime)
-            //        {
-            //            secondRotFound = true;
-            //            secondRotTime = rot.Time;
-            //            secondRot = rot.Value;
-            //            break;
-            //        }
-            //    }
-            //}
+            for (int i = 0; i < rotationsPool.Rotations.Length; i++)
+            {
+                var rot = rotationsPool.Rotations[i];
+                if (rot.Path == part.Path && rot.AnimationId == animationId)
+                {
+                    if (rot.Time <= animationTime)
+                    {
+                        firstRotFound = true;
+                        firstRotTime = rot.Time;
+                        firstRot = rot.Value;
+                    }
+                    if (rot.Time > animationTime)
+                    {
+                        secondRotFound = true;
+                        secondRotTime = rot.Time;
+                        secondRot = rot.Value;
+                        break;
+                    }
+                }
+            }
 
             if (secondPosFound && firstPosFound)
             {
