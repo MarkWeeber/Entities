@@ -28,6 +28,10 @@ public class AnimatorBaseAuthoring : MonoBehaviour
             var animators = AddBuffer<AnimatorBuffer>(entity);
 			foreach (var animatorDotsAsset in authoring.Animators)
 			{
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
 				animators.Add(new AnimatorBuffer
 				{
 					Id = animatorDotsAsset.AnimatorInstanceId,
@@ -41,7 +45,11 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 			var parameters = AddBuffer<AnimatorParameterBuffer>(entity);
 			foreach (var animatorDotsAsset in authoring.Animators)
 			{
-				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.AnimatorParameters)
+                if (animatorDotsAsset == null)
+                {
+                    continue;
+                }
+                foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.AnimatorParameters)
 				{
 					parameters.Add(new AnimatorParameterBuffer
 					{
@@ -62,6 +70,10 @@ public class AnimatorBaseAuthoring : MonoBehaviour
             var layers = AddBuffer<LayerStateBuffer>(entity);
             foreach (var animatorDotsAsset in authoring.Animators)
             {
+                if (animatorDotsAsset == null)
+                {
+                    continue;
+                }
                 foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.LayerStates)
                 {
                     layers.Add(new LayerStateBuffer
@@ -70,7 +82,10 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						AnimationClipId = item.AnimationClipId,
 						AnimationLength = item.AnimationLength,
 						AnimationLooped = item.AnimationLooped,
-						AnimatorInstanceId = item.AnimatorInstanceId
+						AnimatorInstanceId = item.AnimatorInstanceId,
+						DefaultState = item.DefaultState,
+						LayerId = item.LayerId,
+						Speed = item.Speed
 					});
                 }
             }
@@ -81,6 +96,10 @@ public class AnimatorBaseAuthoring : MonoBehaviour
             var transitions = AddBuffer<StateTransitionBuffer>(entity);
             foreach (var animatorDotsAsset in authoring.Animators)
             {
+                if (animatorDotsAsset == null)
+                {
+                    continue;
+                }
                 foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.StateTransitions)
                 {
                     transitions.Add(new StateTransitionBuffer
@@ -91,7 +110,8 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						FixedDuration = item.FixedDuration,
 						Id = item.Id,
 						StateId = item.StateId,
-						TransitionDuration = item.TransitionDuration
+						TransitionDuration = item.TransitionDuration,
+						TransitionOffset = item.TransitionOffset
 					});
                 }
             }
@@ -101,6 +121,10 @@ public class AnimatorBaseAuthoring : MonoBehaviour
             var conditions = AddBuffer<TransitionCondtionBuffer>(entity);
             foreach (var animatorDotsAsset in authoring.Animators)
             {
+                if (animatorDotsAsset == null)
+                {
+                    continue;
+                }
                 foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.TransitionCondtions)
                 {
                     conditions.Add(new TransitionCondtionBuffer

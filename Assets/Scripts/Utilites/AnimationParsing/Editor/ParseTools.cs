@@ -88,15 +88,16 @@ namespace ParseUtils
                     ChildAnimatorState childAnimatorState = states[stateIndex];
                     var stateId = childAnimatorState.state.GetInstanceID();
                     bool defaultState = layer.stateMachine.defaultState == childAnimatorState.state;
-                    var relevantAnimationId = childAnimatorState.state.motion.GetInstanceID();
                     var layerStatItem = new LayerStateBuffer
                     {
                         Id = stateId,
                         AnimatorInstanceId = animatorInstanceId,
                         LayerId = layerId,
-                        AnimationClipId = relevantAnimationId,
+                        AnimationClipId = childAnimatorState.state.motion.GetInstanceID(),
                         DefaultState = defaultState,
-                        Speed = childAnimatorState.state.speed
+                        Speed = childAnimatorState.state.speed,
+                        AnimationLength = childAnimatorState.state.motion.averageDuration,
+                        AnimationLooped = childAnimatorState.state.motion.isLooping
                     };
                     layerStatesTable.Add(layerStatItem);
 

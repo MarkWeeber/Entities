@@ -26,7 +26,11 @@ public class AnimationBaseAuthoring : MonoBehaviour
 			var animations = AddBuffer<AnimationBuffer>(entity);
 			foreach (var asset in authoring.Animations)
 			{
-				animations.Add(new AnimationBuffer
+                if (asset == null)
+                {
+                    continue;
+                }
+                animations.Add(new AnimationBuffer
 				{
 					AnimationInstanceId = asset.AnimationClipParsedObject.Id,
 					AnimatorInstanceId = asset.AnimationClipParsedObject.AnimatorInstanceId,
@@ -42,7 +46,11 @@ public class AnimationBaseAuthoring : MonoBehaviour
             var rotations = AddBuffer<AnimationRotationBuffer>(entity);
             foreach (var asset in authoring.Animations)
             {
-				foreach (var item in asset.AnimationClipParsedObject.Rotations)
+                if (asset == null)
+                {
+                    continue;
+                }
+                foreach (var item in asset.AnimationClipParsedObject.Rotations)
 				{
 					rotations.Add(new AnimationRotationBuffer
 					{
@@ -60,6 +68,10 @@ public class AnimationBaseAuthoring : MonoBehaviour
             var positions = AddBuffer<AnimationPositionBuffer>(entity);
             foreach (var asset in authoring.Animations)
             {
+                if (asset == null)
+                {
+                    continue;
+                }
                 foreach (var item in asset.AnimationClipParsedObject.Positions)
                 {
                     positions.Add(new AnimationPositionBuffer

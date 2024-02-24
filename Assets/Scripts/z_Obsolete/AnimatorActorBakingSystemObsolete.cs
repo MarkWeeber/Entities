@@ -27,7 +27,6 @@ public partial struct AnimatorActorBakingSystemObsolete : ISystem
             .WithAll<
                 AnimatorActorComponent,
                 AnimatorActorPartBufferComponent,
-                AnimatorActorBakedComponent,
                 AnimationPositionBuffer,
                 AnimationRotationBuffer>()
             .Build();
@@ -104,7 +103,6 @@ public partial struct AnimatorActorBakingSystemObsolete : ISystem
             }
             _position.Dispose();
             _rotations.Dispose();
-            ParallelWriter.SetComponentEnabled<AnimatorActorBakedComponent>(sortKey, entity, false);
         }
     }
 }

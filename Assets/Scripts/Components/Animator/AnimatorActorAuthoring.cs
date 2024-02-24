@@ -21,7 +21,6 @@ public class AnimatorActorAuthoring : MonoBehaviour
             {
                 AnimatorId = authoring.animatorDotsAsset.AnimatorInstanceId,
             });
-            AddComponent(entity, new AnimatorActorBakedComponent());
             RegisterBuffers(entity, authoring.animatorDotsAsset, authoring.Method);
             DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartBufferComponent>(entity);
             RegisterChildren(authoring.gameObject, ref animatorActorPartComponents, "");
