@@ -74,6 +74,7 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             // World to local is required for root space conversion of the SkinMatrices
             ParallelWriter.AddComponent(sortKey, rootEntity.ValueRO.Value, new LocalToWorld());
             ParallelWriter.AddComponent(sortKey, rootEntity.ValueRO.Value, new RootTag());
+            ParallelWriter.AddComponent(sortKey, rootEntity.ValueRO.Value, new SetLocalTransformComponent());
 
             // Add tags to the bones so we can find them later
             // when computing the SkinMatrices
@@ -81,6 +82,7 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             {
                 var boneEntity = bones[boneIndex].Value;
                 ParallelWriter.AddComponent(sortKey, boneEntity, new BoneTag());
+                ParallelWriter.AddComponent(sortKey, boneEntity, new SetLocalTransformComponent());
             }
         }
     }

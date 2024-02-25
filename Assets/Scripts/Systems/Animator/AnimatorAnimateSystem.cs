@@ -31,8 +31,7 @@ public partial struct AnimatorAnimateSystem : ISystem
              AnimatorActorComponent,
              AnimatorActorParametersBuffer,
              AnimatorActorPartBufferComponent,
-             AnimatorActorLayerBuffer,
-             AnimationBlobBuffer>()
+             AnimatorActorLayerBuffer>()
             .Build();
 
         if (acrtorsQuery.CalculateEntityCount() < 1)
@@ -47,8 +46,8 @@ public partial struct AnimatorAnimateSystem : ISystem
             NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
             NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
 
-            var ecb = new EntityCommandBuffer(Allocator.TempJob);
-            var parallelWriter = ecb.AsParallelWriter();
+            //var ecb = new EntityCommandBuffer(Allocator.TempJob);
+            //var parallelWriter = ecb.AsParallelWriter();
             float deltaTime = SystemAPI.Time.DeltaTime;
             localTransformLookup.Update(ref state);
 
@@ -59,13 +58,9 @@ public partial struct AnimatorAnimateSystem : ISystem
                 Conditions = conditions,
                 AnimationBlob = animationBlob,
                 LocalTransformLookup = localTransformLookup,
-                ParallelWriter = parallelWriter,
                 DeltaTime = deltaTime
             }.ScheduleParallel(acrtorsQuery, state.Dependency);
 
-            state.Dependency.Complete();
-            ecb.Playback(state.EntityManager);
-            ecb.Dispose();
 
             animationBlob.Dispose();
             states.Dispose();
@@ -87,19 +82,16 @@ public partial struct AnimatorAnimateSystem : ISystem
         public NativeArray<AnimationBlobBuffer> AnimationBlob;
         [ReadOnly]
         public ComponentLookup<LocalTransform> LocalTransformLookup;
-        public EntityCommandBuffer.ParallelWriter ParallelWriter;
         public float DeltaTime;
         [BurstCompile]
         public void Execute(
             [ChunkIndexInQuery] int sortKey,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
-            in DynamicBuffer<AnimatorActorPartBufferComponent> parts,
+            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             ref DynamicBuffer<AnimatorActorLayerBuffer> layers,
             RefRO<AnimatorActorComponent> animatorActorComponent
             )
         {
-            Debug.Log("CHECK");
-            NativeArray<AnimatorActorPartBufferComponent> _parts = parts.AsNativeArray();
             for (int layerIndex = 0; layerIndex < layers.Length; layerIndex++)
             {
                 var layer = layers[layerIndex];
@@ -107,12 +99,11 @@ public partial struct AnimatorAnimateSystem : ISystem
                     sortKey,
                     ref layer,
                     ref parameters,
-                    _parts,
+                    ref parts,
                     DeltaTime,
                     animatorActorComponent.ValueRO.AnimatorId);
                 layers[layerIndex] = layer;
             }
-            _parts.Dispose();
         }
 
         [BurstCompile]
@@ -120,7 +111,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             int sortKey,
             ref AnimatorActorLayerBuffer layer,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
-            NativeArray<AnimatorActorPartBufferComponent> parts,
+            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             float deltaTime,
             int animatorInstanceId
             )
@@ -170,7 +161,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // clamp timer
             ClampTimers(ref _layer);
             // set parts' component
-            AnimateParts(sortKey, ref _layer, parts);
+            AnimateParts(sortKey, ref _layer, ref parts);
             // shift timer
             AddToTimers(ref _layer, deltaTime);
             // update layer info
@@ -186,8 +177,6 @@ public partial struct AnimatorAnimateSystem : ISystem
                 if (_state.AnimatorInstanceId == animatorInstanceId && newTransition.DestinationStateId == _state.Id)
                 {
                     newState = _state;
-                    //Debug.Log($"State Id: {newState.Id} LayerId: {newState.LayerId} AnimationClipId: {newState.AnimationClipId} AnimatorInstanceId: {newState.AnimatorInstanceId}");
-                    //Debug.Log($"Transition Id: {newTransition.Id} StateId: {newTransition.StateId} DestinationId: {newTransition.DestinationStateId} TransitionDuration: {newTransition.TransitionDuration}");
                     break;
                 }
             }
@@ -195,7 +184,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             float transitionDuration = (newTransition.FixedDuration) ?
                 newTransition.TransitionDuration :
                 newTransition.TransitionDuration * newState.AnimationLength / newState.Speed;
-            //Debug.Log($"newTransition.TransitionDuration: {newTransition.TransitionDuration} newState.AnimationLength: {newState.AnimationLength} transitionDuration: {transitionDuration}");
             layer.IsInTransition = true; // main transition switch
             layer.TransitionDuration = transitionDuration; // actual transition duration
             layer.TransitionTimer = transitionDuration; // actual transition timer
@@ -374,9 +362,8 @@ public partial struct AnimatorAnimateSystem : ISystem
         private void AnimateParts(
             int sortKey,
             ref AnimatorActorLayerBuffer layer,
-            NativeArray<AnimatorActorPartBufferComponent> parts)
+            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts)
         {
-            Debug.Log("CHECK");
             float transitionRate = -1f;
             layer.TransitionRate = 0;
             if (layer.IsInTransition && layer.FirstOffsetTimer <= 0f)
@@ -424,14 +411,27 @@ public partial struct AnimatorAnimateSystem : ISystem
             ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
             ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
             ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
-            foreach (var part in parts)
+            for (int i = 0; i < parts.Length; i++)
             {
-                AnimatePart(sortKey, layer, part, ref currentRotationsPool, ref nextRotationsPool, ref currentPositionsPool, ref nextPositionsPool);
+                var part = parts[i];
+                var newLocalTransform = ObtainPartAnimationValue(
+                    sortKey,
+                    layer,
+                    part,
+                    ref currentRotationsPool,
+                    ref nextRotationsPool,
+                    ref currentPositionsPool,
+                    ref nextPositionsPool);
+                part.SetNewLocalTransform = true;
+                part.SetPosition = newLocalTransform.Position;
+                part.SetRotation = newLocalTransform.Rotation;
+                part.SetScale = newLocalTransform.Scale;
+                parts[i] = part;
             }
         }
 
         [BurstCompile]
-        private void AnimatePart(
+        private LocalTransform ObtainPartAnimationValue(
             int sortKey,
             AnimatorActorLayerBuffer layer,
             AnimatorActorPartBufferComponent part,
@@ -448,7 +448,15 @@ public partial struct AnimatorAnimateSystem : ISystem
             float setScale = localTransform.ValueRO.Scale;
 
             // obtain first animation values
-            ObtainAnimationValues(ref setPosition, ref setRotation, currentAnimationTime, currentAnimationId, part, layer.Method, ref currentRotationsPool, ref currentPositionsPool);
+            ObtainAnimationValues(
+                ref setPosition,
+                ref setRotation,
+                currentAnimationTime,
+                currentAnimationId,
+                part,
+                layer.Method,
+                ref currentRotationsPool,
+                ref currentPositionsPool);
 
             // check if transition exists
             float transitionRate = layer.TransitionRate;
@@ -458,7 +466,15 @@ public partial struct AnimatorAnimateSystem : ISystem
                 float nextAnimationTime = layer.NextAnimationTime;
                 float3 nextPosition = localTransform.ValueRO.Position;
                 quaternion nextRotation = localTransform.ValueRO.Rotation;
-                ObtainAnimationValues(ref nextPosition, ref nextRotation, nextAnimationTime, nextAnimationId, part, layer.Method, ref nextRotationsPool, ref nextPositionsPool);
+                ObtainAnimationValues(
+                    ref nextPosition,
+                    ref nextRotation,
+                    nextAnimationTime,
+                    nextAnimationId,
+                    part,
+                    layer.Method,
+                    ref nextRotationsPool,
+                    ref nextPositionsPool);
                 switch (layer.Method)
                 {
                     case PartsAnimationMethod.Lerp:
@@ -478,13 +494,12 @@ public partial struct AnimatorAnimateSystem : ISystem
                 }
             }
 
-            // setting values
-            ParallelWriter.SetComponent(sortKey, part.Value, new LocalTransform
+            return new LocalTransform
             {
                 Position = setPosition,
                 Rotation = setRotation,
                 Scale = setScale
-            });
+            };
         }
 
         [BurstCompile]
@@ -504,7 +519,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             float3 secondPos = float3.zero;
             float firstPosTime = 0f;
             float secondPosTime = 0f;
-            Debug.Log(positionsPool.Positions.Length);
             for (int i = 0; i < positionsPool.Positions.Length; i++)
             {
                 var pos = positionsPool.Positions[i];

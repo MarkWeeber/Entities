@@ -23,7 +23,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
             });
             RegisterBuffers(entity, authoring.animatorDotsAsset, authoring.Method);
             DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorPartComponents = AddBuffer<AnimatorActorPartBufferComponent>(entity);
-            RegisterChildren(authoring.gameObject, ref animatorActorPartComponents, "");
+            RegisterChildren(entity, authoring.gameObject, ref animatorActorPartComponents, "");
         }
 
         private void RegisterBuffers(Entity entity, AnimatorDotsAsset asset, PartsAnimationMethod method)
@@ -116,7 +116,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 animatorActorLayersBuffer.Add(actorLayerItem);
             }
         }
-        private void RegisterChildren(GameObject gameObject, ref DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorParts, string pathName)
+        private void RegisterChildren(Entity rootEntity, GameObject gameObject, ref DynamicBuffer<AnimatorActorPartBufferComponent> animatorActorParts, string pathName)
         {
             List<GameObject> children = new List<GameObject>();
             GetChildren(gameObject, children, false);
@@ -132,9 +132,11 @@ public class AnimatorActorAuthoring : MonoBehaviour
                 animatorActorParts.Add(new AnimatorActorPartBufferComponent
                 {
                     Path = (FixedString512Bytes)currentPathName,
-                    Value = entity
+                    Value = entity,
+                    RootEntity = rootEntity,
+                    SetNewLocalTransform = false
                 });
-                RegisterChildren(go, ref animatorActorParts, currentPathName + "/");
+                RegisterChildren(rootEntity, go, ref animatorActorParts, currentPathName + "/");
             }
         }
     }
