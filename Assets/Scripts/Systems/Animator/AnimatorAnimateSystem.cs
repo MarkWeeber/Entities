@@ -161,7 +161,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // clamp timer
             ClampTimers(ref _layer);
             // set parts' component
-            AnimateParts(sortKey, ref _layer, ref parts);
+            //AnimateParts(sortKey, ref _layer, ref parts);
             // shift timer
             AddToTimers(ref _layer, deltaTime);
             // update layer info

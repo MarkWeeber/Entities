@@ -13,125 +13,125 @@ MonoBehaviour:
   m_Name: idleDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35326
+    Id: 35690
     AnimationName: idle
-    AnimatorInstanceId: 35166
+    AnimatorInstanceId: 35530
     Length: 4
     Looped: 1
     Positions:
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27106017
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27105603
         z: 0.0000007247925
       Time: 0.016666668
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.26959363
         z: 0.00027130128
       Time: 0.35
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.26450196
         z: 0.0015403366
       Time: 0.98333335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.26538736
         z: 0.0023205567
       Time: 1.3666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27060923
         z: 0.0029677965
       Time: 2.1833334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.2644164
         z: 0.0014825822
       Time: 3.0166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27069676
         z: 0.000049514772
       Time: 3.85
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27105528
         z: 0.00000064849854
       Time: 3.9833333
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         x: -0
         y: 0.27106017
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         x: -0
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         x: -0
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         x: -0.0052738423
         y: -0.0007686234
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         x: -0.0052738423
         y: -0.0007686234
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         x: -0.0132064745
         y: -0.000010483653
         z: -2.8986848e-11
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         x: -0.0132064745
         y: -0.000010483653
         z: -2.8986848e-11
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -139,7 +139,7 @@ MonoBehaviour:
         y: -0.0011474586
         z: -9.462383e-12
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -147,7 +147,7 @@ MonoBehaviour:
         y: -0.0011474586
         z: -9.462383e-12
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -155,7 +155,7 @@ MonoBehaviour:
         y: 9.536744e-10
         z: 1.8189895e-15
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -163,7 +163,7 @@ MonoBehaviour:
         y: 9.536744e-10
         z: 1.8189895e-15
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle
       Value:
@@ -171,7 +171,7 @@ MonoBehaviour:
         y: -0.0032242334
         z: 0.003381914
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle
       Value:
@@ -179,7 +179,7 @@ MonoBehaviour:
         y: -0.0032242334
         z: 0.003381914
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -187,7 +187,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -195,7 +195,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -203,7 +203,7 @@ MonoBehaviour:
         y: -9.536744e-10
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -211,7 +211,7 @@ MonoBehaviour:
         y: -9.536744e-10
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -219,7 +219,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -227,7 +227,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger0
@@ -236,7 +236,7 @@ MonoBehaviour:
         y: -0.00052522373
         z: -0.0026663544
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger0
@@ -245,7 +245,7 @@ MonoBehaviour:
         y: -0.00052522373
         z: -0.0026663544
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger1
@@ -254,7 +254,7 @@ MonoBehaviour:
         y: 0.00013267994
         z: -0.0008340402
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger1
@@ -263,7 +263,7 @@ MonoBehaviour:
         y: 0.00013267994
         z: -0.0008340402
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger2
@@ -272,7 +272,7 @@ MonoBehaviour:
         y: 0.00015519619
         z: 0.0024709876
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger2
@@ -281,7 +281,7 @@ MonoBehaviour:
         y: 0.00015519619
         z: 0.0024709876
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle
       Value:
@@ -289,7 +289,7 @@ MonoBehaviour:
         y: -0.0032242148
         z: -0.0033819326
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle
       Value:
@@ -297,7 +297,7 @@ MonoBehaviour:
         y: -0.0032242148
         z: -0.0033819326
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -305,7 +305,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -313,7 +313,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -321,7 +321,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -329,7 +329,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -337,7 +337,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -345,7 +345,7 @@ MonoBehaviour:
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger0
@@ -354,7 +354,7 @@ MonoBehaviour:
         y: -0.00052522373
         z: 0.0026663544
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger0
@@ -363,7 +363,7 @@ MonoBehaviour:
         y: -0.00052522373
         z: 0.0026663544
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger1
@@ -372,7 +372,7 @@ MonoBehaviour:
         y: 0.00013267994
         z: 0.00083404
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger1
@@ -381,7 +381,7 @@ MonoBehaviour:
         y: 0.00013267994
         z: 0.00083404
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger2
@@ -390,7 +390,7 @@ MonoBehaviour:
         y: 0.00015519524
         z: -0.0024709878
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger2
@@ -399,35 +399,35 @@ MonoBehaviour:
         y: 0.00015519524
         z: -0.0024709878
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         x: 0.000000009536744
         y: 0.000000010013581
         z: 0.006581991
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         x: 0.000000009536744
         y: 0.000000010013581
         z: 0.006581991
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         x: -0.01284573
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         x: -0.01284573
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -435,7 +435,7 @@ MonoBehaviour:
         y: -2.384186e-10
         z: -4.768372e-10
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -443,7 +443,7 @@ MonoBehaviour:
         y: -2.384186e-10
         z: -4.768372e-10
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot/basic_rig L Toe0
       Value:
@@ -451,7 +451,7 @@ MonoBehaviour:
         y: 0.0038214028
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot/basic_rig L Toe0
       Value:
@@ -459,35 +459,35 @@ MonoBehaviour:
         y: 0.0038214028
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         x: -0.000000009536744
         y: -0.000000008106232
         z: -0.006581991
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         x: -0.000000009536744
         y: -0.000000008106232
         z: -0.006581991
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         x: -0.01284573
         y: 0
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         x: -0.01284573
         y: 0
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -495,7 +495,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -503,7 +503,7 @@ MonoBehaviour:
         y: -4.768372e-10
         z: 0
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot/basic_rig R Toe0
       Value:
@@ -511,7 +511,7 @@ MonoBehaviour:
         y: 0.0038214023
         z: 0
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot/basic_rig R Toe0
       Value:
@@ -520,7 +520,7 @@ MonoBehaviour:
         z: 0
       Time: 4
     Rotations:
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         value:
@@ -529,7 +529,7 @@ MonoBehaviour:
           z: 0.4999997
           w: 0.5000003
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig
       Value:
         value:
@@ -538,7 +538,7 @@ MonoBehaviour:
           z: 0.4999997
           w: 0.5000003
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -547,7 +547,7 @@ MonoBehaviour:
           z: 0.46306956
           w: 0.5343851
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -556,7 +556,7 @@ MonoBehaviour:
           z: 0.46306956
           w: 0.5343851
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -565,7 +565,7 @@ MonoBehaviour:
           z: 0.46306956
           w: 0.5343851
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -574,7 +574,7 @@ MonoBehaviour:
           z: 0.46241978
           w: 0.53348523
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -583,7 +583,7 @@ MonoBehaviour:
           z: 0.4607677
           w: 0.5311987
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis
       Value:
         value:
@@ -592,7 +592,7 @@ MonoBehaviour:
           z: 0.46306956
           w: 0.5343851
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -601,7 +601,7 @@ MonoBehaviour:
           z: 0.07452234
           w: 0.9972193
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -610,7 +610,7 @@ MonoBehaviour:
           z: 0.068230875
           w: 0.9976696
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -619,7 +619,7 @@ MonoBehaviour:
           z: 0.06286834
           w: 0.99802184
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -628,7 +628,7 @@ MonoBehaviour:
           z: 0.06333473
           w: 0.9979911
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -637,7 +637,7 @@ MonoBehaviour:
           z: 0.0691595
           w: 0.99759024
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine
       Value:
         value:
@@ -646,7 +646,7 @@ MonoBehaviour:
           z: 0.07452234
           w: 0.9972193
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -655,7 +655,7 @@ MonoBehaviour:
           z: -0.039041154
           w: 0.9992376
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -664,7 +664,7 @@ MonoBehaviour:
           z: -0.03904115
           w: 0.9992376
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -673,7 +673,7 @@ MonoBehaviour:
           z: -0.039041154
           w: 0.9992376
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -682,7 +682,7 @@ MonoBehaviour:
           z: -0.039041024
           w: 0.9992339
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -691,7 +691,7 @@ MonoBehaviour:
           z: -0.03903938
           w: 0.999191
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
       Value:
         value:
@@ -700,7 +700,7 @@ MonoBehaviour:
           z: -0.03904115
           w: 0.9992376
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -710,7 +710,7 @@ MonoBehaviour:
           z: -0.04361939
           w: 0.99904823
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -720,7 +720,7 @@ MonoBehaviour:
           z: -0.043619394
           w: 0.99904823
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -730,7 +730,7 @@ MonoBehaviour:
           z: -0.04361938
           w: 0.99904823
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -740,7 +740,7 @@ MonoBehaviour:
           z: -0.043619134
           w: 0.99904287
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -750,7 +750,7 @@ MonoBehaviour:
           z: -0.043616436
           w: 0.99898136
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck
       Value:
@@ -760,7 +760,7 @@ MonoBehaviour:
           z: -0.04361938
           w: 0.99904823
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -770,7 +770,7 @@ MonoBehaviour:
           z: 0.063173994
           w: 0.9980025
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -780,7 +780,7 @@ MonoBehaviour:
           z: 0.057874456
           w: 0.9983239
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -790,7 +790,7 @@ MonoBehaviour:
           z: 0.04579529
           w: 0.9989509
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -800,7 +800,7 @@ MonoBehaviour:
           z: 0.04808508
           w: 0.99884313
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -810,7 +810,7 @@ MonoBehaviour:
           z: 0.06335878
           w: 0.99798924
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         Neck/basic_rig Head
       Value:
@@ -820,7 +820,7 @@ MonoBehaviour:
           z: 0.06317398
           w: 0.9980025
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle
       Value:
@@ -830,7 +830,7 @@ MonoBehaviour:
           z: 0.8272703
           w: -0.00032863257
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle
       Value:
@@ -840,7 +840,7 @@ MonoBehaviour:
           z: 0.8272703
           w: -0.00032863257
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -850,7 +850,7 @@ MonoBehaviour:
           z: 0.04324274
           w: 0.88508296
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -860,7 +860,7 @@ MonoBehaviour:
           z: 0.06314741
           w: 0.88591766
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -870,7 +870,7 @@ MonoBehaviour:
           z: 0.05735031
           w: 0.8868398
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -880,7 +880,7 @@ MonoBehaviour:
           z: 0.04041321
           w: 0.8859088
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -890,7 +890,7 @@ MonoBehaviour:
           z: 0.0375325
           w: 0.88192147
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm
       Value:
@@ -900,7 +900,7 @@ MonoBehaviour:
           z: 0.043242734
           w: 0.88508296
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -910,7 +910,7 @@ MonoBehaviour:
           z: 0.14125824
           w: 0.9899728
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -920,7 +920,7 @@ MonoBehaviour:
           z: 0.1326078
           w: 0.9911686
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -930,7 +930,7 @@ MonoBehaviour:
           z: 0.11860577
           w: 0.99294144
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -940,7 +940,7 @@ MonoBehaviour:
           z: 0.105457194
           w: 0.99442387
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -950,7 +950,7 @@ MonoBehaviour:
           z: 0.11411679
           w: 0.99346733
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm
       Value:
@@ -960,7 +960,7 @@ MonoBehaviour:
           z: 0.14125824
           w: 0.9899728
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -970,7 +970,7 @@ MonoBehaviour:
           z: -0.080749474
           w: 0.5927919
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -980,7 +980,7 @@ MonoBehaviour:
           z: -0.027915759
           w: 0.5316615
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -990,7 +990,7 @@ MonoBehaviour:
           z: -0.04074732
           w: 0.55464566
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -1000,7 +1000,7 @@ MonoBehaviour:
           z: -0.07500434
           w: 0.60244006
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -1010,7 +1010,7 @@ MonoBehaviour:
           z: -0.08335572
           w: 0.60829484
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand
       Value:
@@ -1020,7 +1020,7 @@ MonoBehaviour:
           z: -0.080749474
           w: 0.5927919
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger0
@@ -1031,7 +1031,7 @@ MonoBehaviour:
           z: -0.088724144
           w: 0.985798
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger0
@@ -1042,7 +1042,7 @@ MonoBehaviour:
           z: -0.088724144
           w: 0.985798
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger1
@@ -1053,7 +1053,7 @@ MonoBehaviour:
           z: -0.2244963
           w: 0.97447485
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger1
@@ -1064,7 +1064,7 @@ MonoBehaviour:
           z: -0.2244963
           w: 0.97447485
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger2
@@ -1075,7 +1075,7 @@ MonoBehaviour:
           z: -0.12898798
           w: 0.9514146
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         L Clavicle/basic_rig L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig
         L Finger2
@@ -1086,7 +1086,7 @@ MonoBehaviour:
           z: -0.12898798
           w: 0.9514146
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle
       Value:
@@ -1096,7 +1096,7 @@ MonoBehaviour:
           z: 0.8272703
           w: -0.0003301351
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle
       Value:
@@ -1106,7 +1106,7 @@ MonoBehaviour:
           z: 0.8272703
           w: -0.0003301351
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1116,7 +1116,7 @@ MonoBehaviour:
           z: 0.043242745
           w: 0.88508296
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1126,7 +1126,7 @@ MonoBehaviour:
           z: 0.04430011
           w: 0.8880632
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1136,7 +1136,7 @@ MonoBehaviour:
           z: 0.042086735
           w: 0.88676083
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1146,7 +1146,7 @@ MonoBehaviour:
           z: 0.03544157
           w: 0.88498545
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1156,7 +1156,7 @@ MonoBehaviour:
           z: 0.03377938
           w: 0.88776827
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm
       Value:
@@ -1166,7 +1166,7 @@ MonoBehaviour:
           z: 0.043242756
           w: 0.88508296
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1176,7 +1176,7 @@ MonoBehaviour:
           z: 0.14125825
           w: 0.9899728
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1186,7 +1186,7 @@ MonoBehaviour:
           z: 0.17977387
           w: 0.98370796
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1196,7 +1196,7 @@ MonoBehaviour:
           z: 0.16507
           w: 0.9862819
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1206,7 +1206,7 @@ MonoBehaviour:
           z: 0.13369438
           w: 0.99102265
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1216,7 +1216,7 @@ MonoBehaviour:
           z: 0.13000032
           w: 0.99151397
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm
       Value:
@@ -1226,7 +1226,7 @@ MonoBehaviour:
           z: 0.14125825
           w: 0.9899728
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1236,7 +1236,7 @@ MonoBehaviour:
           z: -0.080749474
           w: 0.5927919
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1246,7 +1246,7 @@ MonoBehaviour:
           z: -0.027881702
           w: 0.53241396
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1256,7 +1256,7 @@ MonoBehaviour:
           z: -0.04106336
           w: 0.54793185
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1266,7 +1266,7 @@ MonoBehaviour:
           z: -0.07577698
           w: 0.58732563
       Time: 2.4666667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1276,7 +1276,7 @@ MonoBehaviour:
           z: -0.083977535
           w: 0.5963166
       Time: 3.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand
       Value:
@@ -1286,7 +1286,7 @@ MonoBehaviour:
           z: -0.080749474
           w: 0.5927919
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger0
@@ -1297,7 +1297,7 @@ MonoBehaviour:
           z: -0.08872415
           w: 0.985798
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger0
@@ -1308,7 +1308,7 @@ MonoBehaviour:
           z: -0.08872415
           w: 0.985798
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger1
@@ -1319,7 +1319,7 @@ MonoBehaviour:
           z: -0.22449632
           w: 0.97447485
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger1
@@ -1330,7 +1330,7 @@ MonoBehaviour:
           z: -0.22449632
           w: 0.97447485
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger2
@@ -1341,7 +1341,7 @@ MonoBehaviour:
           z: -0.128988
           w: 0.9514146
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig
         R Clavicle/basic_rig UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig
         R Finger2
@@ -1352,7 +1352,7 @@ MonoBehaviour:
           z: -0.128988
           w: 0.9514146
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1361,7 +1361,7 @@ MonoBehaviour:
           z: 0.14180626
           w: -0.019631365
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1370,7 +1370,7 @@ MonoBehaviour:
           z: 0.14226039
           w: -0.015362677
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1379,7 +1379,7 @@ MonoBehaviour:
           z: 0.14179736
           w: -0.01668899
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1388,7 +1388,7 @@ MonoBehaviour:
           z: 0.14173901
           w: -0.016711822
       Time: 2.3666668
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1397,7 +1397,7 @@ MonoBehaviour:
           z: 0.14271255
           w: -0.009140716
       Time: 3.1833334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh
       Value:
         value:
@@ -1406,7 +1406,7 @@ MonoBehaviour:
           z: 0.14180626
           w: -0.019631365
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1415,7 +1415,7 @@ MonoBehaviour:
           z: 0.28038245
           w: 0.9598884
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1424,7 +1424,7 @@ MonoBehaviour:
           z: 0.34514782
           w: 0.9385483
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1433,7 +1433,7 @@ MonoBehaviour:
           z: 0.31575942
           w: 0.9488393
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1442,7 +1442,7 @@ MonoBehaviour:
           z: 0.27964628
           w: 0.9601031
       Time: 2.15
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1451,7 +1451,7 @@ MonoBehaviour:
           z: 0.361985
           w: 0.9321839
       Time: 2.966667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1460,7 +1460,7 @@ MonoBehaviour:
           z: 0.2940006
           w: 0.95580524
       Time: 3.8000002
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
       Value:
         value:
@@ -1469,7 +1469,7 @@ MonoBehaviour:
           z: 0.28038192
           w: 0.9598886
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1479,7 +1479,7 @@ MonoBehaviour:
           z: -0.21697511
           w: 0.9756934
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1489,7 +1489,7 @@ MonoBehaviour:
           z: -0.2556235
           w: 0.9662923
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1499,7 +1499,7 @@ MonoBehaviour:
           z: -0.24233082
           w: 0.96972805
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1509,7 +1509,7 @@ MonoBehaviour:
           z: -0.22903934
           w: 0.97295594
       Time: 2.3000002
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1519,7 +1519,7 @@ MonoBehaviour:
           z: -0.26601878
           w: 0.96348125
       Time: 3.1333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1529,7 +1529,7 @@ MonoBehaviour:
           z: -0.2182231
           w: 0.97541493
       Time: 3.9500003
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot
       Value:
@@ -1539,7 +1539,7 @@ MonoBehaviour:
           z: -0.21697478
           w: 0.97569346
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot/basic_rig L Toe0
       Value:
@@ -1549,7 +1549,7 @@ MonoBehaviour:
           z: -0.70710707
           w: 0.7071065
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig
         L Foot/basic_rig L Toe0
       Value:
@@ -1559,7 +1559,7 @@ MonoBehaviour:
           z: -0.70710707
           w: 0.7071065
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1568,7 +1568,7 @@ MonoBehaviour:
           z: -0.15325034
           w: 0.020086009
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1577,7 +1577,7 @@ MonoBehaviour:
           z: -0.15370564
           w: 0.015436319
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1586,7 +1586,7 @@ MonoBehaviour:
           z: -0.1532282
           w: 0.016882047
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1595,7 +1595,7 @@ MonoBehaviour:
           z: -0.15295328
           w: 0.019256998
       Time: 2.3833334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1604,7 +1604,7 @@ MonoBehaviour:
           z: -0.15334073
           w: 0.020879468
       Time: 3.2000003
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh
       Value:
         value:
@@ -1613,7 +1613,7 @@ MonoBehaviour:
           z: -0.15325047
           w: 0.020085938
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1622,7 +1622,7 @@ MonoBehaviour:
           z: 0.27960205
           w: 0.960116
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1631,7 +1631,7 @@ MonoBehaviour:
           z: 0.3445167
           w: 0.9387802
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1640,7 +1640,7 @@ MonoBehaviour:
           z: 0.31508687
           w: 0.9490629
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1649,7 +1649,7 @@ MonoBehaviour:
           z: 0.2773509
           w: 0.9607687
       Time: 2.1333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1658,7 +1658,7 @@ MonoBehaviour:
           z: 0.34787604
           w: 0.93754053
       Time: 2.95
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1667,7 +1667,7 @@ MonoBehaviour:
           z: 0.28474036
           w: 0.9586047
       Time: 3.766667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
       Value:
         value:
@@ -1676,7 +1676,7 @@ MonoBehaviour:
           z: 0.27960205
           w: 0.96011597
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1686,7 +1686,7 @@ MonoBehaviour:
           z: -0.2170199
           w: 0.9759637
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1696,7 +1696,7 @@ MonoBehaviour:
           z: -0.25592494
           w: 0.9664971
       Time: 0.8166667
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1706,7 +1706,7 @@ MonoBehaviour:
           z: -0.2424258
           w: 0.9699932
       Time: 1.6333334
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1716,7 +1716,7 @@ MonoBehaviour:
           z: -0.22695458
           w: 0.9737331
       Time: 2.2833335
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1726,7 +1726,7 @@ MonoBehaviour:
           z: -0.25811452
           w: 0.9659146
       Time: 3.1166668
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1736,7 +1736,7 @@ MonoBehaviour:
           z: -0.21617512
           w: 0.97615147
       Time: 3.9333336
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot
       Value:
@@ -1746,7 +1746,7 @@ MonoBehaviour:
           z: -0.2170196
           w: 0.97596383
       Time: 4
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot/basic_rig R Toe0
       Value:
@@ -1756,7 +1756,7 @@ MonoBehaviour:
           z: -0.7071068
           w: 0.7071068
       Time: 0
-    - AnimationId: 35326
+    - AnimationId: 35690
       Path: basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig
         R Foot/basic_rig R Toe0
       Value:

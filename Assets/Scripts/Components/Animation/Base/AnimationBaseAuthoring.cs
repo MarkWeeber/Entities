@@ -23,7 +23,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
 
         private void RegisterAnimationsWithBlobAssets(Entity entity, AnimationBaseAuthoring authoring)
         {
-            var animations = AddBuffer<AnimationBuffer>(entity);
+            //var animations = AddBuffer<AnimationBuffer>(entity);
             var animationsWithBlobs = AddBuffer<AnimationBlobBuffer>(entity);
             foreach (var asset in authoring.Animations)
             {
@@ -31,14 +31,14 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 {
                     continue;
                 }
-                animations.Add(new AnimationBuffer
-                {
-                    AnimationInstanceId = asset.AnimationClipParsedObject.Id,
-                    AnimatorInstanceId = asset.AnimationClipParsedObject.AnimatorInstanceId,
-                    Length = asset.AnimationClipParsedObject.Length,
-                    Looped = asset.AnimationClipParsedObject.Looped,
-                    Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
-                });
+                //animations.Add(new AnimationBuffer
+                //{
+                //    AnimationInstanceId = asset.AnimationClipParsedObject.Id,
+                //    AnimatorInstanceId = asset.AnimationClipParsedObject.AnimatorInstanceId,
+                //    Length = asset.AnimationClipParsedObject.Length,
+                //    Looped = asset.AnimationClipParsedObject.Looped,
+                //    Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
+                //});
                 var rotationsInputList = new List<AnimationRotationBuffer>();
                 foreach (var rotation in asset.AnimationClipParsedObject.Rotations)
                 {
