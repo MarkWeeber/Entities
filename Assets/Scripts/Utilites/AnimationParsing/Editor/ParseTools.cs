@@ -472,5 +472,12 @@ namespace ParseUtils
             assetPath = assetPath.Replace(".controller", "DOTS_Controller.asset");
             AssetDatabase.CreateAsset(asset, assetPath);
         }
+
+        public static Keyframe[] GetEditorKeyFramesFirst(AnimationClip animationClip)
+        {
+            var bindings = AnimationUtility.GetCurveBindings(animationClip);
+            var keyFrames = AnimationUtility.GetEditorCurve(animationClip, bindings[0]).keys;
+            return keyFrames;
+        }
     }
 }
