@@ -26,7 +26,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityQuery parts = SystemAPI.QueryBuilder().WithAll<AnimatorRootEntity, LocalTransform>().Build();
+        EntityQuery parts = SystemAPI.QueryBuilder().WithAll<AnimatorPartComponent, LocalTransform>().Build();
         if (parts.CalculateEntityCount() < 1)
         {
             return;
@@ -53,9 +53,9 @@ public partial struct AnimatorPartAnimateSystem : ISystem
         [ReadOnly]
         public BufferLookup<AnimatorActorPartBufferComponent> PartLookup;
         [BurstCompile]
-        private void Execute(RefRO<AnimatorRootEntity> animatorRoot, RefRW<LocalTransform> localTransform, Entity entity)
+        private void Execute(RefRO<AnimatorPartComponent> animatorRoot, RefRW<LocalTransform> localTransform, Entity entity)
         {
-            Entity rootEntity = animatorRoot.ValueRO.Value;
+            Entity rootEntity = animatorRoot.ValueRO.RootEntity;
             if (!LayerLookup.HasBuffer(rootEntity) || !PartLookup.HasBuffer(rootEntity))
             {
                 return;

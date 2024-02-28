@@ -3,11 +3,11 @@
 namespace ParseUtils
 {
     [System.Serializable]
-    public struct AnimationRotationSerialized
+    public struct AnimationPositioItem
     {
         public int AnimationId;
         public string Path;
-        public quaternion Value;
+        public float3 Value;
         public float Time;
     }
 }

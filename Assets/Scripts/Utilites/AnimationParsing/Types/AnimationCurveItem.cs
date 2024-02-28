@@ -1,7 +1,7 @@
 ﻿namespace ParseUtils
 {
     [System.Serializable]
-    public struct AnimationCurveBuffer
+    public struct AnimationCurveItem
     {
         public int Id;
         public int AnimatorInstanceId;

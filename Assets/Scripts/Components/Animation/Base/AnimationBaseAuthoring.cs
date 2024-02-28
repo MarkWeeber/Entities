@@ -17,8 +17,6 @@ public class AnimationBaseAuthoring : MonoBehaviour
             }
             Entity entity = GetEntity(TransformUsageFlags.None);
             RegisterAnimationsWithBlobAssets(entity, authoring);
-            RegisterRotations(entity, authoring);
-            RegisterPositions(entity, authoring);
         }
 
         private void RegisterAnimationsWithBlobAssets(Entity entity, AnimationBaseAuthoring authoring)
@@ -75,50 +73,6 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     Position = positionsBlobAssetReference,
                     Rotations = rotationsBlobAssetReference,
                 });
-            }
-        }
-
-        private void RegisterRotations(Entity entity, AnimationBaseAuthoring authoring)
-        {
-            var rotations = AddBuffer<AnimationRotationBuffer>(entity);
-            foreach (var asset in authoring.Animations)
-            {
-                if (asset == null)
-                {
-                    continue;
-                }
-                foreach (var item in asset.AnimationClipParsedObject.Rotations)
-                {
-                    rotations.Add(new AnimationRotationBuffer
-                    {
-                        AnimationId = item.AnimationId,
-                        Path = (FixedString512Bytes)item.Path,
-                        Time = item.Time,
-                        Value = item.Value
-                    });
-                }
-            }
-        }
-
-        private void RegisterPositions(Entity entity, AnimationBaseAuthoring authoring)
-        {
-            var positions = AddBuffer<AnimationPositionBuffer>(entity);
-            foreach (var asset in authoring.Animations)
-            {
-                if (asset == null)
-                {
-                    continue;
-                }
-                foreach (var item in asset.AnimationClipParsedObject.Positions)
-                {
-                    positions.Add(new AnimationPositionBuffer
-                    {
-                        AnimationId = item.AnimationId,
-                        Path = (FixedString512Bytes)item.Path,
-                        Time = item.Time,
-                        Value = item.Value
-                    });
-                }
             }
         }
 

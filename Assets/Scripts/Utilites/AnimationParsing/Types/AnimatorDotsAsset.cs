@@ -15,11 +15,12 @@ namespace ParseUtils
     {
         public int AssetInstanceId;
         public string AnimatorName;
-        public List<AnimationBuffer> Animations;
-        public List<AnimatorLayerBuffer> AnimatorLayers;
+        public List<AnimationItem> Animations;
+        public List<AnimatorLayerItem> AnimatorLayers;
         public List<LayerStateBuffer> LayerStates;
         public List<StateTransitionBuffer> StateTransitions;
         public List<TransitionCondtion> TransitionCondtions;
         public List<AnimatorParameter> AnimatorParameters;
+        public List<string> Paths;
     }
 }

@@ -1,6 +1,10 @@
 using Unity.Entities;
 
-public struct AnimatorRootEntity : IComponentData
+public struct AnimatorPartComponent : IComponentData
 {
-    public Entity Value;
+    public Entity RootEntity;
+    public int CurrentAnimationPathIndex;
+    public int NextAnimationPathIndex;
+    public int CurrentAnimationIndex;
+    public int NextAnimationIndex;
 }

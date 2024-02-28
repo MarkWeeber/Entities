@@ -62,7 +62,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
             foreach (var layer in parsedObject.AnimatorLayers)
             {
                 int defaultStateId = -1;
-                var layerDefaultAnimationClip = new AnimationBuffer();
+                var layerDefaultAnimationClip = new AnimationItem();
                 var defaultState = new LayerStateBuffer();
                 // states
                 foreach (var state in parsedObject.LayerStates)

@@ -18,7 +18,15 @@ namespace ParseUtils
         public int AnimatorInstanceId;
         public float Length;
         public bool Looped;
-        public List<AnimationPositionSerialized> Positions;
-        public List<AnimationRotationSerialized> Rotations;
+        public List<AnimationPositioItem> Positions;
+        public List<AnimationRotationItem> Rotations;
+    }
+
+    [System.Serializable]
+    public struct PathProperyItem
+    {
+        public int Index;
+        public string Path;
+        public string PropertyName;
     }
 }

@@ -35,7 +35,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
 
-        state.Dependency = new PrepareAnimatorActorJob
+        state.Dependency = new BindPartsWithRootEntity
         {
             ParallelWriter = parallelWriter,
         }.ScheduleParallel(animatorActorEntities, state.Dependency);
@@ -45,7 +45,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
         ecb.Dispose();
     }
     [BurstCompile]
-    private partial struct PrepareAnimatorActorJob : IJobEntity
+    private partial struct BindPartsWithRootEntity : IJobEntity
     {
         public EntityCommandBuffer.ParallelWriter ParallelWriter;
         [BurstCompile]
@@ -58,7 +58,7 @@ public partial struct AnimatorActorBakingSystem : ISystem
             foreach (var part in parts)
             {
                 Entity partEntity = part.Value;
-                ParallelWriter.AddComponent(sortKey, partEntity, new AnimatorRootEntity{ Value = entity });
+                ParallelWriter.AddComponent(sortKey, partEntity, new AnimatorPartComponent{ RootEntity = entity });
             }
         }
     }

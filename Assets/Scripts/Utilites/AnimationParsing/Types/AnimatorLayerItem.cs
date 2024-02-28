@@ -1,7 +1,7 @@
 ﻿namespace ParseUtils
 {
     [System.Serializable]
-    public partial struct AnimatorLayerBuffer
+    public partial struct AnimatorLayerItem
     {
         public int Id;
         public int AnimatorInstanceId;

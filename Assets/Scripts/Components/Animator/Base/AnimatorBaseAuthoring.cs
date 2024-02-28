@@ -26,6 +26,7 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 		private void RegisterAnimators(Entity entity, AnimatorBaseAuthoring authoring)
 		{
             var animators = AddBuffer<AnimatorBuffer>(entity);
+			int index = 0;
 			foreach (var animatorDotsAsset in authoring.Animators)
 			{
 				if (animatorDotsAsset == null)
@@ -34,9 +35,11 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 				}
 				animators.Add(new AnimatorBuffer
 				{
+					Index = index,
 					Id = animatorDotsAsset.AnimatorInstanceId,
 					Name = (FixedString32Bytes) animatorDotsAsset.AnimatorName
 				});
+				index++;
             }
         }
 

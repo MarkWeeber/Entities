@@ -3,7 +3,7 @@
 namespace ParseUtils
 {
     [System.Serializable]
-    public struct AnimationKey
+    public struct AnimationKeyItem
     {
         public int AnimationId;
         public int AnimatorInstanceId;
