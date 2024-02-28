@@ -12,395 +12,307 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: CharacterAnimatorDOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35530
+  AnimatorInstanceId: 35686
   AnimatorName: CharacterAnimator
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35530
+    AssetInstanceId: 35686
     AnimatorName: CharacterAnimator
     Animations:
-    - AnimationInstanceId: 35690
-      AnimatorInstanceId: 35530
-      Name:
-        utf8LengthInBytes: 4
-        bytes:
-          offset0000:
-            byte0000: 105
-            byte0001: 100
-            byte0002: 108
-            byte0003: 101
-            byte0004: 0
-            byte0005: 0
-            byte0006: 0
-            byte0007: 0
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35772
+      AnimatorInstanceId: 35686
+      Name: idle
       Looped: 1
       Length: 4
-    - AnimationInstanceId: 35494
-      AnimatorInstanceId: 35530
-      Name:
-        utf8LengthInBytes: 3
-        bytes:
-          offset0000:
-            byte0000: 114
-            byte0001: 117
-            byte0002: 110
-            byte0003: 0
-            byte0004: 0
-            byte0005: 0
-            byte0006: 0
-            byte0007: 0
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35662
+      AnimatorInstanceId: 35686
+      Name: run
       Looped: 1
       Length: 0.6666667
-    - AnimationInstanceId: 35448
-      AnimatorInstanceId: 35530
-      Name:
-        utf8LengthInBytes: 4
-        bytes:
-          offset0000:
-            byte0000: 119
-            byte0001: 97
-            byte0002: 108
-            byte0003: 107
-            byte0004: 0
-            byte0005: 0
-            byte0006: 0
-            byte0007: 0
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35482
+      AnimatorInstanceId: 35686
+      Name: walk
       Looped: 1
       Length: 1.1666667
-    - AnimationInstanceId: 35490
-      AnimatorInstanceId: 35530
-      Name:
-        utf8LengthInBytes: 6
-        bytes:
-          offset0000:
-            byte0000: 112
-            byte0001: 105
-            byte0002: 99
-            byte0003: 107
-            byte0004: 117
-            byte0005: 112
-            byte0006: 0
-            byte0007: 0
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35510
+      AnimatorInstanceId: 35686
+      Name: pickup
       Looped: 0
       Length: 1.95
     AnimatorLayers:
-    - Id: 36220
-      AnimatorInstanceId: 35530
+    - Id: 36272
+      AnimatorInstanceId: 35686
       DefaultWeight: 0
     LayerStates:
-    - Id: 36222
-      AnimatorInstanceId: 35530
-      LayerId: 36220
+    - Id: 36274
+      AnimatorInstanceId: 35686
+      LayerId: 36272
       DefaultState: 1
-      AnimationClipId: 35690
+      AnimationClipId: 35772
       AnimationLength: 4
       AnimationLooped: 1
       Speed: 1
-    - Id: 36224
-      AnimatorInstanceId: 35530
-      LayerId: 36220
+    - Id: 36276
+      AnimatorInstanceId: 35686
+      LayerId: 36272
       DefaultState: 0
-      AnimationClipId: 35494
+      AnimationClipId: 35662
       AnimationLength: 0.6666667
       AnimationLooped: 1
       Speed: 1
-    - Id: 36226
-      AnimatorInstanceId: 35530
-      LayerId: 36220
+    - Id: 36278
+      AnimatorInstanceId: 35686
+      LayerId: 36272
       DefaultState: 0
-      AnimationClipId: 35448
+      AnimationClipId: 35482
       AnimationLength: 1.1666667
       AnimationLooped: 1
       Speed: 0.5
-    - Id: 36228
-      AnimatorInstanceId: 35530
-      LayerId: 36220
+    - Id: 36280
+      AnimatorInstanceId: 35686
+      LayerId: 36272
       DefaultState: 0
-      AnimationClipId: 35490
+      AnimationClipId: 35510
       AnimationLength: 1.95
       AnimationLooped: 0
       Speed: 2
     StateTransitions:
-    - Id: 36230
-      AnimatorInstanceId: 35530
-      StateId: 36222
-      DestinationStateId: 36224
+    - Id: 36282
+      AnimatorInstanceId: 35686
+      StateId: 36274
+      DestinationStateId: 36276
       FixedDuration: 1
       ExitTime: 0
       TransitionDuration: 0.067474805
       TransitionOffset: 0
-    - Id: 36232
-      AnimatorInstanceId: 35530
-      StateId: 36222
-      DestinationStateId: 36226
+    - Id: 36284
+      AnimatorInstanceId: 35686
+      StateId: 36274
+      DestinationStateId: 36278
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36234
-      AnimatorInstanceId: 35530
-      StateId: 36222
-      DestinationStateId: 36228
+    - Id: 36286
+      AnimatorInstanceId: 35686
+      StateId: 36274
+      DestinationStateId: 36280
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0.1
-    - Id: 36236
-      AnimatorInstanceId: 35530
-      StateId: 36224
-      DestinationStateId: 36222
+    - Id: 36288
+      AnimatorInstanceId: 35686
+      StateId: 36276
+      DestinationStateId: 36274
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36238
-      AnimatorInstanceId: 35530
-      StateId: 36224
-      DestinationStateId: 36226
+    - Id: 36290
+      AnimatorInstanceId: 35686
+      StateId: 36276
+      DestinationStateId: 36278
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36240
-      AnimatorInstanceId: 35530
-      StateId: 36226
-      DestinationStateId: 36222
+    - Id: 36292
+      AnimatorInstanceId: 35686
+      StateId: 36278
+      DestinationStateId: 36274
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36242
-      AnimatorInstanceId: 35530
-      StateId: 36226
-      DestinationStateId: 36224
+    - Id: 36294
+      AnimatorInstanceId: 35686
+      StateId: 36278
+      DestinationStateId: 36276
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0
-    - Id: 36244
-      AnimatorInstanceId: 35530
-      StateId: 36226
-      DestinationStateId: 36228
+    - Id: 36296
+      AnimatorInstanceId: 35686
+      StateId: 36278
+      DestinationStateId: 36280
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0.1
-    - Id: 36246
-      AnimatorInstanceId: 35530
-      StateId: 36228
-      DestinationStateId: 36222
+    - Id: 36298
+      AnimatorInstanceId: 35686
+      StateId: 36280
+      DestinationStateId: 36274
       FixedDuration: 1
       ExitTime: 0.5
       TransitionDuration: 0.2
       TransitionOffset: 0
-    - Id: 36248
-      AnimatorInstanceId: 35530
-      StateId: 36228
-      DestinationStateId: 36226
+    - Id: 36300
+      AnimatorInstanceId: 35686
+      StateId: 36280
+      DestinationStateId: 36278
       FixedDuration: 1
       ExitTime: 0.5
       TransitionDuration: 0.2
       TransitionOffset: 0
     TransitionCondtions:
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36230
+      AnimatorInstanceId: 35686
+      TransitionId: 36282
       Mode: 1
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36232
+      AnimatorInstanceId: 35686
+      TransitionId: 36284
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36234
+      AnimatorInstanceId: 35686
+      TransitionId: 36286
       Mode: 1
       Parameter: Fire
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36236
+      AnimatorInstanceId: 35686
+      TransitionId: 36288
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 1
-      AnimatorInstanceId: 35530
-      TransitionId: 36236
+      AnimatorInstanceId: 35686
+      TransitionId: 36288
       Mode: 2
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36238
+      AnimatorInstanceId: 35686
+      TransitionId: 36290
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 1
-      AnimatorInstanceId: 35530
-      TransitionId: 36238
+      AnimatorInstanceId: 35686
+      TransitionId: 36290
       Mode: 2
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36240
+      AnimatorInstanceId: 35686
+      TransitionId: 36292
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36242
+      AnimatorInstanceId: 35686
+      TransitionId: 36294
       Mode: 1
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36244
+      AnimatorInstanceId: 35686
+      TransitionId: 36296
       Mode: 1
       Parameter: Fire
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36246
+      AnimatorInstanceId: 35686
+      TransitionId: 36298
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35530
-      TransitionId: 36248
+      AnimatorInstanceId: 35686
+      TransitionId: 36300
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: Dash
       Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: MoveSpeed
       Type: 1
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: Fire
       Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 3
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: MoveSpeedMultiplier
       Type: 1
       DefaultFloat: 1
       DefaultInt: 0
       DefaultBool: 0
     - Id: 4
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: Sprinting
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 5
-      AnimatorInstanceId: 35530
+      AnimatorInstanceId: 35686
       ParameterName: Firing
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
+    Paths:
+    - basic_rig
+    - basic_rig/basic_rig Pelvis
+    - basic_rig/basic_rig Pelvis/basic_rig Spine
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig Neck
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig Neck/basic_rig
+      Head
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm/basic_rig L Forearm
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm/basic_rig L Forearm/basic_rig L Hand
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig L Finger0
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig L Finger1
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig L Clavicle/basic_rig
+      L UpperArm/basic_rig L Forearm/basic_rig L Hand/basic_rig L Finger2
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm/basic_rig R Forearm
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm/basic_rig R Forearm/basic_rig R Hand
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig R Finger0
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig R Finger1
+    - basic_rig/basic_rig Pelvis/basic_rig Spine/basic_rig Spine1/basic_rig R Clavicle/basic_rig
+      UpperArm/basic_rig R Forearm/basic_rig R Hand/basic_rig R Finger2
+    - basic_rig/basic_rig Pelvis/basic_rig L Thigh
+    - basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf
+    - basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig L Foot
+    - basic_rig/basic_rig Pelvis/basic_rig L Thigh/basic_rig L Calf/basic_rig L Foot/basic_rig
+      L Toe0
+    - basic_rig/basic_rig Pelvis/basic_rig R Thigh
+    - basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf
+    - basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig R Foot
+    - basic_rig/basic_rig Pelvis/basic_rig R Thigh/basic_rig R Calf/basic_rig R Foot/basic_rig
+      R Toe0

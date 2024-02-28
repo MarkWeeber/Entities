@@ -12,395 +12,281 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: Zombie_1DOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35634
+  AnimatorInstanceId: 35742
   AnimatorName: Zombie_1
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35634
+    AssetInstanceId: 35742
     AnimatorName: Zombie_1
     Animations:
-    - AnimationInstanceId: 35552
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 6
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 73
-            byte0003: 100
-            byte0004: 108
-            byte0005: 101
-            byte0006: 0
-            byte0007: 0
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35544
+      AnimatorInstanceId: 35742
+      Name: Z_Idle
       Looped: 1
       Length: 2.6666667
-    - AnimationInstanceId: 35412
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 8
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 65
-            byte0003: 116
-            byte0004: 116
-            byte0005: 97
-            byte0006: 99
-            byte0007: 107
-            byte0008: 0
-            byte0009: 0
-            byte0010: 0
-            byte0011: 0
-            byte0012: 0
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35628
+      AnimatorInstanceId: 35742
+      Name: Z_Attack
       Looped: 1
       Length: 1
-    - AnimationInstanceId: 35428
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 13
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 70
-            byte0003: 97
-            byte0004: 108
-            byte0005: 108
-            byte0006: 105
-            byte0007: 110
-            byte0008: 103
-            byte0009: 66
-            byte0010: 97
-            byte0011: 99
-            byte0012: 107
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35620
+      AnimatorInstanceId: 35742
+      Name: Z_FallingBack
       Looped: 0
       Length: 1.4000001
-    - AnimationInstanceId: 35446
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 13
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 82
-            byte0003: 117
-            byte0004: 110
-            byte0005: 95
-            byte0006: 73
-            byte0007: 110
-            byte0008: 80
-            byte0009: 108
-            byte0010: 97
-            byte0011: 99
-            byte0012: 101
-            byte0013: 0
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35640
+      AnimatorInstanceId: 35742
+      Name: Z_Run_InPlace
       Looped: 1
       Length: 1.5333334
-    - AnimationInstanceId: 35724
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 15
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 87
-            byte0003: 97
-            byte0004: 108
-            byte0005: 107
-            byte0006: 49
-            byte0007: 95
-            byte0008: 73
-            byte0009: 110
-            byte0010: 80
-            byte0011: 108
-            byte0012: 97
-            byte0013: 99
-            byte0014: 101
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35786
+      AnimatorInstanceId: 35742
+      Name: Z_Walk1_InPlace
       Looped: 1
       Length: 2
-    - AnimationInstanceId: 35702
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 14
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 87
-            byte0003: 97
-            byte0004: 108
-            byte0005: 107
-            byte0006: 95
-            byte0007: 73
-            byte0008: 110
-            byte0009: 80
-            byte0010: 108
-            byte0011: 97
-            byte0012: 99
-            byte0013: 101
-            byte0014: 0
-            byte0015: 0
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35604
+      AnimatorInstanceId: 35742
+      Name: Z_Walk_InPlace
       Looped: 1
       Length: 2
-    - AnimationInstanceId: 35672
-      AnimatorInstanceId: 35634
-      Name:
-        utf8LengthInBytes: 16
-        bytes:
-          offset0000:
-            byte0000: 90
-            byte0001: 95
-            byte0002: 70
-            byte0003: 97
-            byte0004: 108
-            byte0005: 108
-            byte0006: 105
-            byte0007: 110
-            byte0008: 103
-            byte0009: 70
-            byte0010: 111
-            byte0011: 114
-            byte0012: 119
-            byte0013: 97
-            byte0014: 114
-            byte0015: 100
-          byte0016: 0
-          byte0017: 0
-          byte0018: 0
-          byte0019: 0
-          byte0020: 0
-          byte0021: 0
-          byte0022: 0
-          byte0023: 0
-          byte0024: 0
-          byte0025: 0
-          byte0026: 0
-          byte0027: 0
-          byte0028: 0
-          byte0029: 0
+    - AnimationInstanceId: 35764
+      AnimatorInstanceId: 35742
+      Name: Z_FallingForward
       Looped: 0
       Length: 1.1666667
     AnimatorLayers:
-    - Id: 35864
-      AnimatorInstanceId: 35634
+    - Id: 35926
+      AnimatorInstanceId: 35742
       DefaultWeight: 0
     LayerStates:
-    - Id: 35866
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35928
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 1
-      AnimationClipId: 35552
+      AnimationClipId: 35544
       AnimationLength: 2.6666667
       AnimationLooped: 1
       Speed: 1
-    - Id: 35868
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35930
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35412
+      AnimationClipId: 35628
       AnimationLength: 1
       AnimationLooped: 1
       Speed: 1
-    - Id: 35870
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35932
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35428
+      AnimationClipId: 35620
       AnimationLength: 1.4000001
       AnimationLooped: 0
       Speed: 1
-    - Id: 35872
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35934
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35446
+      AnimationClipId: 35640
       AnimationLength: 1.5333334
       AnimationLooped: 1
       Speed: 1
-    - Id: 35874
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35936
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35724
+      AnimationClipId: 35786
       AnimationLength: 2
       AnimationLooped: 1
       Speed: 1
-    - Id: 35876
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35938
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35702
+      AnimationClipId: 35604
       AnimationLength: 2
       AnimationLooped: 1
       Speed: 1
-    - Id: 35878
-      AnimatorInstanceId: 35634
-      LayerId: 35864
+    - Id: 35940
+      AnimatorInstanceId: 35742
+      LayerId: 35926
       DefaultState: 0
-      AnimationClipId: 35672
+      AnimationClipId: 35764
       AnimationLength: 1.1666667
       AnimationLooped: 0
       Speed: 1
     StateTransitions:
-    - Id: 35880
-      AnimatorInstanceId: 35634
-      StateId: 35866
-      DestinationStateId: 35868
+    - Id: 35942
+      AnimatorInstanceId: 35742
+      StateId: 35928
+      DestinationStateId: 35930
       FixedDuration: 1
       ExitTime: 0.90625
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35882
-      AnimatorInstanceId: 35634
-      StateId: 35868
-      DestinationStateId: 35870
+    - Id: 35944
+      AnimatorInstanceId: 35742
+      StateId: 35930
+      DestinationStateId: 35932
       FixedDuration: 1
       ExitTime: 0.75
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35884
-      AnimatorInstanceId: 35634
-      StateId: 35870
-      DestinationStateId: 35874
+    - Id: 35946
+      AnimatorInstanceId: 35742
+      StateId: 35932
+      DestinationStateId: 35936
       FixedDuration: 1
       ExitTime: 0.8214286
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35886
-      AnimatorInstanceId: 35634
-      StateId: 35872
-      DestinationStateId: 35878
+    - Id: 35948
+      AnimatorInstanceId: 35742
+      StateId: 35934
+      DestinationStateId: 35940
       FixedDuration: 1
       ExitTime: 0.8369565
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35888
-      AnimatorInstanceId: 35634
-      StateId: 35874
-      DestinationStateId: 35876
+    - Id: 35950
+      AnimatorInstanceId: 35742
+      StateId: 35936
+      DestinationStateId: 35938
       FixedDuration: 1
       ExitTime: 0.875
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35890
-      AnimatorInstanceId: 35634
-      StateId: 35876
-      DestinationStateId: 35872
+    - Id: 35952
+      AnimatorInstanceId: 35742
+      StateId: 35938
+      DestinationStateId: 35934
       FixedDuration: 1
       ExitTime: 0.875
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35892
-      AnimatorInstanceId: 35634
-      StateId: 35878
-      DestinationStateId: 35866
+    - Id: 35954
+      AnimatorInstanceId: 35742
+      StateId: 35940
+      DestinationStateId: 35928
       FixedDuration: 1
       ExitTime: 0.78571427
       TransitionDuration: 0.25
       TransitionOffset: 0
     TransitionCondtions: []
     AnimatorParameters: []
+    Paths:
+    - 
+    - Base HumanPelvis
+    - Base HumanPelvis/Base HumanRThigh
+    - Base HumanPelvis/Base HumanRThigh/Base HumanRCalf
+    - Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot
+    - Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot/Base HumanRDigit11
+    - Base HumanPelvis/Base HumanSpine1
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead/Base HumanHeadJaw
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead/Base HumanHeadLEyelid
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead/Base HumanHeadREyelid
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead/Base HumanHeadREye
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanNeck/Base
+      HumanHead/Base HumanLEye
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit11
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit11/Base
+      HumanRArmDigit12
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit21
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit21/Base
+      HumanRArmDigit22
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit21/Base
+      HumanRArmDigit22/Base HumanRArmDigit23
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit31
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit31/Base
+      HumanRArmDigit32
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit31/Base
+      HumanRArmDigit32/Base HumanRArmDigit33
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit41
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit41/Base
+      HumanRArmDigit42
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit41/Base
+      HumanRArmDigit42/Base HumanRArmDigit43
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit51
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit51/Base
+      HumanRArmDigit52
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanRArmCollarbone/Base
+      HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base HumanRArmDigit51/Base
+      HumanRArmDigit52/Base HumanRArmDigit53
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit11
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit11/Base
+      HumanLArmDigit12
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit21
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit21/Base
+      HumanLArmDigit22
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit21/Base
+      HumanLArmDigit22/Base HumanLArmDigit23
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit31
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit31/Base
+      HumanLArmDigit32
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit31/Base
+      HumanLArmDigit32/Base HumanLArmDigit33
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit41
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit41/Base
+      HumanLArmDigit42
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit41/Base
+      HumanLArmDigit42/Base HumanLArmDigit43
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit51
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit51/Base
+      HumanLArmDigit52
+    - Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base HumanLArmCollarbone/Base
+      HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base HumanLArmDigit51/Base
+      HumanLArmDigit52/Base HumanLArmDigit53
+    - Base HumanPelvis/Base HumanLLegThigh
+    - Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf
+    - Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf/Base HumanLLegFoot
+    - Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf/Base HumanLLegFoot/Base
+      HumanLLegDigit11
+    - Zombie

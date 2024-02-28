@@ -1,12 +1,9 @@
 using System.Collections.Generic;
-using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 
 public struct AnimationPositionBuffer : IBufferElementData
 {
-    public int AnimationId;
-    public FixedString512Bytes Path;
     public float3 Value;
     public float Time;
 }

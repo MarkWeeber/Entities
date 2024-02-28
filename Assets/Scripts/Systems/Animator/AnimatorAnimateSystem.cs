@@ -407,27 +407,27 @@ public partial struct AnimatorAnimateSystem : ISystem
                     }
                 }
             }
-            ref RotationsPool currentRotationsPool = ref AnimationBlob[currentAnimIndex].Rotations.Value;
-            ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
-            ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
-            ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
-            for (int i = 0; i < parts.Length; i++)
-            {
-                var part = parts[i];
-                var newLocalTransform = ObtainPartAnimationValue(
-                    sortKey,
-                    layer,
-                    part,
-                    ref currentRotationsPool,
-                    ref nextRotationsPool,
-                    ref currentPositionsPool,
-                    ref nextPositionsPool);
-                part.SetNewLocalTransform = true;
-                part.SetPosition = newLocalTransform.Position;
-                part.SetRotation = newLocalTransform.Rotation;
-                part.SetScale = newLocalTransform.Scale;
-                parts[i] = part;
-            }
+            //ref RotationsPool currentRotationsPool = ref AnimationBlob[currentAnimIndex].Rotations.Value;
+            //ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
+            //ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
+            //ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
+            //for (int i = 0; i < parts.Length; i++)
+            //{
+            //    var part = parts[i];
+            //    var newLocalTransform = ObtainPartAnimationValue(
+            //        sortKey,
+            //        layer,
+            //        part,
+            //        ref currentRotationsPool,
+            //        ref nextRotationsPool,
+            //        ref currentPositionsPool,
+            //        ref nextPositionsPool);
+            //    part.SetNewLocalTransform = true;
+            //    part.SetPosition = newLocalTransform.Position;
+            //    part.SetRotation = newLocalTransform.Rotation;
+            //    part.SetScale = newLocalTransform.Scale;
+            //    parts[i] = part;
+            //}
         }
 
         [BurstCompile]
@@ -521,23 +521,23 @@ public partial struct AnimatorAnimateSystem : ISystem
             float secondPosTime = 0f;
             for (int i = 0; i < positionsPool.Positions.Length; i++)
             {
-                var pos = positionsPool.Positions[i];
-                if (pos.Path == part.Path && pos.AnimationId == animationId)
-                {
-                    if (pos.Time <= animationTime)
-                    {
-                        firstPosFound = true;
-                        firstPosTime = pos.Time;
-                        firstPos = pos.Value;
-                    }
-                    if (pos.Time > animationTime)
-                    {
-                        secondPosFound = true;
-                        secondPosTime = pos.Time;
-                        secondPos = pos.Value;
-                        break;
-                    }
-                }
+                //var pos = positionsPool.Positions[i];
+                //if (pos.Path == part.Path && pos.AnimationId == animationId)
+                //{
+                //    if (pos.Time <= animationTime)
+                //    {
+                //        firstPosFound = true;
+                //        firstPosTime = pos.Time;
+                //        firstPos = pos.Value;
+                //    }
+                //    if (pos.Time > animationTime)
+                //    {
+                //        secondPosFound = true;
+                //        secondPosTime = pos.Time;
+                //        secondPos = pos.Value;
+                //        break;
+                //    }
+                //}
             }
             bool firstRotFound = false;
             bool secondRotFound = false;
@@ -547,23 +547,23 @@ public partial struct AnimatorAnimateSystem : ISystem
             float secondRotTime = 0f;
             for (int i = 0; i < rotationsPool.Rotations.Length; i++)
             {
-                var rot = rotationsPool.Rotations[i];
-                if (rot.Path == part.Path && rot.AnimationId == animationId)
-                {
-                    if (rot.Time <= animationTime)
-                    {
-                        firstRotFound = true;
-                        firstRotTime = rot.Time;
-                        firstRot = rot.Value;
-                    }
-                    if (rot.Time > animationTime)
-                    {
-                        secondRotFound = true;
-                        secondRotTime = rot.Time;
-                        secondRot = rot.Value;
-                        break;
-                    }
-                }
+                //var rot = rotationsPool.Rotations[i];
+                //if (rot.Path == part.Path && rot.AnimationId == animationId)
+                //{
+                //    if (rot.Time <= animationTime)
+                //    {
+                //        firstRotFound = true;
+                //        firstRotTime = rot.Time;
+                //        firstRot = rot.Value;
+                //    }
+                //    if (rot.Time > animationTime)
+                //    {
+                //        secondRotFound = true;
+                //        secondRotTime = rot.Time;
+                //        secondRot = rot.Value;
+                //        break;
+                //    }
+                //}
             }
 
             if (secondPosFound && firstPosFound)

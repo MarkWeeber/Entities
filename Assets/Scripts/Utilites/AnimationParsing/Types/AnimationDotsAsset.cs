@@ -18,8 +18,20 @@ namespace ParseUtils
         public int AnimatorInstanceId;
         public float Length;
         public bool Looped;
+        public List<AnimationPathData> PathData;
+    }
+
+    [System.Serializable]
+    public struct AnimationPathData
+    {
+        public string Path;
+        public bool HasPosition;
+        public bool HasRotation;
+        public bool HasEulerRotation;
         public List<AnimationPositioItem> Positions;
         public List<AnimationRotationItem> Rotations;
+        public List<AnimationRotationItem> EulerRotations;
+
     }
 
     [System.Serializable]
@@ -28,5 +40,21 @@ namespace ParseUtils
         public int Index;
         public string Path;
         public string PropertyName;
+    }
+
+    [System.Serializable]
+    public enum ProperyType
+    {
+        LocalRotX = 0,
+        LocalRoY = 1,
+        LocalRotZ = 2,
+        LocalRotW = 3,
+        LocalPosX = 4,
+        LocalPosY = 5,
+        LocalPosZ = 6,
+        LocalEulerAnglesRawX = 7,
+        LocalEulerAnglesRawY = 8,
+        LocalEulerAnglesRawZ = 9,
+        LocalEulerAnglesRawW = 10,
     }
 }

@@ -5,8 +5,6 @@ using Unity.Mathematics;
 
 public struct AnimationRotationBuffer : IBufferElementData
 {
-    public int AnimationId;
-    public FixedString512Bytes Path;
     public quaternion Value;
     public float Time;
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 namespace ParseUtils
 {
     public class AnimatorDotsParser : MonoBehaviour

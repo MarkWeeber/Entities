@@ -35,7 +35,9 @@ namespace ParseUtils
                 };
                 animationsTable.Add(animationItem);
                 PreparePathsFromAllAnimations(animationClip, paths);
-                animationParsedObjects.Add(AnimationParser.PrepareAnimation(animationClip, animatorInstanceId, paths));
+
+                //animationParsedObjects.Add(AnimationParser.PrepareAnimation(animationClip, animatorInstanceId, paths));
+                animationParsedObjects.Add(AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths));
             }
 
             // animator parameters

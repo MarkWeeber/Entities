@@ -7,8 +7,23 @@ public struct AnimationBlobBuffer : IBufferElementData
     public float Length;
     public bool Looped;
     public FixedString32Bytes Name;
-    public BlobAssetReference<RotationsPool> Rotations;
-    public BlobAssetReference<PositionsPool> Position;
+    public BlobAssetReference<PathDataPool> PathData;
+}
+
+public struct PathDataPool
+{
+    public BlobArray<PathsPool> PathData;
+}
+
+public struct PathsPool
+{
+    public FixedString512Bytes Path;
+    public bool HasPositions;
+    public bool HasRotations;
+    public bool HasEulerRotations;
+    public BlobArray<AnimationPositionBuffer> Positions;
+    public BlobArray<AnimationRotationBuffer> Rotations;
+    public BlobArray<AnimationRotationBuffer> EulerRotations;
 }
 
 public struct RotationsPool

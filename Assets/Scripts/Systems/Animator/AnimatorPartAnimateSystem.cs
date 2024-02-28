@@ -125,15 +125,15 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             //ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
             //ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
             //ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
-            var currentAnimation = AnimationBlob[currentAnimIndex];
-            var nextAnimation = AnimationBlob[nextAnimIndex];
-            AnimateThisPart(
-                layer,
-                path,
-                localTransform,
-                currentAnimation,
-                nextAnimation
-                );
+            //var currentAnimation = AnimationBlob[currentAnimIndex];
+            //var nextAnimation = AnimationBlob[nextAnimIndex];
+            //AnimateThisPart(
+            //    layer,
+            //    path,
+            //    localTransform,
+            //    currentAnimation,
+            //    nextAnimation
+            //    );
         }
 
         [BurstCompile]
@@ -219,7 +219,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             float3 secondPos = float3.zero;
             float firstPosTime = 0f;
             float secondPosTime = 0f;
-            ref var positions = ref animation.Position.Value.Positions;
+            //ref var positions = ref animation.Position.Value.Positions;
             //for (int i = 0; i < positions.Length; i++)
             //{
             //    var pos = positions[i];
@@ -246,7 +246,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             quaternion secondRot = quaternion.identity;
             float firstRotTime = 0f;
             float secondRotTime = 0f;
-            ref var rotations = ref animation.Rotations.Value;
+            //ref var rotations = ref animation.Rotations.Value;
             //for (int i = 0; i < rotations.Length; i++)
             //{
             //    var rot = rotations[i];
