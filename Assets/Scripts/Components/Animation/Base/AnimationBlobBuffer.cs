@@ -27,11 +27,13 @@ public struct PathsPool
     public BlobArray<AnimationRotationBuffer> EulerRotations;
 }
 
+
+
 public struct RotationsPool
 {
-    public BlobArray<AnimationRotationBuffer> Rotations;
+    public AnimationRotationBuffer Value;
 }
 public struct PositionsPool
 {
-    public BlobArray<AnimationPositionBuffer> Positions;
+    public AnimationPositionBuffer Value;
 }

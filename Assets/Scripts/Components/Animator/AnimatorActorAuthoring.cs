@@ -91,6 +91,7 @@ public class AnimatorActorAuthoring : MonoBehaviour
                     CurrentStateId = defaultStateId,
                     CurrentStateSpeed = defaultState.Speed,
                     CurrentAnimationId = layerDefaultAnimationClip.AnimationInstanceId,
+                    CurrentAnimationBlobIndex = defaultState.AnimationBlobAssetIndex,
                     CurrentAnimationTime = 0f, // time needed for animation
                     CurrentAnimationLength = layerDefaultAnimationClip.Length,
                     CurrentAnimationIsLooped = layerDefaultAnimationClip.Looped,

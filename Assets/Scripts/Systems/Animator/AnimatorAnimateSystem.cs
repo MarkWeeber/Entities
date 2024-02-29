@@ -431,188 +431,188 @@ public partial struct AnimatorAnimateSystem : ISystem
             //}
         }
 
-        [BurstCompile]
-        private LocalTransform ObtainPartAnimationValue(
-            int sortKey,
-            AnimatorActorLayerBuffer layer,
-            AnimatorActorPartBufferComponent part,
-            ref RotationsPool currentRotationsPool,
-            ref RotationsPool nextRotationsPool,
-            ref PositionsPool currentPositionsPool,
-            ref PositionsPool nextPositionsPool)
-        {
-            int currentAnimationId = layer.CurrentAnimationId;
-            float currentAnimationTime = layer.CurrentAnimationTime;
-            var localTransform = LocalTransformLookup.GetRefRO(part.Value);
-            float3 setPosition = localTransform.ValueRO.Position;
-            quaternion setRotation = localTransform.ValueRO.Rotation;
-            float setScale = localTransform.ValueRO.Scale;
+        //[BurstCompile]
+        //private LocalTransform ObtainPartAnimationValue(
+        //    int sortKey,
+        //    AnimatorActorLayerBuffer layer,
+        //    AnimatorActorPartBufferComponent part,
+        //    ref RotationsPool currentRotationsPool,
+        //    ref RotationsPool nextRotationsPool,
+        //    ref PositionsPool currentPositionsPool,
+        //    ref PositionsPool nextPositionsPool)
+        //{
+        //    int currentAnimationId = layer.CurrentAnimationId;
+        //    float currentAnimationTime = layer.CurrentAnimationTime;
+        //    var localTransform = LocalTransformLookup.GetRefRO(part.Value);
+        //    float3 setPosition = localTransform.ValueRO.Position;
+        //    quaternion setRotation = localTransform.ValueRO.Rotation;
+        //    float setScale = localTransform.ValueRO.Scale;
 
-            // obtain first animation values
-            ObtainAnimationValues(
-                ref setPosition,
-                ref setRotation,
-                currentAnimationTime,
-                currentAnimationId,
-                part,
-                layer.Method,
-                ref currentRotationsPool,
-                ref currentPositionsPool);
+        //    // obtain first animation values
+        //    ObtainAnimationValues(
+        //        ref setPosition,
+        //        ref setRotation,
+        //        currentAnimationTime,
+        //        currentAnimationId,
+        //        part,
+        //        layer.Method,
+        //        ref currentRotationsPool,
+        //        ref currentPositionsPool);
 
-            // check if transition exists
-            float transitionRate = layer.TransitionRate;
-            if (transitionRate >= 0)
-            {
-                int nextAnimationId = layer.NextAnimationId;
-                float nextAnimationTime = layer.NextAnimationTime;
-                float3 nextPosition = localTransform.ValueRO.Position;
-                quaternion nextRotation = localTransform.ValueRO.Rotation;
-                ObtainAnimationValues(
-                    ref nextPosition,
-                    ref nextRotation,
-                    nextAnimationTime,
-                    nextAnimationId,
-                    part,
-                    layer.Method,
-                    ref nextRotationsPool,
-                    ref nextPositionsPool);
-                switch (layer.Method)
-                {
-                    case PartsAnimationMethod.Lerp:
-                        setPosition = math.lerp(setPosition, nextPosition, transitionRate);
-                        setRotation = math.slerp(setRotation, nextRotation, transitionRate);
-                        break;
-                    case PartsAnimationMethod.Lean:
-                        setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
-                        setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
-                        break;
-                    case PartsAnimationMethod.SmoothStep:
-                        setPosition = CustomMath.SmoothStep(setPosition, nextPosition, transitionRate);
-                        setRotation = CustomMath.SmoothStep(setRotation, nextRotation, transitionRate);
-                        break;
-                    default:
-                        break;
-                }
-            }
+        //    // check if transition exists
+        //    float transitionRate = layer.TransitionRate;
+        //    if (transitionRate >= 0)
+        //    {
+        //        int nextAnimationId = layer.NextAnimationId;
+        //        float nextAnimationTime = layer.NextAnimationTime;
+        //        float3 nextPosition = localTransform.ValueRO.Position;
+        //        quaternion nextRotation = localTransform.ValueRO.Rotation;
+        //        ObtainAnimationValues(
+        //            ref nextPosition,
+        //            ref nextRotation,
+        //            nextAnimationTime,
+        //            nextAnimationId,
+        //            part,
+        //            layer.Method,
+        //            ref nextRotationsPool,
+        //            ref nextPositionsPool);
+        //        switch (layer.Method)
+        //        {
+        //            case PartsAnimationMethod.Lerp:
+        //                setPosition = math.lerp(setPosition, nextPosition, transitionRate);
+        //                setRotation = math.slerp(setRotation, nextRotation, transitionRate);
+        //                break;
+        //            case PartsAnimationMethod.Lean:
+        //                setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
+        //                setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
+        //                break;
+        //            case PartsAnimationMethod.SmoothStep:
+        //                setPosition = CustomMath.SmoothStep(setPosition, nextPosition, transitionRate);
+        //                setRotation = CustomMath.SmoothStep(setRotation, nextRotation, transitionRate);
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
 
-            return new LocalTransform
-            {
-                Position = setPosition,
-                Rotation = setRotation,
-                Scale = setScale
-            };
-        }
+        //    return new LocalTransform
+        //    {
+        //        Position = setPosition,
+        //        Rotation = setRotation,
+        //        Scale = setScale
+        //    };
+        //}
 
-        [BurstCompile]
-        private void ObtainAnimationValues(
-            ref float3 position,
-            ref quaternion rotation,
-            float animationTime,
-            int animationId,
-            AnimatorActorPartBufferComponent part,
-            PartsAnimationMethod method,
-            ref RotationsPool rotationsPool,
-            ref PositionsPool positionsPool)
-        {
-            bool firstPosFound = false;
-            bool secondPosFound = false;
-            float3 firstPos = float3.zero;
-            float3 secondPos = float3.zero;
-            float firstPosTime = 0f;
-            float secondPosTime = 0f;
-            for (int i = 0; i < positionsPool.Positions.Length; i++)
-            {
-                //var pos = positionsPool.Positions[i];
-                //if (pos.Path == part.Path && pos.AnimationId == animationId)
-                //{
-                //    if (pos.Time <= animationTime)
-                //    {
-                //        firstPosFound = true;
-                //        firstPosTime = pos.Time;
-                //        firstPos = pos.Value;
-                //    }
-                //    if (pos.Time > animationTime)
-                //    {
-                //        secondPosFound = true;
-                //        secondPosTime = pos.Time;
-                //        secondPos = pos.Value;
-                //        break;
-                //    }
-                //}
-            }
-            bool firstRotFound = false;
-            bool secondRotFound = false;
-            quaternion firstRot = quaternion.identity;
-            quaternion secondRot = quaternion.identity;
-            float firstRotTime = 0f;
-            float secondRotTime = 0f;
-            for (int i = 0; i < rotationsPool.Rotations.Length; i++)
-            {
-                //var rot = rotationsPool.Rotations[i];
-                //if (rot.Path == part.Path && rot.AnimationId == animationId)
-                //{
-                //    if (rot.Time <= animationTime)
-                //    {
-                //        firstRotFound = true;
-                //        firstRotTime = rot.Time;
-                //        firstRot = rot.Value;
-                //    }
-                //    if (rot.Time > animationTime)
-                //    {
-                //        secondRotFound = true;
-                //        secondRotTime = rot.Time;
-                //        secondRot = rot.Value;
-                //        break;
-                //    }
-                //}
-            }
+        //[BurstCompile]
+        //private void ObtainAnimationValues(
+        //    ref float3 position,
+        //    ref quaternion rotation,
+        //    float animationTime,
+        //    int animationId,
+        //    AnimatorActorPartBufferComponent part,
+        //    PartsAnimationMethod method,
+        //    ref RotationsPool rotationsPool,
+        //    ref PositionsPool positionsPool)
+        //{
+        //    bool firstPosFound = false;
+        //    bool secondPosFound = false;
+        //    float3 firstPos = float3.zero;
+        //    float3 secondPos = float3.zero;
+        //    float firstPosTime = 0f;
+        //    float secondPosTime = 0f;
+        //    for (int i = 0; i < positionsPool.Positions.Length; i++)
+        //    {
+        //        //var pos = positionsPool.Positions[i];
+        //        //if (pos.Path == part.Path && pos.AnimationId == animationId)
+        //        //{
+        //        //    if (pos.Time <= animationTime)
+        //        //    {
+        //        //        firstPosFound = true;
+        //        //        firstPosTime = pos.Time;
+        //        //        firstPos = pos.Value;
+        //        //    }
+        //        //    if (pos.Time > animationTime)
+        //        //    {
+        //        //        secondPosFound = true;
+        //        //        secondPosTime = pos.Time;
+        //        //        secondPos = pos.Value;
+        //        //        break;
+        //        //    }
+        //        //}
+        //    }
+        //    bool firstRotFound = false;
+        //    bool secondRotFound = false;
+        //    quaternion firstRot = quaternion.identity;
+        //    quaternion secondRot = quaternion.identity;
+        //    float firstRotTime = 0f;
+        //    float secondRotTime = 0f;
+        //    for (int i = 0; i < rotationsPool.Rotations.Length; i++)
+        //    {
+        //        //var rot = rotationsPool.Rotations[i];
+        //        //if (rot.Path == part.Path && rot.AnimationId == animationId)
+        //        //{
+        //        //    if (rot.Time <= animationTime)
+        //        //    {
+        //        //        firstRotFound = true;
+        //        //        firstRotTime = rot.Time;
+        //        //        firstRot = rot.Value;
+        //        //    }
+        //        //    if (rot.Time > animationTime)
+        //        //    {
+        //        //        secondRotFound = true;
+        //        //        secondRotTime = rot.Time;
+        //        //        secondRot = rot.Value;
+        //        //        break;
+        //        //    }
+        //        //}
+        //    }
 
-            if (secondPosFound && firstPosFound)
-            {
-                float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
-                switch (method)
-                {
-                    case PartsAnimationMethod.Lerp:
-                        position = math.lerp(firstPos, secondPos, rate);
-                        break;
-                    case PartsAnimationMethod.Lean:
-                        position = CustomMath.Lean(firstPos, secondPos, rate);
-                        break;
-                    case PartsAnimationMethod.SmoothStep:
-                        position = CustomMath.SmoothStep(firstPos, secondPos, rate);
-                        break;
-                    default:
-                        break;
-                }
+        //    if (secondPosFound && firstPosFound)
+        //    {
+        //        float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
+        //        switch (method)
+        //        {
+        //            case PartsAnimationMethod.Lerp:
+        //                position = math.lerp(firstPos, secondPos, rate);
+        //                break;
+        //            case PartsAnimationMethod.Lean:
+        //                position = CustomMath.Lean(firstPos, secondPos, rate);
+        //                break;
+        //            case PartsAnimationMethod.SmoothStep:
+        //                position = CustomMath.SmoothStep(firstPos, secondPos, rate);
+        //                break;
+        //            default:
+        //                break;
+        //        }
 
-            }
-            if (firstPosFound && !secondPosFound)
-            {
-                position = firstPos;
-            }
-            if (secondRotFound && firstRotFound)
-            {
-                float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
-                switch (method)
-                {
-                    case PartsAnimationMethod.Lerp:
-                        rotation = math.slerp(firstRot, secondRot, rate);
-                        break;
-                    case PartsAnimationMethod.Lean:
-                        rotation = CustomMath.Lean(firstRot, secondRot, rate);
-                        break;
-                    case PartsAnimationMethod.SmoothStep:
-                        rotation = CustomMath.SmoothStep(firstRot, secondRot, rate);
-                        break;
-                    default:
-                        break;
-                }
+        //    }
+        //    if (firstPosFound && !secondPosFound)
+        //    {
+        //        position = firstPos;
+        //    }
+        //    if (secondRotFound && firstRotFound)
+        //    {
+        //        float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
+        //        switch (method)
+        //        {
+        //            case PartsAnimationMethod.Lerp:
+        //                rotation = math.slerp(firstRot, secondRot, rate);
+        //                break;
+        //            case PartsAnimationMethod.Lean:
+        //                rotation = CustomMath.Lean(firstRot, secondRot, rate);
+        //                break;
+        //            case PartsAnimationMethod.SmoothStep:
+        //                rotation = CustomMath.SmoothStep(firstRot, secondRot, rate);
+        //                break;
+        //            default:
+        //                break;
+        //        }
 
-            }
-            if (firstRotFound && !secondRotFound)
-            {
-                rotation = firstRot;
-            }
-        }
+        //    }
+        //    if (firstRotFound && !secondRotFound)
+        //    {
+        //        rotation = firstRot;
+        //    }
+        //}
     }
 }

@@ -29,6 +29,9 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     continue;
                 }
                 var pathData = CreateAnimationBlobBuffer(asset.AnimationClipParsedObject);
+                //ref var mainData = ref pathData.Value.PathData[10];
+                //var data = mainData.Positions.Length;
+                //Debug.Log(data);
                 animationsWithBlobs.Add(new AnimationBlobBuffer
                 {
                     Id = asset.AnimationClipParsedObject.Id,
@@ -50,47 +53,75 @@ public class AnimationBaseAuthoring : MonoBehaviour
             for (int i = 0; i < pathDataCount; i++)
             {
                 var pathData = parsedObject.PathData[i];
-                ref PathsPool pathsPool = ref builder.ConstructRoot<PathsPool>();
+                var newBuilder = new BlobBuilder(Allocator.Temp);
+                ref PathsPool pathsPool = ref newBuilder.ConstructRoot<PathsPool>();
                 pathsPool.Path = (FixedString512Bytes)pathData.Path;
                 pathsPool.HasPositions = pathData.HasPosition;
                 pathsPool.HasRotations = pathData.HasRotation;
                 pathsPool.HasEulerRotations = pathData.HasEulerRotation;
-                int positionsCount = pathData.Positions.Count;
-                var positionsArrayBuilder = builder.Allocate(ref pathsPool.Positions, positionsCount);
-                for (int k = 0; k < positionsCount; k++)
+                // positions
+                if (pathData.HasPosition)
                 {
-                    var listItem = pathData.Positions[k];
-                    positionsArrayBuilder[k] = new AnimationPositionBuffer
+                    int positionsCount = pathData.Positions.Count;
+                    var positionsArrayBuilder = newBuilder.Allocate(ref pathsPool.Positions, positionsCount);
+                    for (int k = 0; k < positionsCount; k++)
                     {
-                        Time = listItem.Time,
-                        Value = listItem.Value
-                    };
+                        var listItem = pathData.Positions[k];
+                        var newItem = new AnimationPositionBuffer
+                        {
+                            Time = listItem.Time,
+                            Value = listItem.Value
+                        };
+                        positionsArrayBuilder[k] = newItem;
+                    }
                 }
-                int rotationsCount = pathData.Rotations.Count;
-                var rotationsArrayBuilder = builder.Allocate(ref pathsPool.Rotations, rotationsCount);
-                for(int k = 0;k < rotationsCount; k++)
+                // rotations
+                if (pathData.HasRotation)
                 {
-                    var listItem = pathData.Rotations[k];
-                    rotationsArrayBuilder[k] = new AnimationRotationBuffer
+                    int rotationsCount = pathData.Rotations.Count;
+                    var rotationsArrayBuilder = newBuilder.Allocate(ref pathsPool.Rotations, rotationsCount);
+                    for (int k = 0; k < rotationsCount; k++)
                     {
-                        Time = listItem.Time,
-                        Value = listItem.Value
-                    };
+                        var listItem = pathData.Rotations[k];
+                        var newItem = new AnimationRotationBuffer
+                        {
+                            Time = listItem.Time,
+                            Value = listItem.Value
+                        };
+                        rotationsArrayBuilder[k] = newItem;
+                    }
                 }
-                int eulerRotationsCount = pathData.EulerRotations.Count;
-                var eulerRotationsArrayBuilder = builder.Allocate(ref pathsPool.EulerRotations, eulerRotationsCount);
-                for (int k = 0; k < eulerRotationsCount; k++)
+                // euler rotations
+                if (pathData.HasEulerRotation)
                 {
-                    var listItem = pathData.EulerRotations[k];
-                    eulerRotationsArrayBuilder[k] = new AnimationRotationBuffer
+                    int eulerRotationsCount = pathData.EulerRotations.Count;
+                    var eulerRotaionsArrayBuilder = newBuilder.Allocate(ref pathsPool.EulerRotations, eulerRotationsCount);
+                    for (int k = 0; k < eulerRotationsCount; k++)
                     {
-                        Time = listItem.Time,
-                        Value = listItem.Value
-                    };
+                        var listItem = pathData.EulerRotations[k];
+                        var newItem = new AnimationRotationBuffer
+                        {
+                            Time = listItem.Time,
+                            Value = listItem.Value
+                        };
+                        eulerRotaionsArrayBuilder[k] = newItem;
+                    }
                 }
-                pathDataArrayBuilder[i] = pathsPool;
+                // result
+                var _result = newBuilder.CreateBlobAssetReference<PathsPool>(Allocator.Persistent);
+                pathDataArrayBuilder[i] = new PathsPool
+                {
+                    Positions = _result.Value.Positions,
+                    Rotations = _result.Value.Rotations,
+                    EulerRotations = _result.Value.EulerRotations,
+                    HasEulerRotations = _result.Value.HasEulerRotations,
+                    HasPositions = _result.Value.HasPositions,
+                    HasRotations = _result.Value.HasRotations,
+                    Path = _result.Value.Path
+                };
+                newBuilder.Dispose();
             }
-            
+
             var result = builder.CreateBlobAssetReference<PathDataPool>(Allocator.Persistent);
             builder.Dispose();
             return result;

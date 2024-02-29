@@ -116,8 +116,19 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
             int samplesCount = (int)math.ceil(animation.Length * fps);
             float timeRate = (animationTime / animation.Length);
-            int firstCurveIndex = (int)math.floor(timeRate * samplesCount);
-            int secondCurveIndex = (int)math.ceil(timeRate * samplesCount);
+            int firstCurveIndex = (int)math.floor(timeRate * samplesCount) - 1;
+            int secondCurveIndex = (int)math.ceil(timeRate * samplesCount) - 1;
+            if (secondCurveIndex == firstCurveIndex)
+            {
+                if (secondCurveIndex == samplesCount - 1)
+                {
+                    firstCurveIndex -= 1;
+                }
+                else
+                {
+                    secondCurveIndex += 1;
+                }
+            }
             float transitionRate = animationTime - firstCurveIndex * (animation.Length / samplesCount);
             if (pathsPool.HasPositions)
             {
@@ -127,7 +138,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                     //Debug.Log(positions.ToArray().Length);
                     return;
                 }
-                Debug.Log(positions);
+                Debug.Log(positions.Length);
                 float3 firstPosition = positions[firstCurveIndex].Value;
                 float3 secondPosition = positions[secondCurveIndex].Value;
                 position = InterPolate(firstPosition, secondPosition, transitionRate, method);
