@@ -1,10 +1,8 @@
 using ParseUtils;
-using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class AnimationBaseAuthoring : MonoBehaviour
 {
@@ -34,6 +32,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 animationsWithBlobs.Add(new AnimationBlobBuffer
                 {
                     Id = asset.AnimationClipParsedObject.Id,
+                    AnimatorInstanceId = asset.AnimationClipParsedObject.AnimatorInstanceId,
                     Length = asset.AnimationClipParsedObject.Length,
                     Looped = asset.AnimationClipParsedObject.Looped,
                     Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
@@ -60,7 +59,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 var positionsArrayBuilder = builder.Allocate(ref pathsPool.Positions, positionsCount);
                 for (int k = 0; k < positionsCount; k++)
                 {
-                    var listItem = pathsPool.Positions[k];
+                    var listItem = pathData.Positions[k];
                     positionsArrayBuilder[k] = new AnimationPositionBuffer
                     {
                         Time = listItem.Time,
@@ -71,8 +70,8 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 var rotationsArrayBuilder = builder.Allocate(ref pathsPool.Rotations, rotationsCount);
                 for(int k = 0;k < rotationsCount; k++)
                 {
-                    var listItem = pathsPool.Rotations[i];
-                    rotationsArrayBuilder[i] = new AnimationRotationBuffer
+                    var listItem = pathData.Rotations[k];
+                    rotationsArrayBuilder[k] = new AnimationRotationBuffer
                     {
                         Time = listItem.Time,
                         Value = listItem.Value
@@ -82,7 +81,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 var eulerRotationsArrayBuilder = builder.Allocate(ref pathsPool.EulerRotations, eulerRotationsCount);
                 for (int k = 0; k < eulerRotationsCount; k++)
                 {
-                    var listItem = pathsPool.EulerRotations[k];
+                    var listItem = pathData.EulerRotations[k];
                     eulerRotationsArrayBuilder[k] = new AnimationRotationBuffer
                     {
                         Time = listItem.Time,
@@ -96,119 +95,5 @@ public class AnimationBaseAuthoring : MonoBehaviour
             builder.Dispose();
             return result;
         }
-
-        //private BlobAssetReference<PathsPool> CreatePathPool(AnimationPathData animationPathData)
-        //{
-        //    var builder = new BlobBuilder(Allocator.Temp);
-        //    ref PathsPool pool = ref builder.ConstructRoot<PathsPool>();
-        //    pool.Path = (FixedString512Bytes)animationPathData.Path;
-        //    pool.HasPositions = animationPathData.HasPosition;
-        //    pool.HasRotations = animationPathData.HasRotation;
-        //    pool.HasEulerRotations = animationPathData.HasEulerRotation;
-        //    var positionsArrayBuilder = builder.Allocate(ref pool.Positions, animationPathData.Positions.Count);
-        //    for (int i = 0; i < animationPathData.Positions.Count; i++)
-        //    {
-        //        var listItem = animationPathData.Positions[i];
-        //        positionsArrayBuilder[i] = new AnimationPositionBuffer
-        //        {
-        //            Time = listItem.Time,
-        //            Value = listItem.Value
-        //        };
-        //    }
-        //    var rotationsArrayBuilder = builder.Allocate(ref pool.Rotations, animationPathData.Rotations.Count);
-        //    for (int i = 0; i < animationPathData.Rotations.Count; i++)
-        //    {
-        //        var listItem = animationPathData.Rotations[i];
-        //        rotationsArrayBuilder[i] = new AnimationRotationBuffer
-        //        {
-        //            Time = listItem.Time,
-        //            Value = listItem.Value
-        //        };
-        //    }
-        //    var eulerRotationsArrayBuilder = builder.Allocate(ref pool.EulerRotations, animationPathData.EulerRotations.Count);
-        //    for (int i = 0; i < animationPathData.EulerRotations.Count; i++)
-        //    {
-        //        var listItem = animationPathData.EulerRotations[i];
-        //        eulerRotationsArrayBuilder[i] = new AnimationRotationBuffer
-        //        {
-        //            Time = listItem.Time,
-        //            Value = listItem.Value
-        //        };
-        //    }
-        //    var result = builder.CreateBlobAssetReference<PathsPool>(Allocator.Persistent);
-        //    builder.Dispose();
-        //    return result;
-        //}
-
-        //private BlobAssetReference<PositionsPool> CreatePositionsPool(List<AnimationPositioItem> inputList)
-        //{
-        //    var builder = new BlobBuilder(Allocator.Temp);
-
-        //    ref PositionsPool pool = ref builder.ConstructRoot<PositionsPool>();
-        //    var arrayBuilder = builder.Allocate(ref pool.Positions, inputList.Count);
-        //    for (int i = 0; i < inputList.Count; i++)
-        //    {
-        //        var item = new AnimationPositionBuffer
-        //        {
-        //            Time = inputList[i].Time,
-        //            Value = inputList[i].Value
-        //        };
-        //        arrayBuilder[i] = item;
-        //    }
-        //    var result = builder.CreateBlobAssetReference<PositionsPool>(Allocator.Persistent);
-        //    builder.Dispose();
-        //    return result;
-        //}
-
-
-        //private BlobAssetReference<RotationsPool> CreateRotationsPool(List<AnimationRotationItem> inputList)
-        //{
-        //    var builder = new BlobBuilder(Allocator.Temp);
-
-        //    ref RotationsPool pool = ref builder.ConstructRoot<RotationsPool>();
-        //    var arrayBuilder = builder.Allocate(ref pool.Rotations, inputList.Count);
-        //    for (int i = 0; i < inputList.Count; i++)
-        //    {
-        //        var item = new AnimationRotationBuffer
-        //        {
-        //            Time = inputList[i].Time,
-        //            Value = inputList[i].Value,
-        //        };
-        //        arrayBuilder[i] = item;
-        //    }
-        //    var result = builder.CreateBlobAssetReference<RotationsPool>(Allocator.Persistent);
-        //    builder.Dispose();
-        //    return result;
-        //}
-
-        //private BlobAssetReference<RotationsPool> CreateRotationsPool(List<AnimationRotationBuffer> inputList)
-        //{
-        //    var builder = new BlobBuilder(Allocator.Temp);
-
-        //    ref RotationsPool pool = ref builder.ConstructRoot<RotationsPool>();
-        //    var arrayBuilder = builder.Allocate(ref pool.Rotations, inputList.Count);
-        //    for (int i = 0; i < inputList.Count; i++)
-        //    {
-        //        arrayBuilder[i] = inputList[i];
-        //    }
-        //    var result = builder.CreateBlobAssetReference<RotationsPool>(Allocator.Persistent);
-        //    builder.Dispose();
-        //    return result;
-        //}
-
-        //private BlobAssetReference<PositionsPool> CreatePositionsPool(List<AnimationPositionBuffer> inputList)
-        //{
-        //    var builder = new BlobBuilder(Allocator.Temp);
-
-        //    ref PositionsPool pool = ref builder.ConstructRoot<PositionsPool>();
-        //    var arrayBuilder = builder.Allocate(ref pool.Positions, inputList.Count);
-        //    for (int i = 0; i < inputList.Count; i++)
-        //    {
-        //        arrayBuilder[i] = inputList[i];
-        //    }
-        //    var result = builder.CreateBlobAssetReference<PositionsPool>(Allocator.Persistent);
-        //    builder.Dispose();
-        //    return result;
-        //}
     }
 }

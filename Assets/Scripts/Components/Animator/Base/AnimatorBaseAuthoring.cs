@@ -88,7 +88,8 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						AnimatorInstanceId = item.AnimatorInstanceId,
 						DefaultState = item.DefaultState,
 						LayerId = item.LayerId,
-						Speed = item.Speed
+						Speed = item.Speed,
+						AnimationBlobAssetIndex = item.AnimationBlobAssetIndex
 					});
                 }
             }

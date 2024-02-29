@@ -12,161 +12,168 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: Zombie_1DOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35742
+  AnimatorInstanceId: 35756
   AnimatorName: Zombie_1
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35742
+    AssetInstanceId: 35756
     AnimatorName: Zombie_1
     Animations:
-    - AnimationInstanceId: 35544
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35574
+      AnimatorInstanceId: 35756
       Name: Z_Idle
       Looped: 1
       Length: 2.6666667
-    - AnimationInstanceId: 35628
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35650
+      AnimatorInstanceId: 35756
       Name: Z_Attack
       Looped: 1
       Length: 1
-    - AnimationInstanceId: 35620
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35642
+      AnimatorInstanceId: 35756
       Name: Z_FallingBack
       Looped: 0
       Length: 1.4000001
-    - AnimationInstanceId: 35640
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35662
+      AnimatorInstanceId: 35756
       Name: Z_Run_InPlace
       Looped: 1
       Length: 1.5333334
-    - AnimationInstanceId: 35786
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35800
+      AnimatorInstanceId: 35756
       Name: Z_Walk1_InPlace
       Looped: 1
       Length: 2
-    - AnimationInstanceId: 35604
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35626
+      AnimatorInstanceId: 35756
       Name: Z_Walk_InPlace
       Looped: 1
       Length: 2
-    - AnimationInstanceId: 35764
-      AnimatorInstanceId: 35742
+    - AnimationInstanceId: 35778
+      AnimatorInstanceId: 35756
       Name: Z_FallingForward
       Looped: 0
       Length: 1.1666667
     AnimatorLayers:
-    - Id: 35926
-      AnimatorInstanceId: 35742
+    - Id: 35938
+      AnimatorInstanceId: 35756
       DefaultWeight: 0
     LayerStates:
-    - Id: 35928
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35940
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 1
-      AnimationClipId: 35544
+      AnimationBlobAssetIndex: 0
+      AnimationClipId: 35574
       AnimationLength: 2.6666667
       AnimationLooped: 1
       Speed: 1
-    - Id: 35930
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35942
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35628
+      AnimationBlobAssetIndex: 1
+      AnimationClipId: 35650
       AnimationLength: 1
       AnimationLooped: 1
       Speed: 1
-    - Id: 35932
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35944
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35620
+      AnimationBlobAssetIndex: 2
+      AnimationClipId: 35642
       AnimationLength: 1.4000001
       AnimationLooped: 0
       Speed: 1
-    - Id: 35934
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35946
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35640
+      AnimationBlobAssetIndex: 3
+      AnimationClipId: 35662
       AnimationLength: 1.5333334
       AnimationLooped: 1
       Speed: 1
-    - Id: 35936
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35948
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35786
+      AnimationBlobAssetIndex: 4
+      AnimationClipId: 35800
       AnimationLength: 2
       AnimationLooped: 1
       Speed: 1
-    - Id: 35938
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35950
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35604
+      AnimationBlobAssetIndex: 5
+      AnimationClipId: 35626
       AnimationLength: 2
       AnimationLooped: 1
       Speed: 1
-    - Id: 35940
-      AnimatorInstanceId: 35742
-      LayerId: 35926
+    - Id: 35952
+      AnimatorInstanceId: 35756
+      LayerId: 35938
       DefaultState: 0
-      AnimationClipId: 35764
+      AnimationBlobAssetIndex: 6
+      AnimationClipId: 35778
       AnimationLength: 1.1666667
       AnimationLooped: 0
       Speed: 1
     StateTransitions:
-    - Id: 35942
-      AnimatorInstanceId: 35742
-      StateId: 35928
-      DestinationStateId: 35930
+    - Id: 35954
+      AnimatorInstanceId: 35756
+      StateId: 35940
+      DestinationStateId: 35942
       FixedDuration: 1
       ExitTime: 0.90625
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35944
-      AnimatorInstanceId: 35742
-      StateId: 35930
-      DestinationStateId: 35932
+    - Id: 35956
+      AnimatorInstanceId: 35756
+      StateId: 35942
+      DestinationStateId: 35944
       FixedDuration: 1
       ExitTime: 0.75
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35946
-      AnimatorInstanceId: 35742
-      StateId: 35932
-      DestinationStateId: 35936
+    - Id: 35958
+      AnimatorInstanceId: 35756
+      StateId: 35944
+      DestinationStateId: 35948
       FixedDuration: 1
       ExitTime: 0.8214286
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35948
-      AnimatorInstanceId: 35742
-      StateId: 35934
-      DestinationStateId: 35940
+    - Id: 35960
+      AnimatorInstanceId: 35756
+      StateId: 35946
+      DestinationStateId: 35952
       FixedDuration: 1
       ExitTime: 0.8369565
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35950
-      AnimatorInstanceId: 35742
-      StateId: 35936
-      DestinationStateId: 35938
+    - Id: 35962
+      AnimatorInstanceId: 35756
+      StateId: 35948
+      DestinationStateId: 35950
       FixedDuration: 1
       ExitTime: 0.875
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35952
-      AnimatorInstanceId: 35742
-      StateId: 35938
-      DestinationStateId: 35934
+    - Id: 35964
+      AnimatorInstanceId: 35756
+      StateId: 35950
+      DestinationStateId: 35946
       FixedDuration: 1
       ExitTime: 0.875
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 35954
-      AnimatorInstanceId: 35742
-      StateId: 35940
-      DestinationStateId: 35928
+    - Id: 35966
+      AnimatorInstanceId: 35756
+      StateId: 35952
+      DestinationStateId: 35940
       FixedDuration: 1
       ExitTime: 0.78571427
       TransitionDuration: 0.25

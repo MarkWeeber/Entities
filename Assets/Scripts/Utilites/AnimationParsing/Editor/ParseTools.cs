@@ -37,7 +37,8 @@ namespace ParseUtils
                 PreparePathsFromAllAnimations(animationClip, paths);
 
                 //animationParsedObjects.Add(AnimationParser.PrepareAnimation(animationClip, animatorInstanceId, paths));
-                animationParsedObjects.Add(AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths));
+                var parsedAnimationClipObject = AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths);
+                animationParsedObjects.Add(parsedAnimationClipObject);
             }
 
             // animator parameters
@@ -77,24 +78,35 @@ namespace ParseUtils
                 var states = layer.stateMachine.states;
                 for (int stateIndex = 0; stateIndex < states.Length; stateIndex++)
                 {
-                    ChildAnimatorState childAnimatorState = states[stateIndex];
-                    var stateId = childAnimatorState.state.GetInstanceID();
-                    bool defaultState = layer.stateMachine.defaultState == childAnimatorState.state;
+                    var state = states[stateIndex].state;
+                    int stateId = state.GetInstanceID();
+                    bool defaultState = layer.stateMachine.defaultState == state;
+                    int animationClipId = state.motion.GetInstanceID();
+                    int animationBlobAssetIndex = -1;
+                    for (int i = 0; i < animationParsedObjects.Count; i++)
+                    {
+                        if (animationParsedObjects[i].Id == animationClipId)
+                        {
+                            animationBlobAssetIndex = i;
+                            break;
+                        }
+                    }
                     var layerStatItem = new LayerStateBuffer
                     {
                         Id = stateId,
                         AnimatorInstanceId = animatorInstanceId,
                         LayerId = layerId,
-                        AnimationClipId = childAnimatorState.state.motion.GetInstanceID(),
+                        AnimationClipId = animationClipId,
                         DefaultState = defaultState,
-                        Speed = childAnimatorState.state.speed,
-                        AnimationLength = childAnimatorState.state.motion.averageDuration,
-                        AnimationLooped = childAnimatorState.state.motion.isLooping
+                        Speed = state.speed,
+                        AnimationLength = state.motion.averageDuration,
+                        AnimationLooped = state.motion.isLooping,
+                        AnimationBlobAssetIndex = animationBlobAssetIndex
                     };
                     layerStatesTable.Add(layerStatItem);
 
                     // transitions
-                    var transitions = childAnimatorState.state.transitions;
+                    var transitions = state.transitions;
                     for (int transitionIndex = 0; transitionIndex < transitions.Length; transitionIndex++)
                     {
                         AnimatorStateTransition animatorStateTransition = transitions[transitionIndex];

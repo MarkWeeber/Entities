@@ -8,6 +8,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     // current state and animation info
     public int CurrentStateId;
     public float CurrentStateSpeed;
+    public int CurrentAnimationBlobIndex;
     public int CurrentAnimationId;
     public float CurrentAnimationTime; // time needed for animation
     public float CurrentAnimationLength;
@@ -25,6 +26,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     // second state and animation info
     public int NextStateId;
     public float NextStateSpeed;
+    public int NextAnimationBlobIndex;
     public int NextAnimationId;
     public float NextAnimationTime; // time needed in transitioning animation
     public float NextAnimationLength;
@@ -33,60 +35,13 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     // animation method
     public PartsAnimationMethod Method;
 
-    public AnimatorActorLayerBuffer(
-        int Id,
-        float DefaultWeight,
-        int CurrentStateId,
-        float CurrentStateSpeed,
-        int CurrentAnimationId,
-        float CurrentAnimationTime,
-        float CurrentAnimationLength,
-        bool CurrentAnimationIsLooped,
-        bool IsInTransition,
-        float TransitionTimer,
-        float TransitionDuration,
-        float FirstOffsetTimer,
-        float SecondAnimationOffset,
-        float TransitionRate,
-        int NextStateId,
-        float NextStateSpeed,
-        int NextAnimationId,
-        float NextAnimationTime,
-        float NextAnimationLength,
-        float NextAnimationSpeed,
-        bool NextAnimationIsLooped,
-        PartsAnimationMethod Method
-    )
-    {
-        this.Id = Id;
-        this.DefaultWeight = DefaultWeight;
-        this.CurrentStateId = CurrentStateId;
-        this.CurrentStateSpeed = CurrentStateSpeed;
-        this.CurrentAnimationId = CurrentAnimationId;
-        this.CurrentAnimationTime = CurrentAnimationTime;
-        this.CurrentAnimationLength = CurrentAnimationLength;
-        this.CurrentAnimationIsLooped = CurrentAnimationIsLooped;
-        this.IsInTransition = IsInTransition;
-        this.TransitionTimer = TransitionTimer;
-        this.TransitionDuration = TransitionDuration;
-        this.FirstOffsetTimer = FirstOffsetTimer;
-        this.SecondAnimationOffset = SecondAnimationOffset;
-        this.TransitionRate = TransitionRate;
-        this.NextStateId = NextStateId;
-        this.NextStateSpeed = NextStateSpeed;
-        this.NextAnimationId = NextAnimationId;
-        this.NextAnimationTime = NextAnimationTime;
-        this.NextAnimationLength = NextAnimationLength;
-        this.NextAnimationSpeed = NextAnimationSpeed;
-        this.NextAnimationIsLooped = NextAnimationIsLooped;
-        this.Method = Method;
-    }
     public AnimatorActorLayerBuffer(AnimatorActorLayerBuffer layer)
     {
         this.Id = layer.Id;
         this.DefaultWeight = layer.DefaultWeight;
         this.CurrentStateId = layer.CurrentStateId;
         this.CurrentStateSpeed = layer.CurrentStateSpeed;
+        this.CurrentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
         this.CurrentAnimationId = layer.CurrentAnimationId;
         this.CurrentAnimationTime = layer.CurrentAnimationTime;
         this.CurrentAnimationLength = layer.CurrentAnimationLength;
@@ -100,6 +55,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.TransitionDuration = layer.TransitionDuration;
         this.NextStateId = layer.NextStateId;
         this.NextStateSpeed = layer.NextStateSpeed;
+        this.NextAnimationBlobIndex = layer.NextAnimationBlobIndex;
         this.NextAnimationId = layer.NextAnimationId;
         this.NextAnimationTime = layer.NextAnimationTime;
         this.NextAnimationLength = layer.NextAnimationLength;

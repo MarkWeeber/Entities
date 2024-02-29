@@ -4,6 +4,7 @@ using Unity.Entities;
 public struct AnimationBlobBuffer : IBufferElementData
 {
     public int Id;
+    public int AnimatorInstanceId;
     public float Length;
     public bool Looped;
     public FixedString32Bytes Name;

@@ -46,8 +46,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
             NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
 
-            //var ecb = new EntityCommandBuffer(Allocator.TempJob);
-            //var parallelWriter = ecb.AsParallelWriter();
             float deltaTime = SystemAPI.Time.DeltaTime;
             localTransformLookup.Update(ref state);
 
@@ -194,6 +192,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // second state and animation info
             layer.NextStateId = newState.Id;
             layer.NextStateSpeed = newState.Speed;
+            layer.NextAnimationBlobIndex = newState.AnimationBlobAssetIndex;
             layer.NextAnimationId = newState.AnimationClipId;
             layer.NextAnimationTime = layer.SecondAnimationOffset; // time needed in transitioning animation
             layer.NextAnimationLength = newState.AnimationLength;
@@ -317,6 +316,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // current state and animation info
             layer.CurrentStateId = layer.NextStateId;
             layer.CurrentStateSpeed = layer.NextStateSpeed;
+            layer.CurrentAnimationBlobIndex = layer.NextAnimationBlobIndex;
             layer.CurrentAnimationId = layer.NextAnimationId;
             layer.CurrentAnimationTime = layer.NextAnimationTime; // time needed for animation
             layer.CurrentAnimationLength = layer.NextAnimationLength;
@@ -333,6 +333,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             // second state and animation info
             layer.NextStateId = 0;
             layer.NextStateSpeed = 0f;
+            layer.NextAnimationBlobIndex = -1;
             layer.NextAnimationId = 0;
             layer.NextAnimationTime = 0f; // time needed in transitioning animation
             layer.NextAnimationLength = 0f;

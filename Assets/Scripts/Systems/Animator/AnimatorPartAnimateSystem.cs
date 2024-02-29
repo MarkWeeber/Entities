@@ -5,6 +5,9 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using CustomUtils;
 using UnityEngine;
+using System.Net.Http.Headers;
+using Unity.Entities.UniversalDelegates;
+using UnityEditor.ShaderGraph.Internal;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -12,12 +15,10 @@ using UnityEngine;
 public partial struct AnimatorPartAnimateSystem : ISystem
 {
     private BufferLookup<AnimatorActorLayerBuffer> layerLookup;
-    private BufferLookup<AnimatorActorPartBufferComponent> partLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         layerLookup = state.GetBufferLookup<AnimatorActorLayerBuffer>(true);
-        partLookup = state.GetBufferLookup<AnimatorActorPartBufferComponent>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -33,11 +34,9 @@ public partial struct AnimatorPartAnimateSystem : ISystem
         }
         NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
         layerLookup.Update(ref state);
-        partLookup.Update(ref state);
         state.Dependency = new AnimatePartJob
         {
             AnimationBlob = animationBlob,
-            PartLookup = partLookup,
             LayerLookup = layerLookup
         }.ScheduleParallel(parts, state.Dependency);
         animationBlob.Dispose();
@@ -50,33 +49,161 @@ public partial struct AnimatorPartAnimateSystem : ISystem
         public NativeArray<AnimationBlobBuffer> AnimationBlob;
         [ReadOnly]
         public BufferLookup<AnimatorActorLayerBuffer> LayerLookup;
-        [ReadOnly]
-        public BufferLookup<AnimatorActorPartBufferComponent> PartLookup;
         [BurstCompile]
         private void Execute(RefRO<AnimatorPartComponent> animatorRoot, RefRW<LocalTransform> localTransform, Entity entity)
         {
             Entity rootEntity = animatorRoot.ValueRO.RootEntity;
-            if (!LayerLookup.HasBuffer(rootEntity) || !PartLookup.HasBuffer(rootEntity))
+            int partIndex = animatorRoot.ValueRO.PathAnimationBlobIndex;
+            if (LayerLookup.HasBuffer(rootEntity))
             {
-                return;
-            }
-            FixedString512Bytes currentPath = new FixedString512Bytes();
-            foreach (var part in PartLookup[rootEntity])
-            {
-                if (part.Value == entity)
+                foreach (var layer in LayerLookup[rootEntity])
                 {
-                    currentPath = part.Path;
-                    break;
+                    ProcessLayer(layer, localTransform, partIndex);
                 }
-            }
-            foreach (var layer in LayerLookup[rootEntity])
-            {
-                ProcessLayer(layer, currentPath, localTransform);
             }
         }
 
         [BurstCompile]
-        private void ProcessLayer(AnimatorActorLayerBuffer layer, FixedString512Bytes path, RefRW<LocalTransform> localTransform)
+        private void ProcessLayer(AnimatorActorLayerBuffer layer, RefRW<LocalTransform> localTransform, int partIndex)
+        {
+            bool activeTransition = false;
+            float transitionRate = -1f;
+            if (layer.IsInTransition)
+            {
+                if (layer.FirstOffsetTimer <= 0f)
+                {
+                    transitionRate = (layer.TransitionDuration - layer.TransitionTimer) / layer.TransitionDuration;
+                    transitionRate = math.clamp(transitionRate, 0f, 1f);
+                    activeTransition = true;
+                }
+            }
+            int currentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
+            if (currentAnimationBlobIndex < 0)
+            {
+                return;
+            }
+            float3 currentPos = localTransform.ValueRO.Position;
+            quaternion currentRot = localTransform.ValueRO.Rotation;
+            float currentScale = localTransform.ValueRO.Scale;
+            float currentAnimationTime = layer.CurrentAnimationTime;
+            // obtain current animation values
+            ObtainAnimationValues(ref currentPos, ref currentRot, currentAnimationTime, layer.Method, currentAnimationBlobIndex, partIndex);
+            // if is in active transition
+            if (activeTransition)
+            {
+                float3 nextPos = localTransform.ValueRO.Position;
+                quaternion nextRot = localTransform.ValueRO.Rotation;
+                float nextScale = localTransform.ValueRO.Scale;
+                float nextAnimationTime = layer.NextAnimationTime;
+                int nextAnimationBlobIndex = layer.NextAnimationBlobIndex;
+                ObtainAnimationValues(ref nextPos, ref nextRot, nextAnimationTime, layer.Method, nextAnimationBlobIndex, partIndex);
+                // interpolate first values with second
+                currentPos = InterPolate(currentPos, nextPos, transitionRate, layer.Method);
+                currentRot = InterPolate(currentRot, nextRot, transitionRate, layer.Method);
+            }
+            // apply transforms
+            localTransform.ValueRW.Position = currentPos;
+            localTransform.ValueRW.Rotation = currentRot;
+            localTransform.ValueRW.Scale = currentScale;
+        }
+
+        [BurstCompile]
+        private void ObtainAnimationValues(
+            ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex, int fps = 30)
+        {
+            AnimationBlobBuffer animation = AnimationBlob[animationIndex];
+            ref PathDataPool pathDataPool = ref animation.PathData.Value;
+            ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
+            int samplesCount = (int)math.ceil(animation.Length * fps);
+            float timeRate = (animationTime / animation.Length);
+            int firstCurveIndex = (int)math.floor(timeRate * samplesCount);
+            int secondCurveIndex = (int)math.ceil(timeRate * samplesCount);
+            float transitionRate = animationTime - firstCurveIndex * (animation.Length / samplesCount);
+            if (pathsPool.HasPositions)
+            {
+                ref var positions = ref pathsPool.Positions;
+                if (positions.Length < 1)
+                {
+                    //Debug.Log(positions.ToArray().Length);
+                    return;
+                }
+                Debug.Log(positions);
+                float3 firstPosition = positions[firstCurveIndex].Value;
+                float3 secondPosition = positions[secondCurveIndex].Value;
+                position = InterPolate(firstPosition, secondPosition, transitionRate, method);
+            }
+            if (pathsPool.HasRotations)
+            {
+                ref var rotations = ref pathsPool.Rotations;
+                if (rotations.Length < 1)
+                {
+                    return;
+                }
+                quaternion firstRotation = rotations[firstCurveIndex].Value;
+                quaternion secondRotation = rotations[secondCurveIndex].Value;
+                rotation = InterPolate(firstRotation, secondRotation, transitionRate, method);
+            }
+            if (pathsPool.HasEulerRotations)
+            {
+                ref var eulerRotations = ref pathsPool.EulerRotations;
+                if (eulerRotations.Length < 1)
+                {
+                    return;
+                }
+                quaternion firstRotation = eulerRotations[firstCurveIndex].Value;
+                quaternion secondRotation = eulerRotations[secondCurveIndex].Value;
+                quaternion eulerRotation = InterPolate(firstRotation, secondRotation, transitionRate, method);
+                rotation = quaternion.Euler(
+                                        math.radians(eulerRotation.value.x),
+                                        math.radians(eulerRotation.value.y),
+                                        math.radians(eulerRotation.value.z));
+            }
+        }
+
+        [BurstCompile]
+        private float3 InterPolate(float3 first, float3 second, float rate, PartsAnimationMethod method)
+        {
+            float3 result = first;
+            switch (method)
+            {
+                case PartsAnimationMethod.Lerp:
+                    result = math.lerp(first, second, rate);
+                    break;
+                case PartsAnimationMethod.Lean:
+                    result = CustomMath.Lean(first, second, rate);
+                    break;
+                case PartsAnimationMethod.SmoothStep:
+                    result = CustomMath.SmoothStep(first, second, rate);
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+        [BurstCompile]
+        private quaternion InterPolate(quaternion first, quaternion second, float rate, PartsAnimationMethod method)
+        {
+            quaternion result = first;
+            switch (method)
+            {
+                case PartsAnimationMethod.Lerp:
+                    result = math.slerp(first, second, rate);
+                    break;
+                case PartsAnimationMethod.Lean:
+                    result = CustomMath.Lean(first, second, rate);
+                    break;
+                case PartsAnimationMethod.SmoothStep:
+                    result = CustomMath.SmoothStep(first, second, rate);
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+        [BurstCompile]
+        private void ProcessLayerOld(AnimatorActorLayerBuffer layer, FixedString512Bytes path, RefRW<LocalTransform> localTransform)
         {
             float transitionRate = -1f;
             layer.TransitionRate = 0;
@@ -152,7 +279,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             float setScale = localTransform.ValueRO.Scale;
 
             // obtain first animation values
-            ObtainAnimationValues(
+            ObtainAnimationValuesOld(
                 ref setPosition,
                 ref setRotation,
                 currentAnimationTime,
@@ -170,7 +297,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 float nextAnimationTime = layer.NextAnimationTime;
                 float3 nextPosition = localTransform.ValueRO.Position;
                 quaternion nextRotation = localTransform.ValueRO.Rotation;
-                ObtainAnimationValues(
+                ObtainAnimationValuesOld(
                     ref nextPosition,
                     ref nextRotation,
                     nextAnimationTime,
@@ -203,7 +330,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
         }
 
         [BurstCompile]
-        private void ObtainAnimationValues(
+        private void ObtainAnimationValuesOld(
             ref float3 position,
             ref quaternion rotation,
             float animationTime,
