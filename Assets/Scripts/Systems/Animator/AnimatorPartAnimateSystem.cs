@@ -116,17 +116,6 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             float timeRate = math.clamp((animationTime / animation.Length), 0f, 1f);
             int firstCurveIndex = (int)math.floor(timeRate * (samplesCount - 1));
             int secondCurveIndex = (int)math.ceil(timeRate * (samplesCount - 1));
-            // if (secondCurveIndex == firstCurveIndex)
-            // {
-            //     if (secondCurveIndex == samplesCount - 1)
-            //     {
-            //         firstCurveIndex -= 1;
-            //     }
-            //     else
-            //     {
-            //         secondCurveIndex += 1;
-            //     }
-            // }
             float transitionRate = animationTime - firstCurveIndex * (animation.Length / samplesCount);
             if (pathsPool.HasPositions)
             {
@@ -135,10 +124,14 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 {
                     return;
                 }
-                Debug.Log($"1st: {firstCurveIndex} 2nd: {secondCurveIndex} samplescount: {samplesCount}");
+                //foreach (var item in positions)
+                //{
+                //    Debug.Log("time: " + item.Time + " value:" + item.Value);
+                //}
+                //Debug.Log($"1st: {firstCurveIndex} 2nd: {secondCurveIndex} samplescount: {samplesCount}");
                 float3 firstPosition = positions[firstCurveIndex].Value;
                 float3 secondPosition = positions[secondCurveIndex].Value;
-                Debug.Log($"first: {firstPosition} second: {secondPosition}");
+                //Debug.Log($"first: {firstPosition} second: {secondPosition}");
                 position = InterPolate(firstPosition, secondPosition, transitionRate, method);
             }
             if (pathsPool.HasRotations)

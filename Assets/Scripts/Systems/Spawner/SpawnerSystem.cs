@@ -63,15 +63,27 @@ public partial struct SpawnerSystem : ISystem
         public void Execute()
         {
             Entity entity = ECB.Instantiate(Prefab);
-            float3 newPosition = OriginPosition + GetNewPosition(Index + ExistingCount);
+            float3 newPosition = OriginPosition + GetNewPositionSimple(Index + ExistingCount);
             ECB.SetComponent(entity, new LocalTransform
             {
-               Position = newPosition,
-               Rotation = quaternion.identity,
-               Scale = 1f
+                Position = newPosition,
+                Rotation = quaternion.identity,
+                Scale = 1f
             });
             ECB.AddComponent(entity, new SpawnerTag());
         }
+
+        [BurstCompile]
+        private float3 GetNewPositionSimple(int index)
+        {
+            float3 newPosition = Vector3.zero;
+            int squareRootRange = (int)math.ceil(math.sqrt(index));
+            int xPos = (int)math.floor(index / 25);
+            int zPos = (int)(index - xPos * 25);            
+            newPosition = new float3(xPos * Spacing, 0, zPos * Spacing);
+            return newPosition;
+        }
+
         [BurstCompile]
         private float3 GetNewPosition(int index)
         {

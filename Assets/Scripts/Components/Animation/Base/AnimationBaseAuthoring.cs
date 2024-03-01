@@ -29,9 +29,6 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     continue;
                 }
                 var pathData = CreateAnimationBlobBuffer(asset.AnimationClipParsedObject);
-                //ref var mainData = ref pathData.Value.PathData[10];
-                //var data = mainData.Positions.Length;
-                //Debug.Log(data);
                 animationsWithBlobs.Add(new AnimationBlobBuffer
                 {
                     Id = asset.AnimationClipParsedObject.Id,
@@ -110,16 +107,13 @@ public class AnimationBaseAuthoring : MonoBehaviour
                 }
                 // result
                 var _result = newBuilder.CreateBlobAssetReference<PathsPool>(Allocator.Persistent);
-                pathDataArrayBuilder[i] = new PathsPool
-                {
-                    Positions = _result.Value.Positions,
-                    Rotations = _result.Value.Rotations,
-                    EulerRotations = _result.Value.EulerRotations,
-                    HasEulerRotations = _result.Value.HasEulerRotations,
-                    HasPositions = _result.Value.HasPositions,
-                    HasRotations = _result.Value.HasRotations,
-                    Path = _result.Value.Path
-                };
+                pathDataArrayBuilder[i].Path = _result.Value.Path;
+                pathDataArrayBuilder[i].HasPositions = _result.Value.HasPositions;
+                pathDataArrayBuilder[i].HasRotations = _result.Value.HasRotations;
+                pathDataArrayBuilder[i].HasEulerRotations = _result.Value.HasEulerRotations;
+                builder.Construct(ref pathDataArrayBuilder[i].Positions, _result.Value.Positions.ToArray());
+                builder.Construct(ref pathDataArrayBuilder[i].Rotations, _result.Value.Rotations.ToArray());
+                builder.Construct(ref pathDataArrayBuilder[i].EulerRotations, _result.Value.EulerRotations.ToArray());
                 newBuilder.Dispose();
             }
 
