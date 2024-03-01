@@ -3833,16 +3833,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2939267920460645460, guid: 33430608ad034574fbab20ad02383cf6,
         type: 3}
+      propertyPath: Animators.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939267920460645460, guid: 33430608ad034574fbab20ad02383cf6,
+        type: 3}
       propertyPath: Animators.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 9e9cfdf3bf7bcd64aa3410ea5a9c8fd9,
+      objectReference: {fileID: 11400000, guid: 4448a03d8fdb96447be600c008a52d3d,
         type: 2}
     - target: {fileID: 2939267920460645460, guid: 33430608ad034574fbab20ad02383cf6,
         type: 3}
       propertyPath: Animators.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: e2dc1770336b3a342b61ab120f1e9b39,
-        type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939267920460645460, guid: 33430608ad034574fbab20ad02383cf6,
+        type: 3}
+      propertyPath: Animators.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4485973057452667743, guid: 33430608ad034574fbab20ad02383cf6,
         type: 3}
       propertyPath: m_Name
@@ -4053,26 +4062,22 @@ PrefabInstance:
         type: 3}
       propertyPath: Animations.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 79433ce4883b0814db0cf71f116142dd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
         type: 3}
       propertyPath: Animations.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 79433ce4883b0814db0cf71f116142dd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
         type: 3}
       propertyPath: Animations.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 79433ce4883b0814db0cf71f116142dd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
         type: 3}
       propertyPath: Animations.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 79433ce4883b0814db0cf71f116142dd,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
         type: 3}
       propertyPath: Animations.Array.data[6]

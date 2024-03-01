@@ -18,6 +18,7 @@ namespace ParseUtils
         public int AnimatorInstanceId;
         public float Length;
         public bool Looped;
+        public int FPS;
         public List<AnimationPathData> PathData;
     }
 

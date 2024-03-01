@@ -12,99 +12,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: TestAnimatorDOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35686
+  AnimatorInstanceId: 35616
   AnimatorName: TestAnimator
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35686
+    AssetInstanceId: 35616
     AnimatorName: TestAnimator
+    FPS: 1
     Animations:
-    - AnimationInstanceId: 35794
-      AnimatorInstanceId: 35686
+    - AnimationInstanceId: 35732
+      AnimatorInstanceId: 35616
       Name: TestAnimation1
       Looped: 1
       Length: 9
-    - AnimationInstanceId: 35584
-      AnimatorInstanceId: 35686
+    - AnimationInstanceId: 35504
+      AnimatorInstanceId: 35616
       Name: TestAnimation2
       Looped: 1
       Length: 9
     AnimatorLayers:
-    - Id: 36314
-      AnimatorInstanceId: 35686
+    - Id: 36256
+      AnimatorInstanceId: 35616
       DefaultWeight: 0
     LayerStates:
-    - Id: 36316
-      AnimatorInstanceId: 35686
-      LayerId: 36314
+    - Id: 36258
+      AnimatorInstanceId: 35616
+      LayerId: 36256
       DefaultState: 1
-      AnimationBlobAssetIndex: 0
-      AnimationClipId: 35794
+      AnimationBlobAssetIndex: -1
+      AnimationClipId: 35732
       AnimationLength: 9
       AnimationLooped: 1
       Speed: 1
-    - Id: 36318
-      AnimatorInstanceId: 35686
-      LayerId: 36314
+    - Id: 36260
+      AnimatorInstanceId: 35616
+      LayerId: 36256
       DefaultState: 0
-      AnimationBlobAssetIndex: 1
-      AnimationClipId: 35584
+      AnimationBlobAssetIndex: -1
+      AnimationClipId: 35504
       AnimationLength: 9
       AnimationLooped: 1
       Speed: 1
     StateTransitions:
-    - Id: 36320
-      AnimatorInstanceId: 35686
-      StateId: 36316
-      DestinationStateId: 36318
+    - Id: 36262
+      AnimatorInstanceId: 35616
+      StateId: 36258
+      DestinationStateId: 36260
       FixedDuration: 1
       ExitTime: 0.9722222
       TransitionDuration: 0.25
       TransitionOffset: 0
-    - Id: 36322
-      AnimatorInstanceId: 35686
-      StateId: 36318
-      DestinationStateId: 36316
+    - Id: 36264
+      AnimatorInstanceId: 35616
+      StateId: 36260
+      DestinationStateId: 36258
       FixedDuration: 1
       ExitTime: 0.9722222
       TransitionDuration: 0.25
       TransitionOffset: 0
     TransitionCondtions:
     - Id: 0
-      AnimatorInstanceId: 35686
-      TransitionId: 36320
+      AnimatorInstanceId: 35616
+      TransitionId: 36262
       Mode: 1
       Parameter: BoolParameter
       Treshold: 0.74
     - Id: 0
-      AnimatorInstanceId: 35686
-      TransitionId: 36322
+      AnimatorInstanceId: 35616
+      TransitionId: 36264
       Mode: 2
       Parameter: BoolParameter
       Treshold: 0
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35686
+      AnimatorInstanceId: 35616
       ParameterName: FloatParameter
       Type: 1
       DefaultFloat: 0.331733
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35686
+      AnimatorInstanceId: 35616
       ParameterName: IntParameter
       Type: 3
       DefaultFloat: 0
       DefaultInt: 9
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35686
+      AnimatorInstanceId: 35616
       ParameterName: BoolParameter
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 3
-      AnimatorInstanceId: 35686
+      AnimatorInstanceId: 35616
       ParameterName: TriggerParameter
       Type: 9
       DefaultFloat: 0

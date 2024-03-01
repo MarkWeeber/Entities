@@ -9,7 +9,7 @@ namespace ParseUtils
 {
     public class ParseTools
     {
-        public static RuntimeAnimatorParsedObject PrepareAnimatorAsset(RuntimeAnimatorController runtimeAnimatorController)
+        public static RuntimeAnimatorParsedObject PrepareAnimatorAsset(RuntimeAnimatorController runtimeAnimatorController, int fps)
         {
             var animatorInstanceId = runtimeAnimatorController.GetInstanceID();
             var animationsTable = new List<AnimationItem>();
@@ -37,7 +37,7 @@ namespace ParseUtils
                 PreparePathsFromAllAnimations(animationClip, paths);
 
                 //animationParsedObjects.Add(AnimationParser.PrepareAnimation(animationClip, animatorInstanceId, paths));
-                var parsedAnimationClipObject = AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths);
+                var parsedAnimationClipObject = AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths, fps);
                 animationParsedObjects.Add(parsedAnimationClipObject);
             }
 
@@ -82,15 +82,6 @@ namespace ParseUtils
                     int stateId = state.GetInstanceID();
                     bool defaultState = layer.stateMachine.defaultState == state;
                     int animationClipId = state.motion.GetInstanceID();
-                    int animationBlobAssetIndex = -1;
-                    for (int i = 0; i < animationParsedObjects.Count; i++)
-                    {
-                        if (animationParsedObjects[i].Id == animationClipId)
-                        {
-                            animationBlobAssetIndex = i;
-                            break;
-                        }
-                    }
                     var layerStatItem = new LayerStateBuffer
                     {
                         Id = stateId,
@@ -101,7 +92,7 @@ namespace ParseUtils
                         Speed = state.speed,
                         AnimationLength = state.motion.averageDuration,
                         AnimationLooped = state.motion.isLooping,
-                        AnimationBlobAssetIndex = animationBlobAssetIndex
+                        AnimationBlobAssetIndex = -1 // make sure this value is updated in baking system
                     };
                     layerStatesTable.Add(layerStatItem);
 
@@ -155,7 +146,8 @@ namespace ParseUtils
                 LayerStates = layerStatesTable,
                 StateTransitions = transitionsTable,
                 TransitionCondtions = transitionCondtionsTable,
-                Paths = paths
+                Paths = paths,
+                FPS = fps
             };
             return result;
         }

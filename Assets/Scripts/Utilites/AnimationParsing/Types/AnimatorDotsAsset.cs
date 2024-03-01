@@ -15,6 +15,7 @@ namespace ParseUtils
     {
         public int AssetInstanceId;
         public string AnimatorName;
+        public int FPS;
         public List<AnimationItem> Animations;
         public List<AnimatorLayerItem> AnimatorLayers;
         public List<LayerStateBuffer> LayerStates;

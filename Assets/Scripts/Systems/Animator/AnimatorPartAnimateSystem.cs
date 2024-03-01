@@ -5,9 +5,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using CustomUtils;
 using UnityEngine;
-using System.Net.Http.Headers;
-using Unity.Entities.UniversalDelegates;
-using UnityEditor.ShaderGraph.Internal;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -109,38 +106,39 @@ public partial struct AnimatorPartAnimateSystem : ISystem
 
         [BurstCompile]
         private void ObtainAnimationValues(
-            ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex, int fps = 30)
+            ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex)
         {
             AnimationBlobBuffer animation = AnimationBlob[animationIndex];
+            int fps = animation.FPS;
             ref PathDataPool pathDataPool = ref animation.PathData.Value;
             ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
             int samplesCount = (int)math.ceil(animation.Length * fps);
-            float timeRate = (animationTime / animation.Length);
-            int firstCurveIndex = (int)math.floor(timeRate * samplesCount) - 1;
-            int secondCurveIndex = (int)math.ceil(timeRate * samplesCount) - 1;
-            if (secondCurveIndex == firstCurveIndex)
-            {
-                if (secondCurveIndex == samplesCount - 1)
-                {
-                    firstCurveIndex -= 1;
-                }
-                else
-                {
-                    secondCurveIndex += 1;
-                }
-            }
+            float timeRate = math.clamp((animationTime / animation.Length), 0f, 1f);
+            int firstCurveIndex = (int)math.floor(timeRate * (samplesCount - 1));
+            int secondCurveIndex = (int)math.ceil(timeRate * (samplesCount - 1));
+            // if (secondCurveIndex == firstCurveIndex)
+            // {
+            //     if (secondCurveIndex == samplesCount - 1)
+            //     {
+            //         firstCurveIndex -= 1;
+            //     }
+            //     else
+            //     {
+            //         secondCurveIndex += 1;
+            //     }
+            // }
             float transitionRate = animationTime - firstCurveIndex * (animation.Length / samplesCount);
             if (pathsPool.HasPositions)
             {
                 ref var positions = ref pathsPool.Positions;
                 if (positions.Length < 1)
                 {
-                    //Debug.Log(positions.ToArray().Length);
                     return;
                 }
-                Debug.Log(positions.Length);
+                Debug.Log($"1st: {firstCurveIndex} 2nd: {secondCurveIndex} samplescount: {samplesCount}");
                 float3 firstPosition = positions[firstCurveIndex].Value;
                 float3 secondPosition = positions[secondCurveIndex].Value;
+                Debug.Log($"first: {firstPosition} second: {secondPosition}");
                 position = InterPolate(firstPosition, secondPosition, transitionRate, method);
             }
             if (pathsPool.HasRotations)

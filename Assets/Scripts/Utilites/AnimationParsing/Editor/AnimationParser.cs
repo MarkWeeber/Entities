@@ -22,7 +22,7 @@ namespace ParseUtils
         private const string _rotLocalEulerz = "localEulerAnglesRaw.z";
         private const string _rotLocalEulerw = "localEulerAnglesRaw.w";
 
-        public static AnimationClipParsedObject GetAnimationParsedObject(AnimationClip animationClip, int animatorInstanceId, List<string> paths)
+        public static AnimationClipParsedObject GetAnimationParsedObject(AnimationClip animationClip, int animatorInstanceId, List<string> paths, int fps)
         {
             var result = new AnimationClipParsedObject();
             result.AnimationName = animationClip.name;
@@ -31,12 +31,13 @@ namespace ParseUtils
             result.Length = animationClip.length;
             result.Looped = animationClip.isLooping;
             result.PathData = new List<AnimationPathData>();
+            result.FPS = fps;
             var bindings = AnimationUtility.GetCurveBindings(animationClip);
             foreach (var path in paths)
             {
                 var animationPathData = new AnimationPathData();
                 animationPathData.Path = path;
-                GetKeyFrames(animationClip, path, bindings, ref animationPathData);
+                GetKeyFrames(animationClip, path, bindings, ref animationPathData, fps);
                 ClearUnusedArrays(ref animationPathData);
                 result.PathData.Add(animationPathData);
             }
@@ -49,7 +50,7 @@ namespace ParseUtils
             string path,
             EditorCurveBinding[] bidnings,
             ref AnimationPathData animationPathData,
-            int fps = 30)
+            int fps)
         {
             bool ans = false;
             float length = animationClip.length;
@@ -205,7 +206,8 @@ namespace ParseUtils
                 Id = parsedObject.Id,
                 AnimatorInstanceId = parsedObject.AnimatorInstanceId,
                 Length = animationClip.length,
-                Looped = animationClip.isLooping
+                Looped = animationClip.isLooping,
+                FPS = parsedObject.FPS
             };
             var instanceId = animationClip.GetInstanceID();
             var assetPath = AssetDatabase.GetAssetPath(instanceId);

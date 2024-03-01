@@ -21,10 +21,12 @@ namespace ParseUtils
 
             animationParser.RuntimeAnimatorController
                 = EditorGUILayout.ObjectField("Parse Animator", animationParser.RuntimeAnimatorController, typeof(RuntimeAnimatorController), false) as RuntimeAnimatorController;
+            animationParser.FPS
+                = EditorGUILayout.IntField("Animation FPS count", animationParser.FPS);
             if (GUILayout.Button("Parse Animator"))
             {
                 RuntimeAnimatorParsedObject parsedObject = new RuntimeAnimatorParsedObject();
-                parsedObject = ParseTools.PrepareAnimatorAsset(animationParser.RuntimeAnimatorController);
+                parsedObject = ParseTools.PrepareAnimatorAsset(animationParser.RuntimeAnimatorController, animationParser.FPS);
                 ParseTools.SaveAnimatorAsset(animationParser.RuntimeAnimatorController, parsedObject);
             }
         }

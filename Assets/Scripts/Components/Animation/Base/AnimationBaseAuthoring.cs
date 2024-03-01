@@ -38,6 +38,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     AnimatorInstanceId = asset.AnimationClipParsedObject.AnimatorInstanceId,
                     Length = asset.AnimationClipParsedObject.Length,
                     Looped = asset.AnimationClipParsedObject.Looped,
+                    FPS = asset.AnimationClipParsedObject.FPS,
                     Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
                     PathData = pathData
                 });
