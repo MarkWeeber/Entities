@@ -20,6 +20,7 @@ namespace ParseUtils
         public List<AnimatorLayerItem> AnimatorLayers;
         public List<LayerStateBuffer> LayerStates;
         public List<StateTransitionBuffer> StateTransitions;
+        public List<AnyStateTransitionBuffer> AnyStateTransitions;
         public List<TransitionCondtion> TransitionCondtions;
         public List<AnimatorParameter> AnimatorParameters;
         public List<string> Paths;

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: runDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35526
+    Id: 35878
     AnimationName: run
-    AnimatorInstanceId: 35560
+    AnimatorInstanceId: 35900
     Length: 0.6666667
     Looped: 1
     FPS: 30

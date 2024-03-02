@@ -19,6 +19,7 @@ namespace ParseUtils
             var transitionsTable = new List<StateTransitionBuffer>();
             var transitionCondtionsTable = new List<TransitionCondtion>();
             var animationParsedObjects = new List<AnimationClipParsedObject>();
+            var anyStateTransitions = new List<AnyStateTransitionBuffer>();
             var paths = new List<string>();
 
             // animation clips
@@ -134,6 +135,40 @@ namespace ParseUtils
                         }
                     }
                 }
+                // any state transitions
+                var anyStateTransitionsArray = layer.stateMachine.anyStateTransitions;
+                foreach (var anyStateTransition in anyStateTransitionsArray)
+                {
+                    var destinationStateId = anyStateTransition.destinationState.GetInstanceID();
+                    var transitionId = anyStateTransition.GetInstanceID();
+                    var stateTransitionItem = new AnyStateTransitionBuffer
+                    {
+                        Id = transitionId,
+                        AnimatorInstanceId = animatorInstanceId,
+                        DestinationStateId = destinationStateId,
+                        FixedDuration = anyStateTransition.hasExitTime,
+                        ExitTime = anyStateTransition.exitTime,
+                        TransitionDuration = anyStateTransition.duration,
+                        TransitionOffset = anyStateTransition.offset
+                    };
+                    anyStateTransitions.Add(stateTransitionItem);
+                    // transition conditions
+                    var conditions = anyStateTransition.conditions;
+                    for (int condtionIndex = 0; condtionIndex < conditions.Length; condtionIndex++)
+                    {
+                        AnimatorCondition animatorCondition = conditions[condtionIndex];
+                        var transitionConditionItem = new TransitionCondtion
+                        {
+                            Id = condtionIndex,
+                            AnimatorInstanceId = animatorInstanceId,
+                            TransitionId = transitionId,
+                            Mode = (AnimatorTransitionConditionMode)animatorCondition.mode,
+                            Parameter = animatorCondition.parameter,
+                            Treshold = animatorCondition.threshold
+                        };
+                        transitionCondtionsTable.Add(transitionConditionItem);
+                    }
+                }
             }
             // result
             RuntimeAnimatorParsedObject result = new RuntimeAnimatorParsedObject
@@ -145,13 +180,14 @@ namespace ParseUtils
                 AnimatorParameters = animatorParametersTable,
                 LayerStates = layerStatesTable,
                 StateTransitions = transitionsTable,
+                AnyStateTransitions = anyStateTransitions,
                 TransitionCondtions = transitionCondtionsTable,
                 Paths = paths,
                 FPS = fps
             };
             return result;
         }
-        
+
         private static void PreparePathsFromAllAnimations(AnimationClip animationClip, List<string> paths)
         {
             var bindings = AnimationUtility.GetCurveBindings(animationClip);

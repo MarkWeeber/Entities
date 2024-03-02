@@ -17,15 +17,16 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 			}
 			Entity entity = GetEntity(TransformUsageFlags.None);
 			RegisterAnimators(entity, authoring);
-            RegisterParameters(entity, authoring);
-            RegisterLayers(entity, authoring);
-            RegisterTransitions(entity, authoring);
-            RegisterConditions(entity, authoring);
-        }
+			RegisterParameters(entity, authoring);
+			RegisterLayers(entity, authoring);
+			RegisterTransitions(entity, authoring);
+			RegisterAnyStateTransitions(entity, authoring);
+			RegisterConditions(entity, authoring);
+		}
 
 		private void RegisterAnimators(Entity entity, AnimatorBaseAuthoring authoring)
 		{
-            var animators = AddBuffer<AnimatorBuffer>(entity);
+			var animators = AddBuffer<AnimatorBuffer>(entity);
 			int index = 0;
 			foreach (var animatorDotsAsset in authoring.Animators)
 			{
@@ -37,22 +38,22 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 				{
 					Index = index,
 					Id = animatorDotsAsset.AnimatorInstanceId,
-					Name = (FixedString32Bytes) animatorDotsAsset.AnimatorName
+					Name = (FixedString32Bytes)animatorDotsAsset.AnimatorName
 				});
 				index++;
-            }
-        }
+			}
+		}
 
 		private void RegisterParameters(Entity entity, AnimatorBaseAuthoring authoring)
 		{
 			var parameters = AddBuffer<AnimatorParameterBuffer>(entity);
 			foreach (var animatorDotsAsset in authoring.Animators)
 			{
-                if (animatorDotsAsset == null)
-                {
-                    continue;
-                }
-                foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.AnimatorParameters)
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
+				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.AnimatorParameters)
 				{
 					parameters.Add(new AnimatorParameterBuffer
 					{
@@ -64,22 +65,22 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						ParameterName = (FixedString32Bytes)item.ParameterName,
 						Type = item.Type
 					});
-                }
+				}
 			}
 		}
 
 		private void RegisterLayers(Entity entity, AnimatorBaseAuthoring authoring)
 		{
-            var layers = AddBuffer<LayerStateBuffer>(entity);
-            foreach (var animatorDotsAsset in authoring.Animators)
-            {
-                if (animatorDotsAsset == null)
-                {
-                    continue;
-                }
-                foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.LayerStates)
-                {
-                    layers.Add(new LayerStateBuffer
+			var layers = AddBuffer<LayerStateBuffer>(entity);
+			foreach (var animatorDotsAsset in authoring.Animators)
+			{
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
+				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.LayerStates)
+				{
+					layers.Add(new LayerStateBuffer
 					{
 						Id = item.Id,
 						AnimationClipId = item.AnimationClipId,
@@ -91,22 +92,22 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						Speed = item.Speed,
 						AnimationBlobAssetIndex = item.AnimationBlobAssetIndex
 					});
-                }
-            }
-        }
+				}
+			}
+		}
 
 		private void RegisterTransitions(Entity entity, AnimatorBaseAuthoring authoring)
 		{
-            var transitions = AddBuffer<StateTransitionBuffer>(entity);
-            foreach (var animatorDotsAsset in authoring.Animators)
-            {
-                if (animatorDotsAsset == null)
-                {
-                    continue;
-                }
-                foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.StateTransitions)
-                {
-                    transitions.Add(new StateTransitionBuffer
+			var transitions = AddBuffer<StateTransitionBuffer>(entity);
+			foreach (var animatorDotsAsset in authoring.Animators)
+			{
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
+				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.StateTransitions)
+				{
+					transitions.Add(new StateTransitionBuffer
 					{
 						AnimatorInstanceId = item.AnimatorInstanceId,
 						DestinationStateId = item.DestinationStateId,
@@ -117,21 +118,47 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						TransitionDuration = item.TransitionDuration,
 						TransitionOffset = item.TransitionOffset
 					});
-                }
-            }
-        }
+				}
+			}
+		}
+
+		private void RegisterAnyStateTransitions(Entity entity, AnimatorBaseAuthoring authoring)
+		{
+			var transitions = AddBuffer<AnyStateTransitionBuffer>(entity);
+			foreach (var animatorDotsAsset in authoring.Animators)
+			{
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
+				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.AnyStateTransitions)
+				{
+					transitions.Add(new AnyStateTransitionBuffer
+					{
+						AnimatorInstanceId = item.AnimatorInstanceId,
+						DestinationStateId = item.DestinationStateId,
+						ExitTime = item.ExitTime,
+						FixedDuration = item.FixedDuration,
+						Id = item.Id,
+						TransitionDuration = item.TransitionDuration,
+						TransitionOffset = item.TransitionOffset
+					});
+				}
+			}
+		}
+
 		private void RegisterConditions(Entity entity, AnimatorBaseAuthoring authoring)
 		{
-            var conditions = AddBuffer<TransitionCondtionBuffer>(entity);
-            foreach (var animatorDotsAsset in authoring.Animators)
-            {
-                if (animatorDotsAsset == null)
-                {
-                    continue;
-                }
-                foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.TransitionCondtions)
-                {
-                    conditions.Add(new TransitionCondtionBuffer
+			var conditions = AddBuffer<TransitionCondtionBuffer>(entity);
+			foreach (var animatorDotsAsset in authoring.Animators)
+			{
+				if (animatorDotsAsset == null)
+				{
+					continue;
+				}
+				foreach (var item in animatorDotsAsset.RuntimeAnimatorParsedObject.TransitionCondtions)
+				{
+					conditions.Add(new TransitionCondtionBuffer
 					{
 						Id = item.Id,
 						AnimatorInstanceId = item.AnimatorInstanceId,
@@ -140,8 +167,8 @@ public class AnimatorBaseAuthoring : MonoBehaviour
 						TransitionId = item.TransitionId,
 						Treshold = item.Treshold
 					});
-                }
-            }
-        }
+				}
+			}
+		}
 	}
 }

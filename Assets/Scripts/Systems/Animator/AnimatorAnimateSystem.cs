@@ -42,6 +42,7 @@ public partial struct AnimatorAnimateSystem : ISystem
         if (SystemAPI.TryGetSingletonBuffer<AnimatorBuffer>(out DynamicBuffer<AnimatorBuffer> animatorBuffers))
         {
             NativeArray<LayerStateBuffer> states = SystemAPI.GetSingletonBuffer<LayerStateBuffer>().AsNativeArray();
+            NativeArray<AnyStateTransitionBuffer> anyStateTransitions = SystemAPI.GetSingletonBuffer<AnyStateTransitionBuffer>().AsNativeArray();
             NativeArray<StateTransitionBuffer> transitions = SystemAPI.GetSingletonBuffer<StateTransitionBuffer>().AsNativeArray();
             NativeArray<TransitionCondtionBuffer> conditions = SystemAPI.GetSingletonBuffer<TransitionCondtionBuffer>().AsNativeArray();
             NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
@@ -53,6 +54,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             {
                 States = states,
                 Transitions = transitions,
+                AnyStateTransitions = anyStateTransitions,
                 Conditions = conditions,
                 AnimationBlob = animationBlob,
                 LocalTransformLookup = localTransformLookup,
@@ -62,6 +64,7 @@ public partial struct AnimatorAnimateSystem : ISystem
 
             animationBlob.Dispose();
             states.Dispose();
+            anyStateTransitions.Dispose();
             transitions.Dispose();
             conditions.Dispose();
         }
@@ -74,6 +77,8 @@ public partial struct AnimatorAnimateSystem : ISystem
         public NativeArray<LayerStateBuffer> States;
         [ReadOnly]
         public NativeArray<StateTransitionBuffer> Transitions;
+        [ReadOnly]
+        public NativeArray<AnyStateTransitionBuffer> AnyStateTransitions;
         [ReadOnly]
         public NativeArray<TransitionCondtionBuffer> Conditions;
         [ReadOnly]
@@ -119,15 +124,15 @@ public partial struct AnimatorAnimateSystem : ISystem
             var newTransition = new StateTransitionBuffer();
             if (!_layer.IsInTransition) // if no transition thet check parameters conditions matching for new transition
             {
-                foreach (var _transition in Transitions)
+                foreach (var _anyStateTransition in AnyStateTransitions)
                 {
-                    if (_transition.StateId == _layer.CurrentStateId && _transition.AnimatorInstanceId == animatorInstanceId)
+                    if (_anyStateTransition.AnimatorInstanceId == animatorInstanceId)
                     {
                         bool allConditionsMet = true;
                         bool conditionMet = false;
                         foreach (var condition in Conditions)
                         {
-                            if (condition.TransitionId == _transition.Id && condition.AnimatorInstanceId == animatorInstanceId)
+                            if (condition.TransitionId == _anyStateTransition.Id && condition.AnimatorInstanceId == animatorInstanceId)
                             {
                                 conditionMet = CheckConditionMeet(condition, ref parameters);
                                 if (!conditionMet)
@@ -139,8 +144,36 @@ public partial struct AnimatorAnimateSystem : ISystem
                         if (allConditionsMet)
                         {
                             newTransitionFound = true;
-                            newTransition = _transition;
+                            newTransition = new StateTransitionBuffer(_anyStateTransition);
                             break;
+                        }
+                    }
+                }
+                if (!newTransitionFound)
+                {
+                    foreach (var _transition in Transitions)
+                    {
+                        if (_transition.StateId == _layer.CurrentStateId && _transition.AnimatorInstanceId == animatorInstanceId)
+                        {
+                            bool allConditionsMet = true;
+                            bool conditionMet = false;
+                            foreach (var condition in Conditions)
+                            {
+                                if (condition.TransitionId == _transition.Id && condition.AnimatorInstanceId == animatorInstanceId)
+                                {
+                                    conditionMet = CheckConditionMeet(condition, ref parameters);
+                                    if (!conditionMet)
+                                    {
+                                        allConditionsMet = false;
+                                    }
+                                }
+                            }
+                            if (allConditionsMet)
+                            {
+                                newTransitionFound = true;
+                                newTransition = _transition;
+                                break;
+                            }
                         }
                     }
                 }

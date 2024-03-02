@@ -12,268 +12,311 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: CharacterAnimatorDOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35560
+  AnimatorInstanceId: 35900
   AnimatorName: CharacterAnimator
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35560
+    AssetInstanceId: 35900
     AnimatorName: CharacterAnimator
     FPS: 30
     Animations:
-    - AnimationInstanceId: 35706
-      AnimatorInstanceId: 35560
+    - AnimationInstanceId: 35974
+      AnimatorInstanceId: 35900
       Name: idle
       Looped: 1
       Length: 4
-    - AnimationInstanceId: 35526
-      AnimatorInstanceId: 35560
+    - AnimationInstanceId: 35878
+      AnimatorInstanceId: 35900
       Name: run
       Looped: 1
       Length: 0.6666667
-    - AnimationInstanceId: 35484
-      AnimatorInstanceId: 35560
+    - AnimationInstanceId: 35720
+      AnimatorInstanceId: 35900
       Name: walk
       Looped: 1
       Length: 1.1666667
-    - AnimationInstanceId: 35522
-      AnimatorInstanceId: 35560
+    - AnimationInstanceId: 35746
+      AnimatorInstanceId: 35900
+      Name: pickup
+      Looped: 0
+      Length: 1.95
+    - AnimationInstanceId: 35746
+      AnimatorInstanceId: 35900
       Name: pickup
       Looped: 0
       Length: 1.95
     AnimatorLayers:
-    - Id: 36230
-      AnimatorInstanceId: 35560
+    - Id: 36482
+      AnimatorInstanceId: 35900
       DefaultWeight: 0
     LayerStates:
-    - Id: 36232
-      AnimatorInstanceId: 35560
-      LayerId: 36230
+    - Id: 36484
+      AnimatorInstanceId: 35900
+      LayerId: 36482
       DefaultState: 1
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35706
+      AnimationClipId: 35974
       AnimationLength: 4
       AnimationLooped: 1
       Speed: 1
-    - Id: 36234
-      AnimatorInstanceId: 35560
-      LayerId: 36230
+    - Id: 36486
+      AnimatorInstanceId: 35900
+      LayerId: 36482
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35526
+      AnimationClipId: 35878
       AnimationLength: 0.6666667
       AnimationLooped: 1
       Speed: 1
-    - Id: 36236
-      AnimatorInstanceId: 35560
-      LayerId: 36230
+    - Id: 36488
+      AnimatorInstanceId: 35900
+      LayerId: 36482
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35484
+      AnimationClipId: 35720
       AnimationLength: 1.1666667
       AnimationLooped: 1
       Speed: 0.5
-    - Id: 36238
-      AnimatorInstanceId: 35560
-      LayerId: 36230
+    - Id: 36490
+      AnimatorInstanceId: 35900
+      LayerId: 36482
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35522
+      AnimationClipId: 35746
       AnimationLength: 1.95
       AnimationLooped: 0
       Speed: 2
+    - Id: -48070
+      AnimatorInstanceId: 35900
+      LayerId: 36482
+      DefaultState: 0
+      AnimationBlobAssetIndex: -1
+      AnimationClipId: 35746
+      AnimationLength: 1.95
+      AnimationLooped: 0
+      Speed: 1
     StateTransitions:
-    - Id: 36240
-      AnimatorInstanceId: 35560
-      StateId: 36232
-      DestinationStateId: 36234
+    - Id: 36492
+      AnimatorInstanceId: 35900
+      StateId: 36484
+      DestinationStateId: 36486
       FixedDuration: 1
       ExitTime: 0
       TransitionDuration: 0.067474805
       TransitionOffset: 0
-    - Id: 36242
-      AnimatorInstanceId: 35560
-      StateId: 36232
-      DestinationStateId: 36236
+    - Id: 36494
+      AnimatorInstanceId: 35900
+      StateId: 36484
+      DestinationStateId: 36488
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36244
-      AnimatorInstanceId: 35560
-      StateId: 36232
-      DestinationStateId: 36238
+    - Id: 36496
+      AnimatorInstanceId: 35900
+      StateId: 36484
+      DestinationStateId: 36490
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0.1
-    - Id: 36246
-      AnimatorInstanceId: 35560
-      StateId: 36234
-      DestinationStateId: 36232
+    - Id: 36498
+      AnimatorInstanceId: 35900
+      StateId: 36486
+      DestinationStateId: 36484
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36248
-      AnimatorInstanceId: 35560
-      StateId: 36234
-      DestinationStateId: 36236
+    - Id: 36500
+      AnimatorInstanceId: 35900
+      StateId: 36486
+      DestinationStateId: 36488
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36250
-      AnimatorInstanceId: 35560
-      StateId: 36236
-      DestinationStateId: 36232
+    - Id: 36502
+      AnimatorInstanceId: 35900
+      StateId: 36488
+      DestinationStateId: 36484
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.5
       TransitionOffset: 0
-    - Id: 36252
-      AnimatorInstanceId: 35560
-      StateId: 36236
-      DestinationStateId: 36234
+    - Id: 36504
+      AnimatorInstanceId: 35900
+      StateId: 36488
+      DestinationStateId: 36486
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0
-    - Id: 36254
-      AnimatorInstanceId: 35560
-      StateId: 36236
-      DestinationStateId: 36238
+    - Id: 36506
+      AnimatorInstanceId: 35900
+      StateId: 36488
+      DestinationStateId: 36490
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.05
       TransitionOffset: 0.1
-    - Id: 36256
-      AnimatorInstanceId: 35560
-      StateId: 36238
-      DestinationStateId: 36232
+    - Id: 36508
+      AnimatorInstanceId: 35900
+      StateId: 36490
+      DestinationStateId: 36484
       FixedDuration: 1
       ExitTime: 0.5
       TransitionDuration: 0.2
       TransitionOffset: 0
-    - Id: 36258
-      AnimatorInstanceId: 35560
-      StateId: 36238
-      DestinationStateId: 36236
+    - Id: 36510
+      AnimatorInstanceId: 35900
+      StateId: 36490
+      DestinationStateId: 36488
       FixedDuration: 1
       ExitTime: 0.5
       TransitionDuration: 0.2
+      TransitionOffset: 0
+    - Id: -48392
+      AnimatorInstanceId: 35900
+      StateId: -48070
+      DestinationStateId: 36484
+      FixedDuration: 1
+      ExitTime: 0.8717949
+      TransitionDuration: 0.25
+      TransitionOffset: 0
+    AnyStateTransitions:
+    - Id: -48156
+      AnimatorInstanceId: 35900
+      DestinationStateId: -48070
+      FixedDuration: 0
+      ExitTime: 0
+      TransitionDuration: 0.25
       TransitionOffset: 0
     TransitionCondtions:
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36240
+      AnimatorInstanceId: 35900
+      TransitionId: 36492
       Mode: 1
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36242
+      AnimatorInstanceId: 35900
+      TransitionId: 36494
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36244
+      AnimatorInstanceId: 35900
+      TransitionId: 36496
       Mode: 1
       Parameter: Fire
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36246
+      AnimatorInstanceId: 35900
+      TransitionId: 36498
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 1
-      AnimatorInstanceId: 35560
-      TransitionId: 36246
+      AnimatorInstanceId: 35900
+      TransitionId: 36498
       Mode: 2
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36248
+      AnimatorInstanceId: 35900
+      TransitionId: 36500
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 1
-      AnimatorInstanceId: 35560
-      TransitionId: 36248
+      AnimatorInstanceId: 35900
+      TransitionId: 36500
       Mode: 2
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36250
+      AnimatorInstanceId: 35900
+      TransitionId: 36502
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36252
+      AnimatorInstanceId: 35900
+      TransitionId: 36504
       Mode: 1
       Parameter: Sprinting
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36254
+      AnimatorInstanceId: 35900
+      TransitionId: 36506
       Mode: 1
       Parameter: Fire
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36256
+      AnimatorInstanceId: 35900
+      TransitionId: 36508
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.1
     - Id: 0
-      AnimatorInstanceId: 35560
-      TransitionId: 36258
+      AnimatorInstanceId: 35900
+      TransitionId: 36510
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.1
+    - Id: 0
+      AnimatorInstanceId: 35900
+      TransitionId: -48156
+      Mode: 1
+      Parameter: Hi
+      Treshold: 0
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: Dash
       Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: MoveSpeed
       Type: 1
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: Fire
       Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 3
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: MoveSpeedMultiplier
       Type: 1
       DefaultFloat: 1
       DefaultInt: 0
       DefaultBool: 0
     - Id: 4
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: Sprinting
       Type: 4
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 5
-      AnimatorInstanceId: 35560
+      AnimatorInstanceId: 35900
       ParameterName: Firing
       Type: 4
+      DefaultFloat: 0
+      DefaultInt: 0
+      DefaultBool: 0
+    - Id: 6
+      AnimatorInstanceId: 35900
+      ParameterName: Hi
+      Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
