@@ -37,6 +37,8 @@ public partial struct SimpleCollisionSystem : ISystem
         {
             ref var colliderAsset = ref physicsCollider.Value;
             ref var collider = ref physicsCollider.Value.Value;
+            collider.SetCollisionFilter(data.ValueRO.CollisionFilter);
+            //var pointer = (Collider*) colliderAsset.GetUnsafePtr();
             var colliderCastInput = new ColliderCastInput(colliderAsset, localTransform.ValueRO.Position, localTransform.ValueRO.Position, localTransform.ValueRO.Rotation);
             var hits = new NativeList<ColliderCastHit>();
             var hasHit = collider.CastCollider(colliderCastInput, ref hits);
