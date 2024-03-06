@@ -268,7 +268,7 @@ namespace Unity.Physics.Editor
 
             public void SchedulePreviewIfChanged(PhysicsShapeAuthoring shape)
             {
-                using (var currentPoints = new NativeList<float3>(65535, Allocator.TempJob))
+                using (var currentPoints = new NativeList<float3>(65535, Allocator.Temp))
                 {
                     var hash = GetInputHash(
                         shape, currentPoints, m_HashedPoints, m_HashedConvexParameters, out var currentConvexParameters
@@ -310,7 +310,7 @@ namespace Unity.Physics.Editor
 
             JobHandle ScheduleConvexHullPreview(PhysicsShapeAuthoring shape, NativeArray<BlobAssetReference<Collider>> output)
             {
-                using var pointCloud = new NativeList<float3>(65535, Allocator.TempJob);
+                var pointCloud = new NativeList<float3>(65535, Allocator.Temp);
                 shape.GetBakedConvexProperties(pointCloud);
 
                 if (pointCloud.Length == 0)
@@ -333,7 +333,7 @@ namespace Unity.Physics.Editor
 
             JobHandle ScheduleMeshPreview(PhysicsShapeAuthoring shape, NativeArray<BlobAssetReference<Collider>> output)
             {
-                using var points = new NativeList<float3>(1024, Allocator.TempJob);
+                var points = new NativeList<float3>(1024, Allocator.Temp);
                 var triangles = new NativeList<int3>(1024, Allocator.Temp);
                 shape.GetBakedMeshProperties(points, triangles);
 
