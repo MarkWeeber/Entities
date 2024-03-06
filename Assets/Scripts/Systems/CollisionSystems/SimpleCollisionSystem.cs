@@ -2,15 +2,18 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
+using Unity.Jobs;
 using Unity.Transforms;
 using UnityEngine;
 
 [BurstCompile]
 public partial struct SimpleCollisionSystem : ISystem
 {
+    private ComponentLookup<ColliderCollisionData> collisionDataLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        collisionDataLookup = state.GetComponentLookup<ColliderCollisionData>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -24,9 +27,11 @@ public partial struct SimpleCollisionSystem : ISystem
         {
             return;
         }
-        CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
-        state.Dependency = new CastCollisionJob
-        { }.ScheduleParallel(colliders, state.Dependency);
+        SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
+        collisionDataLookup.Update(ref state);
+        state.Dependency = new VisionCollisionJob
+        { CollisionDataLookup = collisionDataLookup }.Schedule(simulation, state.Dependency);
+
     }
 
     [BurstCompile]
@@ -49,6 +54,31 @@ public partial struct SimpleCollisionSystem : ISystem
                 Debug.Log("CHECK");
             }
             hits.Dispose();
+        }
+    }
+
+    [BurstCompile]
+    private partial struct VisionCollisionJob : ITriggerEventsJob
+    {
+        public ComponentLookup<ColliderCollisionData> CollisionDataLookup;
+
+        [BurstCompile]
+        public void Execute(TriggerEvent triggerEvent)
+        {
+            Entity colliderEntity = Entity.Null;
+            if (CollisionDataLookup.HasComponent(triggerEvent.EntityA))
+            {
+                colliderEntity = triggerEvent.EntityA;
+            }
+            if (CollisionDataLookup.HasComponent(triggerEvent.EntityB))
+            {
+                colliderEntity = triggerEvent.EntityB;
+            }
+            if (colliderEntity != Entity.Null)
+            {
+                var colliderData = CollisionDataLookup.GetRefRW(colliderEntity);
+                colliderData.ValueRW.IsColliding = true;
+            }
         }
     }
 }
