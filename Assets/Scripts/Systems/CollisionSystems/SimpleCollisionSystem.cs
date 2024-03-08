@@ -5,15 +5,20 @@ using Unity.Physics;
 using Unity.Jobs;
 using Unity.Transforms;
 using UnityEngine;
+using Unity.Physics.Systems;
 
 [BurstCompile]
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+[UpdateBefore(typeof(PhysicsSystemGroup))]
 public partial struct SimpleCollisionSystem : ISystem
 {
     private ComponentLookup<ColliderCollisionData> collisionDataLookup;
+    private ComponentLookup<PhysicsCollider> physicsColliderLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         collisionDataLookup = state.GetComponentLookup<ColliderCollisionData>(false);
+        physicsColliderLookup = state.GetComponentLookup<PhysicsCollider>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -29,55 +34,46 @@ public partial struct SimpleCollisionSystem : ISystem
         }
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
         collisionDataLookup.Update(ref state);
-        state.Dependency = new VisionCollisionJob
-        { CollisionDataLookup = collisionDataLookup }.Schedule(simulation, state.Dependency);
-
-    }
-
-    [BurstCompile]
-    private partial struct CastCollisionJob : IJobEntity
-    {
-        [BurstCompile]
-        private void Execute(RefRW<ColliderCollisionData> data, RefRO<LocalTransform> localTransform, PhysicsCollider physicsCollider, Entity entity)
+        physicsColliderLookup.Update(ref state);
+        state.Dependency = new VisionTirggerJob
         {
-            ref var colliderAsset = ref physicsCollider.Value;
-            ref var collider = ref physicsCollider.Value.Value;
-            collider.SetCollisionFilter(data.ValueRO.CollisionFilter);
-            //var pointer = (Collider*) colliderAsset.GetUnsafePtr();
-            var colliderCastInput = new ColliderCastInput(colliderAsset, localTransform.ValueRO.Position, localTransform.ValueRO.Position, localTransform.ValueRO.Rotation);
-            var hits = new NativeList<ColliderCastHit>();
-            var hasHit = collider.CastCollider(colliderCastInput, ref hits);
-            if (hasHit)
-            {
-                data.ValueRW.IsColliding = true;
-                data.ValueRW.CollisionNumber = hits.Length;
-                Debug.Log("CHECK");
-            }
-            hits.Dispose();
-        }
+            CollisionDataLookup = collisionDataLookup,
+            PhysicsColliderLookup = physicsColliderLookup
+        }.Schedule(simulation, state.Dependency);
     }
 
     [BurstCompile]
-    private partial struct VisionCollisionJob : ITriggerEventsJob
+    private partial struct VisionTirggerJob : ITriggerEventsJob
     {
         public ComponentLookup<ColliderCollisionData> CollisionDataLookup;
-
+        [ReadOnly]
+        public ComponentLookup<PhysicsCollider> PhysicsColliderLookup;
         [BurstCompile]
         public void Execute(TriggerEvent triggerEvent)
         {
-            Entity colliderEntity = Entity.Null;
+            Entity colliderDataEntity = Entity.Null;
+            Entity colliderTargetEntity = Entity.Null;
             if (CollisionDataLookup.HasComponent(triggerEvent.EntityA))
             {
-                colliderEntity = triggerEvent.EntityA;
+                colliderDataEntity = triggerEvent.EntityA;
+                colliderTargetEntity = triggerEvent.EntityB;
             }
             if (CollisionDataLookup.HasComponent(triggerEvent.EntityB))
             {
-                colliderEntity = triggerEvent.EntityB;
+                colliderDataEntity = triggerEvent.EntityB;
+                colliderTargetEntity = triggerEvent.EntityA;
             }
-            if (colliderEntity != Entity.Null)
+            if (colliderDataEntity != Entity.Null && colliderTargetEntity != Entity.Null)
             {
-                var colliderData = CollisionDataLookup.GetRefRW(colliderEntity);
-                colliderData.ValueRW.IsColliding = true;
+                var colliderData = CollisionDataLookup.GetRefRW(colliderDataEntity);
+                var colliderBlobAsset = PhysicsColliderLookup.GetRefRO(colliderTargetEntity).ValueRO.Value;
+                ref var targetCollider = ref colliderBlobAsset.Value;
+                var belongsTo = targetCollider.GetCollisionFilter().BelongsTo;
+                var collidestWith = colliderData.ValueRO.CollisionFilter.CollidesWith;
+                if ((belongsTo & collidestWith) > 0)
+                {
+                    colliderData.ValueRW.IsColliding = true;
+                }
             }
         }
     }

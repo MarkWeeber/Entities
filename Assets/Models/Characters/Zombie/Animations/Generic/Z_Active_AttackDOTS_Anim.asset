@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff666ba08b683884183efced6ecfcf64, type: 3}
-  m_Name: Z_AttackDOTS_Anim
+  m_Name: Z_Active_AttackDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35594
-    AnimationName: Z_Attack
-    AnimatorInstanceId: 35710
+    Id: 61578
+    AnimationName: Z_Active_Attack
+    AnimatorInstanceId: 35754
     Length: 1
     Looped: 1
     FPS: 30

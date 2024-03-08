@@ -47,3 +47,4 @@ MonoBehaviour:
   Animators:
   - {fileID: 11400000, guid: e2dc1770336b3a342b61ab120f1e9b39, type: 2}
   - {fileID: 11400000, guid: 9e9cfdf3bf7bcd64aa3410ea5a9c8fd9, type: 2}
+  - {fileID: 11400000, guid: 6158159f8f586bf4b9d763a9ee0fd6d3, type: 2}

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_Walk_InPlaceDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35822
+    Id: 35568
     AnimationName: Z_Walk_InPlace
-    AnimatorInstanceId: 35946
+    AnimatorInstanceId: 35710
     Length: 2
     Looped: 1
     FPS: 30

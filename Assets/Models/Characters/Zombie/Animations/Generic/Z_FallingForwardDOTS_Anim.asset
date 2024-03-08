@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_FallingForwardDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35966
+    Id: 35732
     AnimationName: Z_FallingForward
-    AnimatorInstanceId: 35946
+    AnimatorInstanceId: 35710
     Length: 1.1666667
     Looped: 0
     FPS: 30

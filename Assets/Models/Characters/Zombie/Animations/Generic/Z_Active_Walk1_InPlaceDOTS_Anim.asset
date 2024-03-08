@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff666ba08b683884183efced6ecfcf64, type: 3}
-  m_Name: Z_Walk1_InPlaceDOTS_Anim
+  m_Name: Z_Active_Walk1_InPlaceDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35758
-    AnimationName: Z_Walk1_InPlace
-    AnimatorInstanceId: 35710
+    Id: 61604
+    AnimationName: Z_Active_Walk1_InPlace
+    AnimatorInstanceId: 35754
     Length: 2
     Looped: 1
     FPS: 30

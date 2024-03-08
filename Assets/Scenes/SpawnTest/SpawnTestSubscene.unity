@@ -131,12 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2939267920460645460, guid: 33430608ad034574fbab20ad02383cf6,
-        type: 3}
-      propertyPath: Animators.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e2dc1770336b3a342b61ab120f1e9b39,
-        type: 2}
     - target: {fileID: 4485973057452667743, guid: 33430608ad034574fbab20ad02383cf6,
         type: 3}
       propertyPath: m_Name
@@ -210,72 +204,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimationBase
       objectReference: {fileID: 0}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 98c29d93d86bcbe4caf189016f2e8e86,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 49952d39289e05942b68712f2f3085b9,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3b6097b6f8b6e3845a0647be6156bfdc,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 55ca85573ee00e54ca0e2af201c71fb3,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 938e9ff6649891c4aa3756ebbf24619b,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 54d787aa284092a4281447e11114483f,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: f6ac260bb8525dd44ad6f6a3370a2784,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4c93d872de16dfd4c8621a5d95614c6f,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: d55b9202f178e5d49999cebae052037a,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3b4fe53b42df5fb41be66e3ef56f094a,
-        type: 2}
-    - target: {fileID: 4160206757524792017, guid: acda0dfbb9c2386458de6de3b111ec02,
-        type: 3}
-      propertyPath: Animations.Array.data[10]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3f10db326c4d97945961f0eb5445ddeb,
-        type: 2}
     - target: {fileID: 7570385085312590020, guid: acda0dfbb9c2386458de6de3b111ec02,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -375,9 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9664e6c4f840a14084cb28d550a54ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnQuantity: 2500
+  SpawnQuantity: 250
   Spacing: 1
-  Prefab: {fileID: 778262455542358093, guid: 27c1f027906eac54b8a2d1faef837ecd, type: 3}
+  Prefab: {fileID: 778262455542358093, guid: 7e53cfb8817ce724486c310f3d27050e, type: 3}
 --- !u!1 &2047101332
 GameObject:
   m_ObjectHideFlags: 0
