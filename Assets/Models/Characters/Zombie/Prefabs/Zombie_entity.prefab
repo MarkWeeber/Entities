@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 5530867260649904638}
   - component: {fileID: 6906971309377500441}
   - component: {fileID: 2133990704222748747}
+  - component: {fileID: 8178676040278102950}
   m_Layer: 0
   m_Name: Zombie_entity
   m_TagString: Untagged
@@ -333,6 +334,29 @@ MonoBehaviour:
     x: 1
     y: 0
     z: 1
+--- !u!114 &8178676040278102950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778262455542358093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8d54f1769af234ab04ef7e9f2a5bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strategies:
+  - Active: 1
+    StrategyValue: 3
+    MinWaitTime: 1
+    MaxWaitTime: 3
+    MinCastRadiousForNextDestination: 4
+    MaxCastRadiousForNextDestination: 4
+    strategyType: 0
+  MinDistance: 0.1
+  MoveSpeed: 1
+  TurnSpeed: 25
 --- !u!1 &806187432299445492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,10 +1686,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18b5aaedd12a754887562c72d13584c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Parent: {fileID: 778262455542358093}
   BelongsTo:
     Category00: 0
     Category01: 0
-    Category02: 0
+    Category02: 1
     Category03: 0
     Category04: 0
     Category05: 0
@@ -1697,7 +1722,7 @@ MonoBehaviour:
     Category31: 0
   CollidesWith:
     Category00: 1
-    Category01: 1
+    Category01: 0
     Category02: 0
     Category03: 0
     Category04: 0
