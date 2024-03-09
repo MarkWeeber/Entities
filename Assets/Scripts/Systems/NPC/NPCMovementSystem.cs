@@ -44,6 +44,7 @@ public partial struct NPCMovementSystem : ISystem
                 if (distance > npcMovement.ValueRO.MinDistance)
                 {
                     var moveDirection = math.normalize(targetPosition - localPosition);
+                    moveDirection.y = 0f;
                     var speed = npcMovement.ValueRO.MovementSpeedMultiplier * movementData.ValueRO.MoveSpeed;
                     var newPosition = moveDirection * speed * DeltaTime + localTransform.ValueRO.Position;
                     var targetRotation = quaternion.LookRotation(moveDirection, math.up());
@@ -54,7 +55,7 @@ public partial struct NPCMovementSystem : ISystem
                 }
                 else
                 {
-                    //npcMovement.ValueRW.IsDestinationSet = false;
+                    npcMovement.ValueRW.IsDestinationSet = false;
                 }
             }
         }

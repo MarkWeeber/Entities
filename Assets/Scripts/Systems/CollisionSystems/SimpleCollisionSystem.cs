@@ -12,13 +12,13 @@ using Unity.Physics.Systems;
 [UpdateBefore(typeof(PhysicsSystemGroup))]
 public partial struct SimpleCollisionSystem : ISystem
 {
-    private ComponentLookup<ColliderCollisionData> collisionDataLookup;
+    private ComponentLookup<NPCVisionData> collisionDataLookup;
     private ComponentLookup<PhysicsCollider> physicsColliderLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.Enabled = false;
-        collisionDataLookup = state.GetComponentLookup<ColliderCollisionData>(false);
+        collisionDataLookup = state.GetComponentLookup<NPCVisionData>(false);
         physicsColliderLookup = state.GetComponentLookup<PhysicsCollider>(true);
     }
     [BurstCompile]
@@ -28,7 +28,7 @@ public partial struct SimpleCollisionSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityQuery colliders = SystemAPI.QueryBuilder().WithAll<ColliderCollisionData, PhysicsCollider, LocalTransform>().Build();
+        EntityQuery colliders = SystemAPI.QueryBuilder().WithAll<NPCVisionData, PhysicsCollider, LocalTransform>().Build();
         if (colliders.CalculateEntityCount() < 1)
         {
             return;
@@ -46,7 +46,7 @@ public partial struct SimpleCollisionSystem : ISystem
     [BurstCompile]
     private partial struct VisionTirggerJob : ITriggerEventsJob
     {
-        public ComponentLookup<ColliderCollisionData> CollisionDataLookup;
+        public ComponentLookup<NPCVisionData> CollisionDataLookup;
         [ReadOnly]
         public ComponentLookup<PhysicsCollider> PhysicsColliderLookup;
         [BurstCompile]
