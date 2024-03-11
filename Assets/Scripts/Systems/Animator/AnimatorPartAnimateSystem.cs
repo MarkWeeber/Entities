@@ -8,7 +8,7 @@ using UnityEngine;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
-//[UpdateAfter(typeof(AnimatorAnimateSystem))]
+[UpdateAfter(typeof(AnimatorAnimateSystem))]
 public partial struct AnimatorPartAnimateSystem : ISystem
 {
     private BufferLookup<AnimatorActorLayerBuffer> layerLookup;

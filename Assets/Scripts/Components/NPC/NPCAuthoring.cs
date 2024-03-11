@@ -44,10 +44,10 @@ public class NPCAuthoring : MonoBehaviour
             });
             AddComponent(entity, new NPCMovementComponent
             {
-                IsDestinationSet = false,
                 Destination = float3.zero,
                 MinDistance = authoring.MinDistance,
-                MovementSpeedMultiplier = 1f
+                MovementSpeedMultiplier = 1f,
+                TargetVisionState = NPCTargetVisionState.NonVisible
             });
             CollisionFilter collisionFilter = new CollisionFilter
             {
@@ -63,6 +63,11 @@ public class NPCAuthoring : MonoBehaviour
                 FOV = authoring.Fov,
                 SpherCastRadius = authoring.SphereCastRadius,
                 VisionOffset = visionOffset
+            });
+            AddComponent(entity, new MovementStatisticData
+            {
+                Speed = 0f,
+                Velocity = float3.zero
             });
         }
     }

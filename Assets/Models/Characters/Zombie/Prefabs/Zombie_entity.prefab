@@ -354,8 +354,8 @@ MonoBehaviour:
     MinCastRadiousForNextDestination: 4
     MaxCastRadiousForNextDestination: 4
     strategyType: 0
-  MinDistance: 0.1
-  MoveSpeed: 1
+  MinDistance: 1
+  MoveSpeed: 0.5
   TurnSpeed: 25
   BelongsTo:
     Category00: 0
@@ -424,7 +424,7 @@ MonoBehaviour:
     Category30: 0
     Category31: 0
   visionTransform: {fileID: 1232058991771619611}
-  SphereCastRadius: 5
+  SphereCastRadius: 15
   Fov:
     x: 45
     y: 30
