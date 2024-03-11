@@ -424,10 +424,10 @@ MonoBehaviour:
     Category30: 0
     Category31: 0
   visionTransform: {fileID: 1232058991771619611}
-  SphereCastRadius: 2
+  SphereCastRadius: 5
   Fov:
     x: 45
-    y: 10
+    y: 30
 --- !u!1 &806187432299445492
 GameObject:
   m_ObjectHideFlags: 0
