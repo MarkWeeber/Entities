@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_Active_Run_InPlaceDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 61598
+    Id: 35706
     AnimationName: Z_Active_Run_InPlace
-    AnimatorInstanceId: 35754
+    AnimatorInstanceId: 35786
     Length: 1.5333334
     Looped: 1
     FPS: 30

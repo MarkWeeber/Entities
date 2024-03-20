@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_Active_IdleDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 61594
+    Id: 35444
     AnimationName: Z_Active_Idle
-    AnimatorInstanceId: 35754
+    AnimatorInstanceId: 35786
     Length: 2.6666667
     Looped: 1
     FPS: 30

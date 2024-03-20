@@ -1,5 +1,6 @@
 using Unity.Entities;
 using Unity.Collections;
+using Unity.Physics.Authoring;
 
 [System.Serializable]
 public struct NPCStrategyBuffer : IBufferElementData
@@ -8,13 +9,13 @@ public struct NPCStrategyBuffer : IBufferElementData
     public float StrategyValue;
     public float MinWaitTime;
     public float MaxWaitTime;
-    public float MinCastRadiousForNextDestination;
-    public float MaxCastRadiousForNextDestination;
     public NPCStrategyType strategyType;
+    public PhysicsCategoryTags TargetCollider;
 }
 
 public enum NPCStrategyType
 {
     Wander = 0,
-    Attach = 1
+    Attack = 1,
+    LookForHealth = 2
 }

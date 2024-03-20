@@ -6,7 +6,6 @@ using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
 using UnityEngine;
-using TMPro;
 
 [BurstCompile]
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -26,14 +25,19 @@ public partial struct NPCSetMovementSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityQuery colliders = SystemAPI.QueryBuilder().WithAll<NPCVisionData, NPCMovementComponent, LocalToWorld>().Build();
+        EntityQuery colliders = SystemAPI.QueryBuilder()
+            .WithAll<
+            NPCStrategyBuffer,
+            NPCVisionSettings,
+            NPCMovementComponent,
+            LocalToWorld
+            >().Build();
         if (colliders.CalculateEntityCount() < 1)
         {
             return;
         }
         CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
         localToWorldLookup.Update(ref state);
-
         state.Dependency = new VisionCastJob
         {
             CollisionWorld = collisionWorld,
@@ -50,17 +54,30 @@ public partial struct NPCSetMovementSystem : ISystem
         public ComponentLookup<LocalToWorld> LocalToWorldLookup;
         [BurstCompile]
         private void Execute(
-            RefRO<NPCVisionData> npcVisionData,
+            in DynamicBuffer<NPCStrategyBuffer> strategyBuffer,
+            RefRO<NPCVisionSettings> npcVisionData,
             RefRO<LocalToWorld> localToWorld,
             RefRW<NPCMovementComponent> npcMovementComponent,
             Entity entity)
         {
+            var collisionFilter = new CollisionFilter { BelongsTo = uint.MaxValue, CollidesWith = 0 };
+            foreach (var strategy in strategyBuffer)
+            {
+                if (strategy.Active)
+                {
+                    collisionFilter.CollidesWith = strategy.TargetCollider.Value;
+                    break;
+                }
+            }
+            if (collisionFilter.CollidesWith == 0)
+            {
+                return;
+            }
             bool targetIsVisilbe = false;
             var targetDestination = float3.zero;
             var originOffset = npcVisionData.ValueRO.VisionOffset;
             var originStart = localToWorld.ValueRO.Position + originOffset;
             var radius = npcVisionData.ValueRO.SpherCastRadius;
-            var collisionFilter = npcVisionData.ValueRO.CollisionFilter;
             var hits = new NativeList<DistanceHit>(Allocator.Temp);
             if (CollisionWorld.OverlapSphere(originStart, radius, ref hits, collisionFilter))
             {

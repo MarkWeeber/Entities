@@ -16,10 +16,6 @@ public class NPCAuthoring : MonoBehaviour
     [SerializeField]
     private float TurnSpeed = 5.0f;
     [SerializeField]
-    private PhysicsCategoryTags BelongsTo;
-    [SerializeField]
-    private PhysicsCategoryTags CollidesWith;
-    [SerializeField]
     private Transform visionTransform;
     [SerializeField]
     private float SphereCastRadius = 5f;
@@ -49,17 +45,9 @@ public class NPCAuthoring : MonoBehaviour
                 MovementSpeedMultiplier = 1f,
                 TargetVisionState = NPCTargetVisionState.NonVisible
             });
-            CollisionFilter collisionFilter = new CollisionFilter
-            {
-                BelongsTo = authoring.BelongsTo.Value,
-                CollidesWith = authoring.CollidesWith.Value
-            };
             float3 visionOffset = authoring.visionTransform.position - authoring.transform.position;
-            AddComponent(entity, new NPCVisionData
+            AddComponent(entity, new NPCVisionSettings
             {
-                CollisionFilter = collisionFilter,
-                CollisionNumber = 0,
-                IsColliding = false,
                 FOV = authoring.Fov,
                 SpherCastRadius = authoring.SphereCastRadius,
                 VisionOffset = visionOffset
