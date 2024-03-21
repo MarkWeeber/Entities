@@ -10,7 +10,9 @@ public class NPCAuthoring : MonoBehaviour
     [SerializeField]
     private List<NPCStrategyBuffer> strategies;
     [SerializeField]
-    private float MinDistance = 0.2f;
+    private float ReachMinDistance = 1f;
+    [SerializeField]
+    private float WanderMinDistance = 3f;
     [SerializeField]
     private float MoveSpeed = 1.0f;
     [SerializeField]
@@ -41,7 +43,9 @@ public class NPCAuthoring : MonoBehaviour
             AddComponent(entity, new NPCMovementComponent
             {
                 Destination = float3.zero,
-                MinDistance = authoring.MinDistance,
+                MinDistance = authoring.ReachMinDistance,
+                WanderDistance = authoring.WanderMinDistance,
+                WaitTimer = 0f,
                 MovementSpeedMultiplier = 1f,
                 TargetVisionState = NPCTargetVisionState.NonVisible
             });

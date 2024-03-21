@@ -36,7 +36,11 @@ public partial struct NPCMovementSystem : ISystem
     {
         public float DeltaTime;
         [BurstCompile]
-        private void Execute(RefRW<LocalTransform> localTransform, RefRW<NPCMovementComponent> npcMovement, RefRO<MovementData> movementData, RefRW<MovementStatisticData> movementStatisticData)
+        private void Execute(
+            RefRW<LocalTransform> localTransform,
+            RefRW<NPCMovementComponent> npcMovement,
+            RefRO<MovementData> movementData,
+            RefRW<MovementStatisticData> movementStatisticData)
         {
             if (npcMovement.ValueRO.TargetVisionState != NPCTargetVisionState.NonVisible)
             {
@@ -47,7 +51,7 @@ public partial struct NPCMovementSystem : ISystem
                 var distance = math.distance(targetPosition, localPosition);
                 var moveDirection = math.normalize(targetPosition - localPosition);
                 moveDirection.y = 0f;
-                if (distance > npcMovement.ValueRO.MinDistance) // moving while still distance
+                if (distance > npcMovement.ValueRO.MinDistance) // moving while distance not reached minimal
                 {
                     var speed = npcMovement.ValueRO.MovementSpeedMultiplier * movementData.ValueRO.MoveSpeed;
                     var positionDelta = moveDirection * speed * DeltaTime;
@@ -55,15 +59,24 @@ public partial struct NPCMovementSystem : ISystem
                     localTransform.ValueRW.Position = newPosition;
                     movementStatisticData.ValueRW.Speed = speed;
                     movementStatisticData.ValueRW.Velocity = positionDelta;
+                    movementStatisticData.ValueRW.DestinationReached = false;
                 }
-                else
+                else // reached target
                 {
-                    if (npcMovement.ValueRO.TargetVisionState == NPCTargetVisionState.Lost)
-                    {
-                        npcMovement.ValueRW.TargetVisionState = NPCTargetVisionState.NonVisible;
-                    }
                     movementStatisticData.ValueRW.Speed = 0f;
                     movementStatisticData.ValueRW.Velocity = float3.zero;
+                    movementStatisticData.ValueRW.DestinationReached = true;
+                    if (npcMovement.ValueRO.WaitTimer <= 0f)
+                    {
+                        if (npcMovement.ValueRO.TargetVisionState == NPCTargetVisionState.Lost)
+                        {
+                            npcMovement.ValueRW.TargetVisionState = NPCTargetVisionState.NonVisible;
+                        }
+                    }
+                    else
+                    {
+                        npcMovement.ValueRW.WaitTimer -= DeltaTime;
+                    }
                 }
                 var currentRotation = localTransform.ValueRO.Rotation;
                 var targetRotation = quaternion.LookRotation(moveDirection, math.up());

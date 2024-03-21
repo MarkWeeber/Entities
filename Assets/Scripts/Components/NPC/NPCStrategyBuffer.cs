@@ -9,13 +9,14 @@ public struct NPCStrategyBuffer : IBufferElementData
     public float StrategyValue;
     public float MinWaitTime;
     public float MaxWaitTime;
-    public NPCStrategyType strategyType;
+    public NPCStrategyType StrategyType;
     public PhysicsCategoryTags TargetCollider;
 }
 
 public enum NPCStrategyType
 {
-    Wander = 0,
-    Attack = 1,
-    LookForHealth = 2
+    NoStrategy = 0,
+    Wander = 1,
+    Attack = 2,
+    LookForHealth = 3
 }

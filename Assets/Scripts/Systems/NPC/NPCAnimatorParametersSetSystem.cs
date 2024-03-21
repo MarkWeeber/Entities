@@ -1,6 +1,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 
 [BurstCompile]
@@ -23,7 +24,8 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
             .WithAll<
              AnimatorActorComponent,
              AnimatorActorParametersBuffer,
-             MovementStatisticData>()
+             MovementStatisticData,
+             NPCStrategyBuffer>()
             .Build();
 
         if (acrtorsQuery.CalculateEntityCount() < 1)
@@ -37,10 +39,30 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
     private partial struct AnimatorParametersSetJob : IJobEntity
     {
         [BurstCompile]
-        private void Execute(ref DynamicBuffer<AnimatorActorParametersBuffer> parameters, RefRO<MovementStatisticData> movementStatisticData)
+        private void Execute(
+            ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
+            RefRO<MovementStatisticData> movementStatisticData,
+            in DynamicBuffer<NPCStrategyBuffer> strategyBuffer)
         {
-            // movement parameters
+            // acquire current strategy
+            var currentStrategyType = NPCStrategyType.NoStrategy;
+            foreach (var strategy in strategyBuffer)
+            {
+                if (strategy.Active)
+                {
+                    currentStrategyType = strategy.StrategyType;
+                    break;
+                }
+            }
+            if (currentStrategyType == NPCStrategyType.NoStrategy)
+            {
+                return;
+            }
+            // animator parameters
             var moveSpeedParameterName = (FixedString32Bytes)"MoveSpeed";
+            var attackingParameterName = (FixedString32Bytes)"Attacking";
+            var dieParameterName = (FixedString32Bytes)"Die";
+            bool2 allfound = new bool2();
             for (int i = 0; i < parameters.Length; i++)
             {
                 var parameter = parameters[i];
@@ -48,6 +70,14 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
                 {
                     parameter.NumericValue = movementStatisticData.ValueRO.Speed;
                     parameters[i] = parameter;
+                    allfound.x = true;
+                }
+                if (parameter.ParameterName == attackingParameterName)
+                {
+                    allfound.y = true;
+                }
+                if (allfound.x || allfound.y)
+                {
                     break;
                 }
             }
