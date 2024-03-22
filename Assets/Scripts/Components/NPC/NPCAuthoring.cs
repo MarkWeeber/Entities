@@ -23,6 +23,8 @@ public class NPCAuthoring : MonoBehaviour
     private float SphereCastRadius = 5f;
     [SerializeField]
     private float2 Fov = new float2(45f, 10f);
+    [SerializeField]
+    private PhysicsCategoryTags DisregardColliders;
     class Baker : Baker<NPCAuthoring>
     {
         public override void Bake(NPCAuthoring authoring)
@@ -54,12 +56,18 @@ public class NPCAuthoring : MonoBehaviour
             {
                 FOV = authoring.Fov,
                 SpherCastRadius = authoring.SphereCastRadius,
-                VisionOffset = visionOffset
+                VisionOffset = visionOffset,
+                DisregardTags = authoring.DisregardColliders
             });
             AddComponent(entity, new MovementStatisticData
             {
                 Speed = 0f,
                 Velocity = float3.zero
+            });
+            var seed = (uint)UnityEngine.Random.Range(1, uint.MaxValue);
+            AddComponent(entity, new RandomComponent
+            {
+                Random = new Unity.Mathematics.Random(seed)
             });
         }
     }

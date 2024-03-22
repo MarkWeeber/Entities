@@ -7,6 +7,7 @@ public struct NPCStrategyBuffer : IBufferElementData
 {
     public bool Active;
     public float StrategyValue;
+    public float StrategyMoveSpeedMultiplier;
     public float MinWaitTime;
     public float MaxWaitTime;
     public NPCStrategyType StrategyType;
@@ -16,7 +17,6 @@ public struct NPCStrategyBuffer : IBufferElementData
 public enum NPCStrategyType
 {
     NoStrategy = 0,
-    Wander = 1,
-    Attack = 2,
-    LookForHealth = 3
+    LookForPlayer = 1,
+    FleeForHealth = 2
 }

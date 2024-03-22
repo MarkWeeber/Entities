@@ -461,7 +461,7 @@ PrefabInstance:
     - target: {fileID: 1106566206694424052, guid: 27c1f027906eac54b8a2d1faef837ecd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.59
+      value: 0.40999985
       objectReference: {fileID: 0}
     - target: {fileID: 1106566206694424052, guid: 27c1f027906eac54b8a2d1faef837ecd,
         type: 3}
@@ -471,7 +471,7 @@ PrefabInstance:
     - target: {fileID: 1106566206694424052, guid: 27c1f027906eac54b8a2d1faef837ecd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.68
+      value: 16.68
       objectReference: {fileID: 0}
     - target: {fileID: 1106566206694424052, guid: 27c1f027906eac54b8a2d1faef837ecd,
         type: 3}
@@ -802,7 +802,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 0
+      m_Value: 1
     m_Friction:
       m_Override: 0
       m_Value:

@@ -66,14 +66,11 @@ public partial struct NPCMovementSystem : ISystem
                     movementStatisticData.ValueRW.Speed = 0f;
                     movementStatisticData.ValueRW.Velocity = float3.zero;
                     movementStatisticData.ValueRW.DestinationReached = true;
-                    if (npcMovement.ValueRO.WaitTimer <= 0f)
+                    if (npcMovement.ValueRO.TargetVisionState == NPCTargetVisionState.Visible)
                     {
-                        if (npcMovement.ValueRO.TargetVisionState == NPCTargetVisionState.Lost)
-                        {
-                            npcMovement.ValueRW.TargetVisionState = NPCTargetVisionState.NonVisible;
-                        }
+                        npcMovement.ValueRW.WaitTimer = 0f;
                     }
-                    else
+                    else if (npcMovement.ValueRO.WaitTimer > 0f)
                     {
                         npcMovement.ValueRW.WaitTimer -= DeltaTime;
                     }

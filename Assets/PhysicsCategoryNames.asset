@@ -16,8 +16,8 @@ MonoBehaviour:
   - Player
   - Object
   - Enemy
-  - 
-  - 
+  - Health
+  - AreaAffector
   - 
   - 
   - 

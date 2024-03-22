@@ -25,7 +25,8 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
              AnimatorActorComponent,
              AnimatorActorParametersBuffer,
              MovementStatisticData,
-             NPCStrategyBuffer>()
+             NPCMovementComponent,
+             NPCStrategyBuffer >()
             .Build();
 
         if (acrtorsQuery.CalculateEntityCount() < 1)
@@ -42,6 +43,7 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
         private void Execute(
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
             RefRO<MovementStatisticData> movementStatisticData,
+            RefRO<NPCMovementComponent> npcMovementComponent,
             in DynamicBuffer<NPCStrategyBuffer> strategyBuffer)
         {
             // acquire current strategy
@@ -62,21 +64,29 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
             var moveSpeedParameterName = (FixedString32Bytes)"MoveSpeed";
             var attackingParameterName = (FixedString32Bytes)"Attacking";
             var dieParameterName = (FixedString32Bytes)"Die";
-            bool2 allfound = new bool2();
+            bool3 allfound = new bool3();
             for (int i = 0; i < parameters.Length; i++)
             {
                 var parameter = parameters[i];
                 if (parameter.ParameterName == moveSpeedParameterName)
                 {
-                    parameter.NumericValue = movementStatisticData.ValueRO.Speed;
-                    parameters[i] = parameter;
                     allfound.x = true;
+                    parameter.NumericValue = movementStatisticData.ValueRO.Speed;
                 }
                 if (parameter.ParameterName == attackingParameterName)
                 {
                     allfound.y = true;
+                    parameter.BoolValue = false;
+                    if (
+                        currentStrategyType == NPCStrategyType.LookForPlayer
+                        && movementStatisticData.ValueRO.DestinationReached
+                        && npcMovementComponent.ValueRO.TargetVisionState == NPCTargetVisionState.Visible)
+                    {
+                        parameter.BoolValue = true;
+                    }
                 }
-                if (allfound.x || allfound.y)
+                parameters[i] = parameter;
+                if (allfound.x && allfound.y && allfound.z)
                 {
                     break;
                 }
