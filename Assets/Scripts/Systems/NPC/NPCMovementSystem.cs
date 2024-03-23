@@ -51,7 +51,7 @@ public partial struct NPCMovementSystem : ISystem
                 var distance = math.distance(targetPosition, localPosition);
                 var moveDirection = math.normalize(targetPosition - localPosition);
                 moveDirection.y = 0f;
-                if (distance > npcMovement.ValueRO.MinDistance) // moving while distance not reached minimal
+                if (distance > npcMovement.ValueRO.TargetReachMinDistance) // moving while distance not reached minimal
                 {
                     var speed = npcMovement.ValueRO.MovementSpeedMultiplier * movementData.ValueRO.MoveSpeed;
                     var positionDelta = moveDirection * speed * DeltaTime;
@@ -60,20 +60,22 @@ public partial struct NPCMovementSystem : ISystem
                     movementStatisticData.ValueRW.Speed = speed;
                     movementStatisticData.ValueRW.Velocity = positionDelta;
                     movementStatisticData.ValueRW.DestinationReached = false;
+                    npcMovement.ValueRW.DestinationReached = false;
                 }
                 else // reached target
                 {
-                    movementStatisticData.ValueRW.Speed = 0f;
-                    movementStatisticData.ValueRW.Velocity = float3.zero;
-                    movementStatisticData.ValueRW.DestinationReached = true;
                     if (npcMovement.ValueRO.TargetVisionState == NPCTargetVisionState.Visible)
                     {
                         npcMovement.ValueRW.WaitTimer = 0f;
                     }
-                    else if (npcMovement.ValueRO.WaitTimer > 0f)
+                    if (npcMovement.ValueRO.WaitTimer > 0f)
                     {
                         npcMovement.ValueRW.WaitTimer -= DeltaTime;
                     }
+                    movementStatisticData.ValueRW.Speed = 0f;
+                    movementStatisticData.ValueRW.Velocity = float3.zero;
+                    movementStatisticData.ValueRW.DestinationReached = true;
+                    npcMovement.ValueRW.DestinationReached = true;
                 }
                 var currentRotation = localTransform.ValueRO.Rotation;
                 var targetRotation = quaternion.LookRotation(moveDirection, math.up());

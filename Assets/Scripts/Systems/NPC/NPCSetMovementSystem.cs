@@ -12,11 +12,9 @@ using UnityEngine;
 [UpdateBefore(typeof(PhysicsSystemGroup))]
 public partial struct NPCSetMovementSystem : ISystem
 {
-    private ComponentLookup<LocalToWorld> localToWorldLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -31,8 +29,7 @@ public partial struct NPCSetMovementSystem : ISystem
                 NPCVisionSettings,
                 NPCMovementComponent,
                 LocalToWorld,
-                RandomComponent,
-                PhysicsCollider
+                RandomComponent
             >().Build();
         int entityCount = colliders.CalculateEntityCount();
         if (entityCount < 1)
@@ -40,11 +37,9 @@ public partial struct NPCSetMovementSystem : ISystem
             return;
         }
         CollisionWorld collisionWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
-        localToWorldLookup.Update(ref state);
         state.Dependency = new VisionCastJob
         {
-            CollisionWorld = collisionWorld,
-            LocalToWorldLookup = localToWorldLookup
+            CollisionWorld = collisionWorld
         }.ScheduleParallel(colliders, state.Dependency);
     }
 
@@ -53,8 +48,6 @@ public partial struct NPCSetMovementSystem : ISystem
     {
         [ReadOnly]
         public CollisionWorld CollisionWorld;
-        [ReadOnly]
-        public ComponentLookup<LocalToWorld> LocalToWorldLookup;
         [BurstCompile]
         private void Execute(
             in DynamicBuffer<NPCStrategyBuffer> strategyBuffer,
@@ -62,17 +55,16 @@ public partial struct NPCSetMovementSystem : ISystem
             RefRO<LocalToWorld> localToWorld,
             RefRW<NPCMovementComponent> npcMovementComponent,
             RefRW<RandomComponent> randomComponent,
-            PhysicsCollider physicsCollider,
             Entity entity)
         {
             var randomVector = new float3(randomComponent.ValueRW.Random.NextFloat(-1f, 1f), 0f, randomComponent.ValueRW.Random.NextFloat(-1f, 1f));
             randomVector = math.normalize(randomVector);
-            var randomRange = randomComponent.ValueRW.Random.NextFloat(0f, 1f);
+            var randomRange1 = randomComponent.ValueRW.Random.NextFloat(0f, 1f);
+            var randomRange2 = randomComponent.ValueRW.Random.NextFloat(0f, 1f);
             bool targetIsVisible = false;
             var targetDestination = float3.zero;
             var currentStrategy = new NPCStrategyBuffer();
-            var currentLayerTags = physicsCollider.Value.Value.GetCollisionFilter().BelongsTo;
-            var exludeLayerTags = currentLayerTags | npcVisionData.ValueRO.DisregardTags.Value;
+            var exludeLayerTags = npcVisionData.ValueRO.DisregardTags.Value;
             var targetLayerTags = uint.MaxValue ^ exludeLayerTags;
             foreach (var strategy in strategyBuffer)
             {
@@ -100,14 +92,15 @@ public partial struct NPCSetMovementSystem : ISystem
             }
             else // player not visible, wander more
             {
-                if (npcMovementComponent.ValueRO.WaitTimer <= 0f)
+                if (npcMovementComponent.ValueRO.WaitTimer <= 0f && npcMovementComponent.ValueRO.DestinationReached)
                 {
                     if (SetRandomDestination(
                         localToWorld,
                         npcVisionData,
                         ref targetDestination,
                         randomVector,
-                        npcMovementComponent.ValueRO.WanderDistance,
+                        randomRange2,
+                        currentStrategy,
                         targetLayerTags))
                     {
                         npcMovementComponent.ValueRW.TargetVisionState = NPCTargetVisionState.Lost;
@@ -119,7 +112,7 @@ public partial struct NPCSetMovementSystem : ISystem
             {
                 npcMovementComponent.ValueRW.Destination = targetDestination;
                 npcMovementComponent.ValueRW.WaitTimer
-                    = currentStrategy.MinWaitTime + (math.distance(currentStrategy.MinWaitTime, currentStrategy.MaxWaitTime) * randomRange);
+                    = currentStrategy.MinWaitTime + (math.abs(currentStrategy.MinWaitTime - currentStrategy.MaxWaitTime) * randomRange1);
             }
         }
 
@@ -145,14 +138,7 @@ public partial struct NPCSetMovementSystem : ISystem
                 foreach (var hit in hits)
                 {
                     var targetPosition = float3.zero;
-                    if (LocalToWorldLookup.TryGetComponent(hit.Entity, out LocalToWorld _localToWorld))
-                    {
-                        targetPosition = _localToWorld.Position + originOffset;
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    targetPosition = hit.Position;
                     var hitDirection = targetPosition - originStart;
                     var xDirection = new float3(0f, hitDirection.y, 0f);
                     var yDirection = new float3(hitDirection.x, 0f, hitDirection.z);
@@ -171,23 +157,28 @@ public partial struct NPCSetMovementSystem : ISystem
                             End = targetPosition,
                             Filter = _collisionFilter
                         };
-                        Debug.DrawLine(originStart, targetPosition, Color.red);
                         var rayCastHits = new NativeList<Unity.Physics.RaycastHit>(Allocator.Temp);
                         if (CollisionWorld.CastRay(raycastInput, ref rayCastHits)) // check if no obstacles in vision way
                         {
                             for (int i = 0; i < rayCastHits.Length; i++)
                             {
-                                if (rayCastHits[i].Entity == hit.Entity)
+                                if (rayCastHits[i].Entity == entity || rayCastHits[i].Entity == hit.Entity)
                                 {
                                     targetDestination = targetPosition;
                                     result = true;
-                                    break;
                                 }
-                                if (rayCastHits[i].Entity != hit.Entity && rayCastHits[i].Entity != entity)
+                                else
                                 {
+                                    targetDestination = float3.zero;
+                                    result = false;
                                     break;
                                 }
                             }
+                        }
+                        else
+                        {
+                            targetDestination = targetPosition;
+                            result = true;
                         }
                         rayCastHits.Dispose();
                     }
@@ -198,13 +189,13 @@ public partial struct NPCSetMovementSystem : ISystem
         }
 
         [BurstCompile]
-        private bool CheckIfNoObstaclesInWay(float3 origin, float3 target, uint excludeCurrentLayer)
+        private bool CheckIfNoObstaclesInWay(float3 origin, float3 target, uint targetLayerTags)
         {
             bool result = false;
             var collisionFilter = new CollisionFilter
             {
                 BelongsTo = uint.MaxValue,
-                CollidesWith = excludeCurrentLayer
+                CollidesWith = targetLayerTags
             };
             var raycastInput = new RaycastInput()
             {
@@ -226,13 +217,16 @@ public partial struct NPCSetMovementSystem : ISystem
             RefRO<NPCVisionSettings> npcVisionData,
             ref float3 target,
             float3 randomVector,
-            float minDistance,
-            uint excludeCurrentLayer)
+            float randomRange2,
+            NPCStrategyBuffer currentStrategy,
+            uint targetLayerTags)
         {
             bool result = false;
             var origin = localToWorld.ValueRO.Position + npcVisionData.ValueRO.VisionOffset;
-            target = origin + randomVector * minDistance;
-            result = CheckIfNoObstaclesInWay(origin, target, excludeCurrentLayer);
+            var multiplier = currentStrategy.MinWanderRange + math.abs(currentStrategy.MaxWanderRange - currentStrategy.MinWanderRange) * randomRange2;
+            multiplier = math.clamp(multiplier, 0.01f, multiplier);
+            target = origin + randomVector * multiplier;
+            result = CheckIfNoObstaclesInWay(origin, target, targetLayerTags);
             return result;
         }
     }

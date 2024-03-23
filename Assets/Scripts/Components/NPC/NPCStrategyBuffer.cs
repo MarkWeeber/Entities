@@ -10,6 +10,8 @@ public struct NPCStrategyBuffer : IBufferElementData
     public float StrategyMoveSpeedMultiplier;
     public float MinWaitTime;
     public float MaxWaitTime;
+    public float MinWanderRange;
+    public float MaxWanderRange;
     public NPCStrategyType StrategyType;
     public PhysicsCategoryTags TargetCollider;
 }

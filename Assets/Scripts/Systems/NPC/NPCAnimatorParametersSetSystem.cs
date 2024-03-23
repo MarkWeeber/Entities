@@ -7,6 +7,7 @@ using Unity.Transforms;
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
 [UpdateBefore(typeof(AnimatorAnimateSystem))]
+[UpdateAfter(typeof(NPCMovementSystem))]
 public partial struct NPCAnimatorParametersSetSystem : ISystem
 {
     [BurstCompile]

@@ -352,12 +352,14 @@ MonoBehaviour:
     StrategyMoveSpeedMultiplier: 1
     MinWaitTime: 1
     MaxWaitTime: 3
+    MinWanderRange: 1
+    MaxWanderRange: 5
     StrategyType: 1
     TargetCollider:
-      Category00: 0
+      Category00: 1
       Category01: 0
       Category02: 0
-      Category03: 1
+      Category03: 0
       Category04: 0
       Category05: 0
       Category06: 0
@@ -391,6 +393,8 @@ MonoBehaviour:
     StrategyMoveSpeedMultiplier: 2
     MinWaitTime: 0
     MaxWaitTime: 0
+    MinWanderRange: 0
+    MaxWanderRange: 0
     StrategyType: 2
     TargetCollider:
       Category00: 0
@@ -425,19 +429,18 @@ MonoBehaviour:
       Category29: 0
       Category30: 0
       Category31: 0
-  ReachMinDistance: 1
-  WanderMinDistance: 3
-  MoveSpeed: 1.2
+  TargetReachMinDistance: 1
+  MoveSpeed: 0.7
   TurnSpeed: 25
   visionTransform: {fileID: 1232058991771619611}
   SphereCastRadius: 5
   Fov:
     x: 45
-    y: 30
+    y: 45
   DisregardColliders:
     Category00: 0
     Category01: 0
-    Category02: 0
+    Category02: 1
     Category03: 0
     Category04: 1
     Category05: 0
