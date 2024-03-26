@@ -13,6 +13,9 @@ using UnityEngine;
 [UpdateBefore(typeof(PhysicsSystemGroup))]
 public partial struct ProjectileCollisionAbilitiesSystem : ISystem
 {
+    private ComponentLookup<EnemyTag> enemyLookup;
+    private ComponentLookup<HealthData> healthLookup;
+    private ComponentLookup<ProjectileComponent> projectileLookup;
     private ComponentLookup<BouncyProjectileTag> bouncyLookup;
     private ComponentLookup<DestructibleProjectileTag> destructibleLookup;
     private ComponentLookup<LocalTransform> localTransformLookup;
@@ -20,8 +23,11 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        bouncyLookup = state.GetComponentLookup<BouncyProjectileTag>(false);
-        destructibleLookup = state.GetComponentLookup<DestructibleProjectileTag>(false);
+        projectileLookup = state.GetComponentLookup<ProjectileComponent>(true);
+        enemyLookup = state.GetComponentLookup<EnemyTag>(true);
+        healthLookup = state.GetComponentLookup<HealthData>(false);
+        bouncyLookup = state.GetComponentLookup<BouncyProjectileTag>(true);
+        destructibleLookup = state.GetComponentLookup<DestructibleProjectileTag>(true);
         localTransformLookup = state.GetComponentLookup<LocalTransform>(false);
     }
     [BurstCompile]
@@ -32,31 +38,73 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
-        EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.TempJob);
+        EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         bouncyLookup.Update(ref state);
         destructibleLookup.Update(ref state);
         localTransformLookup.Update(ref state);
+        projectileLookup.Update(ref state);
+        enemyLookup.Update(ref state);
+        healthLookup.Update(ref state);
         ProjectileCollisionJob projectileCollisionJob = new ProjectileCollisionJob
         {
-            EntityCommandBuffer = entityCommandBuffer,
+            EntityCommandBuffer = ecb,
+            ProjectileLookup = projectileLookup,
+            HealthLookup = healthLookup,
+            EnemyLookup = enemyLookup,
             BouncyLookup = bouncyLookup,
             DestructibleLookup = destructibleLookup,
             LocalTransformLookup = localTransformLookup
         };
         JobHandle jobHandle = projectileCollisionJob.Schedule(simulation, state.Dependency);
         jobHandle.Complete();
-        entityCommandBuffer.Playback(state.EntityManager);
-        entityCommandBuffer.Dispose();
+        ecb.Playback(state.EntityManager);
+        ecb.Dispose();
     }
     [BurstCompile]
     private partial struct ProjectileCollisionJob : ICollisionEventsJob
     {
         public EntityCommandBuffer EntityCommandBuffer;
-        public ComponentLookup<BouncyProjectileTag> BouncyLookup;
-        public ComponentLookup<DestructibleProjectileTag> DestructibleLookup;
+        [ReadOnly] public ComponentLookup<ProjectileComponent> ProjectileLookup;
+        [ReadOnly] public ComponentLookup<EnemyTag> EnemyLookup;
+        public ComponentLookup<HealthData> HealthLookup;
+        [ReadOnly] public ComponentLookup<BouncyProjectileTag> BouncyLookup;
+        [ReadOnly] public ComponentLookup<DestructibleProjectileTag> DestructibleLookup;
         public ComponentLookup<LocalTransform> LocalTransformLookup;
         [BurstCompile]
         public void Execute(CollisionEvent collisionEvent)
+        {
+            ManageHitOnEnemyCollisionEvent(collisionEvent);
+            ManageReflectionProjectiles(collisionEvent);
+            ManageSelfDestructProjectiles(collisionEvent);
+        }
+
+        [BurstCompile]
+        private void ManageHitOnEnemyCollisionEvent(CollisionEvent collisionEvent)
+        {
+            if (EnemyLookup.HasComponent(collisionEvent.EntityA) && ProjectileLookup.HasComponent(collisionEvent.EntityB))
+            {
+                Debug.Log("AA");
+                if (HealthLookup.HasComponent(collisionEvent.EntityA))
+                {
+                    var damageValue = ProjectileLookup.GetRefRO(collisionEvent.EntityB).ValueRO.Damage;
+                    HealthLookup.GetRefRW(collisionEvent.EntityA).ValueRW.CurrentHealth -= damageValue;
+                    Debug.Log("A");
+                }
+            }
+            if (EnemyLookup.HasComponent(collisionEvent.EntityB) && ProjectileLookup.HasComponent(collisionEvent.EntityA))
+            {
+                Debug.Log("BB");
+                if (HealthLookup.HasComponent(collisionEvent.EntityB))
+                {
+                    var damageValue = ProjectileLookup.GetRefRO(collisionEvent.EntityA).ValueRO.Damage;
+                    HealthLookup.GetRefRW(collisionEvent.EntityB).ValueRW.CurrentHealth -= damageValue;
+                    Debug.Log("B");
+                }
+            }
+        }
+
+        [BurstCompile]
+        private void ManageReflectionProjectiles(CollisionEvent collisionEvent)
         {
             if (BouncyLookup.HasComponent(collisionEvent.EntityA))
             {
@@ -66,6 +114,11 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
             {
                 ReflectEntity(collisionEvent.EntityB, collisionEvent.Normal);
             }
+        }
+
+        [BurstCompile]
+        private void ManageSelfDestructProjectiles(CollisionEvent collisionEvent)
+        {
             if (DestructibleLookup.HasComponent(collisionEvent.EntityA))
             {
                 EntityCommandBuffer.DestroyEntity(collisionEvent.EntityA);
@@ -76,6 +129,7 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
             }
         }
 
+        [BurstCompile]
         private void ReflectEntity(Entity entity, float3 normal)
         {
             RefRW<LocalTransform> localTransform = LocalTransformLookup.GetRefRW(entity);

@@ -23,6 +23,10 @@ public class NPCAuthoring : MonoBehaviour
     private float2 Fov = new float2(45f, 10f);
     [SerializeField]
     private PhysicsCategoryTags DisregardColliders;
+    [SerializeField]
+    private float MaxHealth = 100f;
+    [SerializeField]
+    private float CurrentHealth = 100f;
     class Baker : Baker<NPCAuthoring>
     {
         public override void Bake(NPCAuthoring authoring)
@@ -66,6 +70,12 @@ public class NPCAuthoring : MonoBehaviour
             AddComponent(entity, new RandomComponent
             {
                 Random = new Unity.Mathematics.Random(seed)
+            });
+            AddComponent(entity, new EnemyTag());
+            AddComponent(entity, new HealthData
+            {
+                CurrentHealth = authoring.CurrentHealth,
+                MaxHealth = authoring.MaxHealth
             });
         }
     }

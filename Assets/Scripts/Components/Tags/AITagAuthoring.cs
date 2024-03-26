@@ -9,7 +9,7 @@ public class AITagAuthoring : MonoBehaviour
 		public override void Bake(AITagAuthoring authoring)
 		{
 			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-			AddComponent(entity, new AITag { });
+			AddComponent(entity, new EnemyTag { });
 		}
 	}
 }

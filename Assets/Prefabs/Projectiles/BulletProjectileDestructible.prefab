@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2495186409851419084}
   - component: {fileID: 2171144721167886581}
   - component: {fileID: 4817941925314009129}
-  - component: {fileID: 1971882750860030452}
   - component: {fileID: 3703777867403406541}
   - component: {fileID: 2802774773000406327}
   - component: {fileID: 7694939389758262730}
+  - component: {fileID: 8314532761165208347}
   m_Layer: 0
   m_Name: BulletProjectileDestructible
   m_TagString: Untagged
@@ -87,18 +87,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2386077449088110599}
   m_Mesh: {fileID: 4300000, guid: 6e07b6d7f19e5a2408a65d41e4e91b0f, type: 2}
---- !u!114 &1971882750860030452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2386077449088110599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c160ecd13b0e34296cb51ca629c819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3703777867403406541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,3 +256,16 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
+--- !u!114 &8314532761165208347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386077449088110599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01642be7107d33d4ebc5c862c23a510a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 12

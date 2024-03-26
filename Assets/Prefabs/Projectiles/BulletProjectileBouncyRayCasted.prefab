@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 1878818196854708203}
   - component: {fileID: 7838849089377498295}
   - component: {fileID: 8186197727095642466}
-  - component: {fileID: 5022760840105505426}
   - component: {fileID: 8841559198917967682}
   - component: {fileID: 6212690987162271359}
   - component: {fileID: 3008709797410801095}
   - component: {fileID: 5781285205342892285}
   - component: {fileID: 666558383329378241}
+  - component: {fileID: 8280586845203055359}
   m_Layer: 0
   m_Name: BulletProjectileBouncyRayCasted
   m_TagString: Untagged
@@ -89,18 +89,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7256339574630478394}
   m_Mesh: {fileID: 4300000, guid: 6e07b6d7f19e5a2408a65d41e4e91b0f, type: 2}
---- !u!114 &5022760840105505426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7256339574630478394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c160ecd13b0e34296cb51ca629c819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8841559198917967682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +163,7 @@ MonoBehaviour:
   CollidesWith:
     Category00: 0
     Category01: 1
-    Category02: 0
+    Category02: 1
     Category03: 0
     Category04: 0
     Category05: 0
@@ -362,3 +350,16 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
+--- !u!114 &8280586845203055359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256339574630478394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01642be7107d33d4ebc5c862c23a510a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 12
