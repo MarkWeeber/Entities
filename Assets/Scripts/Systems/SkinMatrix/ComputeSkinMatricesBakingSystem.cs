@@ -46,7 +46,6 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
         JobHandle addBoneAndRootTagsJobHandle = addBoneAndRootTagsJob.ScheduleParallel(deformationEntities, state.Dependency);
         addBoneAndRootTagsJobHandle.Complete();
 
-
         OverrideMaterialColorJob overrideMaterialColorJob = new OverrideMaterialColorJob
         {
             ParallelWriter = parallelWriter,

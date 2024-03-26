@@ -59,7 +59,6 @@ public partial struct CalculateSkinMatrixSystem : ISystem
             RootWorldToLocal = rootWorldToLocal
         };
         state.Dependency = calculateSkinMatricesJob.ScheduleParallel(state.Dependency);
-
         state.Dependency = JobHandle.CombineDependencies(bonesLocalToWorld.Dispose(state.Dependency), rootWorldToLocal.Dispose(state.Dependency));
     }
 

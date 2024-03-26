@@ -83,22 +83,18 @@ public partial struct ProjectileCollisionAbilitiesSystem : ISystem
         {
             if (EnemyLookup.HasComponent(collisionEvent.EntityA) && ProjectileLookup.HasComponent(collisionEvent.EntityB))
             {
-                Debug.Log("AA");
                 if (HealthLookup.HasComponent(collisionEvent.EntityA))
                 {
                     var damageValue = ProjectileLookup.GetRefRO(collisionEvent.EntityB).ValueRO.Damage;
                     HealthLookup.GetRefRW(collisionEvent.EntityA).ValueRW.CurrentHealth -= damageValue;
-                    Debug.Log("A");
                 }
             }
             if (EnemyLookup.HasComponent(collisionEvent.EntityB) && ProjectileLookup.HasComponent(collisionEvent.EntityA))
             {
-                Debug.Log("BB");
                 if (HealthLookup.HasComponent(collisionEvent.EntityB))
                 {
                     var damageValue = ProjectileLookup.GetRefRO(collisionEvent.EntityA).ValueRO.Damage;
                     HealthLookup.GetRefRW(collisionEvent.EntityB).ValueRW.CurrentHealth -= damageValue;
-                    Debug.Log("B");
                 }
             }
         }

@@ -13,9 +13,13 @@ using UnityEngine;
 [UpdateAfter(typeof(PhysicsSystemGroup))]
 public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
 {
+    private ComponentLookup<EnemyTag> enemyLookup;
+    private ComponentLookup<HealthData> healthLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        enemyLookup = state.GetComponentLookup<EnemyTag>(true);
+        healthLookup = state.GetComponentLookup<HealthData>(false);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -28,34 +32,41 @@ public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
         EntityQuery bouncyProjectilesQuery = SystemAPI.QueryBuilder().WithAll<RayCastData, LocalTransform, BouncyProjectileTag>().Build();
         new BounceOnRayCastHitJob { }.ScheduleParallel(bouncyProjectilesQuery);
 
+        // raycasted damage dealing projectiles
+        var damagingProjectiles = SystemAPI.QueryBuilder().WithAll<RayCastData, ProjectileComponent>().Build();
+        enemyLookup.Update(ref state);
+        healthLookup.Update(ref state);
+        var projectileDealDamageJobHandle = new ProjectileDealDamageJob
+        {
+            EnemyLookup = enemyLookup,
+            HealthLookup = healthLookup
+        }.Schedule(damagingProjectiles, state.Dependency);
+
         // raycasted self-descruct projectiles
         EntityQuery selfDestructProjectilesQuery = SystemAPI.QueryBuilder().WithAll<RayCastData, DestructibleProjectileTag>().Build();
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
-        EntityCommandBuffer.ParallelWriter parallelWriter = ecb.AsParallelWriter();
-        DestructOnRayCastHitJob destructOnRayCastHitJob = new DestructOnRayCastHitJob
+        var destructOnRayCastHitJobHandle = new DestructOnRayCastHitJob
         {
-            ParallelWriter = parallelWriter,
-        };
-        JobHandle destructingRayCastsHandle = destructOnRayCastHitJob.ScheduleParallel(selfDestructProjectilesQuery, state.Dependency);
-        destructingRayCastsHandle.Complete();
+            ECB = ecb,
+        }.Schedule(selfDestructProjectilesQuery, projectileDealDamageJobHandle);
+        destructOnRayCastHitJobHandle.Complete();
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
     }
     [BurstCompile]
     private partial struct DestructOnRayCastHitJob : IJobEntity
     {
-        internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        public EntityCommandBuffer ECB;
         [BurstCompile]
         private void Execute
             (
-                [ChunkIndexInQuery] int sortKey,
                 Entity entity,
                 RefRO<RayCastData> rayCastData
             )
         {
             if (rayCastData.ValueRO.RaycastHit.Entity != Entity.Null)
             {
-                ParallelWriter.DestroyEntity(sortKey, entity);
+                ECB.DestroyEntity(entity);
             }
         }
     }
@@ -75,6 +86,27 @@ public partial struct ProjectileRaycastedAbilitiesSystem : ISystem
                 float3 reflectionDirection = math.reflect(localTransform.ValueRO.Forward(), rayCastData.ValueRO.RaycastHit.SurfaceNormal);
                 quaternion reflectedRotation = quaternion.LookRotation(reflectionDirection, math.up());
                 localTransform.ValueRW.Rotation = reflectedRotation;
+            }
+        }
+    }
+
+    [BurstCompile]
+    private partial struct ProjectileDealDamageJob : IJobEntity
+    {
+        [ReadOnly] public ComponentLookup<EnemyTag> EnemyLookup;
+        public ComponentLookup<HealthData> HealthLookup;
+        [BurstCompile]
+        private void Execute(RefRO<RayCastData> raycastData, RefRO<ProjectileComponent> projectileComponent)
+        {
+            var hitEntity = raycastData.ValueRO.RaycastHit.Entity;
+            if (EnemyLookup.HasComponent(hitEntity))
+            {
+                if (HealthLookup.HasComponent(hitEntity))
+                {
+                    var healthData = HealthLookup.GetRefRW(hitEntity);
+                    healthData.ValueRW.CurrentHealth =
+                        math.clamp(healthData.ValueRO.CurrentHealth - projectileComponent.ValueRO.Damage, 0f, healthData.ValueRO.MaxHealth);
+                }
             }
         }
     }
