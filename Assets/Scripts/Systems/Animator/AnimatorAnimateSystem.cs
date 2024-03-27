@@ -30,7 +30,6 @@ public partial struct AnimatorAnimateSystem : ISystem
             .WithAll<
              AnimatorActorComponent,
              AnimatorActorParametersBuffer,
-             AnimatorActorPartBufferComponent,
              AnimatorActorLayerBuffer>()
             .Build();
 
@@ -50,17 +49,20 @@ public partial struct AnimatorAnimateSystem : ISystem
             float deltaTime = SystemAPI.Time.DeltaTime;
             localTransformLookup.Update(ref state);
 
-            state.Dependency = new ProcessAnimatorsJob
+            var processAnimatorJobHandle = new ProcessAnimatorsJob
             {
                 States = states,
                 Transitions = transitions,
                 AnyStateTransitions = anyStateTransitions,
                 Conditions = conditions,
-                AnimationBlob = animationBlob,
                 LocalTransformLookup = localTransformLookup,
                 DeltaTime = deltaTime
             }.ScheduleParallel(acrtorsQuery, state.Dependency);
 
+            state.Dependency = new ProcessAnimationEventsJob
+            {
+                AnimationBlob = animationBlob
+            }.ScheduleParallel(acrtorsQuery, processAnimatorJobHandle);
 
             animationBlob.Dispose();
             states.Dispose();
@@ -82,15 +84,11 @@ public partial struct AnimatorAnimateSystem : ISystem
         [ReadOnly]
         public NativeArray<TransitionCondtionBuffer> Conditions;
         [ReadOnly]
-        public NativeArray<AnimationBlobBuffer> AnimationBlob;
-        [ReadOnly]
         public ComponentLookup<LocalTransform> LocalTransformLookup;
         public float DeltaTime;
         [BurstCompile]
         public void Execute(
-            [ChunkIndexInQuery] int sortKey,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
-            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             ref DynamicBuffer<AnimatorActorLayerBuffer> layers,
             RefRO<AnimatorActorComponent> animatorActorComponent
             )
@@ -99,10 +97,8 @@ public partial struct AnimatorAnimateSystem : ISystem
             {
                 var layer = layers[layerIndex];
                 ProcessLayer(
-                    sortKey,
                     ref layer,
                     ref parameters,
-                    ref parts,
                     DeltaTime,
                     animatorActorComponent.ValueRO.AnimatorId);
                 layers[layerIndex] = layer;
@@ -111,10 +107,8 @@ public partial struct AnimatorAnimateSystem : ISystem
 
         [BurstCompile]
         private void ProcessLayer(
-            int sortKey,
             ref AnimatorActorLayerBuffer layer,
             ref DynamicBuffer<AnimatorActorParametersBuffer> parameters,
-            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts,
             float deltaTime,
             int animatorInstanceId
             )
@@ -391,261 +385,34 @@ public partial struct AnimatorAnimateSystem : ISystem
                 }
             }
         }
+    }
 
+    [BurstCompile]
+    private partial struct ProcessAnimationEventsJob : IJobEntity
+    {
+        [ReadOnly]
+        public NativeArray<AnimationBlobBuffer> AnimationBlob;
         [BurstCompile]
-        private void AnimateParts(
-            int sortKey,
-            ref AnimatorActorLayerBuffer layer,
-            ref DynamicBuffer<AnimatorActorPartBufferComponent> parts)
+        private void Execute(in DynamicBuffer<AnimatorActorLayerBuffer> layers)
         {
-            float transitionRate = -1f;
-            layer.TransitionRate = 0;
-            if (layer.IsInTransition && layer.FirstOffsetTimer <= 0f)
+            foreach (var layer in layers)
             {
-                transitionRate = (layer.TransitionDuration - layer.TransitionTimer) / layer.TransitionDuration;
-                transitionRate = math.clamp(transitionRate, 0f, 1f);
-                layer.TransitionRate = transitionRate;
-            }
-            int currentAnimationId = layer.CurrentAnimationId;
-            int nextAnimationId = layer.NextAnimationId;
-            bool isInTransition = layer.IsInTransition;
-            int currentAnimIndex = 0;
-            int nextAnimIndex = 0;
-            bool currentFound = false;
-            bool nextFound = false;
-            for (int i = 0; i < AnimationBlob.Length; i++)
-            {
-                var animationBlob = AnimationBlob[i];
-                if (animationBlob.Id == currentAnimationId)
+                if (!layer.IsInTransition)
                 {
-                    currentAnimIndex = i;
-                    currentFound = true;
-                }
-                if (isInTransition && animationBlob.Id == nextAnimationId)
-                {
-                    nextAnimIndex = i;
-                    nextFound = true;
-                }
-                if (currentFound)
-                {
-                    if (isInTransition)
+                    var currentTime = layer.CurrentAnimationTime;
+                    var currentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
+                    var animationBlob = AnimationBlob[currentAnimationBlobIndex];
+                    ref var events = ref animationBlob.AnimationEventsData.Value.EventsData;
+                    for (int i = 0; i < events.Length; i++)
                     {
-                        if (nextFound)
+                        var time = events[i].Time;
+                        if (time > currentTime)
                         {
-                            break;
+                            Debug.Log($"Time: {time} Event: {events[i].EventName.ToString()}");
                         }
                     }
-                    else
-                    {
-                        break;
-                    }
                 }
             }
-            //ref RotationsPool currentRotationsPool = ref AnimationBlob[currentAnimIndex].Rotations.Value;
-            //ref RotationsPool nextRotationsPool = ref AnimationBlob[nextAnimIndex].Rotations.Value;
-            //ref PositionsPool currentPositionsPool = ref AnimationBlob[currentAnimIndex].Position.Value;
-            //ref PositionsPool nextPositionsPool = ref AnimationBlob[nextAnimIndex].Position.Value;
-            //for (int i = 0; i < parts.Length; i++)
-            //{
-            //    var part = parts[i];
-            //    var newLocalTransform = ObtainPartAnimationValue(
-            //        sortKey,
-            //        layer,
-            //        part,
-            //        ref currentRotationsPool,
-            //        ref nextRotationsPool,
-            //        ref currentPositionsPool,
-            //        ref nextPositionsPool);
-            //    part.SetNewLocalTransform = true;
-            //    part.SetPosition = newLocalTransform.Position;
-            //    part.SetRotation = newLocalTransform.Rotation;
-            //    part.SetScale = newLocalTransform.Scale;
-            //    parts[i] = part;
-            //}
         }
-
-        //[BurstCompile]
-        //private LocalTransform ObtainPartAnimationValue(
-        //    int sortKey,
-        //    AnimatorActorLayerBuffer layer,
-        //    AnimatorActorPartBufferComponent part,
-        //    ref RotationsPool currentRotationsPool,
-        //    ref RotationsPool nextRotationsPool,
-        //    ref PositionsPool currentPositionsPool,
-        //    ref PositionsPool nextPositionsPool)
-        //{
-        //    int currentAnimationId = layer.CurrentAnimationId;
-        //    float currentAnimationTime = layer.CurrentAnimationTime;
-        //    var localTransform = LocalTransformLookup.GetRefRO(part.Value);
-        //    float3 setPosition = localTransform.ValueRO.Position;
-        //    quaternion setRotation = localTransform.ValueRO.Rotation;
-        //    float setScale = localTransform.ValueRO.Scale;
-
-        //    // obtain first animation values
-        //    ObtainAnimationValues(
-        //        ref setPosition,
-        //        ref setRotation,
-        //        currentAnimationTime,
-        //        currentAnimationId,
-        //        part,
-        //        layer.Method,
-        //        ref currentRotationsPool,
-        //        ref currentPositionsPool);
-
-        //    // check if transition exists
-        //    float transitionRate = layer.TransitionRate;
-        //    if (transitionRate >= 0)
-        //    {
-        //        int nextAnimationId = layer.NextAnimationId;
-        //        float nextAnimationTime = layer.NextAnimationTime;
-        //        float3 nextPosition = localTransform.ValueRO.Position;
-        //        quaternion nextRotation = localTransform.ValueRO.Rotation;
-        //        ObtainAnimationValues(
-        //            ref nextPosition,
-        //            ref nextRotation,
-        //            nextAnimationTime,
-        //            nextAnimationId,
-        //            part,
-        //            layer.Method,
-        //            ref nextRotationsPool,
-        //            ref nextPositionsPool);
-        //        switch (layer.Method)
-        //        {
-        //            case PartsAnimationMethod.Lerp:
-        //                setPosition = math.lerp(setPosition, nextPosition, transitionRate);
-        //                setRotation = math.slerp(setRotation, nextRotation, transitionRate);
-        //                break;
-        //            case PartsAnimationMethod.Lean:
-        //                setPosition = CustomMath.Lean(setPosition, nextPosition, transitionRate);
-        //                setRotation = CustomMath.Lean(setRotation, nextRotation, transitionRate);
-        //                break;
-        //            case PartsAnimationMethod.SmoothStep:
-        //                setPosition = CustomMath.SmoothStep(setPosition, nextPosition, transitionRate);
-        //                setRotation = CustomMath.SmoothStep(setRotation, nextRotation, transitionRate);
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-
-        //    return new LocalTransform
-        //    {
-        //        Position = setPosition,
-        //        Rotation = setRotation,
-        //        Scale = setScale
-        //    };
-        //}
-
-        //[BurstCompile]
-        //private void ObtainAnimationValues(
-        //    ref float3 position,
-        //    ref quaternion rotation,
-        //    float animationTime,
-        //    int animationId,
-        //    AnimatorActorPartBufferComponent part,
-        //    PartsAnimationMethod method,
-        //    ref RotationsPool rotationsPool,
-        //    ref PositionsPool positionsPool)
-        //{
-        //    bool firstPosFound = false;
-        //    bool secondPosFound = false;
-        //    float3 firstPos = float3.zero;
-        //    float3 secondPos = float3.zero;
-        //    float firstPosTime = 0f;
-        //    float secondPosTime = 0f;
-        //    for (int i = 0; i < positionsPool.Positions.Length; i++)
-        //    {
-        //        //var pos = positionsPool.Positions[i];
-        //        //if (pos.Path == part.Path && pos.AnimationId == animationId)
-        //        //{
-        //        //    if (pos.Time <= animationTime)
-        //        //    {
-        //        //        firstPosFound = true;
-        //        //        firstPosTime = pos.Time;
-        //        //        firstPos = pos.Value;
-        //        //    }
-        //        //    if (pos.Time > animationTime)
-        //        //    {
-        //        //        secondPosFound = true;
-        //        //        secondPosTime = pos.Time;
-        //        //        secondPos = pos.Value;
-        //        //        break;
-        //        //    }
-        //        //}
-        //    }
-        //    bool firstRotFound = false;
-        //    bool secondRotFound = false;
-        //    quaternion firstRot = quaternion.identity;
-        //    quaternion secondRot = quaternion.identity;
-        //    float firstRotTime = 0f;
-        //    float secondRotTime = 0f;
-        //    for (int i = 0; i < rotationsPool.Rotations.Length; i++)
-        //    {
-        //        //var rot = rotationsPool.Rotations[i];
-        //        //if (rot.Path == part.Path && rot.AnimationId == animationId)
-        //        //{
-        //        //    if (rot.Time <= animationTime)
-        //        //    {
-        //        //        firstRotFound = true;
-        //        //        firstRotTime = rot.Time;
-        //        //        firstRot = rot.Value;
-        //        //    }
-        //        //    if (rot.Time > animationTime)
-        //        //    {
-        //        //        secondRotFound = true;
-        //        //        secondRotTime = rot.Time;
-        //        //        secondRot = rot.Value;
-        //        //        break;
-        //        //    }
-        //        //}
-        //    }
-
-        //    if (secondPosFound && firstPosFound)
-        //    {
-        //        float rate = (animationTime - firstPosTime) / (secondPosTime - firstPosTime);
-        //        switch (method)
-        //        {
-        //            case PartsAnimationMethod.Lerp:
-        //                position = math.lerp(firstPos, secondPos, rate);
-        //                break;
-        //            case PartsAnimationMethod.Lean:
-        //                position = CustomMath.Lean(firstPos, secondPos, rate);
-        //                break;
-        //            case PartsAnimationMethod.SmoothStep:
-        //                position = CustomMath.SmoothStep(firstPos, secondPos, rate);
-        //                break;
-        //            default:
-        //                break;
-        //        }
-
-        //    }
-        //    if (firstPosFound && !secondPosFound)
-        //    {
-        //        position = firstPos;
-        //    }
-        //    if (secondRotFound && firstRotFound)
-        //    {
-        //        float rate = (animationTime - firstRotTime) / (secondRotTime - firstRotTime);
-        //        switch (method)
-        //        {
-        //            case PartsAnimationMethod.Lerp:
-        //                rotation = math.slerp(firstRot, secondRot, rate);
-        //                break;
-        //            case PartsAnimationMethod.Lean:
-        //                rotation = CustomMath.Lean(firstRot, secondRot, rate);
-        //                break;
-        //            case PartsAnimationMethod.SmoothStep:
-        //                rotation = CustomMath.SmoothStep(firstRot, secondRot, rate);
-        //                break;
-        //            default:
-        //                break;
-        //        }
-
-        //    }
-        //    if (firstRotFound && !secondRotFound)
-        //    {
-        //        rotation = firstRot;
-        //    }
-        //}
     }
 }

@@ -27,6 +27,16 @@ public class NPCAuthoring : MonoBehaviour
     private float MaxHealth = 100f;
     [SerializeField]
     private float CurrentHealth = 100f;
+    [SerializeField]
+    private GameObject AttackingSphere;
+    [SerializeField]
+    private float AttackDamage = 5f;
+    [SerializeField]
+    private float AttackRate = 1f;
+    [SerializeField]
+    private float AttackRadius = 1f;
+    [SerializeField]
+    private PhysicsCategoryTags AttackTargetLayerTag;
     class Baker : Baker<NPCAuthoring>
     {
         public override void Bake(NPCAuthoring authoring)
@@ -76,6 +86,15 @@ public class NPCAuthoring : MonoBehaviour
             {
                 CurrentHealth = authoring.CurrentHealth,
                 MaxHealth = authoring.MaxHealth
+            });
+            AddComponent(entity, new NPCAttackingComponent
+            {
+                AttackingSphereEntity = GetEntity(authoring.AttackingSphere, TransformUsageFlags.Dynamic),
+                AttackDamage = authoring.AttackDamage,
+                AttackRate = authoring.AttackRate,
+                AttackTimer = authoring.AttackRate,
+                AttackRadius = authoring.AttackRadius,
+                TargetCollider = authoring.AttackTargetLayerTag
             });
         }
     }

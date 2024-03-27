@@ -20,6 +20,7 @@ namespace ParseUtils
         public bool Looped;
         public int FPS;
         public List<AnimationPathData> PathData;
+        public List<AnimationEventData> EventsData;
     }
 
     [System.Serializable]
@@ -57,5 +58,12 @@ namespace ParseUtils
         LocalEulerAnglesRawY = 8,
         LocalEulerAnglesRawZ = 9,
         LocalEulerAnglesRawW = 10,
+    }
+
+    [System.Serializable]
+    public struct AnimationEventData
+    {
+        public float Time;
+        public string EventName;
     }
 }

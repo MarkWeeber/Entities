@@ -10,6 +10,7 @@ public struct AnimationBlobBuffer : IBufferElementData
     public int FPS;
     public FixedString32Bytes Name;
     public BlobAssetReference<PathDataPool> PathData;
+    public BlobAssetReference<AnimationEventsDataPool> AnimationEventsData;
 }
 
 public struct PathDataPool
@@ -28,6 +29,16 @@ public struct PathsPool
     public BlobArray<AnimationRotationBuffer> EulerRotations;
 }
 
+public struct AnimationEventsDataPool
+{
+    public BlobArray<AnimationEventsPool> EventsData;
+}
+
+public struct AnimationEventsPool
+{
+    public float Time;
+    public FixedString32Bytes EventName;
+}
 
 
 public struct RotationsPool

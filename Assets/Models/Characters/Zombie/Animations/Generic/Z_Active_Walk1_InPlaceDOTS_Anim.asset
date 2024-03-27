@@ -40092,3 +40092,6 @@ MonoBehaviour:
       Positions: []
       Rotations: []
       EulerRotations: []
+    EventsData:
+    - Time: 1.9
+      EventName: Walk

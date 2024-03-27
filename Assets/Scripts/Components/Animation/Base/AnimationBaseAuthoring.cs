@@ -1,5 +1,6 @@
 using ParseUtils;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
@@ -29,6 +30,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     continue;
                 }
                 var pathData = CreateAnimationBlobBuffer(asset.AnimationClipParsedObject);
+                var eventsData = CreateAnimationEventsDataBlobBuffer(asset.AnimationClipParsedObject);
                 animationsWithBlobs.Add(new AnimationBlobBuffer
                 {
                     Id = asset.AnimationClipParsedObject.Id,
@@ -37,7 +39,8 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     Looped = asset.AnimationClipParsedObject.Looped,
                     FPS = asset.AnimationClipParsedObject.FPS,
                     Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
-                    PathData = pathData
+                    PathData = pathData,
+                    AnimationEventsData = eventsData
                 });
             }
         }
@@ -118,6 +121,23 @@ public class AnimationBaseAuthoring : MonoBehaviour
             }
 
             var result = builder.CreateBlobAssetReference<PathDataPool>(Allocator.Persistent);
+            builder.Dispose();
+            return result;
+        }
+
+        private BlobAssetReference<AnimationEventsDataPool> CreateAnimationEventsDataBlobBuffer(AnimationClipParsedObject parsedObject)
+        {
+            var builder = new BlobBuilder(Allocator.Temp);
+            ref AnimationEventsDataPool pool = ref builder.ConstructRoot<AnimationEventsDataPool>();
+            int eventsDataCount = parsedObject.EventsData.Count;
+            var eventsSorted = parsedObject.EventsData.OrderBy(x => x.Time).ToArray();
+            var eventsDataArrayBuilder = builder.Allocate(ref pool.EventsData, eventsDataCount);
+            for (int i = 0; i < eventsDataCount; i++)
+            {
+                eventsDataArrayBuilder[i].Time = eventsSorted[i].Time;
+                eventsDataArrayBuilder[i].EventName = (FixedString32Bytes)eventsSorted[i].EventName;
+            }
+            var result = builder.CreateBlobAssetReference<AnimationEventsDataPool>(Allocator.Persistent);
             builder.Dispose();
             return result;
         }

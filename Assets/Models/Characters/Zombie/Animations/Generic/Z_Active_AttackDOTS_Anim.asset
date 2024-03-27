@@ -20285,3 +20285,8 @@ MonoBehaviour:
             w: 0.9924131
         Time: 0.96666664
       EulerRotations: []
+    EventsData:
+    - Time: 0.25
+      EventName: Attack
+    - Time: 0.75
+      EventName: Attack
