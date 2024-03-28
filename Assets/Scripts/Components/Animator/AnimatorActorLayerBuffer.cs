@@ -11,6 +11,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     public int CurrentAnimationBlobIndex;
     public int CurrentAnimationId;
     public float CurrentAnimationTime; // time needed for animation
+    public float CurrentAnimationPreviousTime; // time needed for animation
     public float CurrentAnimationLength;
     public bool CurrentAnimationIsLooped;
 
@@ -29,6 +30,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
     public int NextAnimationBlobIndex;
     public int NextAnimationId;
     public float NextAnimationTime; // time needed in transitioning animation
+    public float NextAnimationPreviousTime; // time needed in transitioning animation
     public float NextAnimationLength;
     public float NextAnimationSpeed;
     public bool NextAnimationIsLooped;
@@ -44,6 +46,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.CurrentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
         this.CurrentAnimationId = layer.CurrentAnimationId;
         this.CurrentAnimationTime = layer.CurrentAnimationTime;
+        this.CurrentAnimationPreviousTime = layer.CurrentAnimationPreviousTime;
         this.CurrentAnimationLength = layer.CurrentAnimationLength;
         this.CurrentAnimationIsLooped = layer.CurrentAnimationIsLooped;
         this.IsInTransition = layer.IsInTransition;
@@ -58,6 +61,7 @@ public struct AnimatorActorLayerBuffer : IBufferElementData
         this.NextAnimationBlobIndex = layer.NextAnimationBlobIndex;
         this.NextAnimationId = layer.NextAnimationId;
         this.NextAnimationTime = layer.NextAnimationTime;
+        this.NextAnimationPreviousTime = layer.NextAnimationPreviousTime;
         this.NextAnimationLength = layer.NextAnimationLength;
         this.NextAnimationSpeed = layer.NextAnimationSpeed;
         this.NextAnimationIsLooped = layer.NextAnimationIsLooped;

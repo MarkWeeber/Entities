@@ -8,7 +8,7 @@ public class RandomAuthoring : MonoBehaviour
 		public override void Bake(RandomAuthoring authoring)
 		{
 			Entity entity = GetEntity(TransformUsageFlags.None);
-			var seed = (uint)Random.Range(0, 100);
+			var seed = (uint)Random.Range(1, 100);
 			AddComponent(entity, new RandomComponent
 			{
 				Random = new Unity.Mathematics.Random(seed)

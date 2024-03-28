@@ -55,16 +55,16 @@ namespace ParseUtils
             bool ans = false;
             float length = animationClip.length;
             int samplesCount = (int)math.ceil(length * fps);
-            animationPathData.Positions = new List<AnimationPositioItem>(new AnimationPositioItem[samplesCount]);
-            animationPathData.Rotations = new List<AnimationRotationItem>(new AnimationRotationItem[samplesCount]);
-            animationPathData.EulerRotations = new List<AnimationRotationItem>(new AnimationRotationItem[samplesCount]);
+            animationPathData.Positions = new List<AnimationPositioItem>(new AnimationPositioItem[samplesCount + 1]);
+            animationPathData.Rotations = new List<AnimationRotationItem>(new AnimationRotationItem[samplesCount + 1]);
+            animationPathData.EulerRotations = new List<AnimationRotationItem>(new AnimationRotationItem[samplesCount + 1]);
             foreach (var curveBinding in bidnings)
             {
                 if (curveBinding.path == path)
                 {
                     var propertyName = curveBinding.propertyName;
                     var curve = AnimationUtility.GetEditorCurve(animationClip, curveBinding);
-                    for (int i = 0; i < samplesCount; i++)
+                    for (int i = 0; i <= samplesCount; i++)
                     {
                         float time = (length / samplesCount) * i;
                         float value = curve.Evaluate(time);

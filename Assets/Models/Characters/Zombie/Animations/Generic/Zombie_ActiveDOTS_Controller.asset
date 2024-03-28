@@ -12,379 +12,379 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fff1a927c9e8f489fcc1686142fc86, type: 3}
   m_Name: Zombie_ActiveDOTS_Controller
   m_EditorClassIdentifier: 
-  AnimatorInstanceId: 35786
+  AnimatorInstanceId: 35788
   AnimatorName: Zombie_Active
   RuntimeAnimatorParsedObject:
-    AssetInstanceId: 35786
+    AssetInstanceId: 35788
     AnimatorName: Zombie_Active
     FPS: 30
     Animations:
-    - AnimationInstanceId: 35444
-      AnimatorInstanceId: 35786
+    - AnimationInstanceId: 35446
+      AnimatorInstanceId: 35788
       Name: Z_Active_Idle
       Looped: 1
       Length: 2.6666667
-    - AnimationInstanceId: 35740
-      AnimatorInstanceId: 35786
+    - AnimationInstanceId: 35742
+      AnimatorInstanceId: 35788
       Name: Z_Active_Attack
       Looped: 1
       Length: 1
-    - AnimationInstanceId: 35556
-      AnimatorInstanceId: 35786
+    - AnimationInstanceId: 35558
+      AnimatorInstanceId: 35788
       Name: Z_Active_FallingBack
       Looped: 0
       Length: 1.4000001
-    - AnimationInstanceId: 35706
-      AnimatorInstanceId: 35786
+    - AnimationInstanceId: 35708
+      AnimatorInstanceId: 35788
       Name: Z_Active_Run_InPlace
       Looped: 1
       Length: 1.5333334
-    - AnimationInstanceId: 35670
-      AnimatorInstanceId: 35786
+    - AnimationInstanceId: 35672
+      AnimatorInstanceId: 35788
       Name: Z_Active_Walk1_InPlace
       Looped: 1
       Length: 2
     AnimatorLayers:
-    - Id: 36828
-      AnimatorInstanceId: 35786
+    - Id: 36086
+      AnimatorInstanceId: 35788
       DefaultWeight: 0
     LayerStates:
-    - Id: 36894
-      AnimatorInstanceId: 35786
-      LayerId: 36828
+    - Id: 36090
+      AnimatorInstanceId: 35788
+      LayerId: 36086
       DefaultState: 1
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35444
+      AnimationClipId: 35446
       AnimationLength: 2.6666667
       AnimationLooped: 1
       Speed: 1
-    - Id: 36896
-      AnimatorInstanceId: 35786
-      LayerId: 36828
+    - Id: 36092
+      AnimatorInstanceId: 35788
+      LayerId: 36086
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35740
+      AnimationClipId: 35742
       AnimationLength: 1
       AnimationLooped: 1
       Speed: 1
-    - Id: 36898
-      AnimatorInstanceId: 35786
-      LayerId: 36828
+    - Id: 36094
+      AnimatorInstanceId: 35788
+      LayerId: 36086
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35556
+      AnimationClipId: 35558
       AnimationLength: 1.4000001
       AnimationLooped: 0
       Speed: 1
-    - Id: 36900
-      AnimatorInstanceId: 35786
-      LayerId: 36828
+    - Id: 36096
+      AnimatorInstanceId: 35788
+      LayerId: 36086
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35706
+      AnimationClipId: 35708
       AnimationLength: 1.5333334
       AnimationLooped: 1
       Speed: 1
-    - Id: 36902
-      AnimatorInstanceId: 35786
-      LayerId: 36828
+    - Id: 36098
+      AnimatorInstanceId: 35788
+      LayerId: 36086
       DefaultState: 0
       AnimationBlobAssetIndex: -1
-      AnimationClipId: 35670
+      AnimationClipId: 35672
       AnimationLength: 2
       AnimationLooped: 1
       Speed: 2
     StateTransitions:
-    - Id: 36998
-      AnimatorInstanceId: 35786
-      StateId: 36894
-      DestinationStateId: 36896
+    - Id: 36102
+      AnimatorInstanceId: 35788
+      StateId: 36090
+      DestinationStateId: 36092
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37000
-      AnimatorInstanceId: 35786
-      StateId: 36894
-      DestinationStateId: 36900
+    - Id: 36104
+      AnimatorInstanceId: 35788
+      StateId: 36090
+      DestinationStateId: 36096
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37002
-      AnimatorInstanceId: 35786
-      StateId: 36894
-      DestinationStateId: 36902
+    - Id: 36106
+      AnimatorInstanceId: 35788
+      StateId: 36090
+      DestinationStateId: 36098
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37004
-      AnimatorInstanceId: 35786
-      StateId: 36896
-      DestinationStateId: 36894
+    - Id: 36108
+      AnimatorInstanceId: 35788
+      StateId: 36092
+      DestinationStateId: 36090
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37006
-      AnimatorInstanceId: 35786
-      StateId: 36896
-      DestinationStateId: 36902
+    - Id: 36110
+      AnimatorInstanceId: 35788
+      StateId: 36092
+      DestinationStateId: 36098
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37008
-      AnimatorInstanceId: 35786
-      StateId: 36896
-      DestinationStateId: 36900
+    - Id: 36112
+      AnimatorInstanceId: 35788
+      StateId: 36092
+      DestinationStateId: 36096
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37010
-      AnimatorInstanceId: 35786
-      StateId: 36900
-      DestinationStateId: 36894
+    - Id: 36114
+      AnimatorInstanceId: 35788
+      StateId: 36096
+      DestinationStateId: 36090
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37012
-      AnimatorInstanceId: 35786
-      StateId: 36900
-      DestinationStateId: 36896
+    - Id: 36116
+      AnimatorInstanceId: 35788
+      StateId: 36096
+      DestinationStateId: 36092
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37014
-      AnimatorInstanceId: 35786
-      StateId: 36900
-      DestinationStateId: 36902
+    - Id: 36118
+      AnimatorInstanceId: 35788
+      StateId: 36096
+      DestinationStateId: 36098
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37016
-      AnimatorInstanceId: 35786
-      StateId: 36902
-      DestinationStateId: 36896
+    - Id: 36120
+      AnimatorInstanceId: 35788
+      StateId: 36098
+      DestinationStateId: 36092
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37018
-      AnimatorInstanceId: 35786
-      StateId: 36902
-      DestinationStateId: 36894
+    - Id: 36122
+      AnimatorInstanceId: 35788
+      StateId: 36098
+      DestinationStateId: 36090
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
-    - Id: 37020
-      AnimatorInstanceId: 35786
-      StateId: 36902
-      DestinationStateId: 36900
+    - Id: 36124
+      AnimatorInstanceId: 35788
+      StateId: 36098
+      DestinationStateId: 36096
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
     AnyStateTransitions:
-    - Id: 36904
-      AnimatorInstanceId: 35786
-      DestinationStateId: 36898
+    - Id: 36100
+      AnimatorInstanceId: 35788
+      DestinationStateId: 36094
       FixedDuration: 0
       ExitTime: 0
       TransitionDuration: 0.1
       TransitionOffset: 0
     TransitionCondtions:
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 36998
+      AnimatorInstanceId: 35788
+      TransitionId: 36102
       Mode: 1
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 36998
+      AnimatorInstanceId: 35788
+      TransitionId: 36102
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37000
+      AnimatorInstanceId: 35788
+      TransitionId: 36104
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37000
+      AnimatorInstanceId: 35788
+      TransitionId: 36104
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37002
+      AnimatorInstanceId: 35788
+      TransitionId: 36106
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37002
+      AnimatorInstanceId: 35788
+      TransitionId: 36106
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 2
-      AnimatorInstanceId: 35786
-      TransitionId: 37002
+      AnimatorInstanceId: 35788
+      TransitionId: 36106
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37004
+      AnimatorInstanceId: 35788
+      TransitionId: 36108
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37004
+      AnimatorInstanceId: 35788
+      TransitionId: 36108
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37006
+      AnimatorInstanceId: 35788
+      TransitionId: 36110
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37006
+      AnimatorInstanceId: 35788
+      TransitionId: 36110
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 2
-      AnimatorInstanceId: 35786
-      TransitionId: 37006
+      AnimatorInstanceId: 35788
+      TransitionId: 36110
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37008
+      AnimatorInstanceId: 35788
+      TransitionId: 36112
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37008
+      AnimatorInstanceId: 35788
+      TransitionId: 36112
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37010
+      AnimatorInstanceId: 35788
+      TransitionId: 36114
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37010
+      AnimatorInstanceId: 35788
+      TransitionId: 36114
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37012
+      AnimatorInstanceId: 35788
+      TransitionId: 36116
       Mode: 1
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37012
+      AnimatorInstanceId: 35788
+      TransitionId: 36116
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37014
+      AnimatorInstanceId: 35788
+      TransitionId: 36118
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37014
+      AnimatorInstanceId: 35788
+      TransitionId: 36118
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 2
-      AnimatorInstanceId: 35786
-      TransitionId: 37014
+      AnimatorInstanceId: 35788
+      TransitionId: 36118
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37016
+      AnimatorInstanceId: 35788
+      TransitionId: 36120
       Mode: 1
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37016
+      AnimatorInstanceId: 35788
+      TransitionId: 36120
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37018
+      AnimatorInstanceId: 35788
+      TransitionId: 36122
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37018
+      AnimatorInstanceId: 35788
+      TransitionId: 36122
       Mode: 4
       Parameter: MoveSpeed
       Treshold: 0.01
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 37020
+      AnimatorInstanceId: 35788
+      TransitionId: 36124
       Mode: 3
       Parameter: MoveSpeed
       Treshold: 2
     - Id: 1
-      AnimatorInstanceId: 35786
-      TransitionId: 37020
+      AnimatorInstanceId: 35788
+      TransitionId: 36124
       Mode: 2
       Parameter: Attacking
       Treshold: 0
     - Id: 0
-      AnimatorInstanceId: 35786
-      TransitionId: 36904
+      AnimatorInstanceId: 35788
+      TransitionId: 36100
       Mode: 1
       Parameter: Die
       Treshold: 0
     AnimatorParameters:
     - Id: 0
-      AnimatorInstanceId: 35786
+      AnimatorInstanceId: 35788
       ParameterName: MoveSpeed
       Type: 1
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 1
-      AnimatorInstanceId: 35786
+      AnimatorInstanceId: 35788
       ParameterName: Die
       Type: 9
       DefaultFloat: 0
       DefaultInt: 0
       DefaultBool: 0
     - Id: 2
-      AnimatorInstanceId: 35786
+      AnimatorInstanceId: 35788
       ParameterName: Attacking
       Type: 4
       DefaultFloat: 0

@@ -183,12 +183,10 @@ public partial struct AnimatorAnimateSystem : ISystem
             {
                 SetNewTransition(ref _layer, newTransition, animatorInstanceId);
             }
-            // clamp timer
-            ClampTimers(ref _layer);
-            // set parts' component
-            //AnimateParts(sortKey, ref _layer, ref parts);
             // shift timer
             AddToTimers(ref _layer, deltaTime);
+            // clamp timer
+            ClampTimers(ref _layer);
             // update layer info
             layer = _layer;
         }
@@ -370,6 +368,7 @@ public partial struct AnimatorAnimateSystem : ISystem
         [BurstCompile]
         private void AddToTimers(ref AnimatorActorLayerBuffer layer, float deltaTime)
         {
+            layer.CurrentAnimationPreviousTime = layer.CurrentAnimationTime;
             layer.CurrentAnimationTime += deltaTime * layer.CurrentStateSpeed;
             if (layer.IsInTransition)
             {
@@ -380,6 +379,7 @@ public partial struct AnimatorAnimateSystem : ISystem
                 if (layer.FirstOffsetTimer <= 0) // inside duration
                 {
                     float exessiveTime = layer.FirstOffsetTimer * -1;
+                    layer.NextAnimationPreviousTime = layer.NextAnimationTime;
                     layer.NextAnimationTime += (deltaTime * layer.NextAnimationSpeed) + exessiveTime;
                     layer.TransitionTimer -= (exessiveTime + deltaTime);
                 }
@@ -395,23 +395,26 @@ public partial struct AnimatorAnimateSystem : ISystem
         [BurstCompile]
         private void Execute(in DynamicBuffer<AnimatorActorLayerBuffer> layers)
         {
+            int x = 0;
             foreach (var layer in layers)
             {
                 if (!layer.IsInTransition)
                 {
                     var currentTime = layer.CurrentAnimationTime;
+                    var previousTime = layer.CurrentAnimationPreviousTime;
                     var currentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
                     var animationBlob = AnimationBlob[currentAnimationBlobIndex];
                     ref var events = ref animationBlob.AnimationEventsData.Value.EventsData;
                     for (int i = 0; i < events.Length; i++)
                     {
                         var time = events[i].Time;
-                        if (time > currentTime)
+                        if (currentTime > time && time > previousTime)
                         {
                             Debug.Log($"Time: {time} Event: {events[i].EventName.ToString()}");
                         }
                     }
                 }
+                x++;
             }
         }
     }
