@@ -395,7 +395,6 @@ public partial struct AnimatorAnimateSystem : ISystem
         [BurstCompile]
         private void Execute(in DynamicBuffer<AnimatorActorLayerBuffer> layers)
         {
-            int x = 0;
             foreach (var layer in layers)
             {
                 if (!layer.IsInTransition)
@@ -414,7 +413,6 @@ public partial struct AnimatorAnimateSystem : ISystem
                         }
                     }
                 }
-                x++;
             }
         }
     }
