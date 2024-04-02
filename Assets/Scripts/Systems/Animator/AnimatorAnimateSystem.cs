@@ -12,12 +12,12 @@ using UnityEngine.UIElements;
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct AnimatorAnimateSystem : ISystem
 {
-    private ComponentLookup<LocalTransform> localTransformLookup;
+    private ComponentLookup<LocalToWorld> localToWorldLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<AnimatorActorComponent>();
-        localTransformLookup = state.GetComponentLookup<LocalTransform>(true);
+        localToWorldLookup = state.GetComponentLookup<LocalToWorld>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -47,7 +47,7 @@ public partial struct AnimatorAnimateSystem : ISystem
             NativeArray<AnimationBlobBuffer> animationBlob = SystemAPI.GetSingletonBuffer<AnimationBlobBuffer>().AsNativeArray();
 
             float deltaTime = SystemAPI.Time.DeltaTime;
-            localTransformLookup.Update(ref state);
+            localToWorldLookup.Update(ref state);
 
             var processAnimatorJobHandle = new ProcessAnimatorsJob
             {
@@ -55,14 +55,21 @@ public partial struct AnimatorAnimateSystem : ISystem
                 Transitions = transitions,
                 AnyStateTransitions = anyStateTransitions,
                 Conditions = conditions,
-                LocalTransformLookup = localTransformLookup,
                 DeltaTime = deltaTime
             }.ScheduleParallel(acrtorsQuery, state.Dependency);
 
-            state.Dependency = new ProcessAnimationEventsJob
+            EntityQuery actorsWithEventsBuffer = SystemAPI.QueryBuilder().WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer>().WithNone<NPCAttackingComponent>().Build();
+            EntityQuery enemyNPCSWithEventsBuffer = SystemAPI.QueryBuilder().WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer, NPCAttackingComponent>().Build();
+
+            var processAnimationEventsJobHandle = new ProcessAnimationEventsJob
             {
                 AnimationBlob = animationBlob
-            }.ScheduleParallel(acrtorsQuery, processAnimatorJobHandle);
+            }.ScheduleParallel(actorsWithEventsBuffer, processAnimatorJobHandle);
+            state.Dependency = new ProcessNPCAnimationEventsJob
+            {
+                AnimationBlob = animationBlob,
+                LocalToWorldLookup = localToWorldLookup,
+            }.ScheduleParallel(enemyNPCSWithEventsBuffer, processAnimationEventsJobHandle);
 
             animationBlob.Dispose();
             states.Dispose();
@@ -83,8 +90,6 @@ public partial struct AnimatorAnimateSystem : ISystem
         public NativeArray<AnyStateTransitionBuffer> AnyStateTransitions;
         [ReadOnly]
         public NativeArray<TransitionCondtionBuffer> Conditions;
-        [ReadOnly]
-        public ComponentLookup<LocalTransform> LocalTransformLookup;
         public float DeltaTime;
         [BurstCompile]
         public void Execute(
@@ -393,8 +398,12 @@ public partial struct AnimatorAnimateSystem : ISystem
         [ReadOnly]
         public NativeArray<AnimationBlobBuffer> AnimationBlob;
         [BurstCompile]
-        private void Execute(in DynamicBuffer<AnimatorActorLayerBuffer> layers)
+        private void Execute(in DynamicBuffer<AnimatorActorLayerBuffer> layers, ref DynamicBuffer<AnimationEventBuffer> eventsBuffer)
         {
+            if (eventsBuffer.Length >= eventsBuffer.Capacity)
+            {
+                return;
+            }
             foreach (var layer in layers)
             {
                 if (!layer.IsInTransition)
@@ -409,7 +418,64 @@ public partial struct AnimatorAnimateSystem : ISystem
                         var time = events[i].Time;
                         if (currentTime > time && time > previousTime)
                         {
-                            Debug.Log($"Time: {time} Event: {events[i].EventName.ToString()}");
+                            var animationEvent = new AnimationEventBuffer
+                            {
+                                EventType = events[i].EventType
+                            };
+                            eventsBuffer.Add(animationEvent);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [BurstCompile]
+    private partial struct ProcessNPCAnimationEventsJob : IJobEntity
+    {
+        [ReadOnly]
+        public NativeArray<AnimationBlobBuffer> AnimationBlob;
+        [ReadOnly]
+        public ComponentLookup<LocalToWorld> LocalToWorldLookup;
+        [BurstCompile]
+        private void Execute(
+            in DynamicBuffer<AnimatorActorLayerBuffer> layers,
+            ref DynamicBuffer<AnimationEventBuffer> eventsBuffer,
+            RefRO<NPCAttackingComponent> npcAttackingComponent)
+        {
+            if (eventsBuffer.Length >= eventsBuffer.Capacity)
+            {
+                return;
+            }
+            foreach (var layer in layers)
+            {
+                if (!layer.IsInTransition)
+                {
+                    var currentTime = layer.CurrentAnimationTime;
+                    var previousTime = layer.CurrentAnimationPreviousTime;
+                    var currentAnimationBlobIndex = layer.CurrentAnimationBlobIndex;
+                    var animationBlob = AnimationBlob[currentAnimationBlobIndex];
+                    ref var events = ref animationBlob.AnimationEventsData.Value.EventsData;
+                    for (int i = 0; i < events.Length; i++)
+                    {
+                        var time = events[i].Time;
+                        if (currentTime > time && time > previousTime)
+                        {
+                            var animationEvent = new AnimationEventBuffer
+                            {
+                                EventType = events[i].EventType
+                            };
+                            if (events[i].EventType == AnimationEventType.Attack)
+                            {
+                                animationEvent.EventValue = npcAttackingComponent.ValueRO.AttackDamage;
+                                if (LocalToWorldLookup.TryGetComponent(npcAttackingComponent.ValueRO.AttackingSphereEntity, out LocalToWorld localToWorld))
+                                {
+                                    animationEvent.EventPosition = localToWorld.Position;
+                                }
+                                animationEvent.EventRadius = npcAttackingComponent.ValueRO.AttackRadius;
+                                animationEvent.EventCollisionTags = npcAttackingComponent.ValueRO.TargetCollider;
+                                eventsBuffer.Add(animationEvent);
+                            }
                         }
                     }
                 }

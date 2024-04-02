@@ -64,6 +64,6 @@ namespace ParseUtils
     public struct AnimationEventData
     {
         public float Time;
-        public string EventName;
+        public AnimationEventType EventType;
     }
 }

@@ -135,7 +135,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
             for (int i = 0; i < eventsDataCount; i++)
             {
                 eventsDataArrayBuilder[i].Time = eventsSorted[i].Time;
-                eventsDataArrayBuilder[i].EventName = (FixedString32Bytes)eventsSorted[i].EventName;
+                eventsDataArrayBuilder[i].EventType = eventsSorted[i].EventType;
             }
             var result = builder.CreateBlobAssetReference<AnimationEventsDataPool>(Allocator.Persistent);
             builder.Dispose();

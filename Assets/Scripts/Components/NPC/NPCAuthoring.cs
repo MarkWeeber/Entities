@@ -96,6 +96,7 @@ public class NPCAuthoring : MonoBehaviour
                 AttackRadius = authoring.AttackRadius,
                 TargetCollider = authoring.AttackTargetLayerTag
             });
+            AddBuffer<AnimationEventBuffer>(entity);
         }
     }
 }

@@ -37,7 +37,7 @@ public struct AnimationEventsDataPool
 public struct AnimationEventsPool
 {
     public float Time;
-    public FixedString32Bytes EventName;
+    public AnimationEventType EventType;
 }
 
 

@@ -113,29 +113,13 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             ref PathDataPool pathDataPool = ref animation.PathData.Value;
             ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
             int samplesCount = (int)math.ceil(animation.Length * fps) + 1;
-            //animationTime = math.clamp(animationTime, 0f, animation.Length);
             float timeRate = animationTime / animation.Length;
             int firstCurveIndex = (int)math.floor(timeRate * (samplesCount - 1));
             int secondCurveIndex = (int)math.ceil(timeRate * (samplesCount - 1));
             float intervalTime = animation.Length / (samplesCount - 1);
             float firstTime = firstCurveIndex * intervalTime;
             float secondTime = secondCurveIndex * intervalTime;
-            //float transitionRate 
-            //    = (animationTime - firstCurveIndex * (animation.Length / samplesCount)) / (1f);
             float transitionRate = (animationTime - firstTime) / intervalTime;
-            //if (partIndex == 54)
-            //{
-            //    Debug.Log(
-            //        $"transition rate: {transitionRate} " +
-            //        $"animationTime: {animationTime} " +
-            //        $"firstCurveIndex: {firstCurveIndex} " +
-            //        $"secondCurveIndex: {secondCurveIndex} " +
-            //        $"firstTime: {firstTime} " +
-            //        $"secondTime: {secondTime} " +
-            //        $"intervalTime: {intervalTime} " +
-            //        $"timeRate: {timeRate} " +
-            //        $"samplesCount: {samplesCount}");
-            //}
             if (pathsPool.HasPositions)
             {
                 ref var positions = ref pathsPool.Positions;

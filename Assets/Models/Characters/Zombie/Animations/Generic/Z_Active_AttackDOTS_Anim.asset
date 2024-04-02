@@ -20945,4 +20945,8 @@ MonoBehaviour:
             w: 0.9930114
         Time: 1
       EulerRotations: []
-    EventsData: []
+    EventsData:
+    - Time: 0.3
+      EventType: 1
+    - Time: 0.7
+      EventType: 1
