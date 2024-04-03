@@ -81,11 +81,11 @@ public partial struct AnimationEventSystem : ISystem
                         {
                             var healthData = HealthLookup.GetRefRW(hit.Entity);
                             var newHealth = healthData.ValueRO.CurrentHealth - animationEvent.EventValue;
-                            healthData.ValueRW.CurrentHealth = newHealth;
-                            if (newHealth < 0f)
-                            {
-                                HealthLookup.SetComponentEnabled(hit.Entity, false);
-                            }
+                            healthData.ValueRW.CurrentHealth = math.clamp(newHealth, 0f, healthData.ValueRO.MaxHealth);
+                            // if (newHealth < 0f)
+                            // {
+                            //     HealthLookup.SetComponentEnabled(hit.Entity, false);
+                            // }
                         }
                     }
                 }
