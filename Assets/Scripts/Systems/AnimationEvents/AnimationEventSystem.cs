@@ -45,7 +45,7 @@ public partial struct AnimationEventSystem : ISystem
         public CollisionWorld CollisionWorld;
         public ComponentLookup<HealthData> HealthLookup;
         [BurstCompile]
-        private void Execute(ref DynamicBuffer<AnimationEventBuffer> animationEventBuffer)
+        private void Execute(ref DynamicBuffer<AnimationEventBuffer> animationEventBuffer, Entity entity)
         {
             for (int i = animationEventBuffer.Length - 1; i >= 0; i--)
             {
@@ -53,6 +53,10 @@ public partial struct AnimationEventSystem : ISystem
                 if (animationEvent.EventType == AnimationEventType.Attack)
                 {
                     CastDamage(animationEvent);
+                }
+                if (animationEvent.EventType == AnimationEventType.HealUp)
+                {
+                    HealUp(animationEvent, entity);
                 }
                 animationEventBuffer.RemoveAt(i);
             }
@@ -73,13 +77,39 @@ public partial struct AnimationEventSystem : ISystem
                 {
                     if (HealthLookup.HasComponent(hit.Entity))
                     {
-                        var healthData = HealthLookup.GetRefRW(hit.Entity);
-                        healthData.ValueRW.CurrentHealth = 
-                            math.clamp(healthData.ValueRO.CurrentHealth - animationEvent.EventValue, 0f, healthData.ValueRO.MaxHealth);
+                        if (HealthLookup.IsComponentEnabled(hit.Entity))
+                        {
+                            var healthData = HealthLookup.GetRefRW(hit.Entity);
+                            var newHealth = healthData.ValueRO.CurrentHealth - animationEvent.EventValue;
+                            healthData.ValueRW.CurrentHealth = newHealth;
+                            if (newHealth < 0f)
+                            {
+                                HealthLookup.SetComponentEnabled(hit.Entity, false);
+                            }
+                        }
                     }
                 }
             }
             hits.Dispose();
+        }
+
+        [BurstCompile]
+        private void HealUp(AnimationEventBuffer animationEvent, Entity entity)
+        {
+            var collisionFilter = new CollisionFilter
+            {
+                BelongsTo = uint.MaxValue,
+                CollidesWith = animationEvent.EventCollisionTags.Value
+            };
+            if (CollisionWorld.CheckSphere(animationEvent.EventPosition, animationEvent.EventRadius, collisionFilter))
+            {
+                if (HealthLookup.HasComponent(entity))
+                {
+                    var healthComponet = HealthLookup.GetRefRW(entity);
+                    var newHealth = healthComponet.ValueRO.CurrentHealth + animationEvent.EventValue;
+                    healthComponet.ValueRW.CurrentHealth = math.clamp(newHealth, 0f, healthComponet.ValueRO.MaxHealth);
+                }
+            }
         }
     }
 }

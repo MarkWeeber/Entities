@@ -58,8 +58,10 @@ public partial struct AnimatorAnimateSystem : ISystem
                 DeltaTime = deltaTime
             }.ScheduleParallel(acrtorsQuery, state.Dependency);
 
-            EntityQuery actorsWithEventsBuffer = SystemAPI.QueryBuilder().WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer>().WithNone<NPCAttackingComponent>().Build();
-            EntityQuery enemyNPCSWithEventsBuffer = SystemAPI.QueryBuilder().WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer, NPCAttackingComponent>().Build();
+            EntityQuery actorsWithEventsBuffer = SystemAPI.QueryBuilder()
+                .WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer>().WithNone<NPCInteractingComponent>().Build();
+            EntityQuery enemyNPCSWithEventsBuffer = SystemAPI.QueryBuilder()
+                .WithAll<AnimatorActorLayerBuffer, AnimationEventBuffer, NPCInteractingComponent, NPCStrategyBuffer>().Build();
 
             var processAnimationEventsJobHandle = new ProcessAnimationEventsJob
             {
@@ -440,12 +442,22 @@ public partial struct AnimatorAnimateSystem : ISystem
         [BurstCompile]
         private void Execute(
             in DynamicBuffer<AnimatorActorLayerBuffer> layers,
+            in DynamicBuffer<NPCStrategyBuffer> npcStrategies,
             ref DynamicBuffer<AnimationEventBuffer> eventsBuffer,
-            RefRO<NPCAttackingComponent> npcAttackingComponent)
+            RefRO<NPCInteractingComponent> npcAttackingComponent)
         {
             if (eventsBuffer.Length >= eventsBuffer.Capacity)
             {
                 return;
+            }
+            var activeStrategy = new NPCStrategyBuffer();
+            foreach (var stragey in npcStrategies)
+            {
+                if (stragey.Active)
+                {
+                    activeStrategy = stragey;
+                    break;
+                }
             }
             foreach (var layer in layers)
             {
@@ -465,17 +477,17 @@ public partial struct AnimatorAnimateSystem : ISystem
                             {
                                 EventType = events[i].EventType
                             };
-                            if (events[i].EventType == AnimationEventType.Attack)
+                            animationEvent.EventValue = npcAttackingComponent.ValueRO.InteractValue;
+                            if (LocalToWorldLookup.TryGetComponent(npcAttackingComponent.ValueRO.InteractingCastSphere, out LocalToWorld localToWorld))
                             {
-                                animationEvent.EventValue = npcAttackingComponent.ValueRO.AttackDamage;
-                                if (LocalToWorldLookup.TryGetComponent(npcAttackingComponent.ValueRO.AttackingSphereEntity, out LocalToWorld localToWorld))
-                                {
-                                    animationEvent.EventPosition = localToWorld.Position;
-                                }
-                                animationEvent.EventRadius = npcAttackingComponent.ValueRO.AttackRadius;
-                                animationEvent.EventCollisionTags = npcAttackingComponent.ValueRO.TargetCollider;
-                                eventsBuffer.Add(animationEvent);
+                                animationEvent.EventPosition = localToWorld.Position;
                             }
+                            animationEvent.EventRadius = npcAttackingComponent.ValueRO.InteractRadius;
+                            if (activeStrategy.Active)
+                            {
+                                animationEvent.EventCollisionTags = activeStrategy.TargetCollider;
+                            }
+                            eventsBuffer.Add(animationEvent);
                         }
                     }
                 }

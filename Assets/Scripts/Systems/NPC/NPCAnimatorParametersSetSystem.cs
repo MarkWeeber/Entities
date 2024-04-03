@@ -79,7 +79,7 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
                     allfound.y = true;
                     parameter.BoolValue = false;
                     if (
-                        currentStrategyType == NPCStrategyType.LookForPlayer
+                        (currentStrategyType == NPCStrategyType.LookForPlayer || currentStrategyType == NPCStrategyType.FleeForHealth)
                         && movementStatisticData.ValueRO.DestinationReached
                         && npcMovementComponent.ValueRO.TargetVisionState == NPCTargetVisionState.Visible)
                     {

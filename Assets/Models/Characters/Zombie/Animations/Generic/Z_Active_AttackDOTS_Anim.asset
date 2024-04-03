@@ -20950,3 +20950,7 @@ MonoBehaviour:
       EventType: 1
     - Time: 0.7
       EventType: 1
+    - Time: 0.3
+      EventType: 2
+    - Time: 0.7
+      EventType: 2

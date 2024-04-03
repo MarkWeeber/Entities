@@ -12,8 +12,6 @@ public class NPCAuthoring : MonoBehaviour
     [SerializeField]
     private float TargetReachMinDistance = 1f;
     [SerializeField]
-    private float MoveSpeed = 1.0f;
-    [SerializeField]
     private float TurnSpeed = 5.0f;
     [SerializeField]
     private Transform visionTransform;
@@ -28,15 +26,11 @@ public class NPCAuthoring : MonoBehaviour
     [SerializeField]
     private float CurrentHealth = 100f;
     [SerializeField]
-    private GameObject AttackingSphere;
+    private GameObject InteractSphereGameObject;
     [SerializeField]
-    private float AttackDamage = 5f;
+    private float InteractValue = 5f;
     [SerializeField]
-    private float AttackRate = 1f;
-    [SerializeField]
-    private float AttackRadius = 1f;
-    [SerializeField]
-    private PhysicsCategoryTags AttackTargetLayerTag;
+    private float InteractRadius = 1f;
     class Baker : Baker<NPCAuthoring>
     {
         public override void Bake(NPCAuthoring authoring)
@@ -49,7 +43,7 @@ public class NPCAuthoring : MonoBehaviour
             }
             AddComponent(entity, new MovementData
             {
-                MoveSpeed = authoring.MoveSpeed,
+                MoveSpeed = 1.1f,
                 TurnSpeed = authoring.TurnSpeed,
                 LockedMovement = float3.zero,
                 LockTimer = 0f
@@ -87,14 +81,11 @@ public class NPCAuthoring : MonoBehaviour
                 CurrentHealth = authoring.CurrentHealth,
                 MaxHealth = authoring.MaxHealth
             });
-            AddComponent(entity, new NPCAttackingComponent
+            AddComponent(entity, new NPCInteractingComponent
             {
-                AttackingSphereEntity = GetEntity(authoring.AttackingSphere, TransformUsageFlags.Dynamic),
-                AttackDamage = authoring.AttackDamage,
-                AttackRate = authoring.AttackRate,
-                AttackTimer = authoring.AttackRate,
-                AttackRadius = authoring.AttackRadius,
-                TargetCollider = authoring.AttackTargetLayerTag
+                InteractingCastSphere = GetEntity(authoring.InteractSphereGameObject, TransformUsageFlags.Dynamic),
+                InteractValue = authoring.InteractValue,
+                InteractRadius = authoring.InteractRadius
             });
             AddBuffer<AnimationEventBuffer>(entity);
         }

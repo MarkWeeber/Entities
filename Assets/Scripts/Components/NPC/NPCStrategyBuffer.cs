@@ -7,7 +7,7 @@ public struct NPCStrategyBuffer : IBufferElementData
 {
     public bool Active;
     public float StrategyValue;
-    public float StrategyMoveSpeedMultiplier;
+    public float StrategyMoveSpeed;
     public float MinWaitTime;
     public float MaxWaitTime;
     public float MinWanderRange;
