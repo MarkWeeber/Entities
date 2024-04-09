@@ -29,7 +29,7 @@ public class PlayerAuthoring : MonoBehaviour
     }
 
     [Inject]
-    public void Construct(PlayerConfig playerConfig)
+    private void Inited(PlayerConfig playerConfig)
     {
         if (playerConfig != null)
         {
