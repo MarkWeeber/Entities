@@ -16,14 +16,20 @@ public class PlayerAuthoring : MonoBehaviour
     [SerializeField] private bool3 LinearConstrains;
     [SerializeField] private bool3 AngularConstrains = new bool3(true, false, true);
 
-    public PlayerAuthoring()
+    public PlayerAuthoring(PlayerConfig playerConfig)
     {
-        this.MoveSpeed = 1.1f;
-        Debug.Log("CREATED");
+        if (playerConfig != null)
+        {
+            MoveSpeed = playerConfig.MoveSpeed;
+            TurnSpeed = playerConfig.TurnSpeed;
+            SpeedMultiplier = playerConfig.SpeedMultiplier;
+            SprintTime = playerConfig.SprintTime;
+        }
+        Debug.Log("CREATE IN");
     }
 
     [Inject]
-    private void Construct(PlayerConfig playerConfig)
+    public void Construct(PlayerConfig playerConfig)
     {
         if (playerConfig != null)
         {
@@ -39,7 +45,7 @@ public class PlayerAuthoring : MonoBehaviour
 	{
 		public override void Bake(PlayerAuthoring authoring)
 		{
-            Debug.Log("BAKED");
+            //Debug.Log("BAKED");
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 			AddComponent(entity, new PlayerTag());
             AddComponent(entity, new PlayerManagedComponentSetterTag { });
