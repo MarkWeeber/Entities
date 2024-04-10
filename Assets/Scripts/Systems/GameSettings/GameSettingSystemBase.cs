@@ -4,35 +4,31 @@ using Zenject;
 
 public partial class GameSettingSystemBase : SystemBase
 {
-    private PlayerConfig playerConfig;
+    private float _moveSpeed;
+    private float _turnSpeed;
     private bool injected;
 
     [Inject]
-    private void Init(PlayerConfig playerConfig)
+    private void Init(GameSettings gameSettings)
     {
-        this.playerConfig = playerConfig;
+        _moveSpeed = gameSettings.MoveSpeed;
+        _turnSpeed = gameSettings.TurnSpeed;
         injected = true;
+        
     }
-    protected override void OnCreate()
-    {
-        if (injected)
-        {
-            Debug.Log("Inject successA");
-        }
-        else
-        {
-            Debug.Log("Inject not success");
-        }
-    }
-    protected override void OnStopRunning()
-    { }
 
     protected override void OnUpdate()
     {
         if (injected)
         {
-            Debug.Log("Inject success!");
+            foreach ((PlayerTag playerTag, RefRW<MovementData> movementData) 
+                in SystemAPI.Query<PlayerTag, RefRW<MovementData>>())
+            {
+                movementData.ValueRW.MoveSpeed = _moveSpeed;
+                movementData.ValueRW.TurnSpeed = _turnSpeed;
+            }
             Enabled = false;
+            injected = false;
         }
     }
 }
