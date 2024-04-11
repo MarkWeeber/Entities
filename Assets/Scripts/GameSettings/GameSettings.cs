@@ -5,20 +5,10 @@ using Zenject;
 
 public class GameSettings
 {
-    public float MoveSpeed = 1.0f;
-    public float TurnSpeed = 5.0f;
-    public GameSettings(PlayerConfig playerConfig)
+    public IPlayerConfig PlayerConfig;
+    public GameSettings(IPlayerConfig playerConfig)
     {
-        if (playerConfig != null)
-        {
-            MoveSpeed = playerConfig.MoveSpeed;
-            TurnSpeed = playerConfig.TurnSpeed;
-        }
-        else
-        {
-            MoveSpeed = 2.0f;
-            TurnSpeed = 10f;
-        }
+        PlayerConfig = playerConfig;
     }
 
     private void InjectPlayerEntities(PlayerConfig playerConfig)

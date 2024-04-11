@@ -11,8 +11,8 @@ public partial class GameSettingSystemBase : SystemBase
     [Inject]
     private void Init(GameSettings gameSettings)
     {
-        _moveSpeed = gameSettings.MoveSpeed;
-        _turnSpeed = gameSettings.TurnSpeed;
+        _moveSpeed = gameSettings.PlayerConfig.MoveSpeed;
+        _turnSpeed = gameSettings.PlayerConfig.TurnSpeed;
         injected = true;
         
     }
