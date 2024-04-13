@@ -1444,7 +1444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerConfig: {fileID: 11400000, guid: 729b262e87612bc498ae430ff0088ab0, type: 2}
-  SwitchToDummySettings: 0
+  SwitchToDummySettings: 1
 --- !u!1 &898151714
 GameObject:
   m_ObjectHideFlags: 0
