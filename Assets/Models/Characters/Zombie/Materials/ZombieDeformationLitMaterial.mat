@@ -75,6 +75,8 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
+    - _GlowFactor: 2
+    - _GlowPower: 5
     - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -82,6 +84,7 @@ Material:
     - _RotateX: 0
     - _RotateY: 0
     - _RotateZ: 0
+    - _SineSpeed: 1
     - _Smoothness: 0.288
     - _SrcBlend: 1
     - _Surface: 0
@@ -94,6 +97,7 @@ Material:
     - _Add: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _DotsDeformationParams: {r: 0, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 0, g: 2, b: 0.06521034, a: 0}
     - _Multiply: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

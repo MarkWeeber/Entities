@@ -27,7 +27,7 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
              AnimatorActorParametersBuffer,
              MovementStatisticData,
              NPCMovementComponent,
-             NPCStrategyBuffer >()
+             NPCStrategyBuffer>()
             .Build();
 
         if (acrtorsQuery.CalculateEntityCount() < 1)
@@ -35,6 +35,9 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
             return;
         }
         state.Dependency = new AnimatorParametersSetJob { }.ScheduleParallel(acrtorsQuery, state.Dependency);
+        EntityQuery NPCWithMaterialsQuery = SystemAPI.QueryBuilder()
+            .WithAll<MovementStatisticData, DeformationsSineSpeedOverride>().Build();
+        state.Dependency = new NPCMaterialSetJob { }.ScheduleParallel(NPCWithMaterialsQuery, state.Dependency);
     }
 
     [BurstCompile]
@@ -92,6 +95,17 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
                     break;
                 }
             }
+        }
+    }
+
+    [BurstCompile]
+    private partial struct NPCMaterialSetJob : IJobEntity
+    {
+        [BurstCompile]
+        private void Execute(RefRO<MovementStatisticData> movementStatisticData, RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride)
+        {
+            var speed = movementStatisticData.ValueRO.Speed;
+            deformationsSineSpeedOverride.ValueRW.Value = speed * 6f + 1f;
         }
     }
 }
