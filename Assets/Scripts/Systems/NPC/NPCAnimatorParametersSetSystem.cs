@@ -10,9 +10,11 @@ using Unity.Transforms;
 [UpdateAfter(typeof(NPCMovementSystem))]
 public partial struct NPCAnimatorParametersSetSystem : ISystem
 {
+    private ComponentLookup<MovementStatisticData> movementLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        movementLookup = state.GetComponentLookup<MovementStatisticData>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -35,9 +37,10 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
             return;
         }
         state.Dependency = new AnimatorParametersSetJob { }.ScheduleParallel(acrtorsQuery, state.Dependency);
+        movementLookup.Update(ref state);
         EntityQuery NPCWithMaterialsQuery = SystemAPI.QueryBuilder()
-            .WithAll<MovementStatisticData, DeformationsSineSpeedOverride>().Build();
-        state.Dependency = new NPCMaterialSetJob { }.ScheduleParallel(NPCWithMaterialsQuery, state.Dependency);
+            .WithAll<Parent, DeformationsSineSpeedOverride>().Build();
+        state.Dependency = new NPCMaterialSetJob { MovementLookup = movementLookup }.ScheduleParallel(NPCWithMaterialsQuery, state.Dependency);
     }
 
     [BurstCompile]
@@ -101,11 +104,16 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
     [BurstCompile]
     private partial struct NPCMaterialSetJob : IJobEntity
     {
+        [ReadOnly]
+        public ComponentLookup<MovementStatisticData> MovementLookup;
         [BurstCompile]
-        private void Execute(RefRO<MovementStatisticData> movementStatisticData, RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride)
+        private void Execute(Parent parent, RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride)
         {
-            var speed = movementStatisticData.ValueRO.Speed;
-            deformationsSineSpeedOverride.ValueRW.Value = speed * 6f + 1f;
+            if (MovementLookup.HasComponent(parent.Value))
+            {
+                var speed = MovementLookup.GetRefRO(parent.Value).ValueRO.Speed;
+                deformationsSineSpeedOverride.ValueRW.Value = speed * 6f + 1f;
+            }
         }
     }
 }
