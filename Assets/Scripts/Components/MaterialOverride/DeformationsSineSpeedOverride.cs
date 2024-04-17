@@ -5,4 +5,5 @@ using Unity.Rendering;
 public struct DeformationsSineSpeedOverride : IComponentData
 {
     public float Value;
+    public Entity ParentEntity;
 }

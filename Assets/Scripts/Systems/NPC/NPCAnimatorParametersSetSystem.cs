@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -10,11 +11,9 @@ using Unity.Transforms;
 [UpdateAfter(typeof(NPCMovementSystem))]
 public partial struct NPCAnimatorParametersSetSystem : ISystem
 {
-    private ComponentLookup<MovementStatisticData> movementLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        movementLookup = state.GetComponentLookup<MovementStatisticData>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -37,10 +36,6 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
             return;
         }
         state.Dependency = new AnimatorParametersSetJob { }.ScheduleParallel(acrtorsQuery, state.Dependency);
-        movementLookup.Update(ref state);
-        EntityQuery NPCWithMaterialsQuery = SystemAPI.QueryBuilder()
-            .WithAll<Parent, DeformationsSineSpeedOverride>().Build();
-        state.Dependency = new NPCMaterialSetJob { MovementLookup = movementLookup }.ScheduleParallel(NPCWithMaterialsQuery, state.Dependency);
     }
 
     [BurstCompile]
@@ -97,22 +92,6 @@ public partial struct NPCAnimatorParametersSetSystem : ISystem
                 {
                     break;
                 }
-            }
-        }
-    }
-
-    [BurstCompile]
-    private partial struct NPCMaterialSetJob : IJobEntity
-    {
-        [ReadOnly]
-        public ComponentLookup<MovementStatisticData> MovementLookup;
-        [BurstCompile]
-        private void Execute(Parent parent, RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride)
-        {
-            if (MovementLookup.HasComponent(parent.Value))
-            {
-                var speed = MovementLookup.GetRefRO(parent.Value).ValueRO.Speed;
-                deformationsSineSpeedOverride.ValueRW.Value = speed * 6f + 1f;
             }
         }
     }

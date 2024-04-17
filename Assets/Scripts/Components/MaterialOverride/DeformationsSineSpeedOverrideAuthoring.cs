@@ -9,8 +9,8 @@ public class DeformationsSineSpeedOverrideAuthoring : MonoBehaviour
 		public override void Bake(DeformationsSineSpeedOverrideAuthoring authoring)
 		{
 			Entity entity = GetEntity(TransformUsageFlags.Renderable);
-			AddComponent(entity, new DeformationsSineSpeedOverride
-			{
+			AddComponent(entity, new DeformationsSineSpeedOverrideData
+            {
 				Value = authoring.sineSpeed
 			});
 		}

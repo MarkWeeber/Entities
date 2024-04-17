@@ -5,6 +5,7 @@ using Unity.Entities.Hybrid.Baking;
 using Unity.Rendering;
 using Unity.Transforms;
 using Unity.Jobs;
+using UnityEngine;
 
 [WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
 [BurstCompile]
@@ -31,6 +32,10 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             .WithAll<DeformationSampleColor, AdditionalEntitiesBakingData>()
             .WithNone<URPMaterialPropertyBaseColor>()
             .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
+        EntityQuery sineWaveOverrideEntities = SystemAPI.QueryBuilder()
+            .WithAll<DeformationsSineSpeedOverrideData, Parent, AdditionalEntitiesBakingData>()
+            .WithNone< DeformationsSineSpeedOverride>()
+            .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
         if (deformationEntities.CalculateEntityCount() == 0 && deformationEntitiesWithAdditionalBakingData.CalculateEntityCount() == 0)
         {
             return;
@@ -46,14 +51,19 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
         JobHandle addBoneAndRootTagsJobHandle = addBoneAndRootTagsJob.ScheduleParallel(deformationEntities, state.Dependency);
         addBoneAndRootTagsJobHandle.Complete();
 
-        OverrideMaterialColorJob overrideMaterialColorJob = new OverrideMaterialColorJob
+        state.Dependency = new OverrideMaterialColorJob
         {
             ParallelWriter = parallelWriter,
             EntityManager = state.EntityManager
-        };
+        }.Schedule(deformationEntitiesWithAdditionalBakingData, state.Dependency);
 
-        JobHandle overrideMaterialColorJobHandle = overrideMaterialColorJob.Schedule(deformationEntitiesWithAdditionalBakingData, state.Dependency);
-        overrideMaterialColorJobHandle.Complete();
+        state.Dependency = new OverrideSineWaveSpeedJob
+        {
+            EntityManager = state.EntityManager,
+            ParallelWriter = parallelWriter
+        }.Schedule(sineWaveOverrideEntities, state.Dependency);
+
+        state.Dependency.Complete();
 
         entityCommandBuffer.Playback(state.EntityManager);
         entityCommandBuffer.Dispose();
@@ -103,6 +113,34 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
                 if (EntityManager.HasComponent<RenderMesh>(rendererEntity.Value))
                 {
                     ParallelWriter.AddComponent(sortKey, rendererEntity.Value, new URPMaterialPropertyBaseColor { Value = deformColor.ValueRO.Value });
+                }
+            }
+        }
+    }
+
+    [BurstCompile]
+    private partial struct OverrideSineWaveSpeedJob : IJobEntity
+    {
+        public EntityManager EntityManager;
+        internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        [BurstCompile]
+        private void Execute(
+            [ChunkIndexInQuery] int sortKey,
+            RefRO<DeformationsSineSpeedOverrideData> sineSpeedOverrideData,
+            Parent parent,
+            in DynamicBuffer<AdditionalEntitiesBakingData> additionalEntities
+            )
+        {
+            // Override the sinewave speed color of the deformation materials
+            foreach (var rendererEntity in additionalEntities.AsNativeArray())
+            {
+                if (EntityManager.HasComponent<RenderMesh>(rendererEntity.Value))
+                {
+                    ParallelWriter.AddComponent(sortKey, rendererEntity.Value, new DeformationsSineSpeedOverride
+                    { 
+                        Value = sineSpeedOverrideData.ValueRO.Value,
+                        ParentEntity = parent.Value
+                    });
                 }
             }
         }
