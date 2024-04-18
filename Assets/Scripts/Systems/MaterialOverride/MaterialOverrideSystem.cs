@@ -27,9 +27,10 @@ public partial struct MaterialOverrideSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        //state.Enabled = false;
         var entityQuery = SystemAPI.QueryBuilder().WithAll<DeformationsSineSpeedOverride>().Build();
         movementLookup.Update(ref state);
-        state.Dependency = new NPCMaterialSetJob { MovementLookup = movementLookup }.ScheduleParallel(entityQuery, state.Dependency);
+        state.Dependency = new NPCMaterialSetJob { MovementLookup = movementLookup }.Schedule(entityQuery, state.Dependency);
     }
 
     [BurstCompile]
@@ -38,7 +39,7 @@ public partial struct MaterialOverrideSystem : ISystem
         [ReadOnly]
         public ComponentLookup<MovementStatisticData> MovementLookup;
         [BurstCompile]
-        private void Execute(RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride)
+        private void Execute(RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride, Entity entity)
         {
             if (MovementLookup.HasComponent(deformationsSineSpeedOverride.ValueRO.ParentEntity))
             {

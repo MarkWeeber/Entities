@@ -2128,9 +2128,9 @@
     "m_Guid": {
         "m_GuidSerialized": "20c82425-9e29-4137-b935-54480e8cb6c8"
     },
-    "m_Name": "SineSpeed",
+    "m_Name": "_SineSpeed",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "SineSpeed",
+    "m_RefNameGeneratedByDisplayName": "_SineSpeed",
     "m_DefaultReferenceName": "_SineSpeed",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
@@ -3849,7 +3849,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "ae2f8d392f784697afda4ccf3e572fef",
     "m_Id": 0,
-    "m_DisplayName": "SineSpeed",
+    "m_DisplayName": "_SineSpeed",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

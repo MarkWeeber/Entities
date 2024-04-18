@@ -34,8 +34,9 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
         EntityQuery sineWaveOverrideEntities = SystemAPI.QueryBuilder()
             .WithAll<DeformationsSineSpeedOverrideData, Parent, AdditionalEntitiesBakingData>()
-            .WithNone< DeformationsSineSpeedOverride>()
-            .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
+            .WithNone<DeformationsSineSpeedOverride>()
+            //.WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities)
+            .Build();
         if (deformationEntities.CalculateEntityCount() == 0 && deformationEntitiesWithAdditionalBakingData.CalculateEntityCount() == 0)
         {
             return;
@@ -60,7 +61,7 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
         state.Dependency = new OverrideSineWaveSpeedJob
         {
             EntityManager = state.EntityManager,
-            ParallelWriter = parallelWriter
+            ECB = entityCommandBuffer
         }.Schedule(sineWaveOverrideEntities, state.Dependency);
 
         state.Dependency.Complete();
@@ -122,13 +123,13 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
     private partial struct OverrideSineWaveSpeedJob : IJobEntity
     {
         public EntityManager EntityManager;
-        internal EntityCommandBuffer.ParallelWriter ParallelWriter;
+        public EntityCommandBuffer ECB;
         [BurstCompile]
         private void Execute(
-            [ChunkIndexInQuery] int sortKey,
             RefRO<DeformationsSineSpeedOverrideData> sineSpeedOverrideData,
             Parent parent,
-            in DynamicBuffer<AdditionalEntitiesBakingData> additionalEntities
+            in DynamicBuffer<AdditionalEntitiesBakingData> additionalEntities,
+            Entity entity
             )
         {
             // Override the sinewave speed color of the deformation materials
@@ -136,13 +137,21 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             {
                 if (EntityManager.HasComponent<RenderMesh>(rendererEntity.Value))
                 {
-                    ParallelWriter.AddComponent(sortKey, rendererEntity.Value, new DeformationsSineSpeedOverride
-                    { 
+                    ECB.AddComponent(rendererEntity.Value, new DeformationsSineSpeedOverride
+                    {
                         Value = sineSpeedOverrideData.ValueRO.Value,
                         ParentEntity = parent.Value
                     });
+                    //ECB.RemoveComponent<DeformationsSineSpeedOverrideData>(rendererEntity.Value);
+                    //ParallelWriter.AddComponent(sortKey, rendererEntity.Value, new DeformationsSineSpeedOverride
+                    //{ 
+                    //    Value = sineSpeedOverrideData.ValueRO.Value,
+                    //    ParentEntity = parent.Value
+                    //});
+                    //ParallelWriter.RemoveComponent(sortKey, rendererEntity.Value, typeof(DeformationsSineSpeedOverrideData));
                 }
             }
+            ECB.RemoveComponent<DeformationsSineSpeedOverrideData>(entity);
         }
     }
 }
