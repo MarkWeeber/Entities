@@ -15,10 +15,12 @@ using UnityEngine;
 public partial struct MaterialOverrideSystem : ISystem
 {
     private ComponentLookup<MovementStatisticData> movementLookup;
+    private ComponentLookup<HealthData> healthLookup;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         movementLookup = state.GetComponentLookup<MovementStatisticData>(true);
+        healthLookup = state.GetComponentLookup<HealthData>(true);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -28,23 +30,42 @@ public partial struct MaterialOverrideSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         //state.Enabled = false;
-        var entityQuery = SystemAPI.QueryBuilder().WithAll<DeformationsSineSpeedOverride>().Build();
+        var entityQuery = SystemAPI.QueryBuilder()
+            .WithAll<MaterialSineSpeedOverride, MaterialHealthRatioOverride, LinkedEntityComponent>().Build();
         movementLookup.Update(ref state);
-        state.Dependency = new NPCMaterialSetJob { MovementLookup = movementLookup }.Schedule(entityQuery, state.Dependency);
+        healthLookup.Update(ref state);
+        float deltaTime = SystemAPI.Time.DeltaTime;
+        state.Dependency = new NPCMaterialOverrideJob
+        {
+            MovementLookup = movementLookup,
+            HealthLookup = healthLookup
+        }.ScheduleParallel(entityQuery, state.Dependency);
     }
 
     [BurstCompile]
-    private partial struct NPCMaterialSetJob : IJobEntity
+    private partial struct NPCMaterialOverrideJob : IJobEntity
     {
         [ReadOnly]
         public ComponentLookup<MovementStatisticData> MovementLookup;
+        [ReadOnly]
+        public ComponentLookup<HealthData> HealthLookup;
         [BurstCompile]
-        private void Execute(RefRW<DeformationsSineSpeedOverride> deformationsSineSpeedOverride, Entity entity)
+        private void Execute(
+            RefRW<MaterialSineSpeedOverride> sineSpeedOverride,
+            RefRW<MaterialHealthRatioOverride> healthOverride,
+            RefRO<LinkedEntityComponent> linkedEntity)
         {
-            if (MovementLookup.HasComponent(deformationsSineSpeedOverride.ValueRO.ParentEntity))
+            if (MovementLookup.HasComponent(linkedEntity.ValueRO.Value))
             {
-                var speed = MovementLookup.GetRefRO(deformationsSineSpeedOverride.ValueRO.ParentEntity).ValueRO.Speed;
-                deformationsSineSpeedOverride.ValueRW.Value = speed * 20f + 1f;
+                var speed = MovementLookup.GetRefRO(linkedEntity.ValueRO.Value).ValueRO.Speed;
+                sineSpeedOverride.ValueRW.Value = speed;
+            }
+            if (HealthLookup.HasComponent(linkedEntity.ValueRO.Value))
+            {
+                var healthRatio = 
+                    HealthLookup.GetRefRO(linkedEntity.ValueRO.Value).ValueRO.CurrentHealth /
+                    HealthLookup.GetRefRO(linkedEntity.ValueRO.Value).ValueRO.MaxHealth;
+                healthOverride.ValueRW.Value = healthRatio;
             }
         }
     }

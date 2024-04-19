@@ -2,8 +2,7 @@ using Unity.Entities;
 using Unity.Rendering;
 
 [MaterialProperty("_SineSpeed")]
-public struct DeformationsSineSpeedOverride : IComponentData
+public struct MaterialSineSpeedOverride : IComponentData
 {
     public float Value;
-    public Entity ParentEntity;
 }

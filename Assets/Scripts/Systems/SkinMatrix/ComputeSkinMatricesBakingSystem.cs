@@ -32,9 +32,9 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             .WithAll<DeformationSampleColor, AdditionalEntitiesBakingData>()
             .WithNone<URPMaterialPropertyBaseColor>()
             .WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities).Build();
-        EntityQuery sineWaveOverrideEntities = SystemAPI.QueryBuilder()
-            .WithAll<DeformationsSineSpeedOverrideData, Parent, AdditionalEntitiesBakingData>()
-            .WithNone<DeformationsSineSpeedOverride>()
+        EntityQuery materialOverrideEntities = SystemAPI.QueryBuilder()
+            .WithAll<MaterialOverrideData, Parent, AdditionalEntitiesBakingData>()
+            .WithNone<MaterialSineSpeedOverride, LinkedEntityComponent, MaterialHealthRatioOverride>()
             //.WithOptions(EntityQueryOptions.IncludePrefab | EntityQueryOptions.IncludeDisabledEntities)
             .Build();
         if (deformationEntities.CalculateEntityCount() == 0 && deformationEntitiesWithAdditionalBakingData.CalculateEntityCount() == 0)
@@ -58,11 +58,11 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             EntityManager = state.EntityManager
         }.Schedule(deformationEntitiesWithAdditionalBakingData, state.Dependency);
 
-        state.Dependency = new OverrideSineWaveSpeedJob
+        state.Dependency = new AddOverrideMaterialComponents
         {
             EntityManager = state.EntityManager,
             ECB = entityCommandBuffer
-        }.Schedule(sineWaveOverrideEntities, state.Dependency);
+        }.Schedule(materialOverrideEntities, state.Dependency);
 
         state.Dependency.Complete();
 
@@ -120,13 +120,13 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
     }
 
     [BurstCompile]
-    private partial struct OverrideSineWaveSpeedJob : IJobEntity
+    private partial struct AddOverrideMaterialComponents : IJobEntity
     {
         public EntityManager EntityManager;
         public EntityCommandBuffer ECB;
         [BurstCompile]
         private void Execute(
-            RefRO<DeformationsSineSpeedOverrideData> sineSpeedOverrideData,
+            RefRO<MaterialOverrideData> materialOverrideData,
             Parent parent,
             in DynamicBuffer<AdditionalEntitiesBakingData> additionalEntities,
             Entity entity
@@ -137,21 +137,21 @@ public partial struct ComputeSkinMatricesBakingSystem : ISystem
             {
                 if (EntityManager.HasComponent<RenderMesh>(rendererEntity.Value))
                 {
-                    ECB.AddComponent(rendererEntity.Value, new DeformationsSineSpeedOverride
+                    ECB.AddComponent(rendererEntity.Value, new MaterialSineSpeedOverride
                     {
-                        Value = sineSpeedOverrideData.ValueRO.Value,
-                        ParentEntity = parent.Value
+                        Value = materialOverrideData.ValueRO.SineSpeed,
                     });
-                    //ECB.RemoveComponent<DeformationsSineSpeedOverrideData>(rendererEntity.Value);
-                    //ParallelWriter.AddComponent(sortKey, rendererEntity.Value, new DeformationsSineSpeedOverride
-                    //{ 
-                    //    Value = sineSpeedOverrideData.ValueRO.Value,
-                    //    ParentEntity = parent.Value
-                    //});
-                    //ParallelWriter.RemoveComponent(sortKey, rendererEntity.Value, typeof(DeformationsSineSpeedOverrideData));
+                    ECB.AddComponent(rendererEntity.Value, new MaterialHealthRatioOverride
+                    {
+                        Value = materialOverrideData.ValueRO.HealthRatio,
+                    });
+                    ECB.AddComponent(rendererEntity.Value, new LinkedEntityComponent
+                    {
+                        Value = parent.Value
+                    });
                 }
             }
-            ECB.RemoveComponent<DeformationsSineSpeedOverrideData>(entity);
+            ECB.RemoveComponent<MaterialOverrideData>(entity);
         }
     }
 }
