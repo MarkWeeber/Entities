@@ -45,13 +45,13 @@ MonoBehaviour:
   m_AdditionalLightsShadowResolutionTierHigh: 512
   m_ReflectionProbeBlending: 0
   m_ReflectionProbeBoxProjection: 0
-  m_ShadowDistance: 50
-  m_ShadowCascadeCount: 3
+  m_ShadowDistance: 100
+  m_ShadowCascadeCount: 4
   m_Cascade2Split: 0.65
   m_Cascade3Split: {x: 0.3041096, y: 0.54931504}
-  m_Cascade4Split: {x: 0.067, y: 0.2, z: 0.467}
-  m_CascadeBorder: 0.13775419
-  m_ShadowDepthBias: 1
+  m_Cascade4Split: {x: 0.185, y: 0.48099998, z: 0.744}
+  m_CascadeBorder: 1
+  m_ShadowDepthBias: 0
   m_ShadowNormalBias: 0
   m_AnyShadowsSupported: 1
   m_SoftShadowsSupported: 1
