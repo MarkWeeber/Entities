@@ -5,6 +5,8 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using CustomUtils;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using ParseUtils;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -47,21 +49,21 @@ public partial struct AnimatorPartAnimateSystem : ISystem
         [ReadOnly]
         public BufferLookup<AnimatorActorLayerBuffer> LayerLookup;
         [BurstCompile]
-        private void Execute(RefRO<AnimatorPartComponent> animatorRoot, RefRW<LocalTransform> localTransform, Entity entity)
+        private void Execute(RefRO<AnimatorPartComponent> animatedPart, RefRW<LocalTransform> localTransform, Entity entity)
         {
-            Entity rootEntity = animatorRoot.ValueRO.RootEntity;
-            int partIndex = animatorRoot.ValueRO.PathAnimationBlobIndex;
+            Entity rootEntity = animatedPart.ValueRO.RootEntity;
+            int partIndex = animatedPart.ValueRO.PathAnimationBlobIndex;
             if (LayerLookup.HasBuffer(rootEntity))
             {
                 foreach (var layer in LayerLookup[rootEntity])
                 {
-                    ProcessLayer(layer, localTransform, partIndex);
+                    ProcessLayer(layer, localTransform, partIndex, animatedPart);
                 }
             }
         }
 
         [BurstCompile]
-        private void ProcessLayer(AnimatorActorLayerBuffer layer, RefRW<LocalTransform> localTransform, int partIndex)
+        private void ProcessLayer(AnimatorActorLayerBuffer layer, RefRW<LocalTransform> localTransform, int partIndex, RefRO<AnimatorPartComponent> animatedPart)
         {
             bool activeTransition = false;
             float transitionRate = -1f;
@@ -84,7 +86,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             float currentScale = localTransform.ValueRO.Scale;
             float currentAnimationTime = layer.CurrentAnimationTime;
             // obtain current animation values
-            ObtainAnimationValues(ref currentPos, ref currentRot, currentAnimationTime, layer.Method, currentAnimationBlobIndex, partIndex);
+            ObtainAnimationValues(ref currentPos, ref currentRot, currentAnimationTime, layer.Method, currentAnimationBlobIndex, partIndex, animatedPart);
             // if is in active transition
             if (activeTransition)
             {
@@ -93,7 +95,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 float nextScale = localTransform.ValueRO.Scale;
                 float nextAnimationTime = layer.NextAnimationTime;
                 int nextAnimationBlobIndex = layer.NextAnimationBlobIndex;
-                ObtainAnimationValues(ref nextPos, ref nextRot, nextAnimationTime, layer.Method, nextAnimationBlobIndex, partIndex);
+                ObtainAnimationValues(ref nextPos, ref nextRot, nextAnimationTime, layer.Method, nextAnimationBlobIndex, partIndex, animatedPart);
                 // interpolate first values with second
                 currentPos = InterPolate(currentPos, nextPos, transitionRate, layer.Method);
                 currentRot = InterPolate(currentRot, nextRot, transitionRate, layer.Method);
@@ -106,20 +108,16 @@ public partial struct AnimatorPartAnimateSystem : ISystem
 
         [BurstCompile]
         private void ObtainAnimationValues(
-            ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex)
+            ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex, RefRO<AnimatorPartComponent> animatedPart)
         {
             AnimationBlobBuffer animation = AnimationBlob[animationIndex];
-            int fps = animation.FPS;
             ref PathDataPool pathDataPool = ref animation.PathData.Value;
             ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
-            int samplesCount = (int)math.ceil(animation.Length * fps) + 1;
-            float timeRate = animationTime / animation.Length;
-            int firstCurveIndex = (int)math.floor(timeRate * (samplesCount - 1));
-            int secondCurveIndex = (int)math.ceil(timeRate * (samplesCount - 1));
-            float intervalTime = animation.Length / (samplesCount - 1);
-            float firstTime = firstCurveIndex * intervalTime;
-            float secondTime = secondCurveIndex * intervalTime;
-            float transitionRate = (animationTime - firstTime) / intervalTime;
+            
+            int firstCurveIndex = 0;
+            int secondCurveIndex = 0;
+            float transitionRate = 0f;
+            ObtainIndices(animation, animationTime, ref firstCurveIndex, ref secondCurveIndex, ref transitionRate);
             if (pathsPool.HasPositions)
             {
                 ref var positions = ref pathsPool.Positions;
@@ -157,6 +155,24 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                                         math.radians(eulerRotation.value.y),
                                         math.radians(eulerRotation.value.z));
             }
+        }
+
+        [BurstCompile]
+        private void ObtainIndices(
+            AnimationBlobBuffer animation,
+            float animationTime,
+            ref int firstCurveIndex,
+            ref int secondCurveIndex,
+            ref float transitionRate)
+        {
+            float _timeRate = animationTime / animation.Length;
+            int _fps = animation.FPS;
+            int _samplesCount = (int)math.ceil(animation.Length * _fps) + 1;
+            firstCurveIndex = (int)math.floor(_timeRate * (_samplesCount - 1));
+            secondCurveIndex = (int)math.ceil(_timeRate * (_samplesCount - 1));
+            float _intervalTime = animation.Length / (_samplesCount - 1);
+            float _firstTime = firstCurveIndex * _intervalTime;
+            transitionRate = (animationTime - _firstTime) / _intervalTime;
         }
 
         [BurstCompile]

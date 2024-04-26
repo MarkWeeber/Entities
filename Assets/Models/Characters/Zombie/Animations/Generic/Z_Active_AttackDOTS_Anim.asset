@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_Active_AttackDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35742
+    Id: 36622
     AnimationName: Z_Active_Attack
-    AnimatorInstanceId: 35788
+    AnimatorInstanceId: 36670
     Length: 1
     Looped: 1
     FPS: 30
@@ -20946,11 +20946,11 @@ MonoBehaviour:
         Time: 1
       EulerRotations: []
     EventsData:
-    - Time: 0.3
+    - Time: 0.25
       EventType: 1
-    - Time: 0.7
+    - Time: 0.75
       EventType: 1
-    - Time: 0.3
+    - Time: 0.25
       EventType: 2
-    - Time: 0.7
+    - Time: 0.75
       EventType: 2

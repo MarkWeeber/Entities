@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_FallingForwardDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35732
+    Id: 36642
     AnimationName: Z_FallingForward
-    AnimatorInstanceId: 35710
+    AnimatorInstanceId: 36618
     Length: 1.1666667
     Looped: 0
     FPS: 30
@@ -212,6 +212,11 @@ MonoBehaviour:
           y: 0.14933659
           z: 1.1254199
         Time: 1.1342593
+      - Value:
+          x: -0.062314723
+          y: 0.15044086
+          z: 1.1314038
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -465,6 +470,13 @@ MonoBehaviour:
             z: 0.733014
             w: -0.30993414
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.541825
+            y: -0.24228263
+            z: 0.7474293
+            w: -0.29845312
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanRThigh
       HasPosition: 1
@@ -651,6 +663,11 @@ MonoBehaviour:
           y: 0.044787392
           z: -0.083920956
         Time: 1.1342593
+      - Value:
+          x: -0.016426696
+          y: 0.044787392
+          z: -0.083920956
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -904,6 +921,13 @@ MonoBehaviour:
             z: -0.11241284
             w: -0.1522369
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.3301632
+            y: 0.92404014
+            z: -0.1026937
+            w: -0.16308296
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanRThigh/Base HumanRCalf
       HasPosition: 1
@@ -1090,6 +1114,11 @@ MonoBehaviour:
           y: -0.0000017160548
           z: -0.00000038199957
         Time: 1.1342593
+      - Value:
+          x: -0.39293945
+          y: -0.0000016784668
+          z: -0.0000004005432
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -1343,6 +1372,13 @@ MonoBehaviour:
             z: 0.3219663
             w: 0.94662756
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.007727203
+            y: -0.005930754
+            z: 0.32793695
+            w: 0.9446494
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot
       HasPosition: 1
@@ -1529,6 +1565,11 @@ MonoBehaviour:
           y: 0
           z: 0
         Time: 1.1342593
+      - Value:
+          x: -0.43699238
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -1782,6 +1823,13 @@ MonoBehaviour:
             z: -0.663278
             w: 0.7204706
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.13177729
+            y: 0.13772939
+            z: -0.663937
+            w: 0.7230859
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot/Base
         HumanRDigit11
@@ -1969,6 +2017,11 @@ MonoBehaviour:
           y: -0.033134088
           z: -0.00525198
         Time: 1.1342593
+      - Value:
+          x: -0.17728785
+          y: -0.033134088
+          z: -0.00525198
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -2222,6 +2275,13 @@ MonoBehaviour:
             z: 0.000000010661151
             w: 0.99924123
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0000000518683
+            y: 0.038948406
+            z: 0.000000008347108
+            w: 0.99924123
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1
       HasPosition: 1
@@ -2408,6 +2468,11 @@ MonoBehaviour:
           y: -0.0033361912
           z: -0.000000009890646
         Time: 1.1342593
+      - Value:
+          x: -0.04360443
+          y: -0.0033361912
+          z: -0.000000009890646
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -2661,6 +2726,13 @@ MonoBehaviour:
             z: -0.20454644
             w: 0.9763683
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.067203596
+            y: 0.0061398833
+            z: -0.19161443
+            w: 0.97914755
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2
       HasPosition: 1
@@ -2847,6 +2919,11 @@ MonoBehaviour:
           y: -0.000000037337745
           z: 0.000000023455591
         Time: 1.1342593
+      - Value:
+          x: -0.23331168
+          y: 0
+          z: 0.000000038146972
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -3100,6 +3177,13 @@ MonoBehaviour:
             z: 0.06939406
             w: 0.96547294
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.24377504
+            y: 0.071006596
+            z: 0.08203388
+            w: 0.96374387
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage
       HasPosition: 1
@@ -3286,6 +3370,11 @@ MonoBehaviour:
           y: 0
           z: 0.0000000073531066
         Time: 1.1342593
+      - Value:
+          x: -0.3590065
+          y: 0
+          z: 0.000000019073486
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -3539,6 +3628,13 @@ MonoBehaviour:
             z: -0.07464665
             w: 0.99607176
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.051952533
+            y: -0.006048509
+            z: -0.075013325
+            w: 0.9958099
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck
@@ -3726,6 +3822,11 @@ MonoBehaviour:
           y: -0.0033361816
           z: -0.000000006407499
         Time: 1.1342593
+      - Value:
+          x: -0.00075759884
+          y: -0.0033361816
+          z: -0.000000006407499
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -3979,6 +4080,13 @@ MonoBehaviour:
             z: 0.09600076
             w: 0.99155384
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.080029465
+            y: -0.007429835
+            z: 0.09406708
+            w: 0.9923162
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead
@@ -4166,6 +4274,11 @@ MonoBehaviour:
           y: -0.000000001353099
           z: 0.000000009014178
         Time: 1.1342593
+      - Value:
+          x: -0.13291733
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -4419,6 +4532,13 @@ MonoBehaviour:
             z: 0.15680984
             w: 0.9812529
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0896692
+            y: 0.04308667
+            z: 0.16749953
+            w: 0.9808399
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead/Base HumanHeadJaw
@@ -4606,6 +4726,11 @@ MonoBehaviour:
           y: 0.05036768
           z: -0.0000000039600945
         Time: 1.1342593
+      - Value:
+          x: 0.012398834
+          y: 0.050367773
+          z: -0.000000019073486
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -4859,6 +4984,13 @@ MonoBehaviour:
             z: -0.86266226
             w: 0.50578046
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.000000024157154
+            y: -0.00000018634199
+            z: -0.86266226
+            w: 0.50578046
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead/Base HumanHeadLEyelid
@@ -5046,6 +5178,11 @@ MonoBehaviour:
           y: 0.13199699
           z: 0.033060495
         Time: 1.1342593
+      - Value:
+          x: -0.05312744
+          y: 0.13199699
+          z: 0.033060495
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -5299,6 +5436,13 @@ MonoBehaviour:
             z: -0.000000022351767
             w: 1
         Time: 1.1342593
+      - Value:
+          value:
+            x: -3.4106046e-13
+            y: 3.410609e-13
+            z: -0.000000022351767
+            w: 1
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead/Base HumanHeadREyelid
@@ -5486,6 +5630,11 @@ MonoBehaviour:
           y: 0.13199703
           z: -0.033060394
         Time: 1.1342593
+      - Value:
+          x: -0.053127136
+          y: 0.13199703
+          z: -0.033060394
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -5739,6 +5888,13 @@ MonoBehaviour:
             z: -0.000000022351767
             w: 1
         Time: 1.1342593
+      - Value:
+          value:
+            x: -3.4106046e-13
+            y: 3.410609e-13
+            z: -0.000000022351767
+            w: 1
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead/Base HumanHeadREye
@@ -5926,6 +6082,11 @@ MonoBehaviour:
           y: 0.101214975
           z: -0.03337419
         Time: 1.1342593
+      - Value:
+          x: -0.04857315
+          y: 0.101214975
+          z: -0.03337419
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -6179,6 +6340,13 @@ MonoBehaviour:
             z: -0.000000022351767
             w: 1
         Time: 1.1342593
+      - Value:
+          value:
+            x: -3.4106046e-13
+            y: 3.410609e-13
+            z: -0.000000022351767
+            w: 1
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanNeck/Base HumanHead/Base HumanLEye
@@ -6366,6 +6534,11 @@ MonoBehaviour:
           y: 0.10121494
           z: 0.03337439
         Time: 1.1342593
+      - Value:
+          x: -0.048573304
+          y: 0.10121494
+          z: 0.03337439
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -6619,6 +6792,13 @@ MonoBehaviour:
             z: -0.000000022351767
             w: 1
         Time: 1.1342593
+      - Value:
+          value:
+            x: -3.4106046e-13
+            y: 3.410609e-13
+            z: -0.000000022351767
+            w: 1
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone
@@ -6806,6 +6986,11 @@ MonoBehaviour:
           y: 0.01933693
           z: -0.05392591
         Time: 1.1342593
+      - Value:
+          x: 0.023195952
+          y: 0.01933693
+          z: -0.05392591
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -7059,6 +7244,13 @@ MonoBehaviour:
             z: 0.09344471
             w: 0.6117586
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.11865122
+            y: -0.78098387
+            z: 0.09437771
+            w: 0.6058704
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm
@@ -7246,6 +7438,11 @@ MonoBehaviour:
           y: -1.4515626e-11
           z: -0.00000015659461
         Time: 1.1342593
+      - Value:
+          x: -0.13715954
+          y: -0.000000009536743
+          z: -0.00000015258789
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -7499,6 +7696,13 @@ MonoBehaviour:
             z: 0.017945109
             w: 0.9103243
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.31819063
+            y: -0.26153457
+            z: 0.01752857
+            w: 0.9110692
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm
@@ -7686,6 +7890,11 @@ MonoBehaviour:
           y: 0.0000000011178051
           z: 0.0000000010016801
         Time: 1.1342593
+      - Value:
+          x: -0.2657412
+          y: 0.000000076293944
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -7939,6 +8148,13 @@ MonoBehaviour:
             z: -0.21636367
             w: 0.9730808
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0026966408
+            y: 0.079235174
+            z: -0.2105438
+            w: 0.97436434
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm
@@ -8126,6 +8342,11 @@ MonoBehaviour:
           y: 0.000000018794035
           z: -0.00000007617782
         Time: 1.1342593
+      - Value:
+          x: -0.2730243
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -8379,6 +8600,13 @@ MonoBehaviour:
             z: 0.2683519
             w: 0.59948653
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.7341558
+            y: -0.18950616
+            z: 0.2674984
+            w: 0.5945985
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -8567,6 +8795,11 @@ MonoBehaviour:
           y: -0.0148957055
           z: -0.041937407
         Time: 1.1342593
+      - Value:
+          x: -0.05265312
+          y: -0.0148957055
+          z: -0.041937407
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -8820,6 +9053,13 @@ MonoBehaviour:
             z: 0.21041317
             w: 0.92196983
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.07867035
+            y: -0.31545037
+            z: 0.21041317
+            w: 0.92196983
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -9008,6 +9248,11 @@ MonoBehaviour:
           y: -0.000000010220855
           z: 5.0084004e-10
         Time: 1.1342593
+      - Value:
+          x: -0.061588593
+          y: -0.000000047683713
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -9261,6 +9506,13 @@ MonoBehaviour:
             z: -0.005352067
             w: 0.9687488
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.016615735
+            y: 0.24742903
+            z: -0.005352067
+            w: 0.9687488
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -9449,6 +9701,11 @@ MonoBehaviour:
           y: -0.0037094497
           z: -0.041423608
         Time: 1.1342593
+      - Value:
+          x: -0.13654953
+          y: -0.0037094497
+          z: -0.041423608
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -9702,6 +9959,13 @@ MonoBehaviour:
             z: 0.08611501
             w: 0.98865014
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.02976835
+            y: -0.11945282
+            z: 0.08611501
+            w: 0.98865014
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -9890,6 +10154,11 @@ MonoBehaviour:
           y: 0.000000004064323
           z: 9.1253316e-10
         Time: 1.1342593
+      - Value:
+          x: -0.027010726
+          y: -0.000000028610229
+          z: -0.000000009536743
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -10143,6 +10412,13 @@ MonoBehaviour:
             z: 0.2342897
             w: 0.9721547
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00088094134
+            y: 0.004783921
+            z: 0.2342897
+            w: 0.9721547
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -10331,6 +10607,11 @@ MonoBehaviour:
           y: -0.0000000313239
           z: -0.000000011333134
         Time: 1.1342593
+      - Value:
+          x: -0.022646027
+          y: -0.000000038146972
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -10584,6 +10865,13 @@ MonoBehaviour:
             z: 0.18919377
             w: 0.9819398
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000056467366
+            y: 0.000000298488
+            z: 0.18919377
+            w: 0.9819398
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -10772,6 +11060,11 @@ MonoBehaviour:
           y: 0.0038267898
           z: -0.015467834
         Time: 1.1342593
+      - Value:
+          x: -0.13414063
+          y: 0.0038267898
+          z: -0.015467834
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -11025,6 +11318,13 @@ MonoBehaviour:
             z: -0.1697471
             w: 0.9854877
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000012685949
+            y: -0.00000009745427
+            z: -0.1697471
+            w: 0.9854877
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -11213,6 +11513,11 @@ MonoBehaviour:
           y: 0.00000007517614
           z: -2.7945127e-10
         Time: 1.1342593
+      - Value:
+          x: -0.038019028
+          y: 0
+          z: -0.000000019073486
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -11466,6 +11771,13 @@ MonoBehaviour:
             z: 0.43306834
             w: 0.9013611
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000034580282
+            y: -0.000000048770065
+            z: 0.43306834
+            w: 0.9013611
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -11654,6 +11966,11 @@ MonoBehaviour:
           y: 0.0000000017863098
           z: -0.0000000072132855
         Time: 1.1342593
+      - Value:
+          x: -0.019190978
+          y: -0.000000019073486
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -11907,6 +12224,13 @@ MonoBehaviour:
             z: 0.15353326
             w: 0.9881435
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000010148817
+            y: 0.0000003173689
+            z: 0.15353326
+            w: 0.9881435
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -12095,6 +12419,11 @@ MonoBehaviour:
           y: 0.000037498474
           z: 0.013782425
         Time: 1.1342593
+      - Value:
+          x: -0.13467002
+          y: 0.000037498474
+          z: 0.013782425
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -12348,6 +12677,13 @@ MonoBehaviour:
             z: -0.25285107
             w: 0.9590557
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.030182216
+            y: 0.123965554
+            z: -0.25285107
+            w: 0.9590557
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -12536,6 +12872,11 @@ MonoBehaviour:
           y: -0.000000074058335
           z: 0.000000037530008
         Time: 1.1342593
+      - Value:
+          x: -0.03029831
+          y: 0.000000076293944
+          z: -0.000000038146972
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -12789,6 +13130,13 @@ MonoBehaviour:
             z: 0.3846659
             w: 0.92303795
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.0017545709
+            y: -0.005480551
+            z: 0.3846659
+            w: 0.92303795
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -12977,6 +13325,11 @@ MonoBehaviour:
           y: 0.000000015224447
           z: 0.000000011582065
         Time: 1.1342593
+      - Value:
+          x: -0.018636016
+          y: 0.000000038146972
+          z: -0.000000038146972
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -13230,6 +13583,13 @@ MonoBehaviour:
             z: 0.47445816
             w: 0.88027805
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000009151345
+            y: -0.0000016773103
+            z: 0.47445816
+            w: 0.88027805
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -13418,6 +13778,11 @@ MonoBehaviour:
           y: 0.000019305127
           z: 0.039123222
         Time: 1.1342593
+      - Value:
+          x: -0.13421944
+          y: 0.000019226074
+          z: 0.03912323
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -13671,6 +14036,13 @@ MonoBehaviour:
             z: 0.029883716
             w: 0.9730548
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0069118687
+            y: 0.22852458
+            z: 0.029883716
+            w: 0.9730548
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -13859,6 +14231,11 @@ MonoBehaviour:
           y: -0.000000012882448
           z: 0.000000031684433
         Time: 1.1342593
+      - Value:
+          x: -0.015028152
+          y: 0
+          z: 0.000000076293944
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -14112,6 +14489,13 @@ MonoBehaviour:
             z: 0.16111767
             w: 0.98687047
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.0013696627
+            y: -0.01122076
+            z: 0.16111767
+            w: 0.98687047
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanRArmCollarbone/Base HumanRArmUpperarm/Base HumanRArmForearm/Base HumanRArmPalm/Base
@@ -14300,6 +14684,11 @@ MonoBehaviour:
           y: 0.0000000010034814
           z: -0.000000076293944
         Time: 1.1342593
+      - Value:
+          x: -0.020229798
+          y: -0.000000051259992
+          z: -0.000000076293944
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -14553,6 +14942,13 @@ MonoBehaviour:
             z: 0.22767162
             w: 0.973652
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0030280303
+            y: 0.01258267
+            z: 0.22767162
+            w: 0.973652
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone
@@ -14740,6 +15136,11 @@ MonoBehaviour:
           y: 0.01933689
           z: 0.053925913
         Time: 1.1342593
+      - Value:
+          x: 0.023195952
+          y: 0.01933689
+          z: 0.053925913
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -14993,6 +15394,13 @@ MonoBehaviour:
             z: 0.17437446
             w: 0.6374902
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.079091355
+            y: 0.7475608
+            z: 0.17638284
+            w: 0.635442
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm
@@ -15180,6 +15588,11 @@ MonoBehaviour:
           y: 0
           z: -0.00000015235564
         Time: 1.1342593
+      - Value:
+          x: -0.13715954
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -15433,6 +15846,13 @@ MonoBehaviour:
             z: -0.12097196
             w: 0.8422978
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.31348827
+            y: 0.4201826
+            z: -0.119543634
+            w: 0.8431376
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm
@@ -15620,6 +16040,11 @@ MonoBehaviour:
           y: 0.0000000771795
           z: 0.0000000011178051
         Time: 1.1342593
+      - Value:
+          x: -0.2657414
+          y: 0
+          z: 0.000000076293944
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -15873,6 +16298,13 @@ MonoBehaviour:
             z: -0.09817608
             w: 0.9949356
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.019713337
+            y: -0.010482449
+            z: -0.11147171
+            w: 0.9935168
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm
@@ -16060,6 +16492,11 @@ MonoBehaviour:
           y: 5.0084004e-10
           z: 0.0000000021194846
         Time: 1.1342593
+      - Value:
+          x: -0.27302435
+          y: 0
+          z: 0.000000076293944
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -16313,6 +16750,13 @@ MonoBehaviour:
             z: 0.11839008
             w: 0.62808603
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.77772653
+            y: -0.01223636
+            z: 0.12888363
+            w: 0.61512655
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -16501,6 +16945,11 @@ MonoBehaviour:
           y: -0.014895763
           z: 0.041937333
         Time: 1.1342593
+      - Value:
+          x: -0.05265312
+          y: -0.014895763
+          z: 0.041937333
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -16754,6 +17203,13 @@ MonoBehaviour:
             z: 0.21041332
             w: 0.9219698
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.07867026
+            y: 0.31545046
+            z: 0.21041332
+            w: 0.9219698
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -16942,6 +17398,11 @@ MonoBehaviour:
           y: 0.000000010073886
           z: 0.000000010656226
         Time: 1.1342593
+      - Value:
+          x: -0.061588746
+          y: 0.000000038146972
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -17195,6 +17656,13 @@ MonoBehaviour:
             z: -0.005352227
             w: 0.96874905
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.016615551
+            y: -0.24742784
+            z: -0.005352227
+            w: 0.96874905
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -17383,6 +17851,11 @@ MonoBehaviour:
           y: -0.0037093733
           z: 0.041423645
         Time: 1.1342593
+      - Value:
+          x: -0.13654946
+          y: -0.0037093733
+          z: 0.041423645
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -17636,6 +18109,13 @@ MonoBehaviour:
             z: 0.086115174
             w: 0.9886502
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.029768331
+            y: 0.119452365
+            z: 0.086115174
+            w: 0.9886502
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -17824,6 +18304,11 @@ MonoBehaviour:
           y: 0.0000000021194846
           z: -0.000000028817102
         Time: 1.1342593
+      - Value:
+          x: -0.02701065
+          y: 0.000000076293944
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -18077,6 +18562,13 @@ MonoBehaviour:
             z: 0.23429027
             w: 0.9721545
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.0008810962
+            y: -0.0047837826
+            z: 0.23429027
+            w: 0.9721545
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -18265,6 +18757,11 @@ MonoBehaviour:
           y: 0.000000014080092
           z: 0.0000000034382048
         Time: 1.1342593
+      - Value:
+          x: -0.022645874
+          y: 0.000000038146972
+          z: -0.000000009536743
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -18518,6 +19015,13 @@ MonoBehaviour:
             z: 0.18919395
             w: 0.98193973
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.00000040566735
+            y: -0.00000033614063
+            z: 0.18919395
+            w: 0.98193973
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -18706,6 +19210,11 @@ MonoBehaviour:
           y: 0.003826847
           z: 0.01546772
         Time: 1.1342593
+      - Value:
+          x: -0.13414063
+          y: 0.003826847
+          z: 0.01546772
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -18959,6 +19468,13 @@ MonoBehaviour:
             z: -0.1697472
             w: 0.98548764
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.00000018013604
+            y: -0.000000014333964
+            z: -0.1697472
+            w: 0.98548764
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -19147,6 +19663,11 @@ MonoBehaviour:
           y: -0.0000000010016801
           z: 5.0084004e-10
         Time: 1.1342593
+      - Value:
+          x: -0.038019102
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -19400,6 +19921,13 @@ MonoBehaviour:
             z: 0.4330687
             w: 0.9013609
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.0000001562979
+            y: -0.00000019081796
+            z: 0.4330687
+            w: 0.9013609
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -19588,6 +20116,11 @@ MonoBehaviour:
           y: 0.000000026366681
           z: -0.000000008123962
         Time: 1.1342593
+      - Value:
+          x: -0.019190902
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -19841,6 +20374,13 @@ MonoBehaviour:
             z: 0.15353423
             w: 0.9881433
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.000000027865912
+            y: -0.00000030592886
+            z: 0.15353423
+            w: 0.9881433
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -20029,6 +20569,11 @@ MonoBehaviour:
           y: 0.00003753662
           z: -0.013782578
         Time: 1.1342593
+      - Value:
+          x: -0.13467011
+          y: 0.00003753662
+          z: -0.013782578
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -20282,6 +20827,13 @@ MonoBehaviour:
             z: -0.25285134
             w: 0.95905566
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.030182235
+            y: -0.123965606
+            z: -0.25285134
+            w: 0.95905566
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -20470,6 +21022,11 @@ MonoBehaviour:
           y: -1.16125005e-10
           z: -5.5890254e-10
         Time: 1.1342593
+      - Value:
+          x: -0.030298423
+          y: -0.000000076293944
+          z: -0.000000038146972
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -20723,6 +21280,13 @@ MonoBehaviour:
             z: 0.3846654
             w: 0.9230382
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0017545584
+            y: 0.005480382
+            z: 0.3846654
+            w: 0.9230382
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -20911,6 +21475,11 @@ MonoBehaviour:
           y: -0.000000077295624
           z: 0.0000000010016801
         Time: 1.1342593
+      - Value:
+          x: -0.01863594
+          y: -0.000000076293944
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -21164,6 +21733,13 @@ MonoBehaviour:
             z: 0.47445825
             w: 0.880278
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000020543253
+            y: 0.0000017231021
+            z: 0.47445825
+            w: 0.880278
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -21352,6 +21928,11 @@ MonoBehaviour:
           y: 0.00001926419
           z: -0.039123192
         Time: 1.1342593
+      - Value:
+          x: -0.13421966
+          y: 0.000019226074
+          z: -0.039123192
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -21605,6 +22186,13 @@ MonoBehaviour:
             z: 0.029883724
             w: 0.9730548
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.006911778
+            y: -0.2285247
+            z: 0.029883724
+            w: 0.9730548
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -21793,6 +22381,11 @@ MonoBehaviour:
           y: -0.000000075060015
           z: 0.000000074058335
         Time: 1.1342593
+      - Value:
+          x: -0.015028152
+          y: 0.000000076293944
+          z: -0.000000076293944
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -22046,6 +22639,13 @@ MonoBehaviour:
             z: 0.16111852
             w: 0.98687035
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0013696854
+            y: 0.011220711
+            z: 0.16111852
+            w: 0.98687035
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanRibcage/Base
         HumanLArmCollarbone/Base HumanLArmUpperarm/Base HumanLArmForearm/Base HumanLArmPalm/Base
@@ -22234,6 +22834,11 @@ MonoBehaviour:
           y: 0
           z: -0.0000000010016801
         Time: 1.1342593
+      - Value:
+          x: -0.020229798
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -22487,6 +23092,13 @@ MonoBehaviour:
             z: 0.2276729
             w: 0.9736517
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.003027916
+            y: -0.012582645
+            z: 0.2276729
+            w: 0.9736517
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanLLegThigh
       HasPosition: 1
@@ -22673,6 +23285,11 @@ MonoBehaviour:
           y: 0.04478738
           z: 0.08392096
         Time: 1.1342593
+      - Value:
+          x: -0.016426772
+          y: 0.04478738
+          z: 0.08392096
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -22926,6 +23543,13 @@ MonoBehaviour:
             z: -0.048700143
             w: -0.096688
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0359435
+            y: 0.9934536
+            z: -0.04286678
+            w: -0.099601366
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf
       HasPosition: 1
@@ -23112,6 +23736,11 @@ MonoBehaviour:
           y: -0.0000017165847
           z: 0.00000036253596
         Time: 1.1342593
+      - Value:
+          x: -0.3929393
+          y: -0.0000016975403
+          z: 0.00000037193297
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -23365,6 +23994,13 @@ MonoBehaviour:
             z: 0.17827041
             w: 0.9814437
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.0695323
+            y: 0.014056542
+            z: 0.14574707
+            w: 0.98677534
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf/Base HumanLLegFoot
       HasPosition: 1
@@ -23551,6 +24187,11 @@ MonoBehaviour:
           y: 0.000000013484264
           z: 0.0000000026437963
         Time: 1.1342593
+      - Value:
+          x: -0.43700287
+          y: 0
+          z: -0.0000000047683715
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -23804,6 +24445,13 @@ MonoBehaviour:
             z: -0.64100033
             w: 0.73581415
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.20003805
+            y: -0.09316483
+            z: -0.6313015
+            w: 0.7434806
+        Time: 1.1666667
       EulerRotations: []
     - Path: Base HumanPelvis/Base HumanLLegThigh/Base HumanLLegCalf/Base HumanLLegFoot/Base
         HumanLLegDigit11
@@ -23991,6 +24639,11 @@ MonoBehaviour:
           y: -0.033137903
           z: 0.0052578542
         Time: 1.1342593
+      - Value:
+          x: -0.17713957
+          y: -0.033137903
+          z: 0.0052578542
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -24244,6 +24897,13 @@ MonoBehaviour:
             z: -0.00000009916463
             w: 0.99924123
         Time: 1.1342593
+      - Value:
+          value:
+            x: 0.00000007981483
+            y: -0.038948555
+            z: -0.000000056538873
+            w: 0.99924123
+        Time: 1.1666667
       EulerRotations: []
     - Path: Zombie
       HasPosition: 1
@@ -24430,6 +25090,11 @@ MonoBehaviour:
           y: 0
           z: 0
         Time: 1.1342593
+      - Value:
+          x: 0
+          y: 0
+          z: 0
+        Time: 1.1666667
       Rotations:
       - Value:
           value:
@@ -24683,4 +25348,12 @@ MonoBehaviour:
             z: 0
             w: 0.7071068
         Time: 1.1342593
+      - Value:
+          value:
+            x: -0.7071068
+            y: 0
+            z: 0
+            w: 0.7071068
+        Time: 1.1666667
       EulerRotations: []
+    EventsData: []

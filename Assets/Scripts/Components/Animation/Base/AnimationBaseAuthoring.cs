@@ -12,7 +12,7 @@ public class AnimationBaseAuthoring : MonoBehaviour
     {
         public override void Bake(AnimationBaseAuthoring authoring)
         {
-            if (authoring.Animations == null)
+            if (authoring.Animations == null || authoring.Animations.Count < 1)
             {
                 return;
             }

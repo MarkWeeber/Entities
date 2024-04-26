@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Z_Active_FallingBackDOTS_Anim
   m_EditorClassIdentifier: 
   AnimationClipParsedObject:
-    Id: 35558
+    Id: 36420
     AnimationName: Z_Active_FallingBack
-    AnimatorInstanceId: 35788
+    AnimatorInstanceId: 36670
     Length: 1.4000001
     Looped: 0
     FPS: 30

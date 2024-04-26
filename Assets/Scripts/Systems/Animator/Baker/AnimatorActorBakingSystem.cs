@@ -152,7 +152,8 @@ public partial struct AnimatorActorBakingSystem : ISystem
                                 ParallelWriter.AddComponent(sortKey, partEntity, new AnimatorPartComponent
                                 {
                                     RootEntity = entity,
-                                    PathAnimationBlobIndex = i
+                                    PathAnimationBlobIndex = i,
+                                    PartName = part.Path
                                 });
                                 break;
                             }
