@@ -29,7 +29,8 @@ public partial struct TransformInstructionSystem : ISystem
         }
         _componentLookup.Update(ref state);
         state.Dependency = new TransformInstructionsJob {
-            ComponentLookup = _componentLookup
+            ComponentLookup = _componentLookup,
+            DeltatTime = SystemAPI.Time.DeltaTime
         }.ScheduleParallel(entities, state.Dependency);
 
     }
@@ -38,6 +39,7 @@ public partial struct TransformInstructionSystem : ISystem
     private partial struct TransformInstructionsJob : IJobEntity
     {
         [NativeDisableContainerSafetyRestriction] public ComponentLookup<TransformInstructionController> ComponentLookup;
+        public float DeltatTime;
         [BurstCompile]
         private void Execute(
             in DynamicBuffer<TransformInstructionBuffer> instructions,
@@ -47,9 +49,16 @@ public partial struct TransformInstructionSystem : ISystem
         {
             if (controller.ValueRO.Completed || instructions.Length < 1)
             {
+                ComponentLookup.SetComponentEnabled(entity, false);
                 return;
             }
-            ComponentLookup.SetComponentEnabled(entity, false);
+            var currentInstructionIndex = controller.ValueRO.CurrentInstructionIndex;
+            if (currentInstructionIndex < 0)
+            {
+                currentInstructionIndex = 0;
+            }
+            var currentInstruction = instructions[currentInstructionIndex];
+            var currentTimer = controller.ValueRO.CurrentInstructionTimer;
         }
     }
 }

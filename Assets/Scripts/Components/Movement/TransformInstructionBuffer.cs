@@ -5,8 +5,10 @@ public struct TransformInstructionBuffer : IBufferElementData
 {
     public float Duration;
     public float Timer;
-    public bool PositionEnabled;
+    public bool PositionApplied;
     public float3 AddedPosition;
-    public bool RotationEnabled;
+    public bool RotationApplied;
     public quaternion AppliedRotation;
+    public bool ScalingApplied;
+    public float TargetScale;
 }

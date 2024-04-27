@@ -24,21 +24,23 @@ public class TransformInstructionAuthoring : MonoBehaviour
 				instructionBuffer.Add(new TransformInstructionBuffer
 				{
 					Duration = item.Duration,
-					PositionEnabled = item.PositionEnabled,
+					PositionApplied = item.PositionApplied,
 					AddedPosition = item.AddedPosition,
-					RotationEnabled = item.RotationEnabled,
+					RotationApplied = item.RotationApplied,
                     AppliedRotation = quaternion.Euler(
                                         math.radians(item.AppliedEulerRotation.x),
                                         math.radians(item.AppliedEulerRotation.y),
                                         math.radians(item.AppliedEulerRotation.z)),
-                Timer = 0f
+					ScalingApplied = item.ScalingApplied,
+					TargetScale = item.TargetScale,
+					Timer = 0f
 				});
 
             }
 			AddComponent(entity, new TransformInstructionController
 			{
 				Completed = false,
-				CurrentIndex = 0,
+				CurrentInstructionIndex = -1,
 				Looped = authoring.looped,
 				ReverseAtEnd = authoring.reverseAtEnd,
 				CurrentInstructionTimer = 0f,
@@ -50,9 +52,11 @@ public class TransformInstructionAuthoring : MonoBehaviour
 	protected struct TransformInstruction
 	{
 		public float Duration;
-        public bool PositionEnabled;
+        public bool PositionApplied;
         public float3 AddedPosition;
-        public bool RotationEnabled;
+        public bool RotationApplied;
         public float3 AppliedEulerRotation;
+		public bool ScalingApplied;
+        public float TargetScale;
     }
 }
