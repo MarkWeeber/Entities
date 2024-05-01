@@ -1839,7 +1839,7 @@ Transform:
   m_GameObject: {fileID: 805917928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.75, y: 2, z: 2.25}
+  m_LocalPosition: {x: -13, y: 3, z: 2}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1873,16 +1873,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformInstructions:
   - Duration: 1
-    PositionEnabled: 1
+    PositionApplied: 0
     AddedPosition:
       x: 0
-      y: -1
+      y: 1
       z: 0
-    RotationEnabled: 0
+    RotationApplied: 1
     AppliedEulerRotation:
       x: 0
-      y: 0
+      y: 45
       z: 0
+    ScalingApplied: 0
+    TargetScale: 2
+  looped: 0
 --- !u!1001 &843841627
 PrefabInstance:
   m_ObjectHideFlags: 0

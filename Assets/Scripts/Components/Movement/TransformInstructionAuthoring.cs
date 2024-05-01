@@ -8,7 +8,6 @@ public class TransformInstructionAuthoring : MonoBehaviour
 {
 	[SerializeField] private List<TransformInstruction> transformInstructions;
 	[SerializeField] private bool looped = false;
-	[SerializeField] private bool reverseAtEnd = false;
 	class Baker : Baker<TransformInstructionAuthoring>
 	{
 		public override void Bake(TransformInstructionAuthoring authoring)
@@ -19,31 +18,32 @@ public class TransformInstructionAuthoring : MonoBehaviour
 			}
 			Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 			var instructionBuffer = AddBuffer<TransformInstructionBuffer>(entity);
+			float instructionTime = 0f;
 			foreach (var item in authoring.transformInstructions)
 			{
-				instructionBuffer.Add(new TransformInstructionBuffer
+				instructionTime += item.Duration;
+                instructionBuffer.Add(new TransformInstructionBuffer
 				{
 					Duration = item.Duration,
-					PositionApplied = item.PositionApplied,
+					PositionAdded = item.PositionApplied,
 					AddedPosition = item.AddedPosition,
 					RotationApplied = item.RotationApplied,
-                    AppliedRotation = quaternion.Euler(
-                                        math.radians(item.AppliedEulerRotation.x),
-                                        math.radians(item.AppliedEulerRotation.y),
-                                        math.radians(item.AppliedEulerRotation.z)),
+					AppliedRotation = item.AppliedEulerRotation,
+                    //AppliedRotation = quaternion.Euler(
+                    //                    math.radians(item.AppliedEulerRotation.x),
+                    //                    math.radians(item.AppliedEulerRotation.y),
+                    //                    math.radians(item.AppliedEulerRotation.z)),
 					ScalingApplied = item.ScalingApplied,
-					TargetScale = item.TargetScale,
-					Timer = 0f
-				});
+					AppliedScale = item.TargetScale,
+					EndTime = instructionTime
+                });
 
             }
 			AddComponent(entity, new TransformInstructionController
 			{
 				Completed = false,
-				CurrentInstructionIndex = -1,
 				Looped = authoring.looped,
-				ReverseAtEnd = authoring.reverseAtEnd,
-				CurrentInstructionTimer = 0f,
+				CurrentInstructionTime = 0f,
 			});
 
 		}
