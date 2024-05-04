@@ -42,18 +42,15 @@ public partial struct TransformInstructionSystem : ISystem
     [BurstCompile]
     private partial struct TransformInstructionsJob : IJobEntity
     {
-        //[NativeDisableContainerSafetyRestriction] public ComponentLookup<TransformInstructionController> ComponentLookup;
         public float DeltatTime;
         [BurstCompile]
         private void Execute(
             in DynamicBuffer<TransformInstructionBuffer> instructions,
             RefRW<TransformInstructionController> controller,
-            RefRW<LocalTransform> localTransform,
-            Entity entity)
+            RefRW<LocalTransform> localTransform)
         {
             if (controller.ValueRO.Completed || instructions.Length < 1)
             {
-                //ComponentLookup.SetComponentEnabled(entity, false);
                 return;
             }
             var currentTime = controller.ValueRO.CurrentInstructionTime;
@@ -62,13 +59,11 @@ public partial struct TransformInstructionSystem : ISystem
             float3 position = localTransform.ValueRO.Position;
             quaternion rotation = localTransform.ValueRO.Rotation;
             float scale = localTransform.ValueRO.Scale;
-            scale = 1f;
             ApplyTransformInstructions(
                 in instructions, controller, currentTime, addedTime, controller.ValueRO.Looped, ref position, ref rotation, ref scale);
             localTransform.ValueRW.Position = position;
             localTransform.ValueRW.Rotation = rotation;
             localTransform.ValueRW.Scale = scale;
-            //Debug.Log($"scale : {scale}");
         }
 
         [BurstCompile]
@@ -148,24 +143,14 @@ public partial struct TransformInstructionSystem : ISystem
             }
             if (instruction.RotationApplied)
             {
-                //appliedRotation = new quaternion(appliedRotation.value + ((instruction.AppliedRotation.value - appliedRotation.value) * rate));
-                //appliedRotation = new quaternion(instruction.AppliedRotation.value * completionRate);
-                //var currentAngles = Quaternion.Euler(Vector3.zero);
-                //var targetRotation = quaternion.Euler(
-                //    instruction.AppliedRotation.x * rate,
-                //    instruction.AppliedRotation.y * rate,
-                //    instruction.AppliedRotation.z * rate
-                //    );
-                //appliedRotation = math.mul(appliedRotation, targetRotation);
-                //appliedRotation = new quaternion((instruction.AppliedRotation.value - appliedRotation.value) * completionRate);
-                var rotationValue = instruction.AppliedRotation * rate;
-                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.x));
-                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.y));
-                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.z));
+                var rotationValue = instruction.AppliedEulerRotation * rate;
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(math.radians(rotationValue.x)));
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateY(math.radians(rotationValue.y)));
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateZ(math.radians(rotationValue.z)));
             }
             if (instruction.ScalingApplied)
             {
-                appliedScale = instruction.AppliedScale * completionRate;
+                appliedScale += instruction.AddedScale * rate;
             }
         }
     }

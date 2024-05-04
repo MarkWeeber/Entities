@@ -1839,7 +1839,7 @@ Transform:
   m_GameObject: {fileID: 805917928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 3, z: 2}
+  m_LocalPosition: {x: -13, y: 3.75, z: 2}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1857,7 +1857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b319e1def2f0fea458cc87436e4c2d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageValue: 1
+  DamageValue: 4
   DamageTime: 0.2
 --- !u!114 &805917934
 MonoBehaviour:
@@ -1872,20 +1872,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformInstructions:
-  - Duration: 1
-    PositionApplied: 0
+  - Duration: 0.4
+    PositionApplied: 1
     AddedPosition:
       x: 0
-      y: 1
+      y: -4
       z: 0
-    RotationApplied: 1
+    RotationApplied: 0
     AppliedEulerRotation:
       x: 0
       y: 45
       z: 0
     ScalingApplied: 0
-    TargetScale: 2
-  looped: 0
+    AddedScale: 1
+  - Duration: 5
+    PositionApplied: 1
+    AddedPosition:
+      x: 0
+      y: 4
+      z: 0
+    RotationApplied: 0
+    AppliedEulerRotation:
+      x: 0
+      y: 45
+      z: 0
+    ScalingApplied: 0
+    AddedScale: 1
+  looped: 1
 --- !u!1001 &843841627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3499,6 +3512,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 805917932}
   - {fileID: 446458990}
   - {fileID: 273153064}
   - {fileID: 1092690905}
@@ -3540,4 +3554,3 @@ SceneRoots:
   - {fileID: 609242442}
   - {fileID: 1177510037}
   - {fileID: 1667137436}
-  - {fileID: 805917932}

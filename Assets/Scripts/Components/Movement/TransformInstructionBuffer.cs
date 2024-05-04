@@ -8,7 +8,7 @@ public struct TransformInstructionBuffer : IBufferElementData
     public bool PositionAdded;
     public float3 AddedPosition;
     public bool RotationApplied;
-    public float3 AppliedRotation;
+    public float3 AppliedEulerRotation;
     public bool ScalingApplied;
-    public float AppliedScale;
+    public float AddedScale;
 }

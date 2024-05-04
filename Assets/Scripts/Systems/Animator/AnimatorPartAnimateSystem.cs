@@ -38,7 +38,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             AnimationBlob = animationBlob,
             LayerLookup = layerLookup
         }.ScheduleParallel(parts, state.Dependency);
-        animationBlob.Dispose();
+        //animationBlob.Dispose();
     }
 
     [BurstCompile]

@@ -33,7 +33,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute()
         {
-            Debug.Log("A");
+            //Debug.Log("A");
         }
     }
 
@@ -43,7 +43,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute()
         {
-            Debug.Log("B");
+            //Debug.Log("B");
         }
     }
 
@@ -53,7 +53,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute()
         {
-            Debug.Log("C");
+            //Debug.Log("C");
         }
     }
 
@@ -63,7 +63,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute(int index)
         {
-            Debug.Log("A: " + index);
+            //Debug.Log("A: " + index);
         }
     }
 
@@ -73,7 +73,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute(int index)
         {
-            Debug.Log("B: " + index);
+            //Debug.Log("B: " + index);
         }
     }
 
@@ -83,7 +83,7 @@ public partial struct JobHandleTestSystem : ISystem
         [BurstCompile]
         public void Execute(int index)
         {
-            Debug.Log("C: " + index);
+            //Debug.Log("C: " + index);
         }
     }
 }

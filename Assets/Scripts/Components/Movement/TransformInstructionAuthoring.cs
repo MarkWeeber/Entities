@@ -28,13 +28,13 @@ public class TransformInstructionAuthoring : MonoBehaviour
 					PositionAdded = item.PositionApplied,
 					AddedPosition = item.AddedPosition,
 					RotationApplied = item.RotationApplied,
-					AppliedRotation = item.AppliedEulerRotation,
+					AppliedEulerRotation = item.AppliedEulerRotation,
                     //AppliedRotation = quaternion.Euler(
                     //                    math.radians(item.AppliedEulerRotation.x),
                     //                    math.radians(item.AppliedEulerRotation.y),
                     //                    math.radians(item.AppliedEulerRotation.z)),
 					ScalingApplied = item.ScalingApplied,
-					AppliedScale = item.TargetScale,
+					AddedScale = item.AddedScale,
 					EndTime = instructionTime
                 });
 
@@ -57,6 +57,6 @@ public class TransformInstructionAuthoring : MonoBehaviour
         public bool RotationApplied;
         public float3 AppliedEulerRotation;
 		public bool ScalingApplied;
-        public float TargetScale;
+        public float AddedScale;
     }
 }
