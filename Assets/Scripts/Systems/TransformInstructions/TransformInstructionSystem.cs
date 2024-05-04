@@ -150,9 +150,18 @@ public partial struct TransformInstructionSystem : ISystem
             {
                 //appliedRotation = new quaternion(appliedRotation.value + ((instruction.AppliedRotation.value - appliedRotation.value) * rate));
                 //appliedRotation = new quaternion(instruction.AppliedRotation.value * completionRate);
-                var targetRotation = quaternion.Euler(instruction.AppliedRotation * completionRate);
-                appliedRotation = math.mul(appliedRotation, targetRotation);
+                //var currentAngles = Quaternion.Euler(Vector3.zero);
+                //var targetRotation = quaternion.Euler(
+                //    instruction.AppliedRotation.x * rate,
+                //    instruction.AppliedRotation.y * rate,
+                //    instruction.AppliedRotation.z * rate
+                //    );
+                //appliedRotation = math.mul(appliedRotation, targetRotation);
                 //appliedRotation = new quaternion((instruction.AppliedRotation.value - appliedRotation.value) * completionRate);
+                var rotationValue = instruction.AppliedRotation * rate;
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.x));
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.y));
+                appliedRotation = math.mul(appliedRotation, quaternion.RotateX(rotationValue.z));
             }
             if (instruction.ScalingApplied)
             {
