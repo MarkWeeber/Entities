@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSender
@@ -20,13 +21,13 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
     private string pathEncrypted;
     private string pathSimple;
 
-    protected override void Awake()
+    protected override async void Awake()
     {
         dontDestroyOnload = true;
         base.Awake();
         pathEncrypted = Application.persistentDataPath + "/" + saveFileNameEncrypted;
         pathSimple = Application.persistentDataPath + "/" + saveFileNameSimple;
-        RetreiveSaveDataLocal();
+        await RetreiveSaveDataLocal();
         saveTimer = saveTime;
     }
 
@@ -40,13 +41,13 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
         OnExit();
     }
 
-    private void Update()
+    private async void Update()
     {
         if (saveTime > 0f)
         {
             if (saveTimer < 0f)
             {
-                Save(false);
+                await Save(false);
                 saveTimer = saveTime;
             }
             else
@@ -56,9 +57,9 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
         }
     }
 
-    private void OnExit()
+    private async void OnExit()
     {
-        Save();
+        await Save();
         SaveDataPersists = false;
         if (OnSaveDataSetEvent != null)
         {
@@ -69,7 +70,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
         }
     }
 
-    private void Save(bool clearDelegates = true)
+    private async Task Save(bool clearDelegates = true)
     {
         if (OnSystemBaseUpdate != null)
         {
@@ -82,16 +83,16 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
                 }
             }
         }
-        SaveDataLocal();
+        await SaveDataLocal();
     }
 
-    private void RetreiveSaveDataLocal()
+    private async Task RetreiveSaveDataLocal()
     {
         string ecryptedText = string.Empty;
         if (File.Exists(pathEncrypted))
         {
             StreamReader streamReaderEncrypted = File.OpenText(pathEncrypted);
-            ecryptedText = streamReaderEncrypted.ReadToEnd();
+            ecryptedText = await streamReaderEncrypted.ReadToEndAsync();
             streamReaderEncrypted.Close();
             try
             {
@@ -101,7 +102,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
             }
             catch (Exception e)
             {
-                CreateNewSaveData();
+                await CreateNewSaveData();
                 InfoUI.Instance.SendInformation("COULD NOT PARSE", MessageType.WARNING);
                 Debug.LogWarning(e.Message);
             }
@@ -109,12 +110,12 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
         else
         {
             InfoUI.Instance.SendInformation("SAVE FILE NOT FOUND, CREATING DEFAULT VALUES", MessageType.WARNING);
-            CreateNewSaveData();
+            await CreateNewSaveData();
         }
         SaveDataPersists = true;
     }
 
-    private void SaveDataLocal()
+    private async Task SaveDataLocal()
     {
         try
         {
@@ -126,7 +127,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
             // encrypted
             string ecryptedText = StringCipher.Encrypt(jsonText, passPhrase);
             StreamWriter streamWriterEncrypted = File.CreateText(pathEncrypted);
-            streamWriterEncrypted.Write(ecryptedText);
+            await streamWriterEncrypted.WriteAsync(ecryptedText);
             streamWriterEncrypted.Close();
         }
         catch (Exception e)
@@ -136,7 +137,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
         }
     }
 
-    public void CreateNewSaveData()
+    public async Task CreateNewSaveData()
     {
         saveData = new SaveData()
         {
@@ -144,7 +145,7 @@ public class LocalSaveManager : SingletonBehaviour<LocalSaveManager>, SaveDataSe
             CoinsCollected = 0,
             CurrentHealth = 100f
         };
-        SaveDataLocal();
+        await SaveDataLocal();
         OnSaveDataSetEvent?.Invoke(this, saveData);
     }
 

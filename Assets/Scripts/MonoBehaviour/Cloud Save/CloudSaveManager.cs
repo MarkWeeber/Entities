@@ -109,7 +109,7 @@ public class CloudSaveManager : SingletonBehaviour<CloudSaveManager>, SaveDataSe
                 }
                 else if(localTime == cloudTime)
                 {
-                    localSaveManager.CreateNewSaveData();
+                    await localSaveManager.CreateNewSaveData();
                     saveData = localSaveManager.SaveData;
                     await ForceSaveSingleData(key, localSaveManager.SaveData);
                 }
