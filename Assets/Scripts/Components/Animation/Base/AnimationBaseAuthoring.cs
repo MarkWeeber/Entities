@@ -40,7 +40,8 @@ public class AnimationBaseAuthoring : MonoBehaviour
                     FPS = asset.AnimationClipParsedObject.FPS,
                     Name = (FixedString32Bytes)asset.AnimationClipParsedObject.AnimationName,
                     PathData = pathData,
-                    AnimationEventsData = eventsData
+                    AnimationEventsData = eventsData,
+                    PartsAnimationMethod = asset.AnimationClipParsedObject.PartsAnimationMethod
                 });
             }
         }
@@ -129,13 +130,16 @@ public class AnimationBaseAuthoring : MonoBehaviour
         {
             var builder = new BlobBuilder(Allocator.Temp);
             ref AnimationEventsDataPool pool = ref builder.ConstructRoot<AnimationEventsDataPool>();
-            int eventsDataCount = parsedObject.EventsData.Count;
-            var eventsSorted = parsedObject.EventsData.OrderBy(x => x.Time).ToArray();
-            var eventsDataArrayBuilder = builder.Allocate(ref pool.EventsData, eventsDataCount);
-            for (int i = 0; i < eventsDataCount; i++)
+            if (parsedObject.EventsData != null)
             {
-                eventsDataArrayBuilder[i].Time = eventsSorted[i].Time;
-                eventsDataArrayBuilder[i].EventType = eventsSorted[i].EventType;
+                int eventsDataCount = parsedObject.EventsData.Count;
+                var eventsSorted = parsedObject.EventsData.OrderBy(x => x.Time).ToArray();
+                var eventsDataArrayBuilder = builder.Allocate(ref pool.EventsData, eventsDataCount);
+                for (int i = 0; i < eventsDataCount; i++)
+                {
+                    eventsDataArrayBuilder[i].Time = eventsSorted[i].Time;
+                    eventsDataArrayBuilder[i].EventType = eventsSorted[i].EventType;
+                }
             }
             var result = builder.CreateBlobAssetReference<AnimationEventsDataPool>(Allocator.Persistent);
             builder.Dispose();

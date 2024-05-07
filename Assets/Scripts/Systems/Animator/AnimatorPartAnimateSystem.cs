@@ -4,9 +4,6 @@ using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Transforms;
 using CustomUtils;
-using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using ParseUtils;
 
 [BurstCompile]
 [UpdateBefore(typeof(TransformSystemGroup))]
@@ -38,7 +35,6 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             AnimationBlob = animationBlob,
             LayerLookup = layerLookup
         }.ScheduleParallel(parts, state.Dependency);
-        //animationBlob.Dispose();
     }
 
     [BurstCompile]
@@ -111,6 +107,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
             ref float3 position, ref quaternion rotation, float animationTime, PartsAnimationMethod method, int animationIndex, int partIndex, RefRO<AnimatorPartComponent> animatedPart)
         {
             AnimationBlobBuffer animation = AnimationBlob[animationIndex];
+            var interpolationMethod = animation.PartsAnimationMethod;
             ref PathDataPool pathDataPool = ref animation.PathData.Value;
             ref PathsPool pathsPool = ref pathDataPool.PathData[partIndex];
             
@@ -127,7 +124,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 }
                 float3 firstPosition = positions[firstCurveIndex].Value;
                 float3 secondPosition = positions[secondCurveIndex].Value;
-                position = InterPolate(firstPosition, secondPosition, transitionRate, method);
+                position = InterPolate(firstPosition, secondPosition, transitionRate, interpolationMethod);
             }
             if (pathsPool.HasRotations)
             {
@@ -138,7 +135,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 }
                 quaternion firstRotation = rotations[firstCurveIndex].Value;
                 quaternion secondRotation = rotations[secondCurveIndex].Value;
-                rotation = InterPolate(firstRotation, secondRotation, transitionRate, method);
+                rotation = InterPolate(firstRotation, secondRotation, transitionRate, interpolationMethod);
             }
             if (pathsPool.HasEulerRotations)
             {
@@ -149,7 +146,7 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 }
                 quaternion firstRotation = eulerRotations[firstCurveIndex].Value;
                 quaternion secondRotation = eulerRotations[secondCurveIndex].Value;
-                quaternion eulerRotation = InterPolate(firstRotation, secondRotation, transitionRate, method);
+                quaternion eulerRotation = InterPolate(firstRotation, secondRotation, transitionRate, interpolationMethod);
                 rotation = quaternion.Euler(
                                         math.radians(eulerRotation.value.x),
                                         math.radians(eulerRotation.value.y),
@@ -190,6 +187,9 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                 case PartsAnimationMethod.SmoothStep:
                     result = CustomMath.SmoothStep(first, second, rate);
                     break;
+                case PartsAnimationMethod.StopMotion:
+                    result = CustomMath.Lean(first, second, 0.05f);
+                    break;
                 default:
                     break;
             }
@@ -210,6 +210,9 @@ public partial struct AnimatorPartAnimateSystem : ISystem
                     break;
                 case PartsAnimationMethod.SmoothStep:
                     result = CustomMath.SmoothStep(first, second, rate);
+                    break;
+                case PartsAnimationMethod.StopMotion:
+                    result = CustomMath.Lean(first, second, 0.05f);
                     break;
                 default:
                     break;

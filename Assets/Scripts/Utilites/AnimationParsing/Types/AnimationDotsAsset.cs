@@ -19,6 +19,7 @@ namespace ParseUtils
         public float Length;
         public bool Looped;
         public int FPS;
+        public PartsAnimationMethod PartsAnimationMethod;
         public List<AnimationPathData> PathData;
         public List<AnimationEventData> EventsData;
     }

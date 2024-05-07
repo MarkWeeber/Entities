@@ -44,6 +44,10 @@ public readonly partial struct AnimationPartAspect : IAspect
                     setPosition = CustomMath.SmoothStep(setPosition, nextPosition, transitionRate);
                     setRotation = CustomMath.SmoothStep(setRotation, nextRotation, transitionRate);
                     break;
+                case PartsAnimationMethod.StopMotion:
+                    setPosition = CustomMath.Lean(setPosition, nextPosition, 0.5f);
+                    setRotation = CustomMath.Lean(setRotation, nextRotation, 0.5f);
+                    break;
                 default:
                     break;
             }
@@ -53,20 +57,6 @@ public readonly partial struct AnimationPartAspect : IAspect
         localTransform.ValueRW.Position = setPosition;
         localTransform.ValueRW.Rotation = setRotation;
         localTransform.ValueRW.Scale = setScale;
-
-        //// debug info
-        //partComponent.ValueRW.FirstPosition = firstPos;
-        //partComponent.ValueRW.FirstRotation = firstRot;
-        //partComponent.ValueRW.SecondPosition = secondPos;
-        //partComponent.ValueRW.SecondRotation = secondRot;
-        //partComponent.ValueRW.SetPosition = setPosition;
-        //partComponent.ValueRW.SetRotation = setRotation;
-        //partComponent.ValueRW.FirstPosFound = firstPosFound;
-        //partComponent.ValueRW.SecondPosFound = secondPosFound;
-        //partComponent.ValueRW.FirstRotFound = firstRotFound;
-        //partComponent.ValueRW.SecondRotFound = secondRotFound;
-
-
     }
 
     private void ObtainAnimationValues(ref float3 position, ref quaternion rotation, float animationTime, int animationId, PartsAnimationMethod method)

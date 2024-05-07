@@ -8,6 +8,7 @@ public struct AnimationBlobBuffer : IBufferElementData
     public float Length;
     public bool Looped;
     public int FPS;
+    public PartsAnimationMethod PartsAnimationMethod;
     public FixedString32Bytes Name;
     public BlobAssetReference<PathDataPool> PathData;
     public BlobAssetReference<AnimationEventsDataPool> AnimationEventsData;

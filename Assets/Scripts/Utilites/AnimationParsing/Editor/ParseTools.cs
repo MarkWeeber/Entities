@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -9,7 +7,7 @@ namespace ParseUtils
 {
     public class ParseTools
     {
-        public static RuntimeAnimatorParsedObject PrepareAnimatorAsset(RuntimeAnimatorController runtimeAnimatorController, int fps)
+        public static RuntimeAnimatorParsedObject PrepareAnimatorAsset(RuntimeAnimatorController runtimeAnimatorController, int fps, PartsAnimationMethod partsAnimationMethod)
         {
             var animatorInstanceId = runtimeAnimatorController.GetInstanceID();
             var animationsTable = new List<AnimationItem>();
@@ -38,7 +36,7 @@ namespace ParseUtils
                 PreparePathsFromAllAnimations(animationClip, paths);
 
                 //animationParsedObjects.Add(AnimationParser.PrepareAnimation(animationClip, animatorInstanceId, paths));
-                var parsedAnimationClipObject = AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths, fps);
+                var parsedAnimationClipObject = AnimationParser.GetAnimationParsedObject(animationClip, animatorInstanceId, paths, fps, partsAnimationMethod);
                 animationParsedObjects.Add(parsedAnimationClipObject);
             }
 
@@ -210,7 +208,18 @@ namespace ParseUtils
             asset.AnimatorName = runtimeAnimatorController.name;
             var assetPath = AssetDatabase.GetAssetPath(instanceId);
             assetPath = assetPath.Replace(".controller", "DOTS_Controller.asset");
-            AssetDatabase.CreateAsset(asset, assetPath);
+            var loadedAsset = AssetDatabase.LoadAssetAtPath(assetPath, typeof(AnimatorDotsAsset)) as AnimatorDotsAsset;
+            if (loadedAsset != null)
+            {
+                loadedAsset.AnimatorInstanceId = asset.AnimatorInstanceId;
+                loadedAsset.RuntimeAnimatorParsedObject = asset.RuntimeAnimatorParsedObject;
+                loadedAsset.AnimatorName = asset.AnimatorName;
+                AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                AssetDatabase.CreateAsset(asset, assetPath);
+            }
         }
     }
 }

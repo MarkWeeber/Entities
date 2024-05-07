@@ -1,10 +1,4 @@
-using Codice.Client.Common;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Collections;
-using Unity.Mathematics;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace ParseUtils
@@ -23,10 +17,12 @@ namespace ParseUtils
                 = EditorGUILayout.ObjectField("Parse Animator", animationParser.RuntimeAnimatorController, typeof(RuntimeAnimatorController), false) as RuntimeAnimatorController;
             animationParser.FPS
                 = EditorGUILayout.IntField("Animation FPS count", animationParser.FPS);
+            animationParser.PartsAnimationMethod
+                = (PartsAnimationMethod) EditorGUILayout.EnumPopup("Interpolation Method", animationParser.PartsAnimationMethod);
             if (GUILayout.Button("Parse Animator"))
             {
                 RuntimeAnimatorParsedObject parsedObject = new RuntimeAnimatorParsedObject();
-                parsedObject = ParseTools.PrepareAnimatorAsset(animationParser.RuntimeAnimatorController, animationParser.FPS);
+                parsedObject = ParseTools.PrepareAnimatorAsset(animationParser.RuntimeAnimatorController, animationParser.FPS, animationParser.PartsAnimationMethod);
                 ParseTools.SaveAnimatorAsset(animationParser.RuntimeAnimatorController, parsedObject);
             }
         }

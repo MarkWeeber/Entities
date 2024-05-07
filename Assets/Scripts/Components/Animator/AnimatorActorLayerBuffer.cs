@@ -76,4 +76,5 @@ public enum PartsAnimationMethod
     Lerp = 0,
     Lean = 1,
     SmoothStep = 2,
+    StopMotion = 3,
 }
