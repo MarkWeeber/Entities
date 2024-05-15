@@ -1,6 +1,7 @@
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public partial class PlayerInputSystem : SystemBase
@@ -8,37 +9,45 @@ public partial class PlayerInputSystem : SystemBase
     private Controls controls;
     private bool firing;
     private bool sprinting;
+    private bool injectSuccess;
+
+    [Inject]
+    private void Init(Controls controls)
+    {
+        this.controls = controls;
+        injectSuccess = true;
+        SubscribeActions();
+    }
 
     protected override void OnCreate()
     {
         RequireForUpdate<PlayerInputData>();
-        controls = new Controls();
     }
 
     protected override void OnStartRunning()
     {
-        controls.Enable();
-        controls.Player.Fire.performed += FirePerformed;
-        controls.Player.Fire.canceled += FireCancelled;
-        controls.Player.Sprint.performed += SprintPerformed;
-        controls.Player.Sprint.canceled += SprintCancelled;
     }
 
     protected override void OnDestroy()
     {
-        controls.Player.Fire.performed -= FirePerformed;
-        controls.Player.Fire.canceled -= FireCancelled;
-        controls.Player.Sprint.performed -= SprintPerformed;
-        controls.Player.Sprint.canceled -= SprintCancelled;
-        controls.Disable();
+        if (injectSuccess)
+        {
+            controls.Player.Fire.performed -= FirePerformed;
+            controls.Player.Fire.canceled -= FireCancelled;
+            controls.Player.Sprint.performed -= SprintPerformed;
+            controls.Player.Sprint.canceled -= SprintCancelled;
+        }
     }
     
     protected override void OnUpdate()
     {
-        RefRW<PlayerInputData> playerInputData = SystemAPI.GetSingletonRW<PlayerInputData>();
-        playerInputData.ValueRW.MovementVector = controls.Player.Move.ReadValue<Vector2>();
-        playerInputData.ValueRW.Firing = firing;
-        playerInputData.ValueRW.Sprinting = sprinting;
+        if (injectSuccess)
+        {
+            RefRW<PlayerInputData> playerInputData = SystemAPI.GetSingletonRW<PlayerInputData>();
+            playerInputData.ValueRW.MovementVector = controls.Player.Move.ReadValue<Vector2>();
+            playerInputData.ValueRW.Firing = firing;
+            playerInputData.ValueRW.Sprinting = sprinting;
+        }
     }
 
     private void FirePerformed(InputAction.CallbackContext context)
@@ -59,5 +68,13 @@ public partial class PlayerInputSystem : SystemBase
     private void SprintCancelled(InputAction.CallbackContext context)
     {
         sprinting = false;
+    }
+
+    private void SubscribeActions()
+    {
+        controls.Player.Fire.performed += FirePerformed;
+        controls.Player.Fire.canceled += FireCancelled;
+        controls.Player.Sprint.performed += SprintPerformed;
+        controls.Player.Sprint.canceled += SprintCancelled;
     }
 }
