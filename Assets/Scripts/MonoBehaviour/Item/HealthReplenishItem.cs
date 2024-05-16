@@ -1,30 +1,21 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class HealthReplenishItem : MonoBehaviour, IItem, IConsumable
+public class HealthReplenishItem : MonoBehaviour, IItem
 {
     [SerializeField] private float healthReplenishAmount;
-    public void PickUp()
+    private IItemAction[] itemActions;
+    public IItemAction[] ItemActions { get => itemActions; set => itemActions = value; }
+
+    private void Awake()
     {
-        Debug.Log("Health Item picked for " + healthReplenishAmount + " points");
+        InitializeActions();
     }
 
-    public void Drop()
+    public void InitializeActions()
     {
-
-    }
-
-    public void Consume(Entity entity, EntityManager entityManager)
-    {
-        if(entityManager.HasComponent<HealthData>(entity))
-        {
-            var healthData = entityManager.GetComponentData<HealthData>(entity);
-            float healthToBeReplenished = Mathf.Min(healthReplenishAmount, healthData.MaxHealth - healthData.CurrentHealth);
-            entityManager.SetComponentData(entity, new HealthData
-            {
-                MaxHealth = healthData.MaxHealth,
-                CurrentHealth = healthData.CurrentHealth + healthToBeReplenished
-            });
-        }
+        itemActions = new IItemAction[1];
+        itemActions[0] = new ItemHealAction("Heal", healthReplenishAmount);
+        Debug.Log("Action added");
     }
 }

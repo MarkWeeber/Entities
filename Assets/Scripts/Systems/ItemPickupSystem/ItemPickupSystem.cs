@@ -1,39 +1,80 @@
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using UnityEngine;
+using Zenject;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 [UpdateBefore(typeof(PhysicsSystemGroup))]
-public partial struct ItemPickupSystem : ISystem
+public partial class ItemPickupSystemBase : SystemBase
 {
-    public void OnCreate(ref SystemState state)
+    private InventoryManager inventoryManager;
+    private bool injected;
+    private bool playerInjected;
+    [Inject]
+    private void Init(InventoryManager inventoryManager)
     {
+        this.inventoryManager = inventoryManager;
+        injected = true;
+
     }
-    public void OnDestroy(ref SystemState state)
+    protected override void OnUpdate()
     {
-    }
-    public void OnUpdate(ref SystemState state)
-    {
-        SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
-        var job = new ItemPickUpJob
+        if (!injected)
         {
-            EntityManager = state.EntityManager
-        };
-        var jobHandle = job.Schedule(simulation, state.Dependency);
-        jobHandle.Complete();
+            return;
+        }
+        else if (!playerInjected)
+        {
+            var ecb = new EntityCommandBuffer(Allocator.Temp);
+            var entities = SystemAPI.QueryBuilder().WithAll<PlayerTag>().Build();
+            if (entities.CalculateEntityCount() > 0)
+            {
+                ecb.AddComponentObject(entities, new PlayerInventoryData
+                {
+                    InventoryManager = inventoryManager
+                });
+            }
+            ecb.Playback(EntityManager);
+            ecb.Dispose();
+            playerInjected = true;
+        }
+        else
+        {
+            SimulationSingleton simulation = SystemAPI.GetSingleton<SimulationSingleton>();
+            var items = new NativeList<Entity>(Allocator.TempJob);
+            var ecb = new EntityCommandBuffer(Allocator.TempJob);
+            var job = new ItemPickUpJob
+            {
+                EntityManager = EntityManager,
+                ECB = ecb,
+                Items = items,
+            };
+            var jobHandle = job.Schedule(simulation, Dependency);
+            jobHandle.Complete();
+            foreach (var itemEntity in items)
+            {
+                var itemData = EntityManager.GetComponentObject<ItemData>(itemEntity);
+                inventoryManager.TryAddItem(itemData.item);
+            }
+            ecb.Playback(EntityManager);
+            ecb.Dispose();
+            items.Dispose();
+        }
     }
 
     private partial struct ItemPickUpJob : ITriggerEventsJob
     {
         public EntityManager EntityManager;
         public EntityCommandBuffer ECB;
+        public NativeList<Entity> Items;
         public void Execute(TriggerEvent triggerEvent)
         {
             Entity playerEntity = Entity.Null;
             Entity itemEntity = Entity.Null;
-            if (EntityManager.HasComponent<PlayerTag>(triggerEvent.EntityA))
+            if (EntityManager.HasComponent<PlayerInventoryData>(triggerEvent.EntityA))
             {
                 playerEntity = triggerEvent.EntityA;
             }
@@ -41,7 +82,7 @@ public partial struct ItemPickupSystem : ISystem
             {
                 itemEntity = triggerEvent.EntityA;
             }
-            if (EntityManager.HasComponent<PlayerTag>(triggerEvent.EntityB))
+            if (EntityManager.HasComponent<PlayerInventoryData>(triggerEvent.EntityB))
             {
                 playerEntity = triggerEvent.EntityB;
             }
@@ -51,8 +92,8 @@ public partial struct ItemPickupSystem : ISystem
             }
             if (itemEntity != Entity.Null && playerEntity != Entity.Null)
             {
-                var itemData = EntityManager.GetComponentObject<ItemData>(itemEntity);
-                itemData.item.PickUp();
+                Items.Add(itemEntity);
+                ECB.DestroyEntity(itemEntity);
             }
         }
     }

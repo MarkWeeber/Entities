@@ -10,7 +10,8 @@ public class ItemAuthoring : MonoBehaviour
 		{
             if (authoring.item.TryGetComponent<IItem>(out IItem _item))
             {
-				Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+				_item.InitializeActions();
+                Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 				AddComponentObject(entity, new ItemData
 				{
 					item = _item

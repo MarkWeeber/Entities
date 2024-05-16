@@ -1,5 +1,5 @@
 public interface IItem
 {
-    void PickUp();
-    void Drop();
+    IItemAction[] ItemActions { get; set; }
+    void InitializeActions();
 }
