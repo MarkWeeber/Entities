@@ -57,7 +57,13 @@ public partial class ItemPickupSystemBase : SystemBase
             foreach (var itemEntity in items)
             {
                 var itemData = EntityManager.GetComponentObject<ItemData>(itemEntity);
-                inventoryManager.TryAddItem(itemData.item);
+                var item = itemData.Item;
+                foreach (var itemAction in item.ItemActions)
+                {
+                    itemAction.EntityManager = EntityManager;
+                    itemAction.Entity = itemData.TargetEntity;
+                }
+                inventoryManager.TryAddItem(itemData.Item);
             }
             ecb.Playback(EntityManager);
             ecb.Dispose();
@@ -92,6 +98,8 @@ public partial class ItemPickupSystemBase : SystemBase
             }
             if (itemEntity != Entity.Null && playerEntity != Entity.Null)
             {
+                var itemData = EntityManager.GetComponentData<ItemData>(itemEntity);
+                itemData.TargetEntity = playerEntity;
                 Items.Add(itemEntity);
                 ECB.DestroyEntity(itemEntity);
             }

@@ -14,7 +14,7 @@ public class ItemAuthoring : MonoBehaviour
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 				AddComponentObject(entity, new ItemData
 				{
-					item = _item
+					Item = _item
 				});
 			}
 		}
