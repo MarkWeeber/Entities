@@ -28,6 +28,7 @@ public class InventoryCell : MonoBehaviour
         contained = true;
         itemText.text = item.ItemName;
         itemImage.sprite = item.Image;
+        itemImage.enabled = true;
         RegisterItemActions();
     }
 
@@ -40,6 +41,8 @@ public class InventoryCell : MonoBehaviour
             Destroy(button);
         }
         item = null;
+        itemImage.enabled = false;
+        itemImage.sprite = null;
         actionsPanel.gameObject.SetActive(false);
     }
 

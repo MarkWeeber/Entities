@@ -1,12 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public class PanelVisibilityToggleOnClickUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HidePanelIfClickedOutsideUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private RectTransform targetPanel;
-
     private bool pointerOver;
     [Inject] private Controls controls;
 
@@ -34,18 +34,14 @@ public class PanelVisibilityToggleOnClickUI : MonoBehaviour, IPointerEnterHandle
 
     private void OnUserClick(InputAction.CallbackContext context)
     {
-        if (pointerOver)
+        if (!pointerOver)
         {
-            targetPanel.gameObject.SetActive(true);
-        }
-        else
-        {
-            targetPanel.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 
     private void HideTargetPanel(InputAction.CallbackContext context)
     {
-        targetPanel.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
