@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public interface IItem
 {
-    IItemAction[] ItemActions { get; set; }
+    string ItemName { get; }
+    IItemAction[] ItemActions { get; }
     void InitializeActions();
+    Sprite Image { get; }
 }

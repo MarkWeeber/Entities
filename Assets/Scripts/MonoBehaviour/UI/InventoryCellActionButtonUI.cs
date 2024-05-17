@@ -1,20 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Events;
+using System;
 
 public class InventoryCellActionButtonUI : MonoBehaviour
 {
-    private Button button;
-    
-    private void Awake()
-    {
-        button = GetComponent<Button>();
-    }
+    [SerializeField] private Button button;
+    [SerializeField] private TMP_Text buttonText;
 
-    public void RegisterItemAction(IItemAction itemAction)
+    public void RegisterButtonAction(string actionName, UnityAction someaction)
     {
         if (button == null)
         {
@@ -22,8 +17,11 @@ public class InventoryCellActionButtonUI : MonoBehaviour
         }
         if (button != null)
         {
-            button.name = itemAction.ActionName;
-            button.onClick.AddListener(itemAction.ActivateAction);
+            if (buttonText != null)
+            {
+                buttonText.text = actionName;
+            }
+            button.onClick.AddListener(someaction);
         }
     }
 }

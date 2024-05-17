@@ -62,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClickOnScreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ea369a2-1cb0-4191-8e0f-b24133b4ce7e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -284,6 +293,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""InventoryToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b00e838b-4549-46b6-8616-3f103c2220b6"",
+                    ""path"": ""<Pointer>/press"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClickOnScreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -296,6 +316,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_InventoryToggle = m_Player.FindAction("InventoryToggle", throwIfNotFound: true);
+        m_Player_ClickOnScreen = m_Player.FindAction("ClickOnScreen", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_InventoryToggle;
+    private readonly InputAction m_Player_ClickOnScreen;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -369,6 +391,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @InventoryToggle => m_Wrapper.m_Player_InventoryToggle;
+        public InputAction @ClickOnScreen => m_Wrapper.m_Player_ClickOnScreen;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -390,6 +413,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @InventoryToggle.started += instance.OnInventoryToggle;
             @InventoryToggle.performed += instance.OnInventoryToggle;
             @InventoryToggle.canceled += instance.OnInventoryToggle;
+            @ClickOnScreen.started += instance.OnClickOnScreen;
+            @ClickOnScreen.performed += instance.OnClickOnScreen;
+            @ClickOnScreen.canceled += instance.OnClickOnScreen;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -406,6 +432,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @InventoryToggle.started -= instance.OnInventoryToggle;
             @InventoryToggle.performed -= instance.OnInventoryToggle;
             @InventoryToggle.canceled -= instance.OnInventoryToggle;
+            @ClickOnScreen.started -= instance.OnClickOnScreen;
+            @ClickOnScreen.performed -= instance.OnClickOnScreen;
+            @ClickOnScreen.canceled -= instance.OnClickOnScreen;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -429,5 +458,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnInventoryToggle(InputAction.CallbackContext context);
+        void OnClickOnScreen(InputAction.CallbackContext context);
     }
 }

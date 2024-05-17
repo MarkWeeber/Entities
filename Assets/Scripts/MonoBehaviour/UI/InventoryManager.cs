@@ -8,7 +8,6 @@ public class InventoryManager
 
     public void TryAddItem(IItem item)
     {
-        Debug.Log("Trying to add item");
         foreach (var cell in cells)
         {
             if (!cell.Contained)

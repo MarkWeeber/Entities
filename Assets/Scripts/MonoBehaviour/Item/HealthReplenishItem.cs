@@ -1,21 +1,28 @@
-using Unity.Entities;
 using UnityEngine;
 
 public class HealthReplenishItem : MonoBehaviour, IItem
 {
     [SerializeField] private float healthReplenishAmount;
+    [SerializeField] private string itemName = "Health";
+    [SerializeField] private Sprite image;
+    public string ItemName { get => itemName; }
+    public Sprite Image { get => image; }
     private IItemAction[] itemActions;
-    public IItemAction[] ItemActions { get => itemActions; set => itemActions = value; }
-
+    public IItemAction[] ItemActions { get => itemActions; }
+    
+    private bool actionsAdded;
     private void Awake()
     {
-        InitializeActions();
+        if (!actionsAdded)
+        {
+            InitializeActions();
+        }
     }
 
     public void InitializeActions()
     {
         itemActions = new IItemAction[1];
         itemActions[0] = new ItemHealAction("Heal", healthReplenishAmount);
-        Debug.Log("Action added");
+        actionsAdded = true;
     }
 }
