@@ -27,7 +27,7 @@ public partial struct SpawnPerInstructionSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        state.Enabled = false;
+        //state.Enabled = false;
         var entities = SystemAPI.QueryBuilder().WithAll<SpawnInstructionBuffer>().Build();
         var ecb = new EntityCommandBuffer(Allocator.TempJob);
         spawnInstructionsTypeHandle.Update(ref state);
@@ -62,42 +62,42 @@ public partial struct SpawnPerInstructionSystem : ISystem
         public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
         {
             int baseEntityIndex = ChunkBaseEntityIndices[unfilteredChunkIndex];
-            Debug.Log($"baseEntityIndex = {baseEntityIndex}");
-            return;
-            var enumerator = new ChunkEntityEnumerator(useEnabledMask, chunkEnabledMask, chunk.Count);
-            while (enumerator.NextEntityIndex(out var i))
-            {
-                Debug.Log($"i = {i}");
-            }
+            Debug.Log($"baseEntityIndex = {baseEntityIndex}, unfilteredChunkIndex = {unfilteredChunkIndex}");
             var array = chunk.GetNativeArray(ETH);
-            foreach (var item in array)
-            {
-                Debug.Log($"item.Index = {item.Index}, unfilteredChunkIndex = {unfilteredChunkIndex}");
-            }
+            Debug.Log($"array length: {array.Length}");
+            //for ( int i = 0; i < array.Length; i++)
+            //{
+            //    //Debug.Log($"item.Index = {item.Index}, unfilteredChunkIndex = {unfilteredChunkIndex}");
+            //    chunk.SetComponentEnabled<SpawnInstructionBuffer>(ref SpawnInstructionsTypeHandle, i, false);
+            //}
+            //var enumerator = new ChunkEntityEnumerator(useEnabledMask, chunkEnabledMask, chunk.Count);
+            //while (enumerator.NextEntityIndex(out var i))
+            //{
+            //    //Debug.Log($"i = {i}");
+            //}
             var accessor = chunk.GetBufferAccessor<SpawnInstructionBuffer>(ref SpawnInstructionsTypeHandle);
+            Debug.Log($"accessor length: {accessor.Length}");
             for (int i = 0; i < accessor.Length; i++)
             {
                 var buffer = accessor[i];
                 for (int j = 0; j < buffer.Length; j++)
                 {
                     var component = buffer[j];
-                    if (!component.Completed)
+                    var instantiatedEntity = ECB.Instantiate(component.Preafab);
+                    var setPosition = component.SpawnPosition;
+                    if (component.RandomizePositionWithinRange)
                     {
-                        var instantiatedEntity = ECB.Instantiate(component.Preafab);
-                        var setPosition = component.SpawnPosition;
-                        if (component.RandomizePositionWithinRange)
-                        {
-                            GetRandomPosition(ref setPosition, component);
-                        }
-                        ECB.AddComponent(instantiatedEntity, new LocalTransform
-                        {
-                            Position = setPosition,
-                            Rotation = quaternion.identity,
-                            Scale = 1f
-                        });
-                        component.Completed = true;
-                        buffer[j] = component;
+                        GetRandomPosition(ref setPosition, component);
                     }
+                    ECB.AddComponent(instantiatedEntity, new LocalTransform
+                    {
+                        Position = setPosition,
+                        Rotation = quaternion.identity,
+                        Scale = 1f
+                    });
+                    component.Completed = true;
+                    buffer[j] = component;
+                    chunk.SetComponentEnabled<SpawnInstructionBuffer>(ref SpawnInstructionsTypeHandle, i, false);
                 }
             }
         }
