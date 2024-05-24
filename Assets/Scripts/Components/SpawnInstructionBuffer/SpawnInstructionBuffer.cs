@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 public struct SpawnInstructionBuffer : IBufferElementData, IEnableableComponent
 {
-    public bool Completed;
+    public int SpawnCount;
     public Entity Preafab;
     public float3 SpawnPosition;
     public uint RandomSeed;

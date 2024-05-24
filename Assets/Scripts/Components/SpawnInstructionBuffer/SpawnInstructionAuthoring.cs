@@ -21,7 +21,7 @@ public class SpawnInstructionAuthoring : MonoBehaviour
                 var spawnEntity = GetEntity(spawnInstruction.Prefab, TransformUsageFlags.Dynamic);
                 buffer.Add(new SpawnInstructionBuffer
                 {
-                    Completed = false,
+                    SpawnCount = spawnInstruction.SpawnCount,
                     Preafab = spawnEntity,
                     SpawnPosition = spawnInstruction.Position,
                     RandomizePositionWithinRange = spawnInstruction.RandomizePosition,
@@ -38,6 +38,7 @@ public class SpawnInstructionAuthoring : MonoBehaviour
 [System.Serializable]
 public struct SpawnInstruction
 {
+    public int SpawnCount;
     public GameObject Prefab;
     public Vector3 Position;
     public bool RandomizePosition;
