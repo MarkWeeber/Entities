@@ -22,6 +22,11 @@ public class HidePanelIfClickedOutsideUI : MonoBehaviour, IPointerEnterHandler, 
         controls.Player.ClickOnScreen.performed -= OnUserClick;
     }
 
+    private void OnDisable()
+    {
+        pointerOver = false;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointerOver = true;
@@ -43,5 +48,6 @@ public class HidePanelIfClickedOutsideUI : MonoBehaviour, IPointerEnterHandler, 
     private void HideTargetPanel(InputAction.CallbackContext context)
     {
         gameObject.SetActive(false);
+        pointerOver = false;
     }
 }

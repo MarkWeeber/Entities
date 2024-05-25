@@ -6,4 +6,5 @@ public interface IItem
     IItemAction[] ItemActions { get; }
     void InitializeActions();
     Sprite Image { get; }
+    GameObject GameObject { get; }
 }

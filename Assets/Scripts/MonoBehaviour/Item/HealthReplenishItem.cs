@@ -9,6 +9,7 @@ public class HealthReplenishItem : MonoBehaviour, IItem
     public Sprite Image { get => image; }
     private IItemAction[] itemActions;
     public IItemAction[] ItemActions { get => itemActions; }
+    public GameObject GameObject { get => gameObject; }
     
     private bool actionsAdded;
     private void Awake()
