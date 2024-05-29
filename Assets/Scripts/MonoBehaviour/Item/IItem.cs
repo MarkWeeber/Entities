@@ -1,3 +1,4 @@
+using Unity.Entities;
 using UnityEngine;
 
 public interface IItem
@@ -6,5 +7,5 @@ public interface IItem
     IItemAction[] ItemActions { get; }
     void InitializeActions();
     Sprite Image { get; }
-    GameObject GameObject { get; }
+    Entity PrefabEntity { get; set; }
 }

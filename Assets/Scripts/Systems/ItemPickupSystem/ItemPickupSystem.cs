@@ -16,6 +16,7 @@ public partial class ItemPickupSystemBase : SystemBase
     [Inject]
     private void Init(InventoryManager inventoryManager)
     {
+        inventoryManager.EntityManager = EntityManager;
         this.inventoryManager = inventoryManager;
         injected = true;
 
@@ -61,7 +62,7 @@ public partial class ItemPickupSystemBase : SystemBase
                 foreach (var itemAction in item.ItemActions)
                 {
                     itemAction.EntityManager = EntityManager;
-                    itemAction.Entity = itemData.TargetEntity;
+                    itemAction.Entity = itemData.PrefabEntity;
                 }
                 inventoryManager.TryAddItem(itemData.Item);
             }
@@ -99,7 +100,7 @@ public partial class ItemPickupSystemBase : SystemBase
             if (itemEntity != Entity.Null && playerEntity != Entity.Null)
             {
                 var itemData = EntityManager.GetComponentData<ItemData>(itemEntity);
-                itemData.TargetEntity = playerEntity;
+                itemData.PrefabEntity = playerEntity;
                 Items.Add(itemEntity);
                 ECB.DestroyEntity(itemEntity);
             }

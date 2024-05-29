@@ -1,3 +1,4 @@
+using Unity.Entities;
 using UnityEngine;
 
 public class HealthReplenishItem : MonoBehaviour, IItem
@@ -9,8 +10,8 @@ public class HealthReplenishItem : MonoBehaviour, IItem
     public Sprite Image { get => image; }
     private IItemAction[] itemActions;
     public IItemAction[] ItemActions { get => itemActions; }
-    public GameObject GameObject { get => gameObject; }
-    
+    public Entity PrefabEntity { get; set; }
+
     private bool actionsAdded;
     private void Awake()
     {

@@ -4,6 +4,9 @@ using TMPro;
 using Zenject;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.Entities;
+using Unity.Transforms;
+using Unity.Mathematics;
 
 public class InventoryCell : MonoBehaviour
 {
@@ -18,6 +21,7 @@ public class InventoryCell : MonoBehaviour
     public IItem Item { get => item; }
 
     [Inject] private Controls controls;
+    [Inject] private InventoryManager InventoryManager;
     private void Awake()
     {
         controls.Player.InventoryToggle.performed += HideActionsPanel;
@@ -35,6 +39,7 @@ public class InventoryCell : MonoBehaviour
 
     public void DisposeItemInCell()
     {
+        SpawnEntityFromPrefab();
         contained = false;
         var buttons = actionsPanel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
@@ -51,6 +56,25 @@ public class InventoryCell : MonoBehaviour
         itemImage.enabled = false;
         itemImage.sprite = null;
         actionsPanel.gameObject.SetActive(false);
+    }
+
+    private void SpawnEntityFromPrefab()
+    {
+        var prefab = item.PrefabEntity;
+        var entityManager = InventoryManager.EntityManager;
+        if (prefab != null)
+        {
+            if (entityManager != null)
+            {
+                var instantiatedPrefab = entityManager.Instantiate(prefab);
+                entityManager.AddComponentData<LocalTransform>(instantiatedPrefab, new LocalTransform
+                {
+                    Position = float3.zero,
+                    Rotation = quaternion.identity,
+                    Scale = 1f
+                });
+            }
+        }
     }
 
     private void RegisterItemActions()

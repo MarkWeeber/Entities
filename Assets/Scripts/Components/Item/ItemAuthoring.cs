@@ -1,20 +1,22 @@
 using Unity.Entities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemAuthoring : MonoBehaviour
 {
-	[SerializeField] private GameObject item;
 	class Baker : Baker<ItemAuthoring>
 	{
 		public override void Bake(ItemAuthoring authoring)
 		{
-            if (authoring.item.TryGetComponent<IItem>(out IItem _item))
+            if (authoring.gameObject.TryGetComponent<IItem>(out IItem _item))
             {
 				_item.InitializeActions();
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-				AddComponentObject(entity, new ItemData
+				_item.PrefabEntity = entity;
+                AddComponentObject(entity, new ItemData
 				{
-					Item = _item
+					Item = _item,
+					PrefabEntity = entity,
 				});
 			}
 		}
