@@ -246,7 +246,6 @@ MonoBehaviour:
   healthReplenishAmount: 15
   itemName: Health
   image: {fileID: 21300000, guid: 12dca4a06e1c2b344b1cba5afb94bc65, type: 3}
-  prefab: {fileID: 4790238755646393630}
 --- !u!114 &6969455348769120110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ee1300e7815504c979e2a282f60bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 4790238755646393630}
 --- !u!114 &1100967320261963235
 MonoBehaviour:
   m_ObjectHideFlags: 0
