@@ -1,10 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-public class HealthReplenishItem : MonoBehaviour, IItem
+public class AddBouncyProjectilesAbilityItem : MonoBehaviour, IItem
 {
-    [SerializeField] private float healthReplenishAmount;
-    [SerializeField] private string itemName = "Health";
+    [SerializeField] private string itemName = "Bouncy Projectiles";
     [SerializeField] private Sprite image;
     public string ItemName { get => itemName; }
     public Sprite Image { get => image; }
@@ -23,7 +24,7 @@ public class HealthReplenishItem : MonoBehaviour, IItem
     public void InitializeActions()
     {
         itemActions = new IItemAction[1];
-        itemActions[0] = new ItemHealAction("Heal", healthReplenishAmount);
+        itemActions[0] = new ItemAddBouncyProjectilesAction("Add bouncy projectiles");
         actionsAdded = true;
     }
 }

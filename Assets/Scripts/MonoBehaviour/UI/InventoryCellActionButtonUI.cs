@@ -9,7 +9,7 @@ public class InventoryCellActionButtonUI : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text buttonText;
 
-    public void RegisterButtonAction(string actionName, UnityAction someaction)
+    public void RegisterButtonAction(UnityAction someAction, string actionName = "")
     {
         if (button == null)
         {
@@ -17,11 +17,11 @@ public class InventoryCellActionButtonUI : MonoBehaviour
         }
         if (button != null)
         {
-            if (buttonText != null)
+            if (buttonText != null && !actionName.Equals(""))
             {
                 buttonText.text = actionName;
             }
-            button.onClick.AddListener(someaction);
+            button.onClick.AddListener(someAction);
         }
     }
 }

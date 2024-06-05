@@ -39,7 +39,6 @@ public class InventoryCell : MonoBehaviour
 
     public void DisposeItemInCell()
     {
-        SpawnEntityFromPrefab();
         contained = false;
         var buttons = actionsPanel.GetComponentsInChildren<Button>();
         foreach (var button in buttons)
@@ -58,25 +57,6 @@ public class InventoryCell : MonoBehaviour
         actionsPanel.gameObject.SetActive(false);
     }
 
-    private void SpawnEntityFromPrefab()
-    {
-        var prefab = item.PrefabEntity;
-        var entityManager = InventoryManager.EntityManager;
-        if (prefab != null)
-        {
-            if (entityManager != null)
-            {
-                var instantiatedPrefab = entityManager.Instantiate(prefab);
-                entityManager.AddComponentData<LocalTransform>(instantiatedPrefab, new LocalTransform
-                {
-                    Position = float3.zero,
-                    Rotation = quaternion.identity,
-                    Scale = 1f
-                });
-            }
-        }
-    }
-
     private void RegisterItemActions()
     {
         for (int i = 0; i < item.ItemActions.Length; i++)
@@ -87,13 +67,14 @@ public class InventoryCell : MonoBehaviour
             activeButtons.Add(instantiatedButton.gameObject);
             if (actionButton != null)
             {
-                actionButton.RegisterButtonAction(itemAction.ActionName, itemAction.ActivateAction);
-                if (i == item.ItemActions.Length - 1)
+                actionButton.RegisterButtonAction(itemAction.ActivateAction, itemAction.ActionName);
+                actionButton.RegisterButtonAction(DisposeItemInCell);
+                if (i == item.ItemActions.Length - 1) // adding additional Dispose Item action
                 {
                     instantiatedButton = Instantiate(buttonPrefab, actionsPanel);
                     actionButton = instantiatedButton.GetComponent<InventoryCellActionButtonUI>();
                     activeButtons.Add(instantiatedButton.gameObject);
-                    actionButton.RegisterButtonAction("Drop Item", DisposeItemInCell);
+                    actionButton.RegisterButtonAction(DisposeItemInCell, "Dispose Item");
                 }
             }
         }
